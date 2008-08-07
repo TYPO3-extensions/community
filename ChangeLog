@@ -1,3 +1,5 @@
 2008-08-07 Ingo Renner  <ingo@typo3.org>
 
 	* initial code generated with kickstarter
+	* added initial classes and structure
+	* added fields to fe_users
