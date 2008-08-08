@@ -24,39 +24,38 @@
 
 
 /**
- * A community account
+ * A manager to manage community applications that are used on profile pages
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_Account {
+class tx_community_ApplicationManager {
 
-	protected $firstName;
-	protected $middleName;
-	protected $lastName;
-
-	protected $email;
-
-	protected $userName;
-	protected $password;
+	protected $applications = array();
 
 	/**
-	 * constructor for class tx_community_model_Account
-	 *
+	 * constructor for class tx_community_ApplicationManager
 	 */
-	public function __construct() {
+	protected function __construct() {
 
 	}
 
-	public function getName() {
-		return $this->firstName . ' ' . $this->lastName;
+	private function __clone() {
+	}
+
+	public function getInstance() {
+		return new tx_community_ApplicationManager();
+	}
+
+	public function getApplication($application) {
+
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_applicationmanager.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_applicationmanager.php']);
 }
 
 ?>

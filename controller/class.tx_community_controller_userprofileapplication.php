@@ -24,39 +24,35 @@
 
 
 /**
- * A community account
+ * User Profile Application Controller
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_Account {
+class tx_community_controller_UserProfileApplication {
+	public $prefixId      = 'tx_community_controller_UserProfileApplication';		// Same as class name
+	public $scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';	// Path to this script relative to the extension dir.
+	public $extKey        = 'community';	// The extension key.
 
-	protected $firstName;
-	protected $middleName;
-	protected $lastName;
-
-	protected $email;
-
-	protected $userName;
-	protected $password;
+	public $cObj;
 
 	/**
-	 * constructor for class tx_community_model_Account
-	 *
+	 * constructor for class tx_community_controller_UserProfileApplication
 	 */
 	public function __construct() {
 
 	}
 
-	public function getName() {
-		return $this->firstName . ' ' . $this->lastName;
+	public function execute($content, array $configuration) {
+
+		return 'hello community';
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
 }
 
 ?>

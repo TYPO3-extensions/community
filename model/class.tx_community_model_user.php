@@ -33,6 +33,27 @@
 class tx_community_model_User {
 
 	protected $account;
+	protected $nickName;
+
+	protected $sex;
+	protected $birthday;
+
+	protected $address;
+	protected $zip;
+	protected $city;
+	protected $phone;
+	protected $mobilePhone;
+	protected $website;
+
+	protected $activities;
+	protected $interests;
+	protected $favoriteMusic;
+	protected $favoriteTvShows;
+	protected $favoriteMovies;
+	protected $favoriteBooks;
+	protected $aboutMe;
+
+	protected $image;
 
 	/**
 	 * constructor for class tx_community_model_User
@@ -42,7 +63,7 @@ class tx_community_model_User {
 	}
 
 	public function setAccount(tx_community_model_Account $account) {
-
+		$this->account = $account;
 	}
 
 	/**

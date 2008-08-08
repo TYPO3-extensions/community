@@ -24,39 +24,35 @@
 
 
 /**
- * A community account
+ * gateway too retrieve users
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_Account {
-
-	protected $firstName;
-	protected $middleName;
-	protected $lastName;
-
-	protected $email;
-
-	protected $userName;
-	protected $password;
+class tx_community_model_UserGateway {
 
 	/**
-	 * constructor for class tx_community_model_Account
-	 *
+	 * constructor for class tx_community_model_UserGateway
 	 */
 	public function __construct() {
 
 	}
 
-	public function getName() {
-		return $this->firstName . ' ' . $this->lastName;
+	/**
+	 * find a user by its uid
+	 *
+	 * @param integer The user's uid
+	 * @return	tx_community_model_User
+	 */
+	public function findById($id) {
+
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_usergateway.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_usergateway.php']);
 }
 
 ?>

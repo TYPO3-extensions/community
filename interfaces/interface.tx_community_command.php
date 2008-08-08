@@ -13,6 +13,9 @@
 *
 *  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
+*  A copy is found in the textfile GPL.txt and important notices to the license
+*  from the author is found in LICENSE.txt distributed with these scripts.
+*
 *
 *  This script is distributed in the hope that it will be useful,
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,39 +27,19 @@
 
 
 /**
- * A community account
+ * Command interface
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_Account {
-
-	protected $firstName;
-	protected $middleName;
-	protected $lastName;
-
-	protected $email;
-
-	protected $userName;
-	protected $password;
+interface tx_community_Command {
 
 	/**
-	 * constructor for class tx_community_model_Account
+	 * execute method
 	 *
 	 */
-	public function __construct() {
-
-	}
-
-	public function getName() {
-		return $this->firstName . ' ' . $this->lastName;
-	}
-}
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php']);
+	public function execute();
 }
 
 ?>

@@ -1,0 +1,18 @@
+
+
+plugin.tx_community {
+
+	controller {
+
+		userProfile = USER_INT
+		userProfile {
+
+			includeLibs = EXT:community/controller/class.tx_community_controller_userprofileapplication.php
+			userFunc = tx_community_controller_UserProfileApplication->execute
+
+		}
+	}
+}
+
+	// adding the user profile application controller
+tt_content.list.20.community_UserProfile = < plugin.tx_community.controller.userProfile

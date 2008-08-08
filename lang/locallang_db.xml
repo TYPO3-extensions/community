@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'community'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tt_content.list_type_userProfile">Community - User Profile</label>
+			<label index="fe_users.tx_community_sex.I.0">Male</label>
+			<label index="fe_users.tx_community_sex.I.1">Female</label>
+			<label index="fe_users.tx_community_sex">Sex</label>
+			<label index="fe_users.tx_community_nickname">Nickname</label>
+			<label index="fe_users.tx_community_firstname">First Name</label>
+			<label index="fe_users.tx_community_middlename">Middle Name</label>
+			<label index="fe_users.tx_community_lastname">Last Name</label>
+			<label index="fe_users.tx_community_mobilephone">Mobile Phone</label>
+			<label index="fe_users.tx_community_birthday">Birthday</label>
+			<label index="fe_users.tx_community_activities">Activities</label>
+			<label index="fe_users.tx_community_interests">Interests</label>
+			<label index="fe_users.tx_community_favoritemusic">Favorite Music</label>
+			<label index="fe_users.tx_community_favoritetvshows">Favorite TV Shows</label>
+			<label index="fe_users.tx_community_favoritemovies">Favorite Movies</label>
+			<label index="fe_users.tx_community_favoritebooks">Favorite Books</label>
+			<label index="fe_users.tx_community_aboutme">About Me</label>
+			<label index="fe_users.tx_community_instantmessager">Instant Messager</label>
+		</languageKey>
+	</data>
+</T3locallang>

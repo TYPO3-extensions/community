@@ -24,39 +24,29 @@
 
 
 /**
- * A community account
+ * A community application
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_Account {
-
-	protected $firstName;
-	protected $middleName;
-	protected $lastName;
-
-	protected $email;
-
-	protected $userName;
-	protected $password;
+class tx_community_model_CommunityApplication implements tx_community_Command {
 
 	/**
-	 * constructor for class tx_community_model_Account
-	 *
+	 * constructor for class tx_community_model_Application
 	 */
 	public function __construct() {
 
 	}
 
-	public function getName() {
-		return $this->firstName . ' ' . $this->lastName;
+	public function execute() {
+
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_account.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_communityapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_communityapplication.php']);
 }
 
 ?>
