@@ -35,20 +35,55 @@
  */
 interface tx_community_CommunityApplicationWidget {
 
+	/**
+	 * returns whether a user is allowed to drag the widget to a different
+	 * container or position
+	 *
+	 * @return	boolean	true if dragging is allowed, false otherwise
+	 */
 	public function isDragable();
 
+	/**
+	 * returns whether the widget can be removed from being displayed
+	 *
+	 * @return	boolean	true id removing is allowed, false otherwise
+	 */
 	public function isRemovable();
 
+	/**
+	 * return the current layout container the widget is located in
+	 *
+	 * @return	string
+	 */
 	public function getLayoutContainer();
 
-	public function setLayoutContainer();
+	/**
+	 * sets a new layout container
+	 *
+	 * @param	string	the ID of the new container
+	 */
+	public function setLayoutContainer($containerId);
 
+	/**
+	 * gets the position of the widget within its container
+	 *
+	 * @return	integer	the position within a container
+	 */
 	public function getPosition();
 
-	public function setPosition();
+	/**
+	 * sets the new position within its layout container
+	 *
+	 * @param	integer	new position
+	 */
+	public function setPosition($position);
 
+	/**
+	 * returns the widget's rendered content
+	 *
+	 * @return	string	the widget's content (HTML, XML, JSON, ...)
+	 */
 	public function render();
 }
-
 
 ?>
