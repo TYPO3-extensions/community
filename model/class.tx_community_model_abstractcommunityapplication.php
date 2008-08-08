@@ -30,7 +30,10 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_CommunityApplication implements tx_community_Command {
+abstract class tx_community_model_AbstractCommunityApplication implements tx_community_Command {
+
+	protected $id;
+	protected $widgets;
 
 	/**
 	 * constructor for class tx_community_model_Application
@@ -42,11 +45,19 @@ class tx_community_model_CommunityApplication implements tx_community_Command {
 	public function execute() {
 
 	}
+
+	public function getId() {
+		return $this->id;
+	}
+
+	public function getWidgets() {
+
+	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_communityapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_communityapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_abstractcommunityapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_abstractcommunityapplication.php']);
 }
 
 ?>

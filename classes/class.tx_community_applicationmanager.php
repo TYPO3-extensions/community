@@ -63,8 +63,8 @@ class tx_community_ApplicationManager {
 
 	}
 
-	public function registerApplication() {
-
+	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
+		$this->applications[$application->getId()] = $application;
 	}
 }
 
