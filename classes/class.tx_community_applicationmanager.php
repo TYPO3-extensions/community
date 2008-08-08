@@ -32,6 +32,8 @@
  */
 class tx_community_ApplicationManager {
 
+	private $instance = null;
+
 	protected $applications = array();
 
 	/**
@@ -44,11 +46,24 @@ class tx_community_ApplicationManager {
 	private function __clone() {
 	}
 
-	public function getInstance() {
-		return new tx_community_ApplicationManager();
+	public static function getInstance() {
+		if (is_null(self::$instance)) {
+				// use t3lib_div ...
+			self::$instance = new tx_community_ApplicationManager();
+		}
+
+		return self::$instance;
 	}
 
-	public function getApplication($application) {
+	public function getApplication($applicationName) {
+
+	}
+
+	public function getAllApplications() {
+
+	}
+
+	public function registerApplication() {
 
 	}
 }

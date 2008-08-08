@@ -6,6 +6,7 @@
 	* added initial community application class
 	* added initial user gateway class
 	* added initial DB field labels
+	* made ApplicationManager a Singleton
 
 2008-08-07 Ingo Renner  <ingo@typo3.org>
 
