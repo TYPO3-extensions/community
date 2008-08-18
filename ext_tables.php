@@ -143,16 +143,24 @@ $feUsersTempColumns = array (
 	),
 );
 
-
+	// adding additional columns to fe_users
 t3lib_div::loadTCA('fe_users');
 t3lib_extMgm::addTCAcolumns('fe_users', $feUsersTempColumns, 1);
 t3lib_extMgm::addToAllTCAtypes('fe_users','tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
 
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_UserProfile'] = 'layout,select_key';
+	// adding the application / widget selector as plugin content element
+$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_CommunityApplication'] = 'pi_flexform';
+$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_CommunityApplication'] = 'layout,select_key,pages,recusive';
+
+t3lib_extMgm::addPiFlexFormValue(
+	$_EXTKEY .'_CommunityApplication',
+	'FILE:EXT:community/flexforms/flexform_application.xml'
+);
+
 t3lib_extMgm::addPlugin(
 	array(
-		'LLL:EXT:community/lang/locallang_db.xml:tt_content.list_type_userProfile',
-		$_EXTKEY.'_UserProfile'
+		'LLL:EXT:community/lang/locallang_db.xml:tt_content.list_type_communityApplication',
+		$_EXTKEY.'_CommunityApplication'
 	),
 	'list_type'
 );

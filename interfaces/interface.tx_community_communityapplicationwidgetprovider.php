@@ -13,6 +13,9 @@
 *
 *  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
+*  A copy is found in the textfile GPL.txt and important notices to the license
+*  from the author is found in LICENSE.txt distributed with these scripts.
+*
 *
 *  This script is distributed in the hope that it will be useful,
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,38 +26,20 @@
 ***************************************************************/
 
 
-
-
 /**
- * User Profile Application Controller
+ * Command interface
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-	public $prefixId      = 'tx_community_controller_UserProfileApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';	// Path to this script relative to the extension dir.
-	public $extKey        = 'community';	// The extension key.
-
-	public $cObj;
+interface tx_community_Command {
 
 	/**
-	 * constructor for class tx_community_controller_UserProfileApplication
+	 * execute method
+	 *
 	 */
-	public function __construct() {
-
-	}
-
-	public function execute($content, array $configuration) {
-
-		return 'hello community';
-	}
-}
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
+	public function execute();
 }
 
 ?>

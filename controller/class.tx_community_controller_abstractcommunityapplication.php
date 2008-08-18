@@ -23,38 +23,28 @@
 ***************************************************************/
 
 
-
-
 /**
- * User Profile Application Controller
+ * An abstract community application controller
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-	public $prefixId      = 'tx_community_controller_UserProfileApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';	// Path to this script relative to the extension dir.
-	public $extKey        = 'community';	// The extension key.
-
-	public $cObj;
+abstract class tx_community_controller_AbstractCommunityApplication {
 
 	/**
-	 * constructor for class tx_community_controller_UserProfileApplication
+	 * constructor for class tx_community_controller_AbstractCommunityApplication
 	 */
 	public function __construct() {
 
 	}
 
-	public function execute($content, array $configuration) {
-
-		return 'hello community';
-	}
+	abstract public function execute($content, array $configuration);
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_abstractcommunityapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_abstractcommunityapplication.php']);
 }
 
 ?>

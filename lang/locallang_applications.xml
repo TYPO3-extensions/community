@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for applications and widgets belonging to extension 'community'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="flexform.sheet_selection">Application / Widget</label>
+			<label index="flexform.application">Application</label>
+			<label index="flexform.widget">Widget</label>
+			<label index="userProfile">User Profile</label>
+			<label index="userProfile.image">Image</label>
+			<label index="userProfile.information">Information</label>
+			<label index="groupProfile">Group Profile</label>
+			<label index="groupProfile.image">Image</label>
+			<label index="groupProfile.information">Information</label>
+		</languageKey>
+	</data>
+</T3locallang>

@@ -2,17 +2,41 @@
 
 plugin.tx_community {
 
+	pages {
+		userStorage = 0
+
+		userProfile = 0
+		userEdit = 0
+
+		groupProfile = 0
+		groupEdit = 0
+	}
+
 	controller {
+
+		communityApplication = USER_INT
+		communityApplication {
+			includeLibs = EXT:community/controller/class.tx_community_controller_communityapplication.php
+			userFunc = tx_community_controller_CommunityApplication->execute
+		}
 
 		userProfile = USER_INT
 		userProfile {
-
 			includeLibs = EXT:community/controller/class.tx_community_controller_userprofileapplication.php
 			userFunc = tx_community_controller_UserProfileApplication->execute
+		}
 
+		groupProfile = USER_INT
+		groupProfile {
+			includeLibs = EXT:community/controller/class.tx_community_controller_groupprofileapplication.php
+			userFunc = tx_community_controller_GroupProfileApplication->execute
 		}
 	}
 }
 
-	// adding the user profile application controller
+	// adding the application controllers
+tt_content.list.20.community_CommunityApplication = < plugin.tx_community.controller.communityApplication
 tt_content.list.20.community_UserProfile = < plugin.tx_community.controller.userProfile
+tt_content.list.20.community_GroupProfile = < plugin.tx_community.controller.groupProfile
+
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:community/lang/locallang_applications.xml:flexform.sheet_selection</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<fieldApplication>
+						<TCEforms>
+							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform.application</label>
+							<config>
+								<type>select</type>
+								<items>
+									<numIndex index="0">
+										<numIndex index="0"></numIndex>
+										<numIndex index="1">0</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</fieldApplication>
+					<fieldWidget>
+						<TCEforms>
+							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform.widget</label>
+							<config>
+								<type>select</type>
+								<items>
+									<numIndex index="0">
+										<numIndex index="0"></numIndex>
+										<numIndex index="1">0</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</fieldWidget>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>

@@ -6,7 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="tt_content.list_type_userProfile">Community - User Profile</label>
+			<label index="tt_content.list_type_communityApplication">Community Application</label>
 			<label index="fe_users.tx_community_sex.I.0">Male</label>
 			<label index="fe_users.tx_community_sex.I.1">Female</label>
 			<label index="fe_users.tx_community_sex">Sex</label>

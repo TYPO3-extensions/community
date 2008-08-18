@@ -23,38 +23,34 @@
 ***************************************************************/
 
 
-
-
 /**
- * User Profile Application Controller
+ * Class to fill the select fields of the application/widget seletor in the plugin's flexform
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-	public $prefixId      = 'tx_community_controller_UserProfileApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';	// Path to this script relative to the extension dir.
-	public $extKey        = 'community';	// The extension key.
-
-	public $cObj;
+class tx_community_FlexformApplicationSelector {
 
 	/**
-	 * constructor for class tx_community_controller_UserProfileApplication
+	 * constructor for class tx_community_FlexformApplicationSelector
 	 */
 	public function __construct() {
 
 	}
 
-	public function execute($content, array $configuration) {
+	public function getApplications() {
 
-		return 'hello community';
+	}
+
+	public function getWidgetsFromApplication() {
+
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_flexformapplicationselector.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_flexformapplicationselector.php']);
 }
 
 ?>

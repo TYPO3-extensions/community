@@ -23,24 +23,22 @@
 ***************************************************************/
 
 
-
-
 /**
- * User Profile Application Controller
+ * Group Profile Application Controller
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-	public $prefixId      = 'tx_community_controller_UserProfileApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';	// Path to this script relative to the extension dir.
+class tx_community_controller_GroupProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
+	public $prefixId      = 'tx_community_controller_GroupProfileApplication';		// Same as class name
+	public $scriptRelPath = 'controller/class.tx_community_controller_groupprofileapplication.php';	// Path to this script relative to the extension dir.
 	public $extKey        = 'community';	// The extension key.
 
 	public $cObj;
 
 	/**
-	 * constructor for class tx_community_controller_UserProfileApplication
+	 * constructor for class tx_community_controller_GroupProfileApplication
 	 */
 	public function __construct() {
 
@@ -53,8 +51,8 @@ class tx_community_controller_UserProfileApplication extends tx_community_contro
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_groupprofileapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_groupprofileapplication.php']);
 }
 
 ?>
