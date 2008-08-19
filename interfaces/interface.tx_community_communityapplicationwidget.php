@@ -65,6 +65,13 @@ interface tx_community_CommunityApplicationWidget {
 	public function setLayoutContainer($containerId);
 
 	/**
+	 * gets the label of the widget
+	 *
+	 * @return	string the label of the widget
+	 */
+	public function getLabel();
+
+	/**
 	 * gets the position of the widget within its container
 	 *
 	 * @return	integer	the position within a container

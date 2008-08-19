@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('community').'interfaces/interface.tx_community_communityapplicationwidget.php');
+
 
 /**
  * image widget for a user profile
@@ -30,7 +32,7 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_ImageWidget {
+class tx_community_controller_userprofile_ImageWidget implements tx_community_CommunityApplicationWidget {
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_Imagewidget
@@ -39,8 +41,77 @@ class tx_community_controller_userprofile_ImageWidget {
 
 	}
 
-	public function execute() {
+	/**
+	 * returns whether a user is allowed to drag the widget to a different
+	 * container or position
+	 *
+	 * @return	boolean	true if dragging is allowed, false otherwise
+	 */
+	public function isDragable() {
+		return true;
+	}
 
+	/**
+	 * returns whether the widget can be removed from being displayed
+	 *
+	 * @return	boolean	true id removing is allowed, false otherwise
+	 */
+	public function isRemovable() {
+		return true;
+	}
+
+	/**
+	 * return the current layout container the widget is located in
+	 *
+	 * @return	string
+	 */
+	public function getLayoutContainer() {
+		return 1;
+	}
+
+	/**
+	 * sets a new layout container
+	 *
+	 * @param	string	the ID of the new container
+	 */
+	public function setLayoutContainer($containerId) {
+		
+	}
+
+	/**
+	 * gets the position of the widget within its container
+	 *
+	 * @return	integer	the position within a container
+	 */
+	public function getPosition() {
+		return 2;
+	}
+
+	/**
+	 * sets the new position within its layout container
+	 *
+	 * @param	integer	new position
+	 */
+	public function setPosition($position) {
+		
+	}
+
+	/**
+	 * returns the widget's rendered content
+	 *
+	 * @return	string	the widget's content (HTML, XML, JSON, ...)
+	 */
+	public function render() {
+		return "Ich bin ein Widget";
+	}
+
+	/**
+	 * returns the widget's label
+	 *
+	 * @return	string	the widget's content (HTML, XML, JSON, ...)
+	 */
+	public function getLabel() {
+		return "ImageWidget";
 	}
 }
 

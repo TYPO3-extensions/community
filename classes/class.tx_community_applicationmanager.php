@@ -73,6 +73,44 @@ class tx_community_ApplicationManager {
 		return $this->applications;
 	}
 
+	public function getAllWidgets() {
+		$widgetsConfigurations = $this->getAllWidgetsConfig();
+		foreach ($widgetsConfigurations as $widgetName => $widgetConfiguration) {
+			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+		}
+		return $widgets;
+	}
+	
+	public function getAllWidgetsConfig() {
+		if (is_array($GLOBALS['TX_COMMUNITY']['applications'])) {
+			foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
+				if (is_array($applicationConfiguration['widgets'])) {
+					foreach ($applicationConfiguration['widgets'] as $widgetConfiguration) {
+						$widgetsConfigurations[] = $widgetConfiguration;
+					}
+				}
+			}
+		}
+		return $widgetsConfigurations;
+	}
+	
+	public function getWidgetsByApplication($application) {
+		$widgetsConfigurations = $this->getWidgetsConfigByApplication($application);
+		foreach ($widgetsConfigurations as $widgetName => $widgetConfiguration) {
+			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+		}
+		return $widgets;
+	}
+	
+	public function getWidgetsConfigByApplication($application) {
+		if (is_array($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'])) {
+			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'] as $widgetConfiguration) {
+				$widgetsConfigurations[] = $widgetConfiguration;
+			}
+		}
+		return $widgetsConfigurations;
+	}
+	
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
 		$this->applications[$application->getId()] = $application;
 	}
