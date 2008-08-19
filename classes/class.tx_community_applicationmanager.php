@@ -44,8 +44,8 @@ class tx_community_ApplicationManager {
 	/**
 	 * constructor for class tx_community_ApplicationManager
 	 */
-	protected function __construct() {
-
+	public function __construct() {
+		// TODO make constructor protected, enable t3lib_div::makeInstance to detect a getInstance method
 	}
 
 	private function __clone() {
@@ -75,6 +75,33 @@ class tx_community_ApplicationManager {
 
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
 		$this->applications[$application->getId()] = $application;
+	}
+
+	public function getFlexformApplicationList(&$params, &$pObj) {
+		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
+			$params['items'][] = array(
+				$applicationConfiguration['label'], // TODO resolve the label
+				$applicationName
+			);
+		}
+
+	}
+
+	public function getFlexformApplicationWidgetList(&$params, &$pObj) {
+		$xml = new SimpleXMLElement($params['row']['pi_flexform']);
+		$res = $xml->xpath('//field[@index=\'application\']');
+
+		if ($res) {
+			$selectedApplication = (string) $res[0]->value;
+
+			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
+				$params['items'][] = array(
+					$widgetConfiguration['label'],
+					$widgetName
+				);
+			}
+
+		}
 	}
 }
 

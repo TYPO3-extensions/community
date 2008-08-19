@@ -11,7 +11,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<fieldApplication>
+					<application>
 						<TCEforms>
 							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform.application</label>
 							<config>
@@ -22,10 +22,11 @@
 										<numIndex index="1">0</numIndex>
 									</numIndex>
 								</items>
+								<itemsProcFunc>tx_community_ApplicationManager->getFlexformApplicationList</itemsProcFunc>
 							</config>
 						</TCEforms>
-					</fieldApplication>
-					<fieldWidget>
+					</application>
+					<widget>
 						<TCEforms>
 							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform.widget</label>
 							<config>
@@ -36,9 +37,10 @@
 										<numIndex index="1">0</numIndex>
 									</numIndex>
 								</items>
+								<itemsProcFunc>tx_community_ApplicationManager->getFlexformApplicationWidgetList</itemsProcFunc>
 							</config>
 						</TCEforms>
-					</fieldWidget>
+					</widget>
 				</el>
 			</ROOT>
 		</sDEF>

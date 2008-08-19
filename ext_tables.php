@@ -3,7 +3,7 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/community/', 'Community');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');
 
 	// extending fe_users
 $feUsersTempColumns = array (
@@ -164,5 +164,12 @@ t3lib_extMgm::addPlugin(
 	),
 	'list_type'
 );
+
+
+
+if (TYPO3_MODE == 'BE') {
+		// application manager for displaying applications and widgets in flexform
+	include_once(t3lib_extMgm::extPath($_EXTKEY).'classes/class.tx_community_applicationmanager.php');
+}
 
 ?>
