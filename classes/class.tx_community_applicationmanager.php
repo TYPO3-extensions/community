@@ -31,9 +31,14 @@
  * @subpackage community
  */
 class tx_community_ApplicationManager {
-
-	private $instance = null;
-
+	/**
+	 * @var tx_community_ApplicationManager
+	 */
+	private static $instance = null;
+	
+	/**
+	 * @var array of tx_community_model_AbstractCommunityApplication
+	 */
 	protected $applications = array();
 
 	/**
@@ -59,8 +64,13 @@ class tx_community_ApplicationManager {
 
 	}
 
+	/**
+	 * returns an array of tx_community_model_AbstractCommunityApplication
+	 *
+	 * @return unknown
+	 */
 	public function getAllApplications() {
-
+		return $this->applications;
 	}
 
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
