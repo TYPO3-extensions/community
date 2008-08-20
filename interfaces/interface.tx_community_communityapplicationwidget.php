@@ -77,7 +77,14 @@ interface tx_community_CommunityApplicationWidget {
 	 * @return	integer	the position within a container
 	 */
 	public function getPosition();
-
+	
+	/**
+	 * gets the CSS class of the widget
+	 *
+	 * @return	string the CSS class of the widget
+	 */
+	public function getWidgetClass();
+	
 	/**
 	 * gets the id of the widget
 	 *
