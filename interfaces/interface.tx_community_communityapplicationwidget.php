@@ -79,6 +79,13 @@ interface tx_community_CommunityApplicationWidget {
 	public function getPosition();
 
 	/**
+	 * gets the id of the widget
+	 *
+	 * @return	string id string of the widget
+	 */
+	public function getID();
+	
+	/**
 	 * sets the new position within its layout container
 	 *
 	 * @param	integer	new position

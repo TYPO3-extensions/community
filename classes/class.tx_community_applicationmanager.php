@@ -86,7 +86,7 @@ class tx_community_ApplicationManager {
 		$widgetsConfigurations = $this->getAllWidgetConfigurations();
 
 		foreach ($widgetsConfigurations as $widgetName => $widgetConfiguration) {
-			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+			$widgets[$widgetName] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		}
 
 		return $widgets;
@@ -98,8 +98,8 @@ class tx_community_ApplicationManager {
 		if (is_array($GLOBALS['TX_COMMUNITY']['applications'])) {
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
 				if (is_array($applicationConfiguration['widgets'])) {
-					foreach ($applicationConfiguration['widgets'] as $widgetConfiguration) {
-						$widgetsConfigurations[] = $widgetConfiguration;
+					foreach ($applicationConfiguration['widgets'] as $widgetName => $widgetConfiguration) {
+						$widgetsConfigurations[$widgetName] = $widgetConfiguration;
 					}
 				}
 			}
@@ -113,7 +113,7 @@ class tx_community_ApplicationManager {
 		$widgetConfigurations = $this->getWidgetConfigurationsByApplicationName($application);
 
 		foreach ($widgetConfigurations as $widgetName => $widgetConfiguration) {
-			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+			$widgets[$widgetName] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		}
 
 		return $widgets;

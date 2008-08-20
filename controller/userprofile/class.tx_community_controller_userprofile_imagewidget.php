@@ -66,7 +66,7 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 * @return	string
 	 */
 	public function getLayoutContainer() {
-		return 1;
+		return 0;
 	}
 
 	/**
@@ -76,6 +76,10 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 */
 	public function setLayoutContainer($containerId) {
 		
+	}
+	
+	public function getID() {
+		return 'imageWidget';
 	}
 
 	/**

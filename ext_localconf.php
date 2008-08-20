@@ -9,7 +9,27 @@ $TX_COMMUNITY = array(
 		'userProfile' => array(
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile',
 			'widgets' => array(
-				'image' => array(
+				'imageWidget' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
+				),
+/*				'image2' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
+				),
+				'image3' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
+				),
+				'image4' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
+				),
+				'image5' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
+				),
+				'image6' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
 				),
@@ -17,9 +37,10 @@ $TX_COMMUNITY = array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_informationwidget.php:tx_community_controller_userprofile_InformationWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.information'
 				)
+*/
 			)
 		),
-		'groupProfile' => array(
+/*		'groupProfile' => array(
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile',
 			'widgets' => array(
 				'image' => array(
@@ -32,6 +53,7 @@ $TX_COMMUNITY = array(
 				)
 			)
 		)
+*/
 	)
 );
 
