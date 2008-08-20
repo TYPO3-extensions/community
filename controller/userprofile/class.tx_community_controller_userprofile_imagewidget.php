@@ -117,6 +117,10 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	public function getLabel() {
 		return "ImageWidget";
 	}
+	
+	public function getWidgetClass() {
+		return '';
+	}
 }
 
 
