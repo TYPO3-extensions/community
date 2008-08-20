@@ -123,8 +123,8 @@ class tx_community_ApplicationManager {
 		$widgetsConfigurations = array();
 
 		if (is_array($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'])) {
-			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'] as $widgetConfiguration) {
-				$widgetsConfigurations[] = $widgetConfiguration;
+			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'] as $widgetName => $widgetConfiguration) {
+				$widgetsConfigurations[$widgetName] = $widgetConfiguration;
 			}
 		}
 
