@@ -24,33 +24,30 @@
 
 
 /**
- * Class to fill the select fields of the application/widget seletor in the plugin's flexform
+ * central application controller for the community extension
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_FlexformApplicationSelector {
+class tx_community_controller_CommunityApplication {
 
 	/**
-	 * constructor for class tx_community_FlexformApplicationSelector
+	 * constructor for class tx_community_controller_CommunityApplication
 	 */
 	public function __construct() {
 
 	}
 
-	public function getApplications() {
+	public function execute() {
 
-	}
-
-	public function getWidgetsFromApplication() {
-
+		return 'hello community!';
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_flexformapplicationselector.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_flexformapplicationselector.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_communityapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_communityapplication.php']);
 }
 
 ?>

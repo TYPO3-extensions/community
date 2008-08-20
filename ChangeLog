@@ -1,6 +1,8 @@
 2008-08-19 Ingo Renner  <ingo@typo3.org>
 
 	* added application/widget selector to flexform
+	* removed class for flexform application/widget selectors, they are now merged in the application manager
+	* added label resolution to the plugin flexform application/widget selectors
 
 2008-08-08 Ingo Renner  <ingo@typo3.org>
 
@@ -17,5 +19,5 @@
 2008-08-07 Ingo Renner  <ingo@typo3.org>
 
 	* initial code generated with kickstarter
-	* added initial classes and structure
+	* added initial classes and file/directory structure
 	* added fields to fe_users

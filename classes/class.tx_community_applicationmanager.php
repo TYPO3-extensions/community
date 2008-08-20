@@ -110,7 +110,7 @@ class tx_community_ApplicationManager {
 
 	public function getWidgetsByApplication($application) {
 		$widgets              = array();
-		$widgetConfigurations = $this->getWidgetConfigurationsByApplication($application);
+		$widgetConfigurations = $this->getWidgetConfigurationsByApplicationName($application);
 
 		foreach ($widgetConfigurations as $widgetName => $widgetConfiguration) {
 			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
@@ -119,7 +119,7 @@ class tx_community_ApplicationManager {
 		return $widgets;
 	}
 
-	public function getWidgetConfigurationsByApplication($application) {
+	public function getWidgetConfigurationsByApplicationName($application) {
 		$widgetsConfigurations = array();
 
 		if (is_array($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'])) {
@@ -139,23 +139,23 @@ class tx_community_ApplicationManager {
 	public function getFlexformApplicationList(&$params, &$pObj) {
 		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
 			$params['items'][] = array(
-				$applicationConfiguration['label'], // TODO resolve the label
+				$GLOBALS['LANG']->sL($applicationConfiguration['label']),
 				$applicationName
 			);
 		}
-
 	}
 
 	public function getFlexformApplicationWidgetList(&$params, &$pObj) {
 		$xml = new SimpleXMLElement($params['row']['pi_flexform']);
 		$res = $xml->xpath('//field[@index=\'application\']');
+			// TODO use flexform methods from core
 
 		if ($res) {
 			$selectedApplication = (string) $res[0]->value;
 
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
 				$params['items'][] = array(
-					$widgetConfiguration['label'], // TODO resolve the label
+					$GLOBALS['LANG']->sL($widgetConfiguration['label']),
 					$widgetName
 				);
 			}
