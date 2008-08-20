@@ -35,7 +35,7 @@ class tx_community_ApplicationManager {
 	 * @var tx_community_ApplicationManager
 	 */
 	private static $instance = null;
-	
+
 	/**
 	 * @var array of tx_community_model_AbstractCommunityApplication
 	 */
@@ -53,7 +53,7 @@ class tx_community_ApplicationManager {
 
 	public static function getInstance() {
 		if (is_null(self::$instance)) {
-				// use t3lib_div ...
+				// TODO use t3lib_div ...
 			self::$instance = new tx_community_ApplicationManager();
 		}
 
@@ -61,6 +61,14 @@ class tx_community_ApplicationManager {
 	}
 
 	public function getApplication($applicationName) {
+		if (!array_key_exists($applicationName, $this->applications)) {
+			// TODO throw an "application not found exception"
+		}
+
+		return $this->applications[$applicationName];
+	}
+
+	public function getWidget($widgetName) {
 
 	}
 
@@ -74,14 +82,19 @@ class tx_community_ApplicationManager {
 	}
 
 	public function getAllWidgets() {
-		$widgetsConfigurations = $this->getAllWidgetsConfig();
+		$widgets               = array();
+		$widgetsConfigurations = $this->getAllWidgetConfigurations();
+
 		foreach ($widgetsConfigurations as $widgetName => $widgetConfiguration) {
 			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		}
+
 		return $widgets;
 	}
-	
-	public function getAllWidgetsConfig() {
+
+	public function getAllWidgetConfigurations() {
+		$widgetsConfigurations = array();
+
 		if (is_array($GLOBALS['TX_COMMUNITY']['applications'])) {
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
 				if (is_array($applicationConfiguration['widgets'])) {
@@ -91,27 +104,35 @@ class tx_community_ApplicationManager {
 				}
 			}
 		}
+
 		return $widgetsConfigurations;
 	}
-	
+
 	public function getWidgetsByApplication($application) {
-		$widgetsConfigurations = $this->getWidgetsConfigByApplication($application);
-		foreach ($widgetsConfigurations as $widgetName => $widgetConfiguration) {
+		$widgets              = array();
+		$widgetConfigurations = $this->getWidgetConfigurationsByApplication($application);
+
+		foreach ($widgetConfigurations as $widgetName => $widgetConfiguration) {
 			$widgets[] = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		}
+
 		return $widgets;
 	}
-	
-	public function getWidgetsConfigByApplication($application) {
+
+	public function getWidgetConfigurationsByApplication($application) {
+		$widgetsConfigurations = array();
+
 		if (is_array($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'])) {
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$application]['widgets'] as $widgetConfiguration) {
 				$widgetsConfigurations[] = $widgetConfiguration;
 			}
 		}
+
 		return $widgetsConfigurations;
 	}
-	
+
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
+		// TODO check whether we really need this method as registration is done through a global array
 		$this->applications[$application->getId()] = $application;
 	}
 
@@ -134,11 +155,10 @@ class tx_community_ApplicationManager {
 
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
 				$params['items'][] = array(
-					$widgetConfiguration['label'],
+					$widgetConfiguration['label'], // TODO resolve the label
 					$widgetName
 				);
 			}
-
 		}
 	}
 }
