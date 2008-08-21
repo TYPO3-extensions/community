@@ -78,6 +78,9 @@ class tx_community_model_UserGateway {
 	}
 
 	protected function createUserFromRow(array $row) {
+		/**
+		 * @var tx_community_model_User
+		 */
 		$userClass = t3lib_div::makeInstanceClassName('tx_community_model_User');
 
 		$user = new $userClass($row['uid']);
