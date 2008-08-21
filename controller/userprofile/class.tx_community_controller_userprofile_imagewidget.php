@@ -24,7 +24,7 @@
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
-
+require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_htmlimage.php');
 
 /**
  * image widget for a user profile
@@ -34,6 +34,13 @@ require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_com
  * @subpackage community
  */
 class tx_community_controller_userprofile_ImageWidget implements tx_community_CommunityApplicationWidget, tx_community_Command {
+
+	/**
+	 * a reference to the parent community application this widget belongs to
+	 *
+	 * @var tx_community_controller_AbstractCommunityApplication
+	 */
+	protected $parentCommunityApplication;
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_Imagewidget
@@ -46,8 +53,17 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 
 	}
 
+	public function setParentCommunityApplication(tx_community_controller_AbstractCommunityApplication $parentCommunityApplication) {
+		$this->parentCommunityApplication = $parentCommunityApplication;
+	}
+
 	public function execute() {
-		return 'user profile image widget';
+
+		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_HtmlImage');
+		$view->setUserModel($requestedUser);
+
+		return $view->render();
 	}
 
 	/**
