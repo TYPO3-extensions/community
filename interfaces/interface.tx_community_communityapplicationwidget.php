@@ -62,13 +62,6 @@ interface tx_community_CommunityApplicationWidget {
 	public function getLayoutContainer();
 
 	/**
-	 * sets a new layout container
-	 *
-	 * @param	string	the ID of the new container
-	 */
-	public function setLayoutContainer($containerId);
-
-	/**
 	 * gets the label of the widget
 	 *
 	 * @return	string the label of the widget
@@ -95,13 +88,6 @@ interface tx_community_CommunityApplicationWidget {
 	 * @return	string id string of the widget
 	 */
 	public function getID();
-
-	/**
-	 * sets the new position within its layout container
-	 *
-	 * @param	integer	new position
-	 */
-	public function setPosition($position);
 
 	/**
 	 * returns the widget's rendered content
