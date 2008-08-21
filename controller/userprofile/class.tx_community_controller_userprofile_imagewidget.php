@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
+require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 
 
 /**
@@ -32,13 +33,21 @@ require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_com
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_ImageWidget implements tx_community_CommunityApplicationWidget {
+class tx_community_controller_userprofile_ImageWidget implements tx_community_CommunityApplicationWidget, tx_community_Command {
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_Imagewidget
 	 */
 	public function __construct() {
 
+	}
+
+	public function initialize($data, $configuration) {
+
+	}
+
+	public function execute() {
+		return 'user profile image widget';
 	}
 
 	/**
