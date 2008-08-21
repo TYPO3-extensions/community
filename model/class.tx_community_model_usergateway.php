@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_user.php');
 
 /**
  * gateway too retrieve users
@@ -45,8 +46,20 @@ class tx_community_model_UserGateway {
 	 * @param integer The user's uid
 	 * @return	tx_community_model_User
 	 */
-	public function findById($id) {
+	public function findById($uid) {
+		$user = null;
 
+		$userRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'*',
+			'fe_users',
+			'uid = ' . (int) $uid
+		); // TODO restrict to certain part of the tree
+		$userRow = $userRow[0];
+
+			// TODO first check whether we got exactly one result
+		$user = $this->createUserFromRow($userRow);
+
+		return $user;
 	}
 
 	/**
@@ -62,6 +75,16 @@ class tx_community_model_UserGateway {
 		}
 
 		return $loggedInUser;
+	}
+
+	protected function createUserFromRow(array $row) {
+		$userClass = t3lib_div::makeInstanceClassName('tx_community_model_User');
+
+		$user = new $userClass($row['uid']);
+		$user->setPid($row['pid']);
+		$user->setImage($row['image']);
+
+		return $user;
 	}
 }
 

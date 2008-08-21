@@ -2,6 +2,7 @@
 
 	* added initial application/widget resolving and execution to the central application controller
 	* added initial user profile image widget
+	* added a method to the gateway to retrieve users by ID
 
 2008-08-19 Ingo Renner  <ingo@typo3.org>
 
