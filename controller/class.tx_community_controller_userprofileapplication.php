@@ -23,7 +23,7 @@
 ***************************************************************/
 
 
-
+require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 
 /**
  * User Profile Application Controller
@@ -33,23 +33,15 @@
  * @subpackage community
  */
 class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-	public $prefixId      = 'tx_community_controller_UserProfileApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';	// Path to this script relative to the extension dir.
-	public $extKey        = 'community';	// The extension key.
 
-	public $cObj;
+	public function execute() {
+		$content = '';
 
-	/**
-	 * constructor for class tx_community_controller_UserProfileApplication
-	 */
-	public function __construct() {
+		$content = 'hello user profile';
 
+		return $content;
 	}
 
-	public function execute($content, array $configuration) {
-
-		return 'hello community';
-	}
 }
 
 
