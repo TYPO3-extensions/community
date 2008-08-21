@@ -75,6 +75,14 @@ class tx_community_ApplicationManager {
 		return $this->applications[$applicationName];
 	}
 
+	public function getApplicationConfiguration($applicationName) {
+		if (!array_key_exists($applicationName, $GLOBALS['TX_COMMUNITY']['applications'])) {
+			// TODO throw an "application not found exception"
+		}
+
+		return $GLOBALS['TX_COMMUNITY']['applications'][$applicationName];
+	}
+
 	public function getWidget($widgetName) {
 
 	}
