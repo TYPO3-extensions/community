@@ -60,6 +60,13 @@ class tx_community_ApplicationManager {
 		return self::$instance;
 	}
 
+	/**
+	 * gets the application with the given name/id, throws an extension if no
+	 * application with that name exists
+	 *
+	 * @param	string	application name/id
+	 * @return	tx_community_controller_AbstractCommunityApplication
+	 */
 	public function getApplication($applicationName) {
 		if (!array_key_exists($applicationName, $this->applications)) {
 			// TODO throw an "application not found exception"

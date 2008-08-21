@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('community').'interfaces/interface.tx_community_communityapplicationwidget.php');
+require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 
 
 /**
@@ -75,9 +75,9 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 * @param	string	the ID of the new container
 	 */
 	public function setLayoutContainer($containerId) {
-		
+
 	}
-	
+
 	public function getID() {
 		return 'imageWidget';
 	}
@@ -97,7 +97,7 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 * @param	integer	new position
 	 */
 	public function setPosition($position) {
-		
+
 	}
 
 	/**
@@ -117,7 +117,7 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	public function getLabel() {
 		return "ImageWidget";
 	}
-	
+
 	public function getWidgetClass() {
 		return '';
 	}

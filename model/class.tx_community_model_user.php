@@ -32,6 +32,12 @@
  */
 class tx_community_model_User {
 
+	protected $uid;
+	protected $pid;
+	protected $crdate;
+	protected $disabled;
+	protected $deleted;
+
 	protected $account;
 	protected $nickName;
 
@@ -58,8 +64,27 @@ class tx_community_model_User {
 	/**
 	 * constructor for class tx_community_model_User
 	 */
-	public function __construct() {
+	public function __construct($uid = null) {
+		$this->uid      = $uid;
+		$this->disabled = false;
+		$this->deleted  = false;
+	}
 
+	public function save() {
+		$timestamp = $_SERVER['REQUEST_TIME'];
+
+			// TODO validate data
+			// if validation fails throw exception, do not save, controller can then handle the exception and f.e. show an error message
+
+		if (is_null($this->uid)) {
+			// insert
+		} else {
+			// update
+		}
+	}
+
+	public function delete() {
+		// set deleted to true, then save
 	}
 
 	public function setAccount(tx_community_model_Account $account) {
@@ -73,6 +98,14 @@ class tx_community_model_User {
 	 */
 	public function getAccount() {
 		return $this->account;
+	}
+
+	/**
+	 * returns the user's image as path + file relative to the TYPO3 site root
+	 *
+	 */
+	public function getImage() {
+		return $this->image;
 	}
 }
 

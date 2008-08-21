@@ -48,6 +48,21 @@ class tx_community_model_UserGateway {
 	public function findById($id) {
 
 	}
+
+	/**
+	 * finds the currently logged in user
+	 *
+	 * @return	tx_community_model_User
+	 */
+	public function findCurrentlyLoggedInUser() {
+		$loggedInUser = null;
+
+		if ($GLOBALS['TSFE']->loginUser) {
+			$loggedInUser = $this->findById($GLOBALS['TSFE']->fe_user->user['uid']);
+		}
+
+		return $loggedInUser;
+	}
 }
 
 

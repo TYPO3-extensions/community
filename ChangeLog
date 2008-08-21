@@ -1,3 +1,7 @@
+2008-08-21 Ingo Renner  <ingo@typo3.org>
+
+	* added initial application/widget resolving and execution to the central application controller
+
 2008-08-19 Ingo Renner  <ingo@typo3.org>
 
 	* added application/widget selector to flexform
