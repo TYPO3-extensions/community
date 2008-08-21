@@ -100,12 +100,25 @@ class tx_community_model_User {
 		return $this->account;
 	}
 
+	public function getPid() {
+		return $this->pid;
+	}
+
+	public function setPid($pageId) {
+		$this->pid = (int) $pageId;
+	}
+
 	/**
 	 * returns the user's image as path + file relative to the TYPO3 site root
 	 *
 	 */
 	public function getImage() {
-		return $this->image;
+		t3lib_div::loadTCA('fe_users');
+		return $GLOBALS['TCA']['fe_users']['columns']['image']['config']['uploadfolder'] . '/' . $this->image;
+	}
+
+	public function setImage($image) {
+		$this->image = $image;
 	}
 }
 
