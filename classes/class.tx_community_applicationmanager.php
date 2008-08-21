@@ -146,6 +146,18 @@ class tx_community_ApplicationManager {
 		return $widgetsConfigurations;
 	}
 
+	public function getWidgetConfiguration($applicationName, $widgetName) {
+		if (!array_key_exists($applicationName, $GLOBALS['TX_COMMUNITY']['applications'])) {
+			// TODO throw an "application not found exception"
+		}
+
+		if (!array_key_exists($widgetName, $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'])) {
+			// TODO throw an "widget not found exception"
+		}
+
+		return $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'][$widgetName];
+	}
+
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
 		// TODO check whether we really need this method as registration is done through a global array
 		$this->applications[$application->getId()] = $application;
