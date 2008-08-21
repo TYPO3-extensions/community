@@ -34,10 +34,38 @@ require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_control
  */
 class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
 
+
+
+	public function __construct() {
+		parent::__construct();
+
+		$this->prefixId = 'tx_community_controller_UserProfileApplication';
+		$this->scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';
+		$this->communityApplicationName = 'UserProfile';
+	}
+
 	public function execute() {
 		$content = '';
 
-		$content = 'hello user profile';
+		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
+		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
+		/* @var $applicationManager tx_community_ApplicationManager */
+
+		$widgetName = $this->pi_getFFvalue(
+			$this->data['pi_flexform'],
+			'widget'
+		);
+
+		$widgetConfiguration = $applicationManager->getWidgetConfiguration(
+			$this->communityApplicationName,
+			$widgetName
+		);
+
+		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+		/* @var $widget tx_community_CommunityApplicationWidget */
+		$widget->initialize($this->data, $this->conf);
+
+		$content = $widget->execute();
 
 		return $content;
 	}
