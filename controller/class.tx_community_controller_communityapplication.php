@@ -71,18 +71,12 @@ class tx_community_controller_CommunityApplication extends tslib_pibase {
 			$this->cObj->data['pi_flexform'],
 			'application'
 		);
-		$application = $applicationManager->getApplication($application);
+		$applicationConfiguration = $applicationManager->getApplicationConfiguration($applicationName);
+		$application = t3lib_div::getUserObj($applicationConfiguration['classReference']);
+		/* @var $application tx_community_controller_AbstractCommunityApplication */
+		$application->initialize($this->cObj->data, $this->conf);
 
-		// get widget from application
-		// execute widget
-		// return widget content
-
-#debug($this, 'this', __LINE__, __FILE__, 10);
-
-
-
-
-		$content = 'hello community!';
+		$content = $application->execute();
 
 		return $this->pi_wrapInBaseClass($content);
 	}
