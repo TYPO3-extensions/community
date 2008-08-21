@@ -8,6 +8,7 @@ $PATH_community = t3lib_extMgm::extPath('community');
 $TX_COMMUNITY = array(
 	'applications' => array(
 		'userProfile' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_userprofileapplication.php:tx_community_controller_UserProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile',
 			'widgets' => array(
 				'image' => array(
@@ -42,6 +43,7 @@ $TX_COMMUNITY = array(
 			)
 		),
 /*		'groupProfile' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_groupprofileapplication.php:tx_community_controller_GroupProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile',
 			'widgets' => array(
 				'image' => array(
