@@ -58,7 +58,11 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	}
 
 	public function execute() {
-
+		/*
+		 * @TODO Why this method? We habe the method render() defined in the interface.
+		 * the render() method would be called from the flexible layout. not the execute().
+		 * lets talk about the logic of this two methods.
+		 */ 
 		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_HtmlImage');
 		$view->setUserModel($requestedUser);
@@ -95,16 +99,12 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	}
 
 	/**
-	 * sets a new layout container
+	 * returns the widget's ID, this is the ID which is used while register the widget in the ext_localconf.php
 	 *
-	 * @param	string	the ID of the new container
+	 * @return	string	the widget's CSS class
 	 */
-	public function setLayoutContainer($containerId) {
-
-	}
-
 	public function getID() {
-		return 'imageWidget';
+		return 'tx_community_imageWidget';
 	}
 
 	/**
@@ -114,15 +114,6 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 */
 	public function getPosition() {
 		return 2;
-	}
-
-	/**
-	 * sets the new position within its layout container
-	 *
-	 * @param	integer	new position
-	 */
-	public function setPosition($position) {
-
 	}
 
 	/**
@@ -143,6 +134,11 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 		return "ImageWidget";
 	}
 
+	/**
+	 * returns the widget's CSS class(es)
+	 *
+	 * @return	string	the widget's CSS class
+	 */
 	public function getWidgetClass() {
 		return '';
 	}
