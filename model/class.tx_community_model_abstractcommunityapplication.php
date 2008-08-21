@@ -34,6 +34,7 @@ abstract class tx_community_model_AbstractCommunityApplication implements tx_com
 
 	protected $id;
 	protected $widgets;
+	protected $communityApplicationName;
 
 	/**
 	 * constructor for class tx_community_model_Application
@@ -52,6 +53,10 @@ abstract class tx_community_model_AbstractCommunityApplication implements tx_com
 
 	public function getWidgets() {
 
+	}
+
+	public function getName() {
+		return $this->communityApplicationName;
 	}
 }
 
