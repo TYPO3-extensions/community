@@ -35,6 +35,8 @@
  */
 interface tx_community_CommunityApplicationWidget {
 
+	public function initialize($data, $configuration);
+
 	/**
 	 * returns whether a user is allowed to drag the widget to a different
 	 * container or position
@@ -77,21 +79,21 @@ interface tx_community_CommunityApplicationWidget {
 	 * @return	integer	the position within a container
 	 */
 	public function getPosition();
-	
+
 	/**
 	 * gets the CSS class of the widget
 	 *
 	 * @return	string the CSS class of the widget
 	 */
 	public function getWidgetClass();
-	
+
 	/**
 	 * gets the id of the widget
 	 *
 	 * @return	string id string of the widget
 	 */
 	public function getID();
-	
+
 	/**
 	 * sets the new position within its layout container
 	 *
