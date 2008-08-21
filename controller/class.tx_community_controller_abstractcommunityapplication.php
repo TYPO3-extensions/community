@@ -32,6 +32,9 @@
  */
 abstract class tx_community_controller_AbstractCommunityApplication {
 
+	protected $data;
+	protected $configuration;
+
 	/**
 	 * constructor for class tx_community_controller_AbstractCommunityApplication
 	 */
@@ -39,7 +42,12 @@ abstract class tx_community_controller_AbstractCommunityApplication {
 
 	}
 
-	abstract public function execute($content, array $configuration);
+	public function initialize($data, $configuration) {
+		$this->data          = $data;
+		$this->configuration = $configuration;
+	}
+
+	abstract public function execute();
 }
 
 
