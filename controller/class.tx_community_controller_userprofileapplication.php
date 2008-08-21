@@ -24,6 +24,8 @@
 
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+
 
 /**
  * User Profile Application Controller
@@ -33,8 +35,6 @@ require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_control
  * @subpackage community
  */
 class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-
-
 
 	public function __construct() {
 		parent::__construct();
@@ -64,10 +64,24 @@ class tx_community_controller_UserProfileApplication extends tx_community_contro
 		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		/* @var $widget tx_community_CommunityApplicationWidget */
 		$widget->initialize($this->data, $this->conf);
+		$widget->setParentCommunityApplication($this);
 
 		$content = $widget->execute();
 
 		return $content;
+	}
+
+	public function getRequestedUser() {
+		$communityRequest = t3lib_div::_GP('tx_community');
+
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		$requestedUser = $userGateway->findById((int) $communityRequest['user']);
+
+		if (!($requestedUser instanceof tx_community_model_User)) {
+			// TODO throw "user not found exception"
+		}
+
+		return $requestedUser;
 	}
 
 }
