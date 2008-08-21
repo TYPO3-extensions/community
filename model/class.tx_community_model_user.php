@@ -104,6 +104,10 @@ class tx_community_model_User {
 		return $this->pid;
 	}
 
+	public function getUid() {
+		return $this->uid;
+	}
+
 	public function setPid($pageId) {
 		$this->pid = (int) $pageId;
 	}
