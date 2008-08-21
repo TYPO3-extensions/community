@@ -30,21 +30,26 @@
  * @package TYPO3
  * @subpackage community
  */
-abstract class tx_community_controller_AbstractCommunityApplication {
+abstract class tx_community_controller_AbstractCommunityApplication extends tslib_pibase {
 
+	public $prefixId;
+	public $scriptRelPath;
+	public $extKey;
+
+	public $conf;
 	protected $data;
-	protected $configuration;
+	protected $communityApplicationName;
 
 	/**
 	 * constructor for class tx_community_controller_AbstractCommunityApplication
 	 */
 	public function __construct() {
-
+		$this->extKey = 'community';
 	}
 
 	public function initialize($data, $configuration) {
-		$this->data          = $data;
-		$this->configuration = $configuration;
+		$this->data = $data;
+		$this->conf = $configuration;
 	}
 
 	abstract public function execute();
