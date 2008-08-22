@@ -57,7 +57,9 @@ class tx_community_model_UserGateway {
 		$userRow = $userRow[0];
 
 			// TODO first check whether we got exactly one result
-		$user = $this->createUserFromRow($userRow);
+		if (is_array($userRow)) {
+			$user = $this->createUserFromRow($userRow);
+		}
 
 		return $user;
 	}
