@@ -1,3 +1,7 @@
+2008-08-23 Ingo Renner  <ingo@typo3.org>
+
+	* added initial ACL framework, ported from Zend Framework
+
 2008-08-21 Ingo Renner  <ingo@typo3.org>
 
 	* added initial application/widget resolving and execution to the central application controller
