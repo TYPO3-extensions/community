@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/acl/class.tx_community_acl_exception.php');
 
 /**
  * community ACL handling class
@@ -228,7 +229,6 @@ class tx_community_acl_Acl {
 		$resourceId = $resource->getResourceId();
 
 		if ($this->has($resourceId)) {
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception("Resource id '$resourceId' already exists in the ACL");
 		}
 
@@ -275,7 +275,6 @@ class tx_community_acl_Acl {
 		}
 
 		if (!$this->has($resource)) {
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception("Resource '$resourceId' not found");
 		}
 
@@ -521,7 +520,6 @@ class tx_community_acl_Acl {
 		// ensure that the rule type is valid; normalize input to uppercase
 		$type = strtoupper($type);
 		if (self::TYPE_ALLOW !== $type && self::TYPE_DENY !== $type) {
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception("Unsupported rule type; must be either '" . self::TYPE_ALLOW . "' or '"
 									   . self::TYPE_DENY . "'");
 		}
@@ -627,7 +625,6 @@ class tx_community_acl_Acl {
 				break;
 
 			default:
-				require_once 'Zend/Acl/Exception.php'; //FIXME
 				throw new tx_community_acl_Exception("Unsupported operation; must be either '" . self::OPERATION_ADD . "' or '"
 										   . self::OPERATION_REMOVE . "'");
 		}
@@ -789,7 +786,6 @@ class tx_community_acl_Acl {
 			/**
 			 * @see tx_community_acl_Exception
 			 */
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception('$dfs parameter may not be null');
 		}
 
@@ -832,7 +828,6 @@ class tx_community_acl_Acl {
 			/**
 			 * @see tx_community_acl_Exception
 			 */
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception('$privilege parameter may not be null');
 		}
 
@@ -878,7 +873,6 @@ class tx_community_acl_Acl {
 			/**
 			 * @see tx_community_acl_Exception
 			 */
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception('$privilege parameter may not be null');
 		}
 
@@ -886,7 +880,6 @@ class tx_community_acl_Acl {
 			/**
 			 * @see tx_community_acl_Exception
 			 */
-			require_once 'Zend/Acl/Exception.php'; //FIXME
 			throw new tx_community_acl_Exception('$dfs parameter may not be null');
 		}
 
