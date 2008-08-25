@@ -56,6 +56,7 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 	 */
 	public function __construct() {
 		$this->groupGateway	= new tx_community_model_GroupGateway();
+		$this->userGateway	= new tx_community_model_UserGateway();
 		$this->request		= t3lib_div::_GP('tx_community');
 		$this->uid			= (isset($this->request['group'])) ? intval($this->request['group']) : $this->uid;
 		
