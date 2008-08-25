@@ -22,6 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_groupgateway.php');
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_usergateway.php');
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_group.php');
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_abstractprofile.php');
 
 /**
  * A community user profile
@@ -31,12 +35,40 @@
  * @subpackage community
  */
 class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile {
-
+	/**
+	 * @var tx_community_model_GroupGateway
+	 */
+	protected $groupGateway;
+	/**
+	 * @var tx_community_model_UserGateway
+	 */
+	protected $userGateway;
+	/**
+	 * @var tx_community_model_Group
+	 */
+	protected $group;
+	protected $uid = 0;
+	protected $request;
+	protected $editable = false;
+	
 	/**
 	 * constructor for class tx_community_model_GroupProfile
 	 */
 	public function __construct() {
-
+		$this->groupGateway	= new tx_community_model_GroupGateway();
+		$this->request		= t3lib_div::_GP('tx_community');
+		$this->uid			= (isset($this->request['group'])) ? intval($this->request['group']) : $this->uid;
+		
+		$this->group		= $this->groupGateway->findById($this->uid);
+		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();
+		
+		if ($this->loggedinUser !== null) {
+			// @TODO: check if loggedinUser has admin rights on group
+		}
+	}
+	
+	public function isEditable() {
+		return $this->editable;
 	}
 }
 

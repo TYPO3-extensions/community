@@ -22,6 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_usergateway.php');
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_user.php');
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_abstractprofile.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_noprofileidexception.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_unknownprofileexception.php');
 
 /**
  * A community user profile
@@ -31,12 +36,49 @@
  * @subpackage community
  */
 class tx_community_model_UserProfile extends tx_community_model_AbstractProfile {
-
+	/**
+	 * @var tx_community_model_UserGateway
+	 */
+	protected $userGateway;
+		/**
+	 * @var tx_community_model_User
+	 */
+	protected $loggedinUser;
+	protected $uid = 0;
+	protected $request;
+	protected $editable = false;
+	
 	/**
 	 * constructor for class tx_community_model_UserProfile
 	 */
 	public function __construct() {
-
+		$this->userGateway	= new tx_community_model_UserGateway();
+		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();
+		$this->request		= t3lib_div::_GP('tx_community');
+		
+		if ($this->loggedinUser !== null) {
+			$this->uid		= $this->loggedinUser->getUid();
+		}
+		$this->uid			= (isset($this->request['user'])) ? intval($this->request['user']) : $this->uid;
+		
+		if ($this->uid > 0) {
+			$user = $this->userGateway->findById($this->uid);
+			if ($user === null) {
+				throw new tx_community_UnknownProfileException();
+			}
+		}
+		
+		if ($this->loggedinUser !== null) {
+			$this->editable	= ($this->loggedinUser->getUid() == $this->uid) ? true : false;
+		}
+		
+		if ($this->uid == 0) {
+			throw new tx_community_NoProfileIdException();
+		}
+	}
+	
+	public function isEditable() {
+		return $this->editable;
 	}
 }
 

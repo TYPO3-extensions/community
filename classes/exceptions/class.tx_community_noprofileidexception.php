@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008 Frank Nägler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,31 +22,18 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-/**
- * An abstract representation of a profile (user or group profile)
- *
- * @author	Ingo Renner <ingo@typo3.org>
- * @package TYPO3
- * @subpackage community
- */
-class tx_community_model_AbstractProfile {
-
-	/**
-	 * constructor for class tx_community_model_AbstractProfile
-	 */
-	public function __construct() {
-
+class tx_community_NoProfileIdException extends Exception {
+	
+	function __construct() {
+		parent::__construct('no profile id given', 1000);
 	}
-
-	public function isEditable() {
-		die('overwrite this function in your profile implementation');
+	
+	function __toString() {
+		return "
+		
+			tx_community_NoProfileIdException at line {$this->getLine()} on {$this->getFile()}
+			Message: {$this->getMessage()}
+		";
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_model_abstractprofile.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_model_abstractprofile.php']);
-}
-
 ?>
