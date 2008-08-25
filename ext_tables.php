@@ -148,6 +148,28 @@ t3lib_div::loadTCA('fe_users');
 t3lib_extMgm::addTCAcolumns('fe_users', $feUsersTempColumns, 1);
 t3lib_extMgm::addToAllTCAtypes('fe_users','tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
 
+$tempColumns = Array (
+    "tx_community_admins" => Array (        
+        "exclude" => 1,        
+        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_admins",        
+        "config" => Array (
+            "type" => "group",    
+            "internal_type" => "db",    
+            "allowed" => "fe_users",    
+            "size" => 5,    
+            "minitems" => 0,
+            "maxitems" => 100,
+        )
+    ),
+);
+
+
+t3lib_div::loadTCA("fe_groups");
+t3lib_extMgm::addTCAcolumns("fe_groups",$tempColumns,1);
+t3lib_extMgm::addToAllTCAtypes("fe_groups","tx_community_admins;;;;1-1-1");
+
+
+
 	// adding the application / widget selector as plugin content element
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_CommunityApplication'] = 'pi_flexform';
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_CommunityApplication'] = 'layout,select_key,pages,recusive';

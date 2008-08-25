@@ -31,6 +31,7 @@
  * @subpackage community
  */
 class tx_community_model_AbstractProfile {
+	protected $uid;
 
 	/**
 	 * constructor for class tx_community_model_AbstractProfile
@@ -41,6 +42,10 @@ class tx_community_model_AbstractProfile {
 
 	public function isEditable() {
 		die('overwrite this function in your profile implementation');
+	}
+	
+	public function getUid() {
+		return $this->uid;
 	}
 }
 

@@ -24,6 +24,7 @@
 			<label index="fe_users.tx_community_favoritebooks">Favorite Books</label>
 			<label index="fe_users.tx_community_aboutme">About Me</label>
 			<label index="fe_users.tx_community_instantmessager">Instant Messager</label>
+			<label index="fe_groups.tx_community_admins">Admins</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -1,28 +1,28 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2008 Frank Nägler <typo3@naegler.net>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_group.php');
+require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_group.php');
 
 /**
  * gateway too retrieve groups
@@ -44,7 +44,7 @@ class tx_community_model_GroupGateway {
 	 * find a user by its uid
 	 *
 	 * @param integer The user's uid
-	 * @return	tx_community_model_User
+	 * @return	tx_community_model_Group
 	 */
 	public function findById($uid) {
 		$group = null;
@@ -56,9 +56,9 @@ class tx_community_model_GroupGateway {
 		); // TODO restrict to certain part of the tree
 		$groupRow = $groupRow[0];
 
-			// TODO first check whether we got exactly one result
+		// TODO first check whether we got exactly one result
 		if (is_array($groupRow)) {
-			$user = $this->createGroupFromRow($groupRow);
+			$group = $this->createGroupFromRow($groupRow);
 		}
 
 		return $group;
@@ -70,10 +70,25 @@ class tx_community_model_GroupGateway {
 		 */
 		$groupClass = t3lib_div::makeInstanceClassName('tx_community_model_Group');
 
+		/**
+		 * @var tx_community_model_Group
+		 */
 		$group = new $groupClass($row['uid']);
-		$group->setPid($row['pid']);
-		$group->setImage($row['image']);
+		
+		/**
+		 * @var tx_community_model_UserGateway
+		 */
+		$this->userGateway	= new tx_community_model_UserGateway();
 
+		$users = t3lib_div::trimExplode(',', $row['tx_community_admins']);
+		for ($i=0; $i<count($users); $i++) {
+			if (strlen($users[$i])) {
+				$userObj = $this->userGateway->findById($users[$i]);
+				$group->addAdmin($userObj);
+			}
+		}
+
+		// @todo add member by addMember();
 		return $group;
 	}
 }

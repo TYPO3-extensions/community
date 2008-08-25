@@ -26,6 +26,8 @@ require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_usergateway.php');
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_group.php');
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_abstractprofile.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_noprofileidexception.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_unknownprofileexception.php');
 
 /**
  * A community user profile
@@ -43,9 +45,11 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 	 * @var tx_community_model_UserGateway
 	 */
 	protected $userGateway;
+
 	/**
-	 * @var tx_community_model_Group
+	 * @var tx_community_model_User
 	 */
+	protected $loggedinUser;
 	protected $group;
 	protected $uid = 0;
 	protected $request;
@@ -60,11 +64,21 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 		$this->request		= t3lib_div::_GP('tx_community');
 		$this->uid			= (isset($this->request['group'])) ? intval($this->request['group']) : $this->uid;
 		
-		$this->group		= $this->groupGateway->findById($this->uid);
-		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();
+		if ($this->uid == 0) {
+			throw new tx_community_NoProfileIdException();
+		}
 		
+		$this->group		= $this->groupGateway->findById($this->uid);
+		if ($this->group === null) {
+			throw new tx_community_UnknownProfileException();
+		}
+		
+		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();
+				
 		if ($this->loggedinUser !== null) {
-			// @TODO: check if loggedinUser has admin rights on group
+			if ($this->group->isAdmin($this->loggedinUser)) {
+				$this->editable = true;
+			}
 		}
 	}
 	

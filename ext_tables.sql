@@ -18,3 +18,10 @@ CREATE TABLE fe_users (
 	tx_community_favoritebooks text,
 	tx_community_aboutme text
 );
+
+#
+# Table structure for table 'fe_groups'
+#
+CREATE TABLE fe_groups (
+    tx_community_admins blob NOT NULL
+);

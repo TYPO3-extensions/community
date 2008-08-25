@@ -61,6 +61,10 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 		}
 		$this->uid			= (isset($this->request['user'])) ? intval($this->request['user']) : $this->uid;
 		
+		if ($this->uid == 0) {
+			throw new tx_community_NoProfileIdException();
+		}
+		
 		if ($this->uid > 0) {
 			$user = $this->userGateway->findById($this->uid);
 			if ($user === null) {
@@ -70,10 +74,6 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 		
 		if ($this->loggedinUser !== null) {
 			$this->editable	= ($this->loggedinUser->getUid() == $this->uid) ? true : false;
-		}
-		
-		if ($this->uid == 0) {
-			throw new tx_community_NoProfileIdException();
 		}
 	}
 	

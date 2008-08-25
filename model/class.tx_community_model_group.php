@@ -31,18 +31,32 @@
  * @subpackage community
  */
 class tx_community_model_Group {
-
-	protected $admin;
+	protected $uid;
+	protected $admins = array();
 	protected $members = array();
 
 	/**
 	 * constructor for class tx_community_model_User
 	 */
-	public function __construct() {
-
+	public function __construct($uid) {
+		$this->uid = (int) $uid;
 	}
 
-
+	public function addAdmin(tx_community_model_User $user) {
+		$this->admins[$user->getUid()] = $user;
+	}
+		
+	public function addMember(tx_community_model_User $user) {
+		$this->members[$user->getUid()] = $user;
+	}
+	
+	public function isAdmin(tx_community_model_User $user) {
+		return (isset($this->admins[$user->getUid()])) ? true : false;
+	}
+		
+	public function isMember(tx_community_model_User $user) {
+		return (isset($this->members[$user->getUid()])) ? true : false;
+	}
 }
 
 
