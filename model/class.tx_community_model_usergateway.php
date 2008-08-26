@@ -86,10 +86,13 @@ class tx_community_model_UserGateway {
 		 */
 		$userClass = t3lib_div::makeInstanceClassName('tx_community_model_User');
 
+		/**
+		 * @var tx_community_model_User
+		 */
 		$user = new $userClass($row['uid']);
 		$user->setPid($row['pid']);
 		$user->setImage($row['image']);
-
+		$user->setNickname($row['tx_community_nickname']);
 		return $user;
 	}
 }
