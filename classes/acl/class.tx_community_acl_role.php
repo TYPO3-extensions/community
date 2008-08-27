@@ -33,32 +33,30 @@
 class tx_community_acl_Role implements tx_community_acl_AclRole {
 
 	/**
-     * Unique id of Role
-     *
-     * @var string
-     */
-    protected $roleId;
+	 * Unique id of Role
+	 *
+	 * @var string
+	 */
+	protected $roleId;
 
-    /**
-     * Sets the Role identifier
-     *
-     * @param  string $id
-     * @return void
-     */
-    public function __construct($roleId)
-    {
-        $this->roleId = (string) $roleId;
-    }
+	/**
+	 * Sets the Role identifier
+	 *
+	 * @param  string $id
+	 * @return void
+	 */
+	public function __construct($roleId) {
+		$this->roleId = (string) $roleId;
+	}
 
-    /**
-     * Defined by Zend_Acl_Role_Interface; returns the Role identifier
-     *
-     * @return string
-     */
-    public function getRoleId()
-    {
-        return $this->roleId;
-    }
+	/**
+	 * returns the Role identifier
+	 *
+	 * @return string
+	 */
+	public function getRoleId() {
+		return $this->roleId;
+	}
 }
 
 

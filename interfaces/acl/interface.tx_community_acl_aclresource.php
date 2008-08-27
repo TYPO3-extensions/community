@@ -36,11 +36,11 @@
 interface tx_community_acl_AclResource {
 
 	/**
-     * Returns the string identifier of the Resource
-     *
-     * @return string
-     */
-    public function getResourceId();
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function getResourceId();
 }
 
 ?>

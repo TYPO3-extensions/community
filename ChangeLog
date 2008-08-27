@@ -1,3 +1,9 @@
+2008-08-27 Ingo Renner  <ingo@typo3.org>
+
+	* removed includes of Zend role registry exception class
+	* added resource interface implementation for user and group models
+	* fixed some whitespace
+
 2008-08-23 Ingo Renner  <ingo@typo3.org>
 
 	* added initial ACL framework, ported from Zend Framework

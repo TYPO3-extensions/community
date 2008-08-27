@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
 
 /**
  * A community user, uses TYPO3's fe_users
@@ -30,7 +31,7 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_Group {
+class tx_community_model_Group implements tx_community_acl_AclResource {
 	protected $uid;
 	protected $admins = array();
 	protected $members = array();
@@ -42,18 +43,27 @@ class tx_community_model_Group {
 		$this->uid = (int) $uid;
 	}
 
+	/**
+	 * returns the Resource identifier
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		return (string) 'tx_community_model_Group' . $this->uid; //TODO replace class name by table name
+	}
+
 	public function addAdmin(tx_community_model_User $user) {
 		$this->admins[$user->getUid()] = $user;
 	}
-		
+
 	public function addMember(tx_community_model_User $user) {
 		$this->members[$user->getUid()] = $user;
 	}
-	
+
 	public function isAdmin(tx_community_model_User $user) {
 		return (isset($this->admins[$user->getUid()])) ? true : false;
 	}
-		
+
 	public function isMember(tx_community_model_User $user) {
 		return (isset($this->members[$user->getUid()])) ? true : false;
 	}

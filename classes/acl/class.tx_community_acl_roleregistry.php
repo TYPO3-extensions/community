@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/acl/class.tx_community_acl_roleregistryexception.php');
 
 /**
  * ACL role registry
@@ -66,7 +67,6 @@ class tx_community_acl_RoleRegistry {
             /**
              * @see tx_communitty_acl_RoleRegistryException
              */
-            require_once 'Zend/Acl/Role/Registry/Exception.php'; //FIXME
             throw new tx_communitty_acl_RoleRegistryException("Role id '$roleId' already exists in the registry");
         }
 
@@ -79,7 +79,6 @@ class tx_community_acl_RoleRegistry {
             /**
              * @see tx_communitty_acl_RoleRegistryException
              */
-            require_once 'Zend/Acl/Role/Registry/Exception.php';
             foreach ($parents as $parent) {
                 try {
                     if ($parent instanceof tx_community_acl_AclRole) {
@@ -126,7 +125,6 @@ class tx_community_acl_RoleRegistry {
             /**
              * @see tx_communitty_acl_RoleRegistryException
              */
-            require_once 'Zend/Acl/Role/Registry/Exception.php'; //FIXME
             throw new tx_communitty_acl_RoleRegistryException("Role '$roleId' not found");
         }
 
@@ -193,7 +191,6 @@ class tx_community_acl_RoleRegistry {
         /**
          * @see tx_communitty_acl_RoleRegistryException
          */
-        require_once 'Zend/Acl/Role/Registry/Exception.php'; //FIXME
         try {
             $roleId     = $this->get($role)->getRoleId();
             $inheritId = $this->get($inherit)->getRoleId();
@@ -230,7 +227,6 @@ class tx_community_acl_RoleRegistry {
         /**
          * @see tx_communitty_acl_RoleRegistryException
          */
-        require_once 'Zend/Acl/Role/Registry/Exception.php';
         try {
             $roleId = $this->get($role)->getRoleId();
         } catch (tx_communitty_acl_RoleRegistryException $e) {

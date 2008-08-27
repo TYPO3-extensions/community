@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
+require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclrole.php');
 
 /**
  * A community user, uses TYPO3's fe_users
@@ -30,7 +32,7 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_model_User {
+class tx_community_model_User implements tx_community_acl_AclResource, tx_community_acl_AclRole {
 
 	protected $uid;
 	protected $pid;
@@ -85,6 +87,24 @@ class tx_community_model_User {
 
 	public function delete() {
 		// set deleted to true, then save
+	}
+
+	/**
+	 * returns the Resource identifier
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		return (string) 'fe_user_' . $this->uid;
+	}
+
+	/**
+	 * returns the Role identifier
+	 *
+	 * @return string
+	 */
+	public function getRoleId() {
+		return (string) 'fe_user_' . $this->uid;
 	}
 
 	public function setAccount(tx_community_model_Account $account) {

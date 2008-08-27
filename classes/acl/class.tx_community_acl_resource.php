@@ -23,6 +23,8 @@
 ***************************************************************/
 
 
+require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
+
 /**
  * ACL resource class
  *
@@ -33,32 +35,30 @@
 class tx_community_acl_Resource implements tx_community_acl_AclResource {
 
 	/**
-     * Unique id of Resource
-     *
-     * @var string
-     */
-    protected $resourceId;
+	 * Unique id of Resource
+	 *
+	 * @var string
+	 */
+	protected $resourceId;
 
-    /**
-     * Sets the Resource identifier
-     *
-     * @param  string $resourceId
-     * @return void
-     */
-    public function __construct($resourceId)
-    {
-        $this->resourceId = (string) $resourceId;
-    }
+	/**
+	 * Sets the Resource identifier
+	 *
+	 * @param  string $resourceId
+	 * @return void
+	 */
+	public function __construct($resourceId) {
+		$this->resourceId = (string) $resourceId;
+	}
 
-    /**
-     * Defined by Zend_Acl_Resource_Interface; returns the Resource identifier
-     *
-     * @return string
-     */
-    public function getResourceId()
-    {
-        return $this->resourceId;
-    }
+	/**
+	 * returns the Resource identifier
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		return $this->resourceId;
+	}
 }
 
 
