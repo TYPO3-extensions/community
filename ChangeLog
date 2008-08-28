@@ -1,3 +1,7 @@
+2008-08-28 Ingo Renner  <ingo@typo3.org>
+
+	* added initial user profile personal information widget skeleton
+
 2008-08-27 Ingo Renner  <ingo@typo3.org>
 
 	* removed includes of Zend role registry exception class

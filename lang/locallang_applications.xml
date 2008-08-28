@@ -11,7 +11,7 @@
 			<label index="flexform.widget">Widget</label>
 			<label index="userProfile">User Profile</label>
 			<label index="userProfile.image">Image</label>
-			<label index="userProfile.information">Information</label>
+			<label index="userProfile.personalInformation">Personal Information</label>
 			<label index="groupProfile">Group Profile</label>
 			<label index="groupProfile.image">Image</label>
 			<label index="groupProfile.information">Information</label>
