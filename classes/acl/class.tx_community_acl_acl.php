@@ -224,8 +224,7 @@ class tx_community_acl_Acl {
 	 * @throws tx_community_acl_Exception
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function add(tx_community_acl_AclResource $resource, $parent = null)
-	{
+	public function add(tx_community_acl_AclResource $resource, $parent = null) {
 		$resourceId = $resource->getResourceId();
 
 		if ($this->has($resourceId)) {
@@ -266,8 +265,7 @@ class tx_community_acl_Acl {
 	 * @throws tx_community_acl_Exception
 	 * @return tx_community_acl_AclResource
 	 */
-	public function get($resource)
-	{
+	public function get($resource) {
 		if ($resource instanceof tx_community_acl_AclResource) {
 			$resourceId = $resource->getResourceId();
 		} else {
@@ -289,8 +287,7 @@ class tx_community_acl_Acl {
 	 * @param  tx_community_acl_AclResource|string $resource
 	 * @return boolean
 	 */
-	public function has($resource)
-	{
+	public function has($resource) {
 		if ($resource instanceof tx_community_acl_AclResource) {
 			$resourceId = $resource->getResourceId();
 		} else {
@@ -315,8 +312,7 @@ class tx_community_acl_Acl {
 	 * @throws tx_community_acl_Acl_Resource_Registry_Exception
 	 * @return boolean
 	 */
-	public function inherits($resource, $inherit, $onlyParent = false)
-	{
+	public function inherits($resource, $inherit, $onlyParent = false) {
 		try {
 			$resourceId	 = $this->get($resource)->getResourceId();
 			$inheritId = $this->get($inherit)->getResourceId();
@@ -354,8 +350,7 @@ class tx_community_acl_Acl {
 	 * @throws tx_community_acl_Exception
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function remove($resource)
-	{
+	public function remove($resource) {
 		try {
 			$resourceId = $this->get($resource)->getResourceId();
 		} catch (tx_community_acl_Exception $e) {
@@ -389,8 +384,7 @@ class tx_community_acl_Acl {
 	 *
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function removeAll()
-	{
+	public function removeAll() {
 		foreach ($this->resources as $resourceId => $resource) {
 			foreach ($this->rules['byResourceId'] as $resourceIdCurrent => $rules) {
 				if ($resourceId === $resourceIdCurrent) {
@@ -414,8 +408,7 @@ class tx_community_acl_Acl {
 	 * @uses   tx_community_acl_Acl::setRule()
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function allow($roles = null, $resources = null, $privileges = null, tx_community_acl_Assert $assert = null)
-	{
+	public function allow($roles = null, $resources = null, $privileges = null, tx_community_acl_Assert $assert = null) {
 		return $this->setRule(self::OPERATION_ADD, self::TYPE_ALLOW, $roles, $resources, $privileges, $assert);
 	}
 
@@ -429,8 +422,7 @@ class tx_community_acl_Acl {
 	 * @uses   tx_community_acl_Acl::setRule()
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function deny($roles = null, $resources = null, $privileges = null, tx_community_acl_Assert $assert = null)
-	{
+	public function deny($roles = null, $resources = null, $privileges = null, tx_community_acl_Assert $assert = null) {
 		return $this->setRule(self::OPERATION_ADD, self::TYPE_DENY, $roles, $resources, $privileges, $assert);
 	}
 
@@ -443,8 +435,7 @@ class tx_community_acl_Acl {
 	 * @uses   tx_community_acl_Acl::setRule()
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function removeAllow($roles = null, $resources = null, $privileges = null)
-	{
+	public function removeAllow($roles = null, $resources = null, $privileges = null) {
 		return $this->setRule(self::OPERATION_REMOVE, self::TYPE_ALLOW, $roles, $resources, $privileges);
 	}
 
@@ -457,8 +448,7 @@ class tx_community_acl_Acl {
 	 * @uses   tx_community_acl_Acl::setRule()
 	 * @return tx_community_acl_Acl Provides a fluent interface
 	 */
-	public function removeDeny($roles = null, $resources = null, $privileges = null)
-	{
+	public function removeDeny($roles = null, $resources = null, $privileges = null) {
 		return $this->setRule(self::OPERATION_REMOVE, self::TYPE_DENY, $roles, $resources, $privileges);
 	}
 
@@ -503,28 +493,28 @@ class tx_community_acl_Acl {
 	 * when the rule's assertion fails. This is because the ACL needs to provide expected
 	 * behavior when an assertion upon the default ACL rule fails.
 	 *
-	 * @param  string								   $operation
-	 * @param  string								   $type
-	 * @param  tx_community_acl_AclRole|string|array	 $roles
-	 * @param  tx_community_acl_AclResource|string|array $resources
-	 * @param  string|array							 $privileges
-	 * @param  tx_community_acl_Assert				$assert
-	 * @throws tx_community_acl_Exception
-	 * @uses   tx_community_acl_AclRoleRegistry::get()
-	 * @uses   tx_community_acl_Acl::get()
-	 * @return tx_community_acl_Acl Provides a fluent interface
+	 * @param	string	$operation
+	 * @param	string	$type
+	 * @param	tx_community_acl_AclRole|string|array	$roles
+	 * @param	tx_community_acl_AclResource|string|array	$resources
+	 * @param	string|array	$privileges
+	 * @param	tx_community_acl_Assert	$assert
+	 * @throws	tx_community_acl_Exception
+	 * @uses	tx_community_acl_AclRoleRegistry::get()
+	 * @uses	tx_community_acl_Acl::get()
+	 * @return	tx_community_acl_Acl	Provides a fluent interface
 	 */
-	public function setRule($operation, $type, $roles = null, $resources = null, $privileges = null,
-							tx_community_acl_Assert $assert = null)
-	{
-		// ensure that the rule type is valid; normalize input to uppercase
+	public function setRule($operation, $type, $roles = null, $resources = null, $privileges = null, tx_community_acl_Assert $assert = null) {
+			// ensure that the rule type is valid; normalize input to uppercase
 		$type = strtoupper($type);
 		if (self::TYPE_ALLOW !== $type && self::TYPE_DENY !== $type) {
-			throw new tx_community_acl_Exception("Unsupported rule type; must be either '" . self::TYPE_ALLOW . "' or '"
-									   . self::TYPE_DENY . "'");
+			throw new tx_community_acl_Exception(
+				"Unsupported rule type; must be either '" . self::TYPE_ALLOW . "' or '" . self::TYPE_DENY . "'"
+			); // TODO add timestamp as error code
 		}
 
-		// ensure that all specified Roles exist; normalize input to array of Role objects or null
+			// ensure that all specified Roles exist; normalize input to array
+			// of Role objects or null
 		if (!is_array($roles)) {
 			$roles = array($roles);
 		} else if (0 === count($roles)) {
@@ -541,7 +531,8 @@ class tx_community_acl_Acl {
 		}
 		unset($rolesTemp);
 
-		// ensure that all specified Resources exist; normalize input to array of Resource objects or null
+			// ensure that all specified Resources exist; normalize input to
+			// array of Resource objects or null
 		if (!is_array($resources)) {
 			$resources = array($resources);
 		} else if (0 === count($resources)) {
@@ -558,7 +549,7 @@ class tx_community_acl_Acl {
 		}
 		unset($resourcesTemp);
 
-		// normalize privileges to array
+			// normalize privileges to array
 		if (null === $privileges) {
 			$privileges = array();
 		} else if (!is_array($privileges)) {
@@ -567,7 +558,7 @@ class tx_community_acl_Acl {
 
 		switch ($operation) {
 
-			// add to the rules
+				// add to the rules
 			case self::OPERATION_ADD:
 				foreach ($resources as $resource) {
 					foreach ($roles as $role) {
@@ -588,7 +579,7 @@ class tx_community_acl_Acl {
 				}
 				break;
 
-			// remove from the rules
+				// remove from the rules
 			case self::OPERATION_REMOVE:
 				foreach ($resources as $resource) {
 					foreach ($roles as $role) {
@@ -660,8 +651,7 @@ class tx_community_acl_Acl {
 	 * @uses   tx_community_acl_AclRoleRegistry::get()
 	 * @return boolean
 	 */
-	public function isAllowed($role = null, $resource = null, $privilege = null)
-	{
+	public function isAllowed($role = null, $resource = null, $privilege = null) {
 		if (null !== $role) {
 			$role = $this->getRoleRegistry()->get($role);
 		}
@@ -724,8 +714,7 @@ class tx_community_acl_Acl {
 	 *
 	 * @return tx_community_acl_AclRoleRegistry
 	 */
-	protected function getRoleRegistry()
-	{
+	protected function getRoleRegistry() {
 		if (null === $this->roleRegistry) {
 			$this->roleRegistry = new tx_community_acl_AclRoleRegistry();
 		}
@@ -743,8 +732,7 @@ class tx_community_acl_Acl {
 	 * @param  tx_community_acl_AclResource $resource
 	 * @return boolean|null
 	 */
-	protected function roleDFSAllPrivileges(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null)
-	{
+	protected function roleDFSAllPrivileges(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null) {
 		$dfs = array(
 			'visited' => array(),
 			'stack'   => array()
@@ -779,9 +767,7 @@ class tx_community_acl_Acl {
 	 * @return boolean|null
 	 * @throws tx_community_acl_Exception
 	 */
-	protected function roleDFSVisitAllPrivileges(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null,
-												 &$dfs = null)
-	{
+	protected function roleDFSVisitAllPrivileges(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null, &$dfs = null) {
 		if (null === $dfs) {
 			/**
 			 * @see tx_community_acl_Exception
@@ -821,9 +807,7 @@ class tx_community_acl_Acl {
 	 * @return boolean|null
 	 * @throws tx_community_acl_Exception
 	 */
-	protected function roleDFSOnePrivilege(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null,
-											$privilege = null)
-	{
+	protected function roleDFSOnePrivilege(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null, $privilege = null) {
 		if (null === $privilege) {
 			/**
 			 * @see tx_community_acl_Exception
@@ -866,9 +850,7 @@ class tx_community_acl_Acl {
 	 * @return boolean|null
 	 * @throws tx_community_acl_Exception
 	 */
-	protected function roleDFSVisitOnePrivilege(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null,
-												$privilege = null, &$dfs = null)
-	{
+	protected function roleDFSVisitOnePrivilege(tx_community_acl_AclRole $role, tx_community_acl_AclResource $resource = null, $privilege = null, &$dfs = null) {
 		if (null === $privilege) {
 			/**
 			 * @see tx_community_acl_Exception
@@ -918,9 +900,7 @@ class tx_community_acl_Acl {
 	 * @param  string					  $privilege
 	 * @return string|null
 	 */
-	protected function getRuleType(tx_community_acl_AclResource $resource = null, tx_community_acl_AclRole $role = null,
-									$privilege = null)
-	{
+	protected function getRuleType(tx_community_acl_AclResource $resource = null, tx_community_acl_AclRole $role = null, $privilege = null) {
 		// get the rules for the $resource and $role
 		if (null === ($rules = $this->getRules($resource, $role))) {
 			return null;
@@ -964,9 +944,7 @@ class tx_community_acl_Acl {
 	 * @param  boolean					 $create
 	 * @return array|null
 	 */
-	protected function &getRules(tx_community_acl_AclResource $resource = null, tx_community_acl_AclRole $role = null,
-								  $create = false)
-	{
+	protected function &getRules(tx_community_acl_AclResource $resource = null, tx_community_acl_AclRole $role = null, $create = false) {
 		// create a reference to null
 		$null = null;
 		$nullRef =& $null;
