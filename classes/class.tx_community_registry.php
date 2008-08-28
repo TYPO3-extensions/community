@@ -36,6 +36,7 @@ class tx_community_Registry {
 	protected static $instances = array();
 	protected $extKey;
 	protected $configuration = null;
+	protected $llManager = null;
 
 	/**
 	 * singleton instance access method for the Registry class
@@ -80,6 +81,25 @@ class tx_community_Registry {
 	 */
 	public function getConfiguration() {
 		return $this->configuration;
+	}
+
+	/**
+	 * sets the LocalizationManager object in the registry
+	 *
+	 * @param tx_community_LocalizationManager
+	 */
+	public function setLocalizationManager(tx_community_LocalizationManager $llManager) {
+		$this->llManager = $llManager;
+	}
+
+	/**
+	 * gets the LocalizationManager object stored in the registry. 
+	 * returns null if no object is available for the given key
+	 *
+	 * @return	tx_community_LocalizationManager
+	 */
+	public function getLocalizationManager() {
+		return $this->llManager;
 	}
 }
 
