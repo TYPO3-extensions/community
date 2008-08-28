@@ -88,13 +88,6 @@ interface tx_community_CommunityApplicationWidget {
 	 * @return	string id string of the widget
 	 */
 	public function getID();
-
-	/**
-	 * returns the widget's rendered content
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function render();
 }
 
 ?>
