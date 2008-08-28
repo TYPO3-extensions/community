@@ -3,6 +3,7 @@
 	* added initial user profile personal information widget skeleton
 	* added personal information template
 	* !!! moved and renamed exceptions to make them fit naming conventions
+	* added the templating engine
 
 2008-08-27 Ingo Renner  <ingo@typo3.org>
 
