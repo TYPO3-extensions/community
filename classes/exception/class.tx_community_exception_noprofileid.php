@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,16 +22,16 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-class tx_community_UnknownProfileTypeException extends Exception {
-	
+class tx_community_exception_NoProfileId extends Exception {
+
 	function __construct() {
-		parent::__construct('unknown profile type', 1100);
+		parent::__construct('no profile id given', 1000);
 	}
-	
+
 	function __toString() {
 		return "
-		
-			tx_community_UnknownProfileTypeException at line {$this->getLine()} on {$this->getFile()}
+
+			tx_community_NoProfileIdException at line {$this->getLine()} on {$this->getFile()}
 			Message: {$this->getMessage()}
 		";
 	}
