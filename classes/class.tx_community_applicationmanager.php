@@ -173,9 +173,11 @@ class tx_community_ApplicationManager {
 	}
 
 	public function getFlexformApplicationWidgetList(&$params, &$pObj) {
-		$xml = new SimpleXMLElement($params['row']['pi_flexform']);
-		$res = $xml->xpath('//field[@index=\'application\']');
-			// TODO use flexform methods from core
+		if(!empty($params['row']['pi_flexform'])) {
+			$xml = new SimpleXMLElement($params['row']['pi_flexform']);
+			$res = $xml->xpath('//field[@index=\'application\']');
+				// TODO use flexform methods from core
+		}
 
 		if ($res) {
 			$selectedApplication = (string) $res[0]->value;
