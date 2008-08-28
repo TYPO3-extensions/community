@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the user profile's personal information widget</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="information.personalInformation">Personal Info</label>
+			<label index="information.activities">Activities</label>
+			<label index="information.interests">Interests</label>
+			<label index="information.favoriteMusic">Favorite Music</label>
+			<label index="information.favoriteShows">Favorite TV Shows</label>
+			<label index="information.favoriteMovies">Favorite Movies</label>
+			<label index="information.favoriteBooks">Favorite Books</label>
+			<label index="information.aboutMe">About Me</label>
+		</languageKey>
+	</data>
+</T3locallang>

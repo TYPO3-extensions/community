@@ -131,7 +131,9 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	}
 
 	public function execute() {
+		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
 
+		return 'personal info widget';
 	}
 }
 
