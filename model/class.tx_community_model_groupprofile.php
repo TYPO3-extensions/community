@@ -26,8 +26,8 @@ require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_usergateway.php');
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_group.php');
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_abstractprofile.php');
-require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_noprofileidexception.php');
-require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_unknownprofileexception.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exception/class.tx_community_exception_noprofileid.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exception/class.tx_community_exception_unknownprofile.php');
 
 /**
  * A community user profile
@@ -65,12 +65,12 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 		$this->uid			= (isset($this->request['group'])) ? intval($this->request['group']) : $this->uid;
 		
 		if ($this->uid == 0) {
-			throw new tx_community_NoProfileIdException();
+			throw new tx_community_exception_NoProfileId();
 		}
 		
 		$this->group		= $this->groupGateway->findById($this->uid);
 		if ($this->group === null) {
-			throw new tx_community_UnknownProfileException();
+			throw new tx_community_exception_UnknownProfile();
 		}
 		
 		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();

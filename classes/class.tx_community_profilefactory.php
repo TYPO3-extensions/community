@@ -25,7 +25,7 @@
 
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_userprofile.php');
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_groupprofile.php');
-require_once(t3lib_extMgm::extPath('community').'classes/exceptions/class.tx_community_unknownprofiletypeexception.php');
+require_once(t3lib_extMgm::extPath('community').'classes/exception/class.tx_community_exception_unknownprofiletype.php');
 
 
 /**
@@ -49,7 +49,7 @@ class tx_community_ProfileFactory {
 					$profile = new tx_community_model_UserProfile();
 				break;
 				default :
-					throw new tx_community_UnknownProfileTypeException();
+					throw new tx_community_exception_UnknownProfileType();
 				break;
 			}
 			return $profile;
