@@ -33,7 +33,7 @@ require_once $GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_vie
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_Nl2brViewHelper implements tx_community_ViewHelper {
+class tx_community_viewhelper_Nl2br implements tx_community_ViewHelper {
 
 	/**
 	 * constructor for class tx_community_Nl2brViewHelper
@@ -48,8 +48,8 @@ class tx_community_Nl2brViewHelper implements tx_community_ViewHelper {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewHelpers/class.tx_community_Nl2brViewHelper.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewHelpers/class.tx_community_Nl2brViewHelper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_nl2br.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_nl2br.php']);
 }
 
 ?>

@@ -152,6 +152,62 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	public function setImage($image) {
 		$this->image = $image;
 	}
+
+	public function getActivities() {
+		return $this->activities;
+	}
+
+	public function setActivities($activities) {
+		$this->activities = $activities;
+	}
+
+	public function getInterests() {
+		return $this->interests;
+	}
+
+	public function setInterests($interests) {
+		$this->interests = $interests;
+	}
+
+	public function getFavoriteMusic() {
+		return $this->favoriteMusic;
+	}
+
+	public function setFavoriteMusic($favoriteMusic) {
+		$this->favoriteMusic = $favoriteMusic;
+	}
+
+	public function getFavoriteTvShows() {
+		return $this->favoriteTvShows;
+	}
+
+	public function setFavoriteTvShows($tvShows) {
+		$this->favoriteTvShows = $tvShows;
+	}
+
+	public function getFavoriteMovies() {
+		return $this->favoriteMovies;
+	}
+
+	public function setFavoriteMovies($movies) {
+		$this->favoriteMovies = $movies;
+	}
+
+	public function getFavoriteBooks() {
+		return $this->favoriteBooks;
+	}
+
+	public function setFavoriteBooks($books) {
+		$this->favoriteBooks = $books;
+	}
+
+	public function getAboutMe() {
+		return $this->aboutMe;
+	}
+
+	public function setAboutMe($aboutMe) {
+		$this->aboutMe = $aboutMe;
+	}
 }
 
 

@@ -72,13 +72,13 @@ class tx_community_Template {
 	}
 
 	/**
-	 * loads a view helper
+	 * adds a view helper
 	 *
 	 * @param	string	view helper name
 	 * @param	string	view helper class name
 	 * @param	array	optional array of arguments
 	 */
-	public function loadViewHelper($helper, $helperClassName, array $arguments = array()) {
+	public function addViewHelper($helper, $helperClassName, array $arguments = array()) {
 
 		if (!isset($this->helpers[$helper])) {
 			/*

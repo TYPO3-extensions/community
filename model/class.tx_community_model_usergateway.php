@@ -93,6 +93,14 @@ class tx_community_model_UserGateway {
 		$user->setPid($row['pid']);
 		$user->setImage($row['image']);
 		$user->setNickname($row['tx_community_nickname']);
+		$user->setActivities($row['tx_community_activities']);
+		$user->setInterests($row['tx_community_interests']);
+		$user->setFavoriteMusic($row['tx_community_favoritemusic']);
+		$user->setFavoriteTvShows($row['tx_community_favoritetvshows']);
+		$user->setFavoriteMovies($row['tx_community_favoritemovies']);
+		$user->setFavoriteBooks($row['tx_community_favoritebooks']);
+		$user->setAboutMe($row['tx_community_aboutme']);
+
 		return $user;
 	}
 }

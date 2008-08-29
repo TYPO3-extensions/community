@@ -22,6 +22,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 
 /**
  * personal information widget view
@@ -30,7 +33,7 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_userprofile_PersonalInformation {
+class tx_community_view_userprofile_PersonalInformation implements tx_community_View {
 
 	/**
 	 * The user model used to render this view
@@ -38,13 +41,41 @@ class tx_community_view_userprofile_PersonalInformation {
 	 * @var tx_community_model_User
 	 */
 	protected $userModel;
+	protected $templateFile;
+	protected $languageKey;
 
 	public function setUserModel(tx_community_model_User $user) {
 		$this->userModel = $user;
 	}
 
-	public function render() {
+	public function setTemplateFile($templateFile) {
+		$this->templateFile = $templateFile;
+	}
 
+	public function setLanguageKey($languageKey) {
+		$this->languageKey = $languageKey;
+	}
+
+	public function render() {
+		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
+		$template = new $templateClass(
+			t3lib_div::makeInstance('tslib_cObj'),
+			$this->templateFile,
+			'personal_information'
+		);
+
+		$template->addViewHelper(
+			'lll',
+			'tx_community_viewhelper_Lll',
+			array(
+				'languageFile' => $GLOBALS['PATH_community'] . 'lang/locallang_userprofile_personalinformation.xml',
+				'llKey'        => $this->languageKey
+			)
+		);
+
+		$template->addVariable('user', $this->userModel);
+
+		return 'personal information view ' . $template->render();
 	}
 }
 

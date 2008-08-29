@@ -13,6 +13,9 @@
 *
 *  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
+*  A copy is found in the textfile GPL.txt and important notices to the license
+*  from the author is found in LICENSE.txt distributed with these scripts.
+*
 *
 *  This script is distributed in the hope that it will be useful,
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,42 +27,34 @@
 
 
 /**
- * An abstract community application controller
+ * View interface for the MVC pattern
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-abstract class tx_community_controller_AbstractCommunityApplication extends tslib_pibase {
-
-	public $prefixId;
-	public $scriptRelPath;
-	public $extKey;
-
-	public $conf;
-	protected $data;
-	protected $communityApplicationName;
+interface tx_community_View {
 
 	/**
-	 * constructor for class tx_community_controller_AbstractCommunityApplication
+	 * render method
+	 *
+	 * @return	string	the output of the view (HTML in most cases)
 	 */
-	public function __construct() {
-		$this->extKey = 'community';
+	public function render();
 
-		parent::tslib_pibase();
-	}
+	/**
+	 * sets the template file for the view
+	 *
+	 * @param	string	file reference, can start with 'EXT:'
+	 */
+	public function setTemplateFile($templateFile);
 
-	public function initialize($data, $configuration) {
-		$this->data = $data;
-		$this->conf = $configuration;
-	}
-
-	abstract public function execute();
-}
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_abstractcommunityapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_abstractcommunityapplication.php']);
+	/**
+	 * sets the of the language the out put should be in
+	 *
+	 * @param	string	TYPO3 language key
+	 */
+	public function setLanguageKey($languageKey);
 }
 
 ?>

@@ -24,6 +24,7 @@
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
+require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_personalinformation.php');
 
 /**
  * personal information widget for the user profile community application
@@ -41,6 +42,8 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	 * @var tx_community_controller_AbstractCommunityApplication
 	 */
 	protected $parentCommunityApplication;
+	protected $configuration;
+	protected $data;
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_PersonalInfoWidget
@@ -50,7 +53,8 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	}
 
 	public function initialize($data, $configuration) {
-
+		$this->data = $data;
+		$this->configuration = $configuration;
 	}
 
 	public function setParentCommunityApplication(tx_community_controller_AbstractCommunityApplication $parentCommunityApplication) {
@@ -91,7 +95,7 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	 * @return	string	the widget's CSS class
 	 */
 	public function getID() {
-		return 'image';
+		return 'personalInformation';
 	}
 
 	/**
@@ -104,21 +108,12 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	}
 
 	/**
-	 * returns the widget's rendered content
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function render() {
-		return "Ich bin ein Widget";
-	}
-
-	/**
 	 * returns the widget's label
 	 *
 	 * @return	string	the widget's content (HTML, XML, JSON, ...)
 	 */
 	public function getLabel() {
-		return "ImageWidget";
+		return "PersonalInformationWidget";
 	}
 
 	/**
@@ -133,7 +128,12 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	public function execute() {
 		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
 
-		return 'personal info widget';
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_PersonalInformation');
+		$view->setUserModel($requestedUser);
+		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['personalInformation.']['templateFile']);
+		$view->setLanguageKey($this->parentCommunityApplication->LLkey);
+
+		return $view->render();
 	}
 }
 

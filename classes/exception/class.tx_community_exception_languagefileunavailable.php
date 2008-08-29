@@ -24,42 +24,19 @@
 
 
 /**
- * An abstract community application controller
+ * Exception class that is thrown when a language file is needed, but is unavailable
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-abstract class tx_community_controller_AbstractCommunityApplication extends tslib_pibase {
+class tx_community_exception_LanguageFileUnavailable extends Exception {
 
-	public $prefixId;
-	public $scriptRelPath;
-	public $extKey;
-
-	public $conf;
-	protected $data;
-	protected $communityApplicationName;
-
-	/**
-	 * constructor for class tx_community_controller_AbstractCommunityApplication
-	 */
-	public function __construct() {
-		$this->extKey = 'community';
-
-		parent::tslib_pibase();
-	}
-
-	public function initialize($data, $configuration) {
-		$this->data = $data;
-		$this->conf = $configuration;
-	}
-
-	abstract public function execute();
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_abstractcommunityapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_abstractcommunityapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/exception/class.tx_community_exception_languagefileunavailable.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/exception/class.tx_community_exception_languagefileunavailable.php']);
 }
 
 ?>

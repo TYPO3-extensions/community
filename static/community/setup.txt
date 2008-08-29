@@ -12,6 +12,16 @@ plugin.tx_community {
 		groupEdit = 0
 	}
 
+	applications {
+		userProfile {
+			widgets {
+				personalInformation {
+					templateFile = EXT:community/resources/templates/userprofile/personalinformationwidget.htm
+				}
+			}
+		}
+	}
+
 	controller {
 
 		communityApplication = USER_INT

@@ -24,7 +24,7 @@
 
 
 require_once $GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_viewhelper.php';
-require_once $GLOBALS['PATH_community'] . 'classes/class.tx_community_LanguageFileUnavailableException.php';
+require_once $GLOBALS['PATH_community'] . 'classes/exception/class.tx_community_exception_languagefileunavailable.php';
 
 
 /**
@@ -34,7 +34,7 @@ require_once $GLOBALS['PATH_community'] . 'classes/class.tx_community_LanguageFi
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_LllViewHelper implements tx_community_ViewHelper {
+class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 
 	protected $languageFile;
 	protected $llKey;
@@ -46,7 +46,7 @@ class tx_community_LllViewHelper implements tx_community_ViewHelper {
 	public function __construct(array $arguments = array()) {
 
 		if (!isset($arguments['languageFile'])) {
-			throw new tx_community_LanguageFileUnavailableException(
+			throw new tx_community_exception_LanguageFileUnavailable(
 				'No Language File given',
 				1216132287
 			);
@@ -67,8 +67,8 @@ class tx_community_LllViewHelper implements tx_community_ViewHelper {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewHelpers/class.tx_community_LllViewHelper.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewHelpers/class.tx_community_LllViewHelper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_lll.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_lll.php']);
 }
 
 ?>
