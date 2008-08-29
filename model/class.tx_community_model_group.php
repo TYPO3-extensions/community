@@ -61,11 +61,11 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function isAdmin(tx_community_model_User $user) {
-		return (isset($this->admins[$user->getUid()])) ? true : false;
+		return isset($this->admins[$user->getUid()]);
 	}
 
 	public function isMember(tx_community_model_User $user) {
-		return (isset($this->members[$user->getUid()])) ? true : false;
+		return isset($this->members[$user->getUid()]);
 	}
 }
 
