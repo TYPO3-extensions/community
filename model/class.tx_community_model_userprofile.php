@@ -67,7 +67,7 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 		
 		if ($this->uid > 0) {
 			$user = $this->userGateway->findById($this->uid);
-			if ($user === null) {
+			if (is_null($user)) {
 				throw new tx_community_exception_UnknownProfile();
 			}
 		}
