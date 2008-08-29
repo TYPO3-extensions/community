@@ -39,6 +39,8 @@ interface tx_community_CommunityApplicationWidget {
 
 	public function setParentCommunityApplication(tx_community_controller_AbstractCommunityApplication $parentCommunityApplication);
 
+	public function execute();
+	
 	/**
 	 * returns whether a user is allowed to drag the widget to a different
 	 * container or position
