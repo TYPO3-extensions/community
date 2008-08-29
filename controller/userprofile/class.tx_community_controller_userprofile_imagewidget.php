@@ -57,6 +57,14 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 		$this->parentCommunityApplication = $parentCommunityApplication;
 	}
 
+	public function execute() {
+		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_HtmlImage');
+		$view->setUserModel($requestedUser);
+
+		return $view->render();
+	}
+
 	/**
 	 * returns whether a user is allowed to drag the widget to a different
 	 * container or position
@@ -101,15 +109,6 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 */
 	public function getPosition() {
 		return 2;
-	}
-
-	/**
-	 * returns the widget's rendered content
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function execute() {
-		return "Ich bin ein Widget";
 	}
 
 	/**
