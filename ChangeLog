@@ -1,3 +1,7 @@
+2008-08-29 Ingo Renner  <ingo@typo3.org>
+
+	* added initial structure for the ACL tables
+
 2008-08-28 Ingo Renner  <ingo@typo3.org>
 
 	* added user profile personal information widget

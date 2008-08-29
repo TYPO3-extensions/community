@@ -5,6 +5,8 @@ plugin.tx_community {
 	pages {
 		userStorage = 0
 
+		aclStorage = 0
+
 		userProfile = 0
 		userEdit = 0
 

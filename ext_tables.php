@@ -3,7 +3,43 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');
+$PATH_community    = t3lib_extMgm::extPath('community');
+$PATHrel_community = t3lib_extMgm::extRelPath('community');
+
+	// adding the ACL tables
+$TCA['tx_community_acl_role'] = array (
+	'ctrl' => array (
+		'title'     => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_role',
+		'label'     => 'name',
+		'tstamp'    => 'tstamp',
+		'crdate'    => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'sortby' => 'sorting',
+		'delete' => 'deleted',
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+		),
+		'dynamicConfigFile' => $PATH_community . 'tca.php',
+		'iconfile'          => $PATHrel_community . 'resources/icons/tables/tx_community_acl_role.gif',
+	),
+);
+
+$TCA['tx_community_acl_rule'] = array (
+	'ctrl' => array (
+		'title'     => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_rule',
+		'label'     => 'name',
+		'tstamp'    => 'tstamp',
+		'crdate'    => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'sortby' => 'sorting',
+		'delete' => 'deleted',
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+		),
+		'dynamicConfigFile' => $PATH_community . 'tca.php',
+		'iconfile'          => $PATHrel_community . 'resources/icons/tables/tx_community_acl_rule.gif',
+	),
+);
 
 	// extending fe_users
 $feUsersTempColumns = array (
@@ -146,29 +182,30 @@ $feUsersTempColumns = array (
 	// adding additional columns to fe_users
 t3lib_div::loadTCA('fe_users');
 t3lib_extMgm::addTCAcolumns('fe_users', $feUsersTempColumns, 1);
-t3lib_extMgm::addToAllTCAtypes('fe_users','tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
+t3lib_extMgm::addToAllTCAtypes('fe_users', 'tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
 
 $tempColumns = Array (
-    "tx_community_admins" => Array (        
-        "exclude" => 1,        
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_admins",        
-        "config" => Array (
-            "type" => "group",    
-            "internal_type" => "db",    
-            "allowed" => "fe_users",    
-            "size" => 5,    
-            "minitems" => 0,
-            "maxitems" => 100,
+    'tx_community_admins' => Array (
+        'exclude' => 1,
+        'label' => 'LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_admins',
+        'config' => Array (
+            'type' => 'group',
+            'internal_type' => 'db',
+            'allowed' => 'fe_users',
+            'size' => 5,
+            'minitems' => 0,
+            'maxitems' => 100,
         )
     ),
 );
 
 
-t3lib_div::loadTCA("fe_groups");
-t3lib_extMgm::addTCAcolumns("fe_groups",$tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes("fe_groups","tx_community_admins;;;;1-1-1");
+t3lib_div::loadTCA('fe_groups');
+t3lib_extMgm::addTCAcolumns('fe_groups', $tempColumns,1);
+t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_admins;;;;1-1-1');
 
-
+	// adding the static TS templates
+t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');
 
 	// adding the application / widget selector as plugin content element
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_CommunityApplication'] = 'pi_flexform';
@@ -188,10 +225,9 @@ t3lib_extMgm::addPlugin(
 );
 
 
-
 if (TYPO3_MODE == 'BE') {
 		// application manager for displaying applications and widgets in flexform
-	include_once(t3lib_extMgm::extPath($_EXTKEY).'classes/class.tx_community_applicationmanager.php');
+	include_once($PATH_community . 'classes/class.tx_community_applicationmanager.php');
 }
 
 ?>

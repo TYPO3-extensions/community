@@ -19,9 +19,53 @@ CREATE TABLE fe_users (
 	tx_community_aboutme text
 );
 
+
+
 #
 # Table structure for table 'fe_groups'
 #
 CREATE TABLE fe_groups (
-    tx_community_admins blob NOT NULL
+    tx_community_admins text NOT NULL
+);
+
+
+
+#
+# Table structure for table 'tx_community_acl_role'
+#
+CREATE TABLE tx_community_acl_role (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	tstamp int(11) DEFAULT '0' NOT NULL,
+	crdate int(11) DEFAULT '0' NOT NULL,
+	cruser_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(10) DEFAULT '0' NOT NULL,
+	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	hidden tinyint(4) DEFAULT '0' NOT NULL,
+	name tinytext,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);
+
+
+
+#
+# Table structure for table 'tx_community_acl_rule'
+#
+CREATE TABLE tx_community_acl_rule (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	tstamp int(11) DEFAULT '0' NOT NULL,
+	crdate int(11) DEFAULT '0' NOT NULL,
+	cruser_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(10) DEFAULT '0' NOT NULL,
+	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	hidden tinyint(4) DEFAULT '0' NOT NULL,
+	name tinytext,
+	role blob,
+	access_mode int(11) DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
 );

@@ -64,5 +64,8 @@ $TX_COMMUNITY = array(
 	)
 );
 
+	// adding save+close+new buttons for the ACL tables
+t3lib_extMgm::addUserTSConfig('options.saveDocNew.tx_community_acl_role = 1');
+t3lib_extMgm::addUserTSConfig('options.saveDocNew.tx_community_acl_rule = 1');
 
 ?>

@@ -25,6 +25,14 @@
 			<label index="fe_users.tx_community_aboutme">About Me</label>
 			<label index="fe_users.tx_community_instantmessager">Instant Messager</label>
 			<label index="fe_groups.tx_community_admins">Admins</label>
+			<label index="tx_community_acl_role">ACL Role</label>
+			<label index="tx_community_acl_role.name">Name</label>
+			<label index="tx_community_acl_rule">ACL Rule</label>
+			<label index="tx_community_acl_rule.name">Name</label>
+			<label index="tx_community_acl_rule.role">Role</label>
+			<label index="tx_community_acl_rule.access_mode">Access Mode</label>
+			<label index="tx_community_acl_rule.access_mode.I.0">deny</label>
+			<label index="tx_community_acl_rule.access_mode.I.1">allow</label>
 		</languageKey>
 	</data>
 </T3locallang>
