@@ -7,7 +7,6 @@
 	* fixed templating view helpers, naming and minor issues
 	* added an interface for views
 	* added personal information properties to the user model and user gateway
-	* fixed the personal information html template
 	* added TS configuration for the personal information widget
 
 2008-08-27 Ingo Renner  <ingo@typo3.org>
