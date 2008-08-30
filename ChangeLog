@@ -8,6 +8,9 @@
 	* !!! moved the getRequestedUser() method to the abstract community application
 	* added a getRequestingUser() method to the abstract community application
 	* fixed a small bug that caused a warning in the application manager when saving the BE plugin flexform without having selected an application
+	* added skeleton for the user profile basic information widget
+	* added skeleton for the user profile contact information widget
+	* added skeleton for the privacy management application
 
 2008-08-29 Ingo Renner  <ingo@typo3.org>
 
