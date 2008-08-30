@@ -40,7 +40,7 @@ $TCA['tx_community_acl_role'] = array (
 $TCA['tx_community_acl_rule'] = array (
 	'ctrl' => $TCA['tx_community_acl_rule']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,name,resource,feuser,role,access_mode'
+		'showRecordFieldList' => 'hidden,name,resource,role,access_mode'
 	),
 	'feInterface' => $TCA['tx_community_acl_rule']['feInterface'],
 	'columns' => array (
@@ -66,18 +66,6 @@ $TCA['tx_community_acl_rule'] = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
-			)
-		),
-		'feuser' => array (
-			'exclude' => 0,
-			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_rule.feuser',
-			'config' => array (
-				'type' => 'group',
-				'internal_type' => 'db',
-				'allowed' => 'fe_users',
-				'size' => 1,
-				'minitems' => 0,
-				'maxitems' => 1,
 			)
 		),
 		'role' => array (
@@ -106,7 +94,61 @@ $TCA['tx_community_acl_rule'] = array (
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, resource, feuser, role, access_mode')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, resource, role, access_mode')
+	),
+	'palettes' => array (
+		'1' => array('showitem' => '')
+	)
+);
+
+
+
+$TCA['tx_community_friend'] = array (
+	'ctrl' => $TCA['tx_community_friend']['ctrl'],
+	'interface' => array (
+		'showRecordFieldList' => 'feuser,friend,role'
+	),
+	'feInterface' => $TCA['tx_community_friend']['feInterface'],
+	'columns' => array (
+		'feuser' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_friend.feuser',
+			'config' => array (
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'fe_users',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			)
+		),
+		'friend' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_friend.friend',
+			'config' => array (
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'fe_users',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			)
+		),
+		'role' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_friend.role',
+			'config' => array (
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'tx_community_acl_role',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			)
+		),
+	),
+	'types' => array (
+		'0' => array('showitem' => 'feuser;;;;1-1-1, friend, role')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')

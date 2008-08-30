@@ -22,59 +22,55 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 
-
 /**
- * User Profile Application Controller
+ * privacy management apllication controller
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication {
+class tx_community_controller_PrivacyApplication extends tx_community_controller_AbstractCommunityApplication {
 
+	/**
+	 * constructor for class tx_community_controller_PrivacyApplication
+	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->prefixId = 'tx_community_controller_UserProfileApplication';
-		$this->scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';
-		$this->name = 'UserProfile';
+		$this->prefixId = 'tx_community_controller_PrivacyApplication';
+		$this->scriptRelPath = 'controller/class.tx_community_controller_privacyapplication.php';
+		$this->communityApplicationName = 'Privacy';
 	}
 
 	public function execute() {
 		$content = '';
 
-		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
-		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
-		/* @var $applicationManager tx_community_ApplicationManager */
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		$currentlyLoggedInUser = $userGateway->findCurrentlyLoggedInUser();
+		/* @var $currentlyLoggedInUser tx_community_model_User */
 
-		$widgetName = $this->pi_getFFvalue(
-			$this->data['pi_flexform'],
-			'widget'
-		);
+		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
+		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
 
-		$widgetConfiguration = $applicationManager->getWidgetConfiguration(
-			$this->name,
-			$widgetName
-		);
+		if (!is_null($currentlyLoggedInUser)) {
+			$content = 'User: ' . $currentlyLoggedInUser->getUid();
 
-		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
-		/* @var $widget tx_community_CommunityApplicationWidget */
-		$widget->initialize($this->data, $this->conf);
-		$widget->setCommunityApplication($this);
 
-		$content = $widget->execute();
+		} else {
+			$content = 'No user logged in!';
+		}
 
 		return $content;
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_privacyapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_privacyapplication.php']);
 }
 
 ?>

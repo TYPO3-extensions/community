@@ -22,8 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
+require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_personalinformation.php');
 
 /**
@@ -34,31 +36,24 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_PersonalInformationWidget implements tx_community_CommunityApplicationWidget, tx_community_Command {
+class tx_community_controller_userprofile_PersonalInformationWidget implements tx_community_CommunityApplicationWidget, tx_community_Command, tx_community_acl_AclResource {
 
 	/**
 	 * a reference to the parent community application this widget belongs to
 	 *
 	 * @var tx_community_controller_AbstractCommunityApplication
 	 */
-	protected $parentCommunityApplication;
+	protected $communityApplication;
 	protected $configuration;
 	protected $data;
-
-	/**
-	 * constructor for class tx_community_controller_userprofile_PersonalInfoWidget
-	 */
-	public function __construct() {
-
-	}
 
 	public function initialize($data, $configuration) {
 		$this->data = $data;
 		$this->configuration = $configuration;
 	}
 
-	public function setParentCommunityApplication(tx_community_controller_AbstractCommunityApplication $parentCommunityApplication) {
-		$this->parentCommunityApplication = $parentCommunityApplication;
+	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
+		$this->communityApplication = $communityApplication;
 	}
 
 	/**
@@ -94,8 +89,23 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	 *
 	 * @return	string	the widget's CSS class
 	 */
-	public function getID() {
+	public function getId() {
 		return 'personalInformation';
+	}
+
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		$requestedUser = $this->communityApplication->getRequestedUser();
+
+		$resourceId = $this->communityApplication->getName()
+			. '_' . $this->getID()
+			. '_' . $requestedUser->getUid();
+
+		return $resourceId;
 	}
 
 	/**
@@ -113,7 +123,7 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	 * @return	string	the widget's content (HTML, XML, JSON, ...)
 	 */
 	public function getLabel() {
-		return "PersonalInformationWidget";
+		return 'PersonalInformationWidget';
 	}
 
 	/**
@@ -125,15 +135,34 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 		return '';
 	}
 
+	/**
+	 * excutes the controller, fetches the user to show the personal
+	 * information for, creates a view and return the view's output
+	 *
+	 * @return	string	the view's output
+	 */
 	public function execute() {
-		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
+		$content = '';
 
-		$view = t3lib_div::makeInstance('tx_community_view_userprofile_PersonalInformation');
-		$view->setUserModel($requestedUser);
-		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['personalInformation.']['templateFile']);
-		$view->setLanguageKey($this->parentCommunityApplication->LLkey);
+		$requestedUser  = $this->communityApplication->getRequestedUser();
+		$requestingUser = $this->communityApplication->getRequestingUser();
 
-		return $view->render();
+		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
+		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
+
+		$accessManager->addResource($this);
+		$allowed = $accessManager->isAllowed($this, $requestingUser);
+
+		if ($allowed) {
+			$view = t3lib_div::makeInstance('tx_community_view_userprofile_PersonalInformation');
+			$view->setUserModel($requestedUser);
+			$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['personalInformation.']['templateFile']);
+			$view->setLanguageKey($this->communityApplication->LLkey);
+
+			$content =  $view->render();
+		}
+
+		return $content;
 	}
 }
 

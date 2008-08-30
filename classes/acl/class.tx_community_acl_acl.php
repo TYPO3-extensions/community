@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/acl/class.tx_community_acl_exception.php');
+require_once($GLOBALS['PATH_community'] . 'classes/acl/class.tx_community_acl_roleregistry.php');
 
 /**
  * community ACL handling class
@@ -309,7 +310,7 @@ class tx_community_acl_Acl {
 	 * @param  tx_community_acl_AclResource|string $resource
 	 * @param  tx_community_acl_AclResource|string $inherit
 	 * @param  boolean							$onlyParent
-	 * @throws tx_community_acl_Acl_Resource_Registry_Exception
+	 * @throws tx_community_acl_Exception
 	 * @return boolean
 	 */
 	public function inherits($resource, $inherit, $onlyParent = false) {
@@ -715,9 +716,10 @@ class tx_community_acl_Acl {
 	 * @return tx_community_acl_AclRoleRegistry
 	 */
 	protected function getRoleRegistry() {
-		if (null === $this->roleRegistry) {
-			$this->roleRegistry = new tx_community_acl_AclRoleRegistry();
+		if (is_null($this->roleRegistry)) {
+			$this->roleRegistry = t3lib_div::makeInstance('tx_community_acl_RoleRegistry');
 		}
+
 		return $this->roleRegistry;
 	}
 
@@ -736,7 +738,7 @@ class tx_community_acl_Acl {
 		$dfs = array(
 			'visited' => array(),
 			'stack'   => array()
-			);
+		);
 
 		if (null !== ($result = $this->roleDFSVisitAllPrivileges($role, $resource, $dfs))) {
 			return $result;

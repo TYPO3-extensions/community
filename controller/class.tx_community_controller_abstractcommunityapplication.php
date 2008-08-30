@@ -38,7 +38,9 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 
 	public $conf;
 	protected $data;
-	protected $communityApplicationName;
+	protected $name;
+
+	protected $userGateway;
 
 	/**
 	 * constructor for class tx_community_controller_AbstractCommunityApplication
@@ -46,12 +48,48 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public function __construct() {
 		$this->extKey = 'community';
 
+		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+
 		parent::tslib_pibase();
 	}
 
 	public function initialize($data, $configuration) {
 		$this->data = $data;
 		$this->conf = $configuration;
+	}
+
+	/**
+	 * returns the name of this community application
+	 *
+	 * @return	string	This community application's name
+	 */
+	public function getName() {
+		return $this->name;
+	}
+
+	/**
+	 * returns the user that shall be displayed
+	 *
+	 * @return tx_community_model_User
+	 */
+	public function getRequestedUser() {
+		$communityRequest = t3lib_div::_GP('tx_community');
+		$requestedUser = $this->userGateway->findById((int) $communityRequest['user']);
+
+		if (!($requestedUser instanceof tx_community_model_User)) {
+			// TODO throw a "user not found exception"
+		}
+
+		return $requestedUser;
+	}
+
+	/**
+	 * returns the user that is looking at a page (if available), if no user is logged in null is returned
+	 *
+	 * @return tx_community_model_User|null
+	 */
+	public function getRequestingUser() {
+		return $this->userGateway->findCurrentlyLoggedInUser();;
 	}
 
 	abstract public function execute();

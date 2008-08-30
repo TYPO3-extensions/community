@@ -41,6 +41,19 @@ $TCA['tx_community_acl_rule'] = array (
 	),
 );
 
+$TCA['tx_community_friend'] = array (
+	'ctrl' => array (
+		'title'     => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_friend',
+		'label'     => 'feuser',
+		'tstamp'    => 'tstamp',
+		'crdate'    => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'default_sortby' => 'ORDER BY crdate',
+		'dynamicConfigFile' => $PATH_community . 'tca.php',
+		'iconfile'          => $PATHrel_community . 'resources/icons/tables/tx_community_friend.gif',
+	),
+);
+
 	// extending fe_users
 $feUsersTempColumns = array (
 	'tx_community_sex' => array (

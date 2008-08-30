@@ -22,47 +22,32 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclrole.php');
 
 /**
- * ACL Role
+ * basic information widget of the user profile community application showing
+ * gender and birthday
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_acl_Role implements tx_community_acl_AclRole {
+class tx_community_controller_userprofile_BasicInfoWidget {
 
 	/**
-	 * Unique id of Role
-	 *
-	 * @var string
+	 * constructor for class tx_community_controller_userprofile_BasicInfoWidget
 	 */
-	protected $roleId;
+	public function __construct() {
 
-	/**
-	 * Sets the Role identifier
-	 *
-	 * @param  string $id
-	 * @return void
-	 */
-	public function __construct($roleId) {
-		$this->roleId = (string) $roleId;
 	}
 
-	/**
-	 * returns the Role identifier
-	 *
-	 * @return string
-	 */
-	public function getRoleId() {
-		return $this->roleId;
+	public function execute() {
+
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_role.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_role.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/userprofile/class.tx_community_controller_userprofile_basicinfowidget.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/userprofile/class.tx_community_controller_userprofile_basicinfowidget.php']);
 }
 
 ?>

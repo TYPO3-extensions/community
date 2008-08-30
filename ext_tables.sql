@@ -64,9 +64,27 @@ CREATE TABLE tx_community_acl_rule (
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	name tinytext,
 	resource tinytext,
-	feuser text,
 	role text,
 	access_mode int(11) DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);
+
+
+
+#
+# Table structure for table 'tx_test_friend'
+#
+CREATE TABLE tx_community_friend (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	tstamp int(11) DEFAULT '0' NOT NULL,
+	crdate int(11) DEFAULT '0' NOT NULL,
+	cruser_id int(11) DEFAULT '0' NOT NULL,
+	feuser text,
+	friend text,
+	role text,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

@@ -1,6 +1,13 @@
 2008-08-30 Ingo Renner  <ingo@typo3.org>
 
-	* added two new fields, feuser and resource, to the ACL rule table
+	* added dynamic Access Control System
+	* added an access manager
+	* added a table to store friend connection (user to user to role)
+	* added two new fields and resource, to the ACL rule table
+	* !!! changed the community application widget interface
+	* !!! moved the getRequestedUser() method to the abstract community application
+	* added a getRequestingUser() method to the abstract community application
+	* fixed a small bug that caused a warning in the application manager when saving the BE plugin flexform without having selected an application
 
 2008-08-29 Ingo Renner  <ingo@typo3.org>
 

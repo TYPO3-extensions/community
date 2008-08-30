@@ -40,7 +40,7 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 *
 	 * @var tx_community_controller_AbstractCommunityApplication
 	 */
-	protected $parentCommunityApplication;
+	protected $communityApplication;
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_Imagewidget
@@ -53,12 +53,12 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 
 	}
 
-	public function setParentCommunityApplication(tx_community_controller_AbstractCommunityApplication $parentCommunityApplication) {
-		$this->parentCommunityApplication = $parentCommunityApplication;
+	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
+		$this->communityApplication = $communityApplication;
 	}
 
 	public function execute() {
-		$requestedUser = $this->parentCommunityApplication->getRequestedUser();
+		$requestedUser = $this->communityApplication->getRequestedUser();
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_HtmlImage');
 		$view->setUserModel($requestedUser);
 
@@ -98,7 +98,7 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 *
 	 * @return	string	the widget's CSS class
 	 */
-	public function getID() {
+	public function getId() {
 		return 'image';
 	}
 

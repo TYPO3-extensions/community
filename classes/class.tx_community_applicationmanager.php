@@ -179,7 +179,7 @@ class tx_community_ApplicationManager {
 				// TODO use flexform methods from core
 		}
 
-		if ($res) {
+		if ($res && !empty($res[0]->value)) {
 			$selectedApplication = (string) $res[0]->value;
 
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
