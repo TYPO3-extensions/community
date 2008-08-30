@@ -63,7 +63,9 @@ CREATE TABLE tx_community_acl_rule (
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	name tinytext,
-	role blob,
+	resource tinytext,
+	feuser text,
+	role text,
 	access_mode int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),

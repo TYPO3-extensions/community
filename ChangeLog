@@ -1,3 +1,7 @@
+2008-08-30 Ingo Renner  <ingo@typo3.org>
+
+	* added two new fields, feuser and resource, to the ACL rule table
+
 2008-08-29 Ingo Renner  <ingo@typo3.org>
 
 	* added initial structure for the ACL tables

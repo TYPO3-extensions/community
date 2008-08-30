@@ -40,7 +40,7 @@ $TCA['tx_community_acl_role'] = array (
 $TCA['tx_community_acl_rule'] = array (
 	'ctrl' => $TCA['tx_community_acl_rule']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,name,role,access_mode'
+		'showRecordFieldList' => 'hidden,name,resource,feuser,role,access_mode'
 	),
 	'feInterface' => $TCA['tx_community_acl_rule']['feInterface'],
 	'columns' => array (
@@ -58,6 +58,26 @@ $TCA['tx_community_acl_rule'] = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
+			)
+		),
+		'resource' => array (
+			'exclude' => 0,
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_rule.resource',
+			'config' => array (
+				'type' => 'input',
+				'size' => '30',
+			)
+		),
+		'feuser' => array (
+			'exclude' => 0,
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_rule.feuser',
+			'config' => array (
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'fe_users',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
 			)
 		),
 		'role' => array (
@@ -81,11 +101,12 @@ $TCA['tx_community_acl_rule'] = array (
 					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_rule.access_mode.I.0', '0'),
 					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_rule.access_mode.I.1', '1'),
 				),
+				'default' => '1'
 			)
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, role, access_mode')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, resource, feuser, role, access_mode')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')
