@@ -75,7 +75,7 @@ class tx_community_view_userprofile_PersonalInformation implements tx_community_
 
 		$template->addVariable('user', $this->userModel);
 
-		return 'personal information view ' . $template->render();
+		return $template->render();
 	}
 }
 
