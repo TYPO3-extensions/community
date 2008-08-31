@@ -55,6 +55,7 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	 */
 	public function __construct() {
 		$this->extKey = 'community';
+		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 
