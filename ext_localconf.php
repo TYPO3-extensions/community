@@ -5,6 +5,7 @@ if (!defined ('TYPO3_MODE')) {
 
 $PATH_community = t3lib_extMgm::extPath('community');
 
+	// this is all here instead of in TS so that it is available in both, BE and FE
 $TX_COMMUNITY = array(
 	'applications' => array(
 		'UserProfile' => array(
@@ -13,12 +14,26 @@ $TX_COMMUNITY = array(
 			'widgets' => array(
 				'image' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image'
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image',
+					'actions' => array(), // TODO move execute() stuff to at least indexAction()
+					'accessControl' => false
 				),
 				'personalInformation' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_personalinformationwidget.php:tx_community_controller_userprofile_PersonalInformationWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.personalInformation'
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.personalInformation',
+					'actions' => array(), // TODO move execute() stuff to at least indexAction()
+					'accessControl' => true
 				),
+				'profileActions' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_profileactionswidget.php:tx_community_controller_userprofile_ProfileActionsWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.profileActions',
+					'actions' => array( // those are not the actual profile actions, but controller actions
+						'index',
+						'addAsFriend'
+					),
+					'defaultAction' => 'index',
+					'accessControl' => false
+				)
 			)
 		),
 /*

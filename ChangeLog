@@ -11,6 +11,8 @@
 	* added skeleton for the user profile basic information widget
 	* added skeleton for the user profile contact information widget
 	* added skeleton for the privacy management application
+	* completed the user account model
+	* added a user profile actions widget
 
 2008-08-29 Ingo Renner  <ingo@typo3.org>
 

@@ -20,6 +20,10 @@ plugin.tx_community {
 				personalInformation {
 					templateFile = EXT:community/resources/templates/userprofile/personalinformationwidget.htm
 				}
+
+				profileActions {
+					templateFile = EXT:community/resources/templates/userprofile/profileactionswidget.htm
+				}
 			}
 		}
 	}
