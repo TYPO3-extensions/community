@@ -47,6 +47,8 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	protected $configuration;
 	protected $data;
 
+	// TODO move the code in execute() into viewAction(), define viewAction() as default/index action, then let execute() decide which action to call (others may be added later)
+
 	public function initialize($data, $configuration) {
 		$this->data = $data;
 		$this->configuration = $configuration;
@@ -164,10 +166,14 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 			$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['personalInformation.']['templateFile']);
 			$view->setLanguageKey($this->communityApplication->LLkey);
 
-			$content =  $view->render();
+			$content = $view->render();
 		}
 
 		return $content;
+	}
+
+	protected function checkAccess() {
+		// TODO move access checking stuff here
 	}
 }
 
