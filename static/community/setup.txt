@@ -23,6 +23,8 @@ plugin.tx_community {
 
 				profileActions {
 					templateFile = EXT:community/resources/templates/userprofile/profileactionswidget.htm
+
+					addAsFriendDefaultRoleId = 0
 				}
 			}
 		}
