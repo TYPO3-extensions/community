@@ -23,6 +23,7 @@
  ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_user.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_account.php');
 
 /**
  * gateway too retrieve users
@@ -56,10 +57,12 @@ class tx_community_model_UserGateway {
 		); // TODO restrict to certain part of the tree
 		$userRow = $userRow[0];
 
-		// TODO first check whether we got exactly one result
+			// TODO first check whether we got exactly one result
 		if (is_array($userRow)) {
 			$user = $this->createUserFromRow($userRow);
 		}
+
+			// TODO cache the users to save queries
 
 		return $user;
 	}
@@ -81,15 +84,10 @@ class tx_community_model_UserGateway {
 	}
 
 	protected function createUserFromRow(array $row) {
-		/**
-		 * @var tx_community_model_User
-		 */
 		$userClass = t3lib_div::makeInstanceClassName('tx_community_model_User');
 
-		/**
-		 * @var tx_community_model_User
-		 */
 		$user = new $userClass($row['uid']);
+		/* @var $user tx_community_model_User */
 		$user->setPid($row['pid']);
 		$user->setImage($row['image']);
 		$user->setNickname($row['tx_community_nickname']);
@@ -101,7 +99,31 @@ class tx_community_model_UserGateway {
 		$user->setFavoriteBooks($row['tx_community_favoritebooks']);
 		$user->setAboutMe($row['tx_community_aboutme']);
 
+		$user->setAccount($this->createUserAccountFromRow($row));
+
 		return $user;
+	}
+
+	/**
+	 * creates a user's account object
+	 *
+	 * @param array A row of user data
+	 * @return	tx_community_model_Account	A user account object
+	 */
+	protected function createUserAccountFromRow(array $row) {
+		$account = t3lib_div::makeInstance('tx_community_model_Account');
+		/* @var $account tx_community_model_Account*/
+
+		$account->setFirstName($row['tx_community_firstname']);
+		$account->setMiddleName($row['tx_community_middlename']);
+		$account->setLastName($row['tx_community_lastname']);
+
+		$account->setEmail($row['email']);
+
+		$account->setUserName($row['username']);
+		$account->setPassword($row['password']);
+
+		return $account;
 	}
 }
 

@@ -40,6 +40,11 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	protected $disabled;
 	protected $deleted;
 
+	/**
+	 * the user's account
+	 *
+	 * @var tx_community_model_Account
+	 */
 	protected $account;
 	protected $nickName;
 
