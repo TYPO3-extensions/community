@@ -42,6 +42,14 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 
 	protected $userGateway;
 
+	// FIXME create an abstract community application widget that includes the properties, common implementations for the interfaces
+
+	// TODO add a way to have controller plugins like Zend Framework does
+
+	// TODO add a controller plugin to handle ACL stuff
+	// TODO @see http://www.longshadow.com.au/tying-the-acl-to-controllersaction-in-zend-framework-15/
+	// TODO @see http://devzone.zend.com/article/3509-Zend_Acl-and-MVC-Integration-Part-I-Basic-Use
+
 	/**
 	 * constructor for class tx_community_controller_AbstractCommunityApplication
 	 */
