@@ -43,6 +43,7 @@ CREATE TABLE tx_community_acl_role (
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	name tinytext,
+	is_public tinyint(4) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

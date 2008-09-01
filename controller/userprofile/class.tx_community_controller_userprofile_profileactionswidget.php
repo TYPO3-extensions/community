@@ -144,7 +144,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 			&& method_exists($this, $communityRequest['profileAction'] . 'Action')
 			&& in_array($communityRequest['profileAction'], $widgetConfiguration['actions'])
 		) {
-				// call a requested action
+				// call a specifically requested action
 			$actionName = $communityRequest['profileAction'] . 'Action';
 			$content = $this->$actionName();
 		} else {
@@ -156,6 +156,11 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		return $content;
 	}
 
+	/**
+	 * the controller's default action
+	 *
+	 * @return	string
+	 */
 	public function indexAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ProfileActions');
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['profileActions.']['templateFile']);
@@ -166,7 +171,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		return $view->render();
 	}
 
-	protected function addAsFriendAction() {
+	public function addAsFriendAction() {
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			'tx_community_friend',
 			array(

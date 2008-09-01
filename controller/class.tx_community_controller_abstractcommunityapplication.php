@@ -64,7 +64,10 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 
 	public function initialize($data, $configuration) {
 		$this->data = $data;
-		$this->conf = $configuration;
+			// do not use $this->conf, but use $this->configuration
+		$this->conf = $configuration; // TODO check whether we really need this one
+
+		$this->configuration = $configuration;
 	}
 
 	/**

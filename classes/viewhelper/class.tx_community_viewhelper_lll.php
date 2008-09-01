@@ -38,7 +38,7 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 
 	protected $languageFile;
 	protected $llKey;
-	protected $localLang;
+	protected $localLang = array();
 
 	/**
 	 * constructor for class tx_community_LllViewHelper
@@ -54,7 +54,7 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 		$this->languageFile = $arguments['languageFile'];
 		$this->llKey        = $arguments['llKey'];
 
-		$this->localLang = t3lib_div::readLLfile(
+		$this->localLang[$arguments['languageFile']] = t3lib_div::readLLfile(
 			$arguments['languageFile'],
 			$arguments['llKey'],
 			$GLOBALS['TSFE']->renderCharset
@@ -62,7 +62,34 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 	}
 
 	public function execute(array $arguments = array()) {
-		return $this->localLang[$this->llKey][$arguments[0]];
+		$label = '';
+
+		if (!strncmp($arguments[0], 'EXT', 3)) {
+			// a full path reference...
+			$label = $this->resolveFullPathLabel($arguments[0]);
+		} else {
+			$label = $this->localLang[$this->languageFile][$this->llKey][$arguments[0]];
+		}
+
+		return $label;
+	}
+
+	protected function resolveFullPathLabel($path) {
+		$pathParts = explode(':', $path);
+
+		$labelKey = array_pop($pathParts);
+		$path     = implode(':', $pathParts);
+
+		if (!isset($this->localLang[$path])) {
+				// do some nice caching
+			$this->localLang[$path] = t3lib_div::readLLfile(
+				$path,
+				$this->llKey,
+				$GLOBALS['TSFE']->renderCharset
+			);
+		}
+
+		return $this->localLang[$path][$this->llKey][$labelKey];
 	}
 }
 

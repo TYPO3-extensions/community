@@ -46,8 +46,14 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	protected $communityApplication;
 	protected $configuration;
 	protected $data;
+	protected $accessMode;
 
 	// TODO move the code in execute() into viewAction(), define viewAction() as default/index action, then let execute() decide which action to call (others may be added later)
+
+	public function __construct() {
+			// set default access mode
+		$this->accessMode = 'read';
+	}
 
 	public function initialize($data, $configuration) {
 		$this->data = $data;
@@ -105,6 +111,7 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 
 		$resourceId = $this->communityApplication->getName()
 			. '_' . $this->getID()
+			. '_' . $this->accessMode
 			. '_' . $requestedUser->getUid();
 
 		return $resourceId;
@@ -144,6 +151,7 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	 * @return	string	the view's output
 	 */
 	public function execute() {
+			// TODO move this into a indexAction() method
 		$content = '';
 
 		$requestedUser  = $this->communityApplication->getRequestedUser();

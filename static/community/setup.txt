@@ -28,6 +28,10 @@ plugin.tx_community {
 				}
 			}
 		}
+
+		privacy {
+			templateFile = EXT:community/resources/templates/privacy/index.htm
+		}
 	}
 
 	controller {

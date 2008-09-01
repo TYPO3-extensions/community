@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_community_acl_role'] = array (
 	'ctrl' => $TCA['tx_community_acl_role']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,name'
+		'showRecordFieldList' => 'hidden,name,is_public'
 	),
 	'feInterface' => $TCA['tx_community_acl_role']['feInterface'],
 	'columns' => array (
@@ -26,9 +26,17 @@ $TCA['tx_community_acl_role'] = array (
 				'size' => '30',
 			)
 		),
+		'is_public' => array (
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_acl_role.is_public',
+			'config'  => array (
+				'type'    => 'check',
+				'default' => '0'
+			)
+		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, name')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, is_public')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')

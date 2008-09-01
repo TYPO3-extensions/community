@@ -11,18 +11,26 @@ $TX_COMMUNITY = array(
 		'UserProfile' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_userprofileapplication.php:tx_community_controller_UserProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile',
+			'accessControl' => array(
+				'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.read'
+			),
 			'widgets' => array(
 				'image' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image',
 					'actions' => array(), // TODO move execute() stuff to at least indexAction()
-					'accessControl' => false
+					'accessControl' => array(
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.imageWidget.read',
+//						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.imageWidget.addComment'
+					)
 				),
 				'personalInformation' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_personalinformationwidget.php:tx_community_controller_userprofile_PersonalInformationWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.personalInformation',
 					'actions' => array(), // TODO move execute() stuff to at least indexAction()
-					'accessControl' => true
+					'accessControl' => array(
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.personalInformationWidget.read'
+					)
 				),
 				'profileActions' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_profileactionswidget.php:tx_community_controller_userprofile_ProfileActionsWidget',
@@ -55,9 +63,12 @@ $TX_COMMUNITY = array(
 		'Privacy' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_privacyapplication.php:tx_community_controller_PrivacyApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:privacy',
-			'widgets' => array(
-
-			)
+			'accessControl' => false,
+			'actions' => array(
+				'index',
+				'savePermissions'
+			),
+			'defaultAction' => 'index'
 		)
 	)
 );

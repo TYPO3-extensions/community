@@ -22,9 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+require_once($GLOBALS['PATH_community'] . 'view/privacy/class.tx_community_view_privacy_index.php');
 
 /**
  * privacy management apllication controller
@@ -35,6 +37,8 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
  */
 class tx_community_controller_PrivacyApplication extends tx_community_controller_AbstractCommunityApplication {
 
+	protected $configuration;
+
 	/**
 	 * constructor for class tx_community_controller_PrivacyApplication
 	 */
@@ -43,28 +47,107 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 
 		$this->prefixId = 'tx_community_controller_PrivacyApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_privacyapplication.php';
-		$this->communityApplicationName = 'Privacy';
+		$this->name = 'Privacy';
 	}
 
+	/**
+	 * central execution and dispatching method of the privacy application. This
+	 * methods decides which action to call.
+	 *
+	 * @return	string
+	 */
 	public function execute() {
 		$content = '';
+		$communityRequest = t3lib_div::_GP('tx_community');
 
-		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
-		$currentlyLoggedInUser = $userGateway->findCurrentlyLoggedInUser();
-		/* @var $currentlyLoggedInUser tx_community_model_User */
+		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
+		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
+		/* @var $applicationManager tx_community_ApplicationManager */
 
-		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
-		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
+		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
+			$this->getName()
+		);
 
-		if (!is_null($currentlyLoggedInUser)) {
-			$content = 'User: ' . $currentlyLoggedInUser->getUid();
-
-
+			// dispatch
+		if (!empty($communityRequest['privacyAction'])
+			&& method_exists($this, $communityRequest['privacyAction'] . 'Action')
+			&& in_array($communityRequest['privacyAction'], $applicationConfiguration['actions'])
+		) {
+				// call a specifically requested action
+			$actionName = $communityRequest['privacyAction'] . 'Action';
+			$content = $this->$actionName();
 		} else {
-			$content = 'No user logged in!';
+				// call the default action
+			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
+			$content = $this->$defaultActionName();
 		}
 
-		return $content;
+		return $content . ' User: ' . $this->getRequestingUser()->getUid();
+	}
+
+	public function indexAction() {
+		$view = t3lib_div::makeInstance('tx_community_view_privacy_Index');
+		/* @var $view tx_community_view_privacy_Index */
+		$view->setTemplateFile($this->configuration['applications.']['privacy.']['templateFile']);
+		$view->setLanguageKey($this->LLkey);
+
+		$accessControlModel = $this->getAccessControlModel();
+		$publicRoles        = $this->getPublicRoles();
+
+		$view->setAccessControlModel($accessControlModel);
+		$view->setRoles($publicRoles);
+
+#debug($accessControlModel, 'access control model');
+#debug($publicRoles, 'public roles');
+
+		return $view->render();
+	}
+
+	public function savePermissionsAction() {
+		return 'savePermissionsAction';
+	}
+
+	protected function getAccessControlModel() {
+			// TODO add a method to the application manager to retrieve all application configurations
+		$accessControlModel = array();
+
+		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationId => $application) {
+			if (is_array($application['accessControl']) && !empty($application['accessControl'])) {
+					// add access control for community applications
+				foreach ($application['accessControl'] as $applicationControlKey => $applicationControlLabel) {
+					$accessControlModel[$applicationId][$applicationControlKey] = $applicationControlLabel;
+				}
+			}
+
+			if (is_array($application['widgets']) && !empty($application['widgets'])) {
+				foreach ($application['widgets'] as $widgetId => $widget) {
+					if (is_array($widget['accessControl']) && !empty($widget['accessControl'])) {
+							// add access control for the application's widgets
+						foreach ($widget['accessControl'] as $widgetControlKey => $widgetControlLabel) {
+							$accessControlModel[$applicationId][$widgetId . '_' . $widgetControlKey] = $widgetControlLabel;
+						}
+					}
+				}
+			}
+		}
+
+		return $accessControlModel;
+	}
+
+	protected function getPublicRoles() {
+		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+
+		$roles = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'*',
+			'tx_community_acl_role',
+			'is_public = 1' . $pageSelect->enableFields('tx_community_acl_role'),
+			'',
+			'sorting',
+			'',
+			'uid'
+		);
+
+		return $roles;
 	}
 }
 
