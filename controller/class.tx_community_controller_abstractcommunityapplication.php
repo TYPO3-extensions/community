@@ -90,12 +90,6 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public function getRequestedUser() {
 		$communityRequest = t3lib_div::_GP('tx_community');
 		$requestedUser = $this->userGateway->findById((int) $communityRequest['user']);
-		
-		// if requestedUser == null, we looks for the currently loggedin user
-		// we need this to show up the personal startpage and own userprofile without url parameter
-		if (is_null($requestedUser)) {
-			$requestedUser = $this->userGateway->findCurrentlyLoggedInUser();
-		}
 
 		if (!($requestedUser instanceof tx_community_model_User)) {
 			// TODO throw a "user not found exception"
