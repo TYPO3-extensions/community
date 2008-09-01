@@ -114,19 +114,63 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 	}
 
 	public function savePermissionsAction() {
+		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-debug($communityRequest, 'req');
+		$resources = array();
+		$oldRules = array();
+		$newRules = array();
+
+			// first prepare a list of resources we can than compare the user's settings against
+		foreach ($communityRequest['privacy'] as $applicationName => $resourceAction) {
+			foreach ($resourceAction as $resourceActionName => $roles) {
+				$joinedResourceName = $applicationName . '_' . $resourceActionName . '_' . $this->getRequestingUser()->getUid();
+				$resources[] = $joinedResourceName;
+
+				foreach ($roles as $roleId => $roleAccessMode) {
+					if ($roleAccessMode) {
+						$newRules[] = $joinedResourceName . ':' . $roleId;
+					}
+				}
+			}
+		}
+
+			// get the existing rules for this user
+		$existingRules = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid, resource, role',
+			'tx_community_acl_rule',
+			'access_mode = 1'
+				. ' AND resource IN(\'' . implode('\', \'', $resources) . '\')'
+				. $pageSelect->enableFields('tx_community_acl_rule')
+		);
+
+		foreach ($existingRules as $rule) {
+			$oldRules[] = $rule['resource'] . ':' . $rule['role'];
+		}
+
+			// determine what rules to add and which to remove
+		$newRulesToAdd    = array_diff($newRules, $oldRules);
+		$oldRulesToRemove = array_diff($oldRules, $newRules);
+
+			// add
+		foreach ($newRulesToAdd as $newRuleToAdd) {
+			list($resource, $role) = explode(':', $newRuleToAdd);
+			$this->addRule($resource, $role);
+		}
+
+			// remove
+		foreach ($oldRulesToRemove as $oldRuleToRemove) {
+			list($resource, $role) = explode(':', $oldRuleToRemove);
+			$this->removeRule($resource, $role);
+		}
 
 			// when finished, redirect back to the privacy settings index action
 		$privacySettingsPageUrl = $this->pi_getPageLink(
 			$GLOBALS['TSFE']->id
 		);
 
-//		Header('HTTP/1.1 303 See Other');
-//		Header('Location: ' . t3lib_div::locationHeaderUrl($privacySettingsPageUrl));
-//		exit;
-
-		return 'savePermissionsAction';
+		Header('HTTP/1.1 303 See Other');
+		Header('Location: ' . t3lib_div::locationHeaderUrl($privacySettingsPageUrl));
+		exit;
 	}
 
 	protected function getAccessControlModel() {
@@ -197,6 +241,33 @@ debug($communityRequest, 'req');
 		}
 
 		return $allowedRules;
+	}
+
+	protected function addRule($resource, $role) {
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'tx_community_acl_rule',
+			array(
+				'pid' => $this->configuration['pages.']['aclStorage'],
+				'tstamp' => $_SERVER['REQUEST_TIME'],
+				'crdate' => $_SERVER['REQUEST_TIME'],
+				'name' => $resource,
+				'resource' => $resource,
+				'role' => $role,
+				'access_mode' => 1
+			)
+		);
+
+		// TODO check for errors, throw exception
+	}
+
+	protected function removeRule($resource, $role) {
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_acl_rule',
+			'resource = \'' . $resource . '\''
+				. ' AND role = ' . $role
+		);
+
+		// TODO check for errors, throw exceptions
 	}
 }
 

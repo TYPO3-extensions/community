@@ -3,6 +3,7 @@
 	* added the privacy settings view to the privacy application
 	* added a method to the LLL view helper so that it can resolve full paths of labels, starting with EXT:...
 	* added a column to the ACL roles table to mark a role as publicly visible
+	* added saving of ACLs through the privacy application GUI
 
 2008-08-30 Ingo Renner  <ingo@typo3.org>
 
