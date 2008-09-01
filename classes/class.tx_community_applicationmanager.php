@@ -1,26 +1,26 @@
 <?php
 /***************************************************************
- *  Copyright notice
- *
- *  (c) 2008 Ingo Renner <ingo@typo3.org>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+*  Copyright notice
+*
+*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
 
 
 /**
@@ -53,7 +53,7 @@ class tx_community_ApplicationManager {
 
 	public static function getInstance() {
 		if (is_null(self::$instance)) {
-			// TODO use t3lib_div ...
+				// TODO use t3lib_div ...
 			self::$instance = new tx_community_ApplicationManager();
 		}
 
@@ -158,10 +158,6 @@ class tx_community_ApplicationManager {
 		return $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'][$widgetName];
 	}
 
-	public function getTypoScriptConfiguration() {
-		return $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.'];
-	}
-
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
 		// TODO check whether we really need this method as registration is done through a global array
 		$this->applications[$application->getId()] = $application;
@@ -170,8 +166,8 @@ class tx_community_ApplicationManager {
 	public function getFlexformApplicationList(&$params, &$pObj) {
 		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
 			$params['items'][] = array(
-			$GLOBALS['LANG']->sL($applicationConfiguration['label']),
-			$applicationName
+				$GLOBALS['LANG']->sL($applicationConfiguration['label']),
+				$applicationName
 			);
 		}
 	}
@@ -180,7 +176,7 @@ class tx_community_ApplicationManager {
 		if(!empty($params['row']['pi_flexform'])) {
 			$xml = new SimpleXMLElement($params['row']['pi_flexform']);
 			$res = $xml->xpath('//field[@index=\'application\']');
-			// TODO use flexform methods from core
+				// TODO use flexform methods from core
 		}
 
 		if ($res && !empty($res[0]->value)) {
@@ -188,16 +184,11 @@ class tx_community_ApplicationManager {
 
 			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
 				$params['items'][] = array(
-				$GLOBALS['LANG']->sL($widgetConfiguration['label']),
-				$widgetName
+					$GLOBALS['LANG']->sL($widgetConfiguration['label']),
+					$widgetName
 				);
 			}
 		}
-	}
-
-	protected function lcfirst($str) {
-		$str[0] = strtolower($str[0]);
-		return (string)$str;
 	}
 }
 
