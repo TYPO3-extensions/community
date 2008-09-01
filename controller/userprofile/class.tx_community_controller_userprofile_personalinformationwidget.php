@@ -168,7 +168,7 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 			$allowed = true;
 		} else {
 			$accessManager->addResource($this);
-			$allowed = $accessManager->isAllowed($this, $requestingUser);
+			$allowed = $accessManager->isAllowed($this);
 		}
 
 		if ($allowed) {
