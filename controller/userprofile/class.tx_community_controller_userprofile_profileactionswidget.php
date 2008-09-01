@@ -264,6 +264,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	 */
 	protected function isFriend(tx_community_model_User $user, tx_community_model_User $friend) {
 			// TODO this schould at some time moved to a more appropriate place like a FriendshipManager or so
+			// TODO: Question: I think this is should be a method of the user object: isInRelationTo($user, $role) ?
 		$isFriend = false;
 
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
