@@ -7,6 +7,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="privacy.editSettings">Edit Privacy Settings</label>
+			<label index="privacy.formSave">Save</label>
 			<label index="privacy.userProfile.read">Decide who can see your profile page.</label>
 			<label index="privacy.userProfile.imageWidget.read">Decide who can see your profile image.</label>
 			<label index="privacy.userProfile.imageWidget.addComment">Decide who can add comments to your profile image.</label>

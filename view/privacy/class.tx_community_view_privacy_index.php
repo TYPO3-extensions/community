@@ -41,6 +41,7 @@ class tx_community_view_privacy_Index implements tx_community_View {
 	protected $roles;
 	protected $accessControlModel;
 	protected $allowedRules;
+	protected $formAction;
 
 	public function setTemplateFile($templateFile) {
 		$this->templateFile = $templateFile;
@@ -62,6 +63,10 @@ class tx_community_view_privacy_Index implements tx_community_View {
 		$this->allowedRules = $allowedRules;
 	}
 
+	public function setFormAction($formAction) {
+		$this->formAction = $formAction;
+	}
+
 	public function render() {
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
@@ -81,6 +86,7 @@ class tx_community_view_privacy_Index implements tx_community_View {
 		);
 
 		$template->addSubpart('setting_groups', $this->renderSettingGroups());
+		$template->addVariable('form', array('action' => $this->formAction));
 
 		return $template->render();
 	}

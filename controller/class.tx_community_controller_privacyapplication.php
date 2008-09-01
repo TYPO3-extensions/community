@@ -58,7 +58,7 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 	 */
 	public function execute() {
 		$content = '';
-		$communityRequest = t3lib_div::_GP('tx_community');
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
@@ -95,14 +95,37 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 		$publicRoles        = $this->getPublicRoles();
 		$allowedRules       = $this->getAllowedRules($accessControlModel);
 
+		$formAction = $this->pi_getPageLink(
+			$GLOBALS['TSFE']->id,
+			'',
+			array(
+				'tx_community' => array(
+					'privacyAction' => 'savePermissions'
+				)
+			)
+		);
+
 		$view->setAccessControlModel($accessControlModel);
 		$view->setRoles($publicRoles);
 		$view->setAllowedRules($allowedRules);
+		$view->setFormAction($formAction);
 
 		return $view->render();
 	}
 
 	public function savePermissionsAction() {
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+debug($communityRequest, 'req');
+
+			// when finished, redirect back to the privacy settings index action
+		$privacySettingsPageUrl = $this->pi_getPageLink(
+			$GLOBALS['TSFE']->id
+		);
+
+//		Header('HTTP/1.1 301 Moved Permanently');
+//		Header('Location: ' . t3lib_div::locationHeaderUrl($privacySettingsPageUrl));
+//		exit;
+
 		return 'savePermissionsAction';
 	}
 
