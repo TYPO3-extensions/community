@@ -197,7 +197,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 				)
 			);
 
-			Header('HTTP/1.1 301 Moved Permanently');
+			Header('HTTP/1.1 303 See Other');
 			Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
 			exit;
 		} else {
