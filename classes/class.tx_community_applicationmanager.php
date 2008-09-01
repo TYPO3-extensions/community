@@ -46,6 +46,9 @@ class tx_community_ApplicationManager {
 	 */
 	public function __construct() {
 		// TODO make constructor protected, enable t3lib_div::makeInstance to detect a getInstance method
+		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
+			$this->applications[$applicationName] = $applicationConfiguration;
+		}
 	}
 
 	private function __clone() {
@@ -71,8 +74,7 @@ class tx_community_ApplicationManager {
 		if (!array_key_exists($applicationName, $this->applications)) {
 			// TODO throw an "application not found exception"
 		}
-
-		return $this->applications[$applicationName];
+		return t3lib_div::getUserObj($this->applications[$applicationName]['classReference']);
 	}
 
 	public function getApplicationConfiguration($applicationName) {
@@ -84,7 +86,7 @@ class tx_community_ApplicationManager {
 	}
 
 	public function getWidget($widgetName) {
-
+		// TODO really needed?
 	}
 
 	/**
@@ -93,7 +95,13 @@ class tx_community_ApplicationManager {
 	 * @return unknown
 	 */
 	public function getAllApplications() {
-		return $this->applications;
+		$applications               = array();
+
+		foreach ($this->applications as $applicationName => $applicationConfiguration) {
+			$applications[$applicationName] = t3lib_div::getUserObj($applicationConfiguration['classReference']);
+		}
+
+		return $applications;
 	}
 
 	public function getAllWidgets() {

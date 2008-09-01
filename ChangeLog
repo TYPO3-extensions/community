@@ -1,6 +1,7 @@
 2008-09-01 Frank Nägler  <typo3@naegler.net>
-
-	* added getTypoScriptConfiguration to tx_community_ApplicationManager
+	
+	* complete getApplication() and getAllApplications() in tx_community_ApplicationManager
+	* added getTypoScriptConfiguration to tx_community_controller_AbstractCommunityApplication
 
 2008-08-31 Ingo Renner  <ingo@typo3.org>
 

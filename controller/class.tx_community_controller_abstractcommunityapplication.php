@@ -106,6 +106,10 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public function getRequestingUser() {
 		return $this->userGateway->findCurrentlyLoggedInUser();;
 	}
+	
+	public function getTypoScriptConfiguration() {
+		return $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.'];
+	}
 
 	abstract public function execute();
 }
