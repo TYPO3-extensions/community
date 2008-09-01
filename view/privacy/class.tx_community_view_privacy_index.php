@@ -40,6 +40,7 @@ class tx_community_view_privacy_Index implements tx_community_View {
 
 	protected $roles;
 	protected $accessControlModel;
+	protected $allowedRules;
 
 	public function setTemplateFile($templateFile) {
 		$this->templateFile = $templateFile;
@@ -55,6 +56,10 @@ class tx_community_view_privacy_Index implements tx_community_View {
 
 	public function setAccessControlModel(array $accessControlModel) {
 		$this->accessControlModel = $accessControlModel;
+	}
+
+	public function setAllowedRules($allowedRules) {
+		$this->allowedRules = $allowedRules;
 	}
 
 	public function render() {
@@ -143,10 +148,19 @@ class tx_community_view_privacy_Index implements tx_community_View {
 
 		$roleOptions = array();
 		foreach ($this->roles as $roleId => $roleRow) {
+
+			$checked = '';
+			if (
+				isset($this->allowedRules[$applicationName][$controlName]) &&
+				in_array($roleRow['uid'], $this->allowedRules[$applicationName][$controlName])
+			) {
+				$checked = 'checked="checked"';
+			}
+
 			$roleOptions[] = array(
 				'field_name' => 'tx_community[privacy][' . $applicationName . '][' . $controlName . '][' .$roleId . ']',
 				'field_id' => 'tx_community_' . $applicationName . '_' . $controlName . '_' . $roleId,
-				'field_checked' => '', // TODO add checkbox checked status
+				'field_checked' => $checked,
 				'label' => $roleRow['name']
 			);
 		}

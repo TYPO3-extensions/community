@@ -82,7 +82,7 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 			$content = $this->$defaultActionName();
 		}
 
-		return $content . ' User: ' . $this->getRequestingUser()->getUid();
+		return $content;
 	}
 
 	public function indexAction() {
@@ -93,12 +93,11 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 
 		$accessControlModel = $this->getAccessControlModel();
 		$publicRoles        = $this->getPublicRoles();
+		$allowedRules       = $this->getAllowedRules($accessControlModel);
 
 		$view->setAccessControlModel($accessControlModel);
 		$view->setRoles($publicRoles);
-
-#debug($accessControlModel, 'access control model');
-#debug($publicRoles, 'public roles');
+		$view->setAllowedRules($allowedRules);
 
 		return $view->render();
 	}
@@ -148,6 +147,33 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 		);
 
 		return $roles;
+	}
+
+	protected function getAllowedRules($accessControlModel) {
+		$allowedRules = array();
+		$pageSelect   = t3lib_div::makeInstance('t3lib_pageSelect');
+
+		foreach ($accessControlModel as $applicationName => $resourceAction) {
+			foreach ($resourceAction as $resourceActionName => $label) {
+				$rules = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+					'uid, role',
+					'tx_community_acl_rule',
+					'access_mode = 1'
+						. ' AND resource = \'' . $applicationName . '_' . $resourceActionName . '_' . $this->getRequestingUser()->getUid() . '\''
+						. $pageSelect->enableFields('tx_community_acl_rule'),
+					'',
+					'sorting',
+					'',
+					'uid'
+				);
+
+				foreach ($rules as $rule) {
+					$allowedRules[$applicationName][$resourceActionName][] = $rule['role'];
+				}
+			}
+		}
+
+		return $allowedRules;
 	}
 }
 
