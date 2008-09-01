@@ -158,6 +158,9 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
 		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
+		/**
+		 * @var tx_community_AccessManager
+		 */
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
 
 		$allowed = false;
