@@ -25,6 +25,7 @@
 require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'classes/acl/class.tx_community_acl_acl.php');
 require_once($GLOBALS['PATH_community'] . 'classes/acl/class.tx_community_acl_role.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 
 /**
  * Access Manager, easily handles access to different areas of the community
@@ -40,6 +41,9 @@ class tx_community_AccessManager {
 	const ACTION_UPDATE = 'update';
 	const ACTION_DELETE = 'delete';
 
+	/**
+	 * @var tx_community_AccessManager
+	 */
 	private static $instance = null;
 
 	/**
@@ -48,6 +52,11 @@ class tx_community_AccessManager {
 	 * @var tx_community_acl_Acl
 	 */
 	protected $acl;
+	
+	/**
+	 * @var tx_community_model_UserGateway
+	 */
+	protected $userGateway;
 
 	/**
 	 * constructor for class tx_community_AccessManager
@@ -55,7 +64,7 @@ class tx_community_AccessManager {
 	protected function __construct() {
 		$this->acl = t3lib_div::makeInstance('tx_community_acl_Acl');
 		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
-
+		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 			// getting all roles
 		$roles = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',
@@ -96,8 +105,11 @@ class tx_community_AccessManager {
 		$this->acl->add($resource);
 	}
 
-	public function isAllowed(tx_community_acl_AclResource $resource, tx_community_model_User $requestingUser, $action = self::ACTION_READ) {
+	public function isAllowed(tx_community_acl_AclResource $resource, tx_community_model_User $requestingUser = null, $action = self::ACTION_READ) {
 		$allowed = false;
+		if (is_null($requestingUser)) {
+			$requestingUser = $this->userGateway->findCurrentlyLoggedInUser();
+		}
 
 			// get all rules for this resource
 		$rules = $this->getRulesByResource($resource);
