@@ -128,6 +128,10 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	public function getPid() {
 		return $this->pid;
 	}
+	
+	public function setUid($uid) {
+		$this->uid = $uid;
+	}
 
 	public function getUid() {
 		return $this->uid;
