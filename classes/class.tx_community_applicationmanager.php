@@ -45,7 +45,7 @@ class tx_community_ApplicationManager {
 	 * constructor for class tx_community_ApplicationManager
 	 */
 	public function __construct() {
-		// TODO make constructor protected, enable t3lib_div::makeInstance to detect a getInstance method
+			// TODO make constructor protected, enable t3lib_div::makeInstance to detect a getInstance method
 		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
 			$this->applications[$applicationName] = $applicationConfiguration;
 		}
@@ -86,7 +86,7 @@ class tx_community_ApplicationManager {
 	}
 
 	public function getWidget($widgetName) {
-		// TODO really needed?
+		// TODO really needed? IR: Yes, I think we could use this to request an instance of a widget at some point
 	}
 
 	/**
@@ -95,7 +95,7 @@ class tx_community_ApplicationManager {
 	 * @return unknown
 	 */
 	public function getAllApplications() {
-		$applications               = array();
+		$applications = array();
 
 		foreach ($this->applications as $applicationName => $applicationConfiguration) {
 			$applications[$applicationName] = t3lib_div::getUserObj($applicationConfiguration['classReference']);
@@ -167,7 +167,7 @@ class tx_community_ApplicationManager {
 	}
 
 	public function registerApplication(tx_community_model_AbstractCommunityApplication $application) {
-		// TODO check whether we really need this method as registration is done through a global array
+			// TODO check whether we really need this method as registration is done through a global array
 		$this->applications[$application->getId()] = $application;
 	}
 
