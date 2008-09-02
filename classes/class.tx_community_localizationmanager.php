@@ -65,6 +65,13 @@ class tx_community_LocalizationManager {
 	private function __clone() {
 	}
 
+	/**
+	 * returns a LocalizationManager instance
+	 *
+	 * @param string $llFile
+	 * @param array $TS
+	 * @return tx_community_LocalizationManager
+	 */
 	public static function getInstance($llFile, $TS) {
 		if (!isset(self::$instances[$llFile])) {
 			self::$instances[$llFile] = new tx_community_LocalizationManager($llFile, $TS);
