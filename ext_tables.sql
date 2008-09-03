@@ -25,8 +25,25 @@ CREATE TABLE fe_users (
 # Table structure for table 'fe_groups'
 #
 CREATE TABLE fe_groups (
+    tx_community_members int(11) DEFAULT '0' NOT NULL,
     tx_community_admins text NOT NULL
 );
+
+
+
+#
+# Table structure for table 'fe_groups_tx_community_members_mm'
+# 
+#
+CREATE TABLE fe_groups_tx_community_members_mm (
+  uid_local int(11) DEFAULT '0' NOT NULL,
+  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  tablenames varchar(30) DEFAULT '' NOT NULL,
+  sorting int(11) DEFAULT '0' NOT NULL,
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
 
 
 

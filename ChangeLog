@@ -1,5 +1,6 @@
 2008-09-03 Frank Naegler  <typo3@naegler.net>
-
+	* coompleted the tx_community_model_Group
+	* extend fe_groups table
 	* added findFriends() to tx_community_model_UserGateway
 	* added empty findByRoles() to tx_community_model_UserGateway
 
