@@ -66,6 +66,43 @@ class tx_community_model_UserGateway {
 
 		return $user;
 	}
+	
+	/**
+	 * find users by its roles
+	 *
+	 * @param array The roles objects
+	 * @return	array of tx_community_model_User
+	 */
+	public function findByRoles($roles) {
+		// @TODO find users by its role
+	}
+
+	/**
+	 * find users friends
+	 *
+	 * @param tx_community_model_User $user
+	 * @return	array of tx_community_model_User
+	 */
+	public function findFriends($user = null) {
+		$friends = array();
+		if (is_null($user)) {
+			$user = $this->findCurrentlyLoggedInUser();
+		}
+		if (!is_null($user)) {
+			$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'friend',
+				'tx_community_friend',
+				'feuser = ' . $user->getUid()
+			);
+			if (is_array($userRows)) {
+				foreach($userRows as $userRow) {
+					$friends[] = $this->findById($userRow['friend']);
+				}
+			}
+		}
+		
+		return $friends;
+	}
 
 	/**
 	 * finds the currently logged in user

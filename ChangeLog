@@ -1,3 +1,8 @@
+2008-09-03 Frank Naegler  <typo3@naegler.net>
+
+	* added findFriends() to tx_community_model_UserGateway
+	* added empty findByRoles() to tx_community_model_UserGateway
+
 2008-09-02 Frank Naegler  <typo3@naegler.net>
 
 	* added setUid() to tx_community_model_User, needed by community_messages
