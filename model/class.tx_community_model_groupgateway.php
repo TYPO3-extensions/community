@@ -41,9 +41,9 @@ class tx_community_model_GroupGateway {
 	}
 
 	/**
-	 * find a user by its uid
+	 * find a group by its uid
 	 *
-	 * @param integer The user's uid
+	 * @param integer The groups uid
 	 * @return	tx_community_model_Group
 	 */
 	public function findById($uid) {
@@ -64,31 +64,45 @@ class tx_community_model_GroupGateway {
 		return $group;
 	}
 
+	/**
+	 * find current group
+	 *
+	 * @return	tx_community_model_Group
+	 */
+	public function findCurrentGroup() {
+		$group = null;
+		$communityRequest = t3lib_div::_GP('tx_community');
+		if (!isset($communityRequest['group'])) {
+			return $group;
+		}
+		
+		$groupRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'*',
+			'fe_groups',
+			'uid = ' . (int) $communityRequest['group']
+		); // TODO restrict to certain part of the tree
+		
+		$groupRow = $groupRow[0];
+		
+		// TODO first check whether we got exactly one result
+		if (is_array($groupRow)) {
+			$group = $this->createGroupFromRow($groupRow);
+		}
+		
+		return $group;
+	}
+	
 	protected function createGroupFromRow(array $row) {
 		/**
 		 * @var tx_community_model_Group
 		 */
 		$groupClass = t3lib_div::makeInstanceClassName('tx_community_model_Group');
-
+		
 		/**
 		 * @var tx_community_model_Group
 		 */
 		$group = new $groupClass($row['uid']);
 		
-		/**
-		 * @var tx_community_model_UserGateway
-		 */
-		$this->userGateway	= new tx_community_model_UserGateway();
-
-		$users = t3lib_div::trimExplode(',', $row['tx_community_admins']);
-		for ($i=0; $i<count($users); $i++) {
-			if (strlen($users[$i])) {
-				$userObj = $this->userGateway->findById($users[$i]);
-				$group->addAdmin($userObj);
-			}
-		}
-
-		// @todo add member by addMember();
 		return $group;
 	}
 }

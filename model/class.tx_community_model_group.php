@@ -57,6 +57,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 
 	protected function init() {
 		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
+		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		if (!is_null($this->uid)) {
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
@@ -225,7 +226,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			'fe_groups_tx_community_members_mm',
 			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
 		);
-		return ($GLOBALS['TYPO3_DB']->sql_num_rows() > 0);
+		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
 }
 

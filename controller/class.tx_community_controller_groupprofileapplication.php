@@ -41,12 +41,38 @@ class tx_community_controller_GroupProfileApplication extends tx_community_contr
 	 * constructor for class tx_community_controller_GroupProfileApplication
 	 */
 	public function __construct() {
+		parent::__construct();
 
+		$this->prefixId = 'tx_community_controller_GroupProfileApplication';
+		$this->scriptRelPath = 'controller/class.tx_community_controller_groupprofileapplication.php';
+		$this->name = 'GroupProfile';
 	}
 
-	public function execute($content, array $configuration) {
+	public function execute() {
+		$content = '';
 
-		return 'hello community';
+		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
+		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
+		/* @var $applicationManager tx_community_ApplicationManager */
+
+		$widgetName = $this->pi_getFFvalue(
+			$this->data['pi_flexform'],
+			'widget'
+		);
+
+		$widgetConfiguration = $applicationManager->getWidgetConfiguration(
+			$this->name,
+			$widgetName
+		);
+
+		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+		/* @var $widget tx_community_CommunityApplicationWidget */
+		$widget->initialize($this->data, $this->conf);
+		$widget->setCommunityApplication($this);
+
+		$content = $widget->execute();
+
+		return $content;
 	}
 }
 

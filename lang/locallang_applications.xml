@@ -16,6 +16,7 @@
 			<label index="groupProfile">Group Profile</label>
 			<label index="groupProfile.image">Image</label>
 			<label index="groupProfile.information">Information</label>
+			<label index="groupProfile_profileActions">Profile Actions</label>
 			<label index="privacy">Privacy</label>
 		</languageKey>
 	</data>

@@ -1,0 +1,6 @@
+* tx_community_controller_groupprofile_ProfileActionsWidget
+** new action: leaveGroup
+** action: joinGroup
+*** send Systemmessage to Group-Admins
+*** implement admin confirmation
+** if member of group show leave link

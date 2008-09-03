@@ -1,8 +1,16 @@
+2008-09-04 Frank Naegler  <typo3@naegler.net>
+	
+	* added tx_community_controller_groupprofile_ProfileActionsWidget
+	* added tx_community_view_groupprofile_ProfileActions
+	* added profileactionswidget.htm
+
 2008-09-03 Frank Naegler  <typo3@naegler.net>
+
 	* coompleted the tx_community_model_Group
 	* extend fe_groups table
 	* added findFriends() to tx_community_model_UserGateway
 	* added empty findByRoles() to tx_community_model_UserGateway
+	* some changes to tx_community_model_Group, tx_community_model_GroupGateway and tx_community_model_GroupProfile
 
 2008-09-02 Frank Naegler  <typo3@naegler.net>
 

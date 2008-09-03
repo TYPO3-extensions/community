@@ -28,6 +28,14 @@ plugin.tx_community {
 			}
 		}
 
+		groupProfile {
+			widgets {
+				profileActions {
+					templateFile = EXT:community/resources/templates/groupprofile/profileactionswidget.htm
+				}
+			}
+		}
+
 		privacy {
 			templateFile = EXT:community/resources/templates/privacy/index.htm
 		}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the user profile's profile actions widget</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="action_isMemberOfGroup">You are member of this group</label>
+			<label index="action_joinGroup">Join this group</label>
+		</languageKey>
+	</data>
+</T3locallang>

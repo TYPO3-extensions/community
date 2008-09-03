@@ -44,22 +44,22 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
-/*
 		'GroupProfile' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_groupprofileapplication.php:tx_community_controller_GroupProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile',
 			'widgets' => array(
-				'image' => array(
-					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_imagewidget.php:tx_community_controller_groupprofile_ImageWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile.image'
-				),
-				'information' => array(
-					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_informationwidget.php:tx_community_controller_groupprofile_InformationWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile.information'
+				'profileActions' => array(
+					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_profileactionswidget.php:tx_community_controller_groupprofile_ProfileActionsWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_profileActions',
+					'actions' => array( // those are not the actual profile actions, but controller actions
+						'index',
+						'joinGroup'
+					),
+					'defaultAction' => 'index',
+					'accessControl' => false
 				)
 			)
 		),
-*/
 		'Privacy' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_privacyapplication.php:tx_community_controller_PrivacyApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:privacy',

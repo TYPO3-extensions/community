@@ -28,6 +28,8 @@ require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_abstractprofile.php');
 require_once(t3lib_extMgm::extPath('community').'classes/exception/class.tx_community_exception_noprofileid.php');
 require_once(t3lib_extMgm::extPath('community').'classes/exception/class.tx_community_exception_unknownprofile.php');
+require_once(t3lib_extMgm::extPath('community_logger').'classes/class.tx_communitylogger_logger.php');
+
 
 /**
  * A community user profile
@@ -54,21 +56,30 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 	protected $uid = 0;
 	protected $request;
 	protected $editable = false;
+	/**
+	 * @var tx_communitylogger_Logger
+	 */
+	protected $logger;
 	
 	/**
 	 * constructor for class tx_community_model_GroupProfile
 	 */
 	public function __construct() {
-		$this->groupGateway	= new tx_community_model_GroupGateway();
-		$this->userGateway	= new tx_community_model_UserGateway();
+		$this->logger = tx_communitylogger_Logger::getInstance('community');
+		$this->logger->info('loaded');
+
+		$this->groupGateway	= t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		$this->userGateway	= t3lib_div::makeInstance('tx_community_model_UserGateway');
+
 		$this->request		= t3lib_div::_GP('tx_community');
 		$this->uid			= (isset($this->request['group'])) ? intval($this->request['group']) : $this->uid;
-		
+		$this->logger->debug("group id: {$this->uid}");
+
 		if ($this->uid == 0) {
 			throw new tx_community_exception_NoProfileId();
 		}
+		$this->group		= $this->groupGateway->findCurrentGroup();
 		
-		$this->group		= $this->groupGateway->findById($this->uid);
 		if ($this->group === null) {
 			throw new tx_community_exception_UnknownProfile();
 		}
