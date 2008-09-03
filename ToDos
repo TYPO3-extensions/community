@@ -4,3 +4,7 @@
 *** send Systemmessage to Group-Admins
 *** implement admin confirmation
 ** if member of group show leave link
+
+* create new group
+** group name
+** creater = admin
