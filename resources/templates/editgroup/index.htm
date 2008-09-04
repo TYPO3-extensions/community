@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Template for the privacy application</title>
+</head>
+<body>
+
+<!-- ###GROUP_SETTINGS### begin -->
+<style>
+.ui-tabs-hide { display: none; }
+	#tab_navigation {
+		text-align: left;
+		border-bottom: 0;
+	}
+
+	#tab_navigation li {
+		float: left;
+		display: inline;
+		border: 1px solid #333;
+		padding: 5px;
+	}
+	
+	#tab_navigation li a {
+		color: #333;
+	}
+
+	#tab_navigation li.ui-tabs-selected {
+		background-color: #333;
+		color: #fff;
+	}
+	
+	#tab_navigation li.ui-tabs-selected a {
+		color: #fff;
+	}
+	.tab_content {
+		width: 800px;
+		border: 1px solid #333;
+	}
+</style>
+<script>
+var _PLEASE_WAIT = '###MSG.WAIT###';
+</script>
+<h2>###LLL:editgroup_editSettings###</h2>
+<div id="tx-community-editgroup-settings">
+<form action="###FORM.ACTION###" method="post" enctype="multipart/form-data">
+<input type="hidden" name="tx_community[group]" value="###FORM.GROUP_UID###" />
+<input type="hidden" name="tx_community[ajaxAction]" id="ajaxActionHolder" value="" />
+	<ul id="tab_navigation">
+		<li><a href="#GENERAL_SETTINGS" class="tab">###LLL:editgroup_tab_general###</a></li>
+		<li><a href="#IMAGE_SETTINGS" class="tab">###LLL:editgroup_tab_image###</a></li>
+		<li><a href="#MEMBER_SETTINGS" class="tab">###LLL:editgroup_tab_members###</a></li>
+		<li><a href="#INVITE_MEMBER" class="tab">###LLL:editgroup_tab_invite###</a></li>
+	</ul>
+	<div style="clear: both;"></div>
+	<div id="tx-community-editgroup-status"></div>
+	<!-- ###GENERAL_SETTINGS### begin -->
+		<div id="GENERAL_SETTINGS" class="tab_content">
+			<h3>###LLL:editgroup_tab_general###</h3>
+			<dl>
+				<dt>###LLL:editgroup_general_title###</dt>
+				<dd><input type="text" name="tx_community[group_title]" value="###VALUE.GROUP_TITLE###" /></dd>
+
+				<dt>###LLL:editgroup_general_description###</dt>
+				<dd><textarea name="tx_community[group_description]">###VALUE.GROUP_DESCRIPTION###</textarea></dd>
+
+				<dt>###LLL:editgroup_general_public###</dt>
+				<dd><input type="checkbox" name="tx_community[group_public]" value="###VALUE.GROUP_PUBLIC###" ###CHECKED.PUBLIC###/></dd>
+			</dl>
+			
+			<input type="submit" value="###LLL:editgroup_formSave###" />
+		</div>
+	<!-- ###GENERAL_SETTINGS### end -->
+
+	<!-- ###IMAGE_SETTINGS### begin -->
+		<div id="IMAGE_SETTINGS" class="tab_content">
+			<h3>###LLL:editgroup_tab_image###</h3>
+			<dl>
+				<dt>###LLL:editgroup_image_image###</dt>
+				<dd>###GROUP_IMAGE###</dd>
+				<dd><input type="file" name="tx_community[group_image]" value="" /></dd>
+			</dl>
+			
+			<input type="submit" value="###LLL:editgroup_formSave###" />
+		</div>
+	<!-- ###IMAGE_SETTINGS### end -->
+
+	<!-- ###MEMBER_SETTINGS### begin -->
+		<div id="MEMBER_SETTINGS" class="tab_content">
+			<h3>###LLL:editgroup_tab_members###</h3>
+			<table>
+				<tr>
+					<th>###LLL:editgroup_header_membername###</th>
+					<th>###LLL:editgroup_header_memberstatus###</th>
+					<th>###LLL:editgroup_header_memberactions###</th>
+				</tr>
+				<!-- ###LOOP:MEMBERS### begin -->
+				<!-- ###LOOP_CONTENT### -->
+				<tr>
+					<td>###MEMBER_NAME###</td>
+					<td>###MEMBER_STATUS###</td>
+					<td>###MEMBER_ACTION###</td>
+				</tr>
+				<!-- ###LOOP_CONTENT### -->
+				<!-- ###LOOP:MEMBERS### end -->
+			</table>
+		</div>
+	<!-- ###MEMBER_SETTINGS### end -->
+
+	<!-- ###INVITE_MEMBER### begin -->
+		<div id="INVITE_MEMBER" class="tab_content">
+			<h3>###LLL:editgroup_tab_invite###</h3>
+			<dl>
+				<dt>###LLL:editgroup_invite_search###</dt>
+				<dd><input type="text" name="tx_community[invite_search]" value="" /></dd>
+			</dl>
+		</div>
+	<!-- ###INVITE_MEMBER### end -->
+</form>
+</div>
+<!-- ###GROUP_SETTINGS### end -->
+
+
+	<li>
+		<span class="settingGroup-name">###SETTING_GROUP.NAME###</span>
+		<ul>
+			<!-- ###SETTINGS### begin -->
+			<li>
+				<span class="setting-description">######SETTING.DESCRIPTION######</span>
+				<ul>
+					<!-- ###SETTING_OPTIONS### begin -->
+					<!-- ###LOOP:SETTING_OPTIONS### begin -->
+					<!-- ###LOOP_CONTENT### -->
+					<li>
+						<input type="hidden" name="###SETTING_OPTION.FIELD_NAME###" value="0" />
+						<input type="checkbox" name="###SETTING_OPTION.FIELD_NAME###" id="###SETTING_OPTION.FIELD_ID###" ###SETTING_OPTION.FIELD_CHECKED### value="1" /> <label for="###SETTING_OPTION.FIELD_ID###">###SETTING_OPTION.LABEL###</label>
+					</li>
+					<!-- ###LOOP_CONTENT### -->
+					<!-- ###LOOP:SETTING_OPTIONS### end -->
+					<!-- ###SETTING_OPTIONS### end -->
+				</ul>
+			</li>
+			<!-- ###SETTINGS### end -->
+		</ul>
+	</li>
+	<!-- ###SETTING_GROUPS### end -->
+
+
+</body>
+</html>

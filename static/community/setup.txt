@@ -39,6 +39,10 @@ plugin.tx_community {
 		privacy {
 			templateFile = EXT:community/resources/templates/privacy/index.htm
 		}
+
+		editGroup {
+			templateFile = EXT:community/resources/templates/editgroup/index.htm
+		}
 	}
 
 	controller {
@@ -60,12 +64,24 @@ plugin.tx_community {
 			includeLibs = EXT:community/controller/class.tx_community_controller_groupprofileapplication.php
 			userFunc = tx_community_controller_GroupProfileApplication->execute
 		}
+
+		editGroup = USER_INT
+		editGroup {
+			includeLibs = EXT:community/controller/class.tx_community_controller_editgroupapplication.php
+			userFunc = tx_community_controller_EditGroupApplication->execute
+		}
 	}
+}
+
+page.includeJS {
+	community_editgroup_form	= EXT:community/resources/jquery.form.js
+	community_editgroup_control	= EXT:community/resources/jquery_editgroup_control.js
 }
 
 	// adding the application controllers
 tt_content.list.20.community_CommunityApplication = < plugin.tx_community.controller.communityApplication
 tt_content.list.20.community_UserProfile = < plugin.tx_community.controller.userProfile
 tt_content.list.20.community_GroupProfile = < plugin.tx_community.controller.groupProfile
+tt_content.list.20.community_EditGroup = < plugin.tx_community.controller.editGroup
 
 

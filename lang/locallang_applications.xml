@@ -18,6 +18,7 @@
 			<label index="groupProfile.information">Information</label>
 			<label index="groupProfile_profileActions">Profile Actions</label>
 			<label index="privacy">Privacy</label>
+			<label index="editGroup">Edit group</label>
 		</languageKey>
 	</data>
 </T3locallang>

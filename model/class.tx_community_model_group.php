@@ -144,7 +144,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					$tmpData[$k] = implode(',', $tmp);
 				break;
 				default:
-					$tmpData[$k] = $v;
+					$tmpData[$k] = mysql_escape_string($v);
 				break;
 			}
 		}
@@ -218,6 +218,23 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			}
 		}
 		return $this->save();
+	}
+	
+	public function getAllMembers() {
+		$returnUser = array();
+		
+		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid_foreign',
+			'fe_groups_tx_community_members_mm',
+			'uid_local = ' . $this->uid
+		);
+		foreach ($users as $user) {
+			$tmpUser = $this->userGateway->findById($user['uid_foreign']);
+			if (!is_null($tmpUser)) {
+				$returnUser[] = $tmpUser;
+			}
+		}
+		return $returnUser;
 	}
 
 	public function isMember(tx_community_model_User $user) {

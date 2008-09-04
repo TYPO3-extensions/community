@@ -47,10 +47,20 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	protected $communityApplication;
 	protected $configuration;
 	protected $data;
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $localizationManager;
 	
 	public function initialize($data, $configuration) {
 		$this->data = $data;
 		$this->configuration = $configuration;
+		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+		$this->localizationManager = call_user_func(
+			array($localizationManagerClass, 'getInstance'),
+			$GLOBALS['PATH_community'] . 'lang/locallang_groupprofile_profileactions.xml',
+			array()
+		);
 	}
 
 	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
@@ -82,7 +92,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 * @return	string
 	 */
 	public function getLayoutContainer() {
-		return 0;
+		return 1;
 	}
 
 	/**
@@ -206,32 +216,27 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$profileActions = array();
 
 		$profileActions[]['link'] = $this->getJoinGroupProfileAction();
-
+		$profileActions[]['link'] = $this->getEditGroupProfileAction();
+		
 		return $profileActions;
 	}
 
 	protected function getJoinGroupProfileAction() {
 		$content = '';
 
-		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$localizationManager      = call_user_func(
-			array($localizationManagerClass, 'getInstance'),
-			$GLOBALS['PATH_community'] . 'lang/locallang_groupprofile_profileactions.xml',
-			array()
-		);
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
 		if ($requestedGroup->isMember($requestingUser)) {
 				// the user are already member
 			$content = sprintf(
-				$localizationManager->getLL('action_isMemberOfGroup'),
+				$this->localizationManager->getLL('action_isMemberOfGroup'),
 				$requestingUser->getNickname()
 			);
 		} else {
 				// the users are not member yet, create a link
 			$linkText = sprintf(
-				$localizationManager->getLL('action_joinGroup'),
+				$this->localizationManager->getLL('action_joinGroup'),
 				$requestingUser->getNickname()
 			);
 
@@ -244,6 +249,33 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 					)
 				)
 			);
+		}
+
+		return $content;
+	}
+
+	protected function getEditGroupProfileAction() {
+		$content = '';
+
+		$requestingUser = $this->communityApplication->getRequestingUser();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
+
+		if ($requestedGroup->isAdmin($requestingUser)) {
+			// the user is admin
+			$linkText = $this->localizationManager->getLL('action_editGroup');
+
+			$content = $this->communityApplication->pi_linkToPage(
+				$linkText,
+				$this->configuration['pages.']['groupEdit'],
+				'',
+				array(
+					'tx_community' => array(
+						'group' => $requestedGroup->getUid(),
+					)
+				)
+			);
+		} else {
+			// the user are not admin yet, create no link
 		}
 
 		return $content;

@@ -223,12 +223,19 @@ $tempColumns = Array (
             'maxitems' => 100,
         )
     ),
+    'tx_community_public' => Array (
+        'exclude' => 1,
+        'label' => 'LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_public',
+        'config' => Array (
+            'type' => 'check',
+        )
+    ),
 );
 
 
 t3lib_div::loadTCA('fe_groups');
 t3lib_extMgm::addTCAcolumns('fe_groups', $tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_members;;;;1-1-1,tx_community_admins;;;;2-2-2');
+t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_members;;;;1-1-1,tx_community_admins;;;;2-2-2,tx_community_public;;;;3-3-3');
 
 	// adding the static TS templates
 t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');
@@ -246,6 +253,14 @@ t3lib_extMgm::addPlugin(
 	array(
 		'LLL:EXT:community/lang/locallang_db.xml:tt_content.list_type_communityApplication',
 		$_EXTKEY.'_CommunityApplication'
+	),
+	'list_type'
+);
+
+t3lib_extMgm::addPlugin(
+	array(
+		'LLL:EXT:community/lang/locallang_db.xml:tt_content.list_type_editGroup',
+		$_EXTKEY.'_EditGroup'
 	),
 	'list_type'
 );

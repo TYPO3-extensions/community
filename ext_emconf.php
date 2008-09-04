@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Ingo Renner',
 	'author_email' => 'ingo@typo3.org',
 	'shy' => '',
-	'dependencies' => '',
+	'dependencies' => 'community_jquery',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -32,6 +32,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '0.0.5',
 	'constraints' => array(
 		'depends' => array(
+			'community_jquery' => ''
 		),
 		'conflicts' => array(
 		),

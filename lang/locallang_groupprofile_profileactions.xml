@@ -8,6 +8,7 @@
 		<languageKey index="default" type="array">
 			<label index="action_isMemberOfGroup">You are member of this group</label>
 			<label index="action_joinGroup">Join this group</label>
+			<label index="action_editGroup">Edit this group</label>
 		</languageKey>
 	</data>
 </T3locallang>

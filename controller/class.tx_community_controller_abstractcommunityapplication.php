@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 
 /**
  * An abstract community application controller

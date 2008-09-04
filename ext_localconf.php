@@ -60,6 +60,19 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
+		'EditGroup' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_editgroupapplication.php:tx_community_controller_EditGroupApplication',
+			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:editGroup',
+			'accessControl' => false,
+			'actions' => array( // those are not the actual profile actions, but controller actions
+				'index',
+				'saveData',
+				'inviteUser',
+				'removeMember',
+				'changeAdmin'
+			),
+			'defaultAction' => 'index',
+		),
 		'Privacy' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_privacyapplication.php:tx_community_controller_PrivacyApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:privacy',

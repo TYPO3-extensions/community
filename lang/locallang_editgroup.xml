@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the privacy application</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="editgroup_editSettings">Edit Group Settings</label>
+			<label index="editgroup_formSave">Save</label>
+			
+			<label index="editgroup_tab_general">General settings</label>
+			<label index="editgroup_tab_image">Image settings</label>
+			<label index="editgroup_tab_members">Member settings</label>
+			<label index="editgroup_tab_invite">Invite members</label>
+			
+			<!-- Genereal messages -->
+			<label index="msg_please_wait">please wait...</label>
+			
+			<!-- Tab: Genereal settings -->
+			<label index="editgroup_general_title">Title</label>
+			<label index="editgroup_general_description">Description</label>
+			<label index="editgroup_general_public">Is this group public? this means no admin confirmation is needed</label>
+			
+			<!-- Tab: Image settings -->
+			<label index="editgroup_image_image">Image</label>
+			
+			<!-- Tab: Member settings -->
+			<label index="editgroup_header_membername">Member name</label>
+			<label index="editgroup_header_memberstatus">Member status</label>
+			<label index="editgroup_header_memberactions">Member actions</label>
+
+			<!-- Tab: Invite members -->
+			<label index="editgroup_invite_search">Search for Members</label>
+		</languageKey>
+	</data>
+</T3locallang>
