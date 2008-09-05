@@ -141,9 +141,34 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 		
 		$imagePath = (strlen($this->group->getTX_community_image())) ? $this->configuration['applications.']['editGroup.']['uploadPath'] . $this->group->getTX_community_image() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
 		$imgConf['file'] = $imagePath;
-		debug($imgConf);
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$view->setImage($cObj->cObjGetSingle($this->configuration['applications.']['editGroup.']['previewImage'], $imgConf));
+		
+		// make actions
+		$actions = $this->configuration['applications.']['editGroup.']['memberlist.']['actions.'];
+		debug($actions);
+		$adminActions = array();
+		$otherActions = array();
+		foreach ($actions['admins.'] as $k => $v) {
+			switch ($v) {
+				case 'TEXT' :
+				case 'HTML' :
+				case 'IMAGE' :
+					$adminActions[] = $this->cObj->cObjGetSingle($actions['admins.'][$k], $actions['admins.'][$k.'.']);
+				break;
+			}
+		}
+		foreach ($actions['other.'] as $k => $v) {
+			switch ($v) {
+				case 'TEXT' :
+				case 'HTML' :
+				case 'IMAGE' :
+					$otherActions[] = $this->cObj->cObjGetSingle($actions['other.'][$k], $actions['other.'][$k.'.']);
+				break;
+			}
+		}
+		$view->setAdminActions($adminActions);
+		$view->setOtherActions($otherActions);
 		
 		return $view->render();
 	}

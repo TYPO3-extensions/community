@@ -43,6 +43,8 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 
 	protected $formAction;
 	protected $image;
+	protected $adminActions = array();
+	protected $otherActions = array();
 	/**
 	 * @var tx_community_model_Group
 	 */
@@ -68,7 +70,15 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	public function setImage($image) {
 		$this->image = $image;
 	}
-
+	
+	public function setAdminActions($actions) {
+		$this->adminActions = $actions;
+	}
+		
+	public function setOtherActions($actions) {
+		$this->otherActions = $actions;
+	}
+	
 	public function render() {
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_editgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
@@ -167,9 +177,10 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		$members = $this->group->getAllMembers();
 		foreach ($members as $member) {
 			$tmp = array(
-				'member_name'	=> $member->getNickname(),
-				'member_status'	=> $this->group->isAdmin($member) ? 'admin' : 'member',
-				'member_action'	=> $this->getActionsForMember($member),
+				'member_uid'		=> $member->getUid(),
+				'member_name'		=> $member->getNickname(),
+				'member_status'		=> $this->group->isAdmin($member) ? 'admin' : 'member',
+				'member_actions'	=> $this->getActionsForMember($member),
 			);
 			$loopMembers[] = $tmp;
 		}
@@ -180,12 +191,13 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	}
 
 	protected function getActionsForMember(tx_community_model_User $member) {
-		$actions = array();
 		if (!$this->group->isAdmin($member)) {
-			$actions[] = 'make user admin';
-			$actions[] = 'remove user from group';
+			$return = implode(' ', $this->adminActions);
+		} else {
+			$return = implode(' ', $this->otherActions);
 		}
-		return implode(',', $actions);
+		$return = str_replace('%UID%', $member->getUid(), $return);
+		return $return;
 	}
 
 	protected function renderInviteMember() {

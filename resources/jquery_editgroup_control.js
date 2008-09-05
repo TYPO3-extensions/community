@@ -78,4 +78,54 @@ $(document).ready(function(){
 	
 	// activate ajax functions
 	$('#ajaxActionHolder').val('saveGeneral');
+
+	$("#makeAdminDialog").dialog({ 
+		modal: true,
+		autoOpen: false,
+		draggable: false,
+		resizable: false,
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
+		},
+		dialogClass: 'flora',
+		buttons: { 
+			"Ok": function() { 
+				alert("TODO: make admin by ajax");
+				$(this).dialog("close"); 
+			}, 
+			"Cancel": function() { 
+				$(this).dialog("close"); 
+			} 
+		}
+	});	
+
+	$("#removeMemberDialog").dialog({ 
+		modal: true, 
+		autoOpen: false,
+		draggable: false,
+		resizable: false,
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
+		},
+		dialogClass: 'flora',
+		buttons: { 
+			"Ok": function() { 
+				alert("TODO: remove member by ajax");
+				$(this).dialog("close"); 
+			}, 
+			"Cancel": function() { 
+				$(this).dialog("close"); 
+			} 
+		}
+	});	
+
+	$('.makeAdmin').click(function() {
+		$("#makeAdminDialog").dialog('open');
+	});
+	
+	$('.removeMember').click(function() {
+		$("#removeMemberDialog").dialog('open');
+	});
 });

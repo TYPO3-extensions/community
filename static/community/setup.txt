@@ -53,6 +53,21 @@ plugin.tx_community {
 				}
 				params = id="tx-community-group-image"
 			}
+			memberlist {
+				actions {
+					admins {
+						makeAdmin = TEXT
+						makeAdmin.data = LLL:EXT:community/lang/locallang_editgroup.xml:label_makeAdmin
+						makeAdmin.wrap = <span class="makeAdmin" id="makeAdmin%UID%">|</span>
+						removeMember = TEXT
+						removeMember.data = LLL:EXT:community/lang/locallang_editgroup.xml:label_removeMember
+						removeMember.wrap = <span class="removeMember" id="removeMember%UID%">|</span>
+					}
+					other {
+					
+					}
+				}
+			}
 		}
 	}
 

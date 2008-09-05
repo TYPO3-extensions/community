@@ -1,5 +1,6 @@
 2008-09-05 Frank Naegler  <typo3@naegler.net>
 
+	* improve and add new ajax functions to EditGroup Application
 	* added ajax image upload to EditGroup Application
 	
 2008-09-04 Frank Naegler  <typo3@naegler.net>

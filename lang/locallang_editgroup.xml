@@ -30,6 +30,12 @@
 			<label index="editgroup_header_membername">Member name</label>
 			<label index="editgroup_header_memberstatus">Member status</label>
 			<label index="editgroup_header_memberactions">Member actions</label>
+			<label index="label_makeAdmin">make admin</label>
+			<label index="label_removeMember">remove member</label>
+			<label index="editgroup_dialog_makeAdmin_title">make the user admin?</label>
+			<label index="editgroup_dialog_makeAdmin_message">Do you realy want to make this user admin? This means that you loose your admin status.</label>
+			<label index="editgroup_dialog_removeMember_title">remove this user?</label>
+			<label index="editgroup_dialog_removeMember_message">Do you realy want to remove this user?</label>
 
 			<!-- Tab: Invite members -->
 			<label index="editgroup_invite_search">Search for Members</label>
