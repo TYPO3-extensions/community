@@ -85,6 +85,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				$data
 			);
 			$this->uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+			$this->data['uid'] = $this->uid;
 			return $this->uid;
 		} else {
 			// update

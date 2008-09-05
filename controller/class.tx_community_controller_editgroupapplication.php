@@ -34,10 +34,7 @@ require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_vie
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_EditGroupApplication extends tslib_pibase {
-	public $prefixId      = 'tx_community_controller_EditGroupApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_editgroupapplication.php';	// Path to this script relative to the extension dir.
-	public $extKey        = 'community';	// The extension key.
+class tx_community_controller_EditGroupApplication extends tx_community_controller_AbstractCommunityApplication {
 
 	public $cObj;
 	public $conf;
@@ -57,23 +54,8 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 		$this->name = 'EditGroup';
 	}
 
-	public function initialize($configuration) {
-		$this->conf = $configuration;
-		$this->tslib_pibase();
-		$this->pi_setPiVarDefaults();
-		$this->pi_USER_INT_obj = 1; // Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
-		$this->pi_initPIflexForm();
-
-		$this->conf = t3lib_div::array_merge_recursive_overrule(
-			$this->conf,
-			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
-		);
-		$this->configuration = $this->conf;
-	}
-
-	public function execute($content, $configuration) {
+	public function execute() {
 		$content = '';
-		$this->initialize($configuration);
 
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
@@ -98,7 +80,7 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 		}
 		
 		$user  = $userGateway->findCurrentlyLoggedInUser();
-		if (is_null($this->group)) {
+		if (is_null($user)) {
 			// @TODO throw Exception
 			die('no loggedin user');
 		}

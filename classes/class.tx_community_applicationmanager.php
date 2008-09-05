@@ -189,12 +189,13 @@ class tx_community_ApplicationManager {
 
 		if ($res && !empty($res[0]->value)) {
 			$selectedApplication = (string) $res[0]->value;
-
-			foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
-				$params['items'][] = array(
-					$GLOBALS['LANG']->sL($widgetConfiguration['label']),
-					$widgetName
-				);
+			if (is_array($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'])) {
+				foreach ($GLOBALS['TX_COMMUNITY']['applications'][$selectedApplication]['widgets'] as $widgetName => $widgetConfiguration) {
+					$params['items'][] = array(
+						$GLOBALS['LANG']->sL($widgetConfiguration['label']),
+						$widgetName
+					);
+				}
 			}
 		}
 	}

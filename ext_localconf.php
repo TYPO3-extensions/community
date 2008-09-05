@@ -73,6 +73,16 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index',
 		),
+		'NewGroup' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_newgroupapplication.php:tx_community_controller_NewGroupApplication',
+			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:newGroup',
+			'accessControl' => false,
+			'actions' => array( // those are not the actual profile actions, but controller actions
+				'index',
+				'newGroup'
+			),
+			'defaultAction' => 'index',
+		),
 		'Privacy' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_privacyapplication.php:tx_community_controller_PrivacyApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:privacy',

@@ -272,15 +272,6 @@ t3lib_extMgm::addPlugin(
 	'list_type'
 );
 
-t3lib_extMgm::addPlugin(
-	array(
-		'LLL:EXT:community/lang/locallang_db.xml:tt_content.list_type_editGroup',
-		$_EXTKEY.'_EditGroup'
-	),
-	'list_type'
-);
-
-
 if (TYPO3_MODE == 'BE') {
 		// application manager for displaying applications and widgets in flexform
 	include_once($PATH_community . 'classes/class.tx_community_applicationmanager.php');
