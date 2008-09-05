@@ -139,6 +139,9 @@ $(document).ready(function(){
 					function(response) {
 						response = eval('('+response+')');
 						showMessage(response.status, response.msg, 5000);
+						if (response.status == 'success') {
+							$('#memberRow'+_USER_ID).fadeOut('slow');
+						}
 					}
 				);
 				$(this).dialog("close"); 
