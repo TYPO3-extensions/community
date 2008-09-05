@@ -93,7 +93,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				'uid = ' . $this->uid,
 				$data
 			);
-			return ($GLOBALS['TYPO3_DB']->sql_affected_rows());
+			return $GLOBALS['TYPO3_DB']->sql_affected_rows();
 		}
 	}
 
@@ -214,10 +214,11 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
 			);
 			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
-				$this->data['tx_community_members'] = $this->data['tx_community_members'] - 1;
+				$this->data['tx_community_members'] = intval($this->data['tx_community_members']) - 1;
+				return true;
 			}
 		}
-		return $this->save();
+		return false;
 	}
 	
 	public function getAllMembers() {

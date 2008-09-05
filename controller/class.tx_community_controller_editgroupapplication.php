@@ -88,11 +88,26 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		/* @var $groupGateway tx_community_model_GroupGateway */
 		
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		/* @var $userGateway tx_community_model_UserGateway */
+		
 		$this->group = $groupGateway->findCurrentGroup();
 		if (is_null($this->group)) {
 			// @TODO throw Exception
 			die('no group id');
 		}
+		
+		$user  = $userGateway->findCurrentlyLoggedInUser();
+		if (is_null($this->group)) {
+			// @TODO throw Exception
+			die('no loggedin user');
+		}
+		
+		if (!$this->group->isAdmin($user)) {
+			// @TODO throw Exception
+			die('not admin');
+		}
+		
 		
 			// dispatch
 		if (!empty($communityRequest['editGroupAction'])
@@ -174,6 +189,7 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 	}
 	
 	protected function saveDataAction() {
+		// @TODO: localize all messages
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
@@ -202,31 +218,67 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 				}
 			break;
 			case 'saveImage':
-				$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-				$upPath = $this->configuration['applications.']['editGroup.']['uploadPath'];
-				$fileName = $_FILES['tx_community']['name']['imageFile'];
-				$tmpFile  = $_FILES['tx_community']['tmp_name']['imageFile'];
-				$pathInfo = pathinfo($fileName);
-				$dir = t3lib_div::getFileAbsFileName($upPath);
-				$newName = md5($fileName) .'.'. $pathInfo['extension'];
-				if (move_uploaded_file($tmpFile, $dir.$newName)) {
-					$group->setTX_community_image($newName);
-					if ($group->save()) {
-						$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
-						$imgConf['file'] = $upPath.$newName;
-						$cObj = t3lib_div::makeInstance('tslib_cObj');
-						$genImage = $cObj->cObjGetSingle('IMG_RESOURCE', $imgConf);
-						list($width,$height) = getimagesize($genImage);
-						$result = "{'status': 'success', 'msg': 'image uploaded', 'newImage': '{$genImage}', 'newWidth': '{$width}', 'newHeight': '{$height}'}";
+				if ($group->isAdmin($user)) {
+					$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+					$upPath = $this->configuration['applications.']['editGroup.']['uploadPath'];
+					$fileName = $_FILES['tx_community']['name']['imageFile'];
+					$tmpFile  = $_FILES['tx_community']['tmp_name']['imageFile'];
+					$pathInfo = pathinfo($fileName);
+					$dir = t3lib_div::getFileAbsFileName($upPath);
+					$newName = md5($fileName) .'.'. $pathInfo['extension'];
+					if (move_uploaded_file($tmpFile, $dir.$newName)) {
+						$group->setTX_community_image($newName);
+						if ($group->save()) {
+							$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
+							$imgConf['file'] = $upPath.$newName;
+							$cObj = t3lib_div::makeInstance('tslib_cObj');
+							$genImage = $cObj->cObjGetSingle('IMG_RESOURCE', $imgConf);
+							list($width,$height) = getimagesize($genImage);
+							$result = "{'status': 'success', 'msg': 'image uploaded', 'newImage': '{$genImage}', 'newWidth': '{$width}', 'newHeight': '{$height}'}";
+						} else {
+							$result = "{'status': 'error', 'msg': 'error while save'}";
+						}
 					} else {
-						$result = "{'status': 'error', 'msg': 'error while save'}";
+						$result = "{'status': 'error', 'msg': 'can't upload file'}";
 					}
 				} else {
-					$result = "{'status': 'error', 'msg': 'can't upload file'}";
+					$result = "{'status': 'error', 'msg': 'not admin'}";
 				}
 			break;
 			case 'changeMemberStatus':
-
+				if ($group->isAdmin($user)) {
+					switch($communityRequest['do']) {
+						case 'makeAdmin':
+							$newAdmin = $userGateway->findById($communityRequest['memberUid']);
+							if ($newAdmin instanceof tx_community_model_User) {
+								$group->addAdmin($newAdmin);
+								$group->removeAdmin($user);
+								if ($group->save()) {
+									$result = "{'status': 'success', 'msg': 'saved'}";
+								} else {
+									$result = "{'status': 'error', 'msg': 'not saved'}";
+								}
+							}
+						break;
+						case 'removeMember':
+							$member = $userGateway->findById($communityRequest['memberUid']);
+							if ($member instanceof tx_community_model_User) {
+								if ($group->isMember($member)) {
+									$group->removeMember($member);
+									if ($group->save()) {
+										$result = "{'status': 'success', 'msg': 'saved'}";
+									} else {
+										$result = "{'status': 'error', 'msg': 'not saved'}";
+									}
+								} else {
+									$result = "{'status': 'error', 'msg': 'not a memeber of this group'}";
+								}
+							}
+						break;
+					}
+				} else {
+					$result = "{'status': 'error', 'msg': 'not admin'}";
+				}
 			break;
 			case 'inviteMember':
 

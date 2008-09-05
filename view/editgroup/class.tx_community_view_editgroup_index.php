@@ -175,6 +175,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		));
 		
 		$members = $this->group->getAllMembers();
+		$loopMembers = array();
 		foreach ($members as $member) {
 			$tmp = array(
 				'member_uid'		=> $member->getUid(),

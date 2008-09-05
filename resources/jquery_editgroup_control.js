@@ -90,8 +90,23 @@ $(document).ready(function(){
 		},
 		dialogClass: 'flora',
 		buttons: { 
-			"Ok": function() { 
-				alert("TODO: make admin by ajax");
+			"Ok": function(e) {
+				showMessage('wait', _PLEASE_WAIT);
+				$.post(
+					_FORM_ACTION,
+					{
+						'tx_community[ajaxAction]': 'changeMemberStatus',
+						'tx_community[group]': _GROUP_ID,
+						'tx_community[memberUid]': _USER_ID,
+						'tx_community[do]': 'makeAdmin'
+					},
+					function(response) {
+						response = eval('('+response+')');
+						if (response.status == 'success') {
+							self.location.reload();
+						}
+					}
+				);
 				$(this).dialog("close"); 
 			}, 
 			"Cancel": function() { 
@@ -112,7 +127,20 @@ $(document).ready(function(){
 		dialogClass: 'flora',
 		buttons: { 
 			"Ok": function() { 
-				alert("TODO: remove member by ajax");
+				showMessage('wait', _PLEASE_WAIT);
+				$.post(
+					_FORM_ACTION,
+					{
+						'tx_community[ajaxAction]': 'changeMemberStatus',
+						'tx_community[group]': _GROUP_ID,
+						'tx_community[memberUid]': _USER_ID,
+						'tx_community[do]': 'removeMember'
+					},
+					function(response) {
+						response = eval('('+response+')');
+						showMessage(response.status, response.msg, 5000);
+					}
+				);
 				$(this).dialog("close"); 
 			}, 
 			"Cancel": function() { 
@@ -121,11 +149,17 @@ $(document).ready(function(){
 		}
 	});	
 
-	$('.makeAdmin').click(function() {
+	$('.makeAdmin').click(function(e) {
+		id = $(e.target).attr('id');
+		id = id.replace('makeAdmin', '');
+		_USER_ID = id;
 		$("#makeAdminDialog").dialog('open');
 	});
 	
-	$('.removeMember').click(function() {
+	$('.removeMember').click(function(e) {
+		id = $(e.target).attr('id');
+		id = id.replace('removeMember', '');
+		_USER_ID = id;
 		$("#removeMemberDialog").dialog('open');
 	});
 });
