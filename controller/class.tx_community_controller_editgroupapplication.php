@@ -44,6 +44,7 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 	protected $data;
 	protected $name;
 	protected $configuration;
+	protected $group;
 
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
@@ -74,16 +75,25 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 		$content = '';
 		$this->initialize($configuration);
 
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
 		/* @var $applicationManager tx_community_ApplicationManager */
-
+		
 		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
 			$this->getName()
 		);
+		
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
+		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		/* @var $groupGateway tx_community_model_GroupGateway */
+		
+		$this->group = $groupGateway->findCurrentGroup();
+		if (is_null($this->group)) {
+			// @TODO throw Exception
+			die('no group id');
+		}
+		
 			// dispatch
 		if (!empty($communityRequest['editGroupAction'])
 			&& method_exists($this, $communityRequest['editGroupAction'] . 'Action')
@@ -126,7 +136,15 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 			)
 		);
 		$view->setFormAction($formAction);
-
+		
+		$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
+		
+		$imagePath = (strlen($this->group->getTX_community_image())) ? $this->configuration['applications.']['editGroup.']['uploadPath'] . $this->group->getTX_community_image() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
+		$imgConf['file'] = $imagePath;
+		debug($imgConf);
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		$view->setImage($cObj->cObjGetSingle($this->configuration['applications.']['editGroup.']['previewImage'], $imgConf));
+		
 		return $view->render();
 	}
 	
@@ -159,7 +177,28 @@ class tx_community_controller_EditGroupApplication extends tslib_pibase {
 				}
 			break;
 			case 'saveImage':
-
+				$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+				$upPath = $this->configuration['applications.']['editGroup.']['uploadPath'];
+				$fileName = $_FILES['tx_community']['name']['imageFile'];
+				$tmpFile  = $_FILES['tx_community']['tmp_name']['imageFile'];
+				$pathInfo = pathinfo($fileName);
+				$dir = t3lib_div::getFileAbsFileName($upPath);
+				$newName = md5($fileName) .'.'. $pathInfo['extension'];
+				if (move_uploaded_file($tmpFile, $dir.$newName)) {
+					$group->setTX_community_image($newName);
+					if ($group->save()) {
+						$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
+						$imgConf['file'] = $upPath.$newName;
+						$cObj = t3lib_div::makeInstance('tslib_cObj');
+						$genImage = $cObj->cObjGetSingle('IMG_RESOURCE', $imgConf);
+						list($width,$height) = getimagesize($genImage);
+						$result = "{'status': 'success', 'msg': 'image uploaded', 'newImage': '{$genImage}', 'newWidth': '{$width}', 'newHeight': '{$height}'}";
+					} else {
+						$result = "{'status': 'error', 'msg': 'error while save'}";
+					}
+				} else {
+					$result = "{'status': 'error', 'msg': 'can't upload file'}";
+				}
 			break;
 			case 'changeMemberStatus':
 

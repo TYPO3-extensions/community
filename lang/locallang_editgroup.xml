@@ -24,6 +24,7 @@
 			
 			<!-- Tab: Image settings -->
 			<label index="editgroup_image_image">Image</label>
+			<label index="editgroup_image_upload">Upload new images</label>
 			
 			<!-- Tab: Member settings -->
 			<label index="editgroup_header_membername">Member name</label>

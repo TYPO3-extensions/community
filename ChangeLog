@@ -1,4 +1,9 @@
+2008-09-05 Frank Naegler  <typo3@naegler.net>
+
+	* added ajax image upload to EditGroup Application
+	
 2008-09-04 Frank Naegler  <typo3@naegler.net>
+
 	* added tx_community_controller_EditGroupApplication	
 	* added tx_community_controller_groupprofile_ProfileActionsWidget
 	* added tx_community_view_groupprofile_ProfileActions

@@ -41,12 +41,11 @@
 </style>
 <script>
 var _PLEASE_WAIT = '###MSG.WAIT###';
+var _FORM_ACTION = '###FORM.ACTION###';
+var _GROUP_ID    = '###FORM.GROUP_UID###';
 </script>
 <h2>###LLL:editgroup_editSettings###</h2>
 <div id="tx-community-editgroup-settings">
-<form action="###FORM.ACTION###" method="post" enctype="multipart/form-data">
-<input type="hidden" name="tx_community[group]" value="###FORM.GROUP_UID###" />
-<input type="hidden" name="tx_community[ajaxAction]" id="ajaxActionHolder" value="" />
 	<ul id="tab_navigation">
 		<li><a href="#GENERAL_SETTINGS" class="tab">###LLL:editgroup_tab_general###</a></li>
 		<li><a href="#IMAGE_SETTINGS" class="tab">###LLL:editgroup_tab_image###</a></li>
@@ -56,7 +55,10 @@ var _PLEASE_WAIT = '###MSG.WAIT###';
 	<div style="clear: both;"></div>
 	<div id="tx-community-editgroup-status"></div>
 	<!-- ###GENERAL_SETTINGS### begin -->
-		<div id="GENERAL_SETTINGS" class="tab_content">
+	<div id="GENERAL_SETTINGS" class="tab_content">
+		<form action="###FORM.ACTION###" class="ajaxForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="tx_community[group]" value="###FORM.GROUP_UID###" />
+		<input type="hidden" name="tx_community[ajaxAction]" id="ajaxActionHolder" value="" />
 			<h3>###LLL:editgroup_tab_general###</h3>
 			<dl>
 				<dt>###LLL:editgroup_general_title###</dt>
@@ -70,7 +72,8 @@ var _PLEASE_WAIT = '###MSG.WAIT###';
 			</dl>
 			
 			<input type="submit" value="###LLL:editgroup_formSave###" />
-		</div>
+		</form>
+	</div>
 	<!-- ###GENERAL_SETTINGS### end -->
 
 	<!-- ###IMAGE_SETTINGS### begin -->
@@ -78,11 +81,10 @@ var _PLEASE_WAIT = '###MSG.WAIT###';
 			<h3>###LLL:editgroup_tab_image###</h3>
 			<dl>
 				<dt>###LLL:editgroup_image_image###</dt>
-				<dd>###GROUP_IMAGE###</dd>
-				<dd><input type="file" name="tx_community[group_image]" value="" /></dd>
+				<dd>###GROUP.IMAGE###</dd>
+				<dd><a id="tx-community-editgroup-imageupload" style="background: green; font-size: 24px; color: white;" href="#">###LLL:editgroup_image_upload###</a></dd>
+				<dd id="tx-community-editgroup-progress"></dd>
 			</dl>
-			
-			<input type="submit" value="###LLL:editgroup_formSave###" />
 		</div>
 	<!-- ###IMAGE_SETTINGS### end -->
 
@@ -109,16 +111,19 @@ var _PLEASE_WAIT = '###MSG.WAIT###';
 	<!-- ###MEMBER_SETTINGS### end -->
 
 	<!-- ###INVITE_MEMBER### begin -->
-		<div id="INVITE_MEMBER" class="tab_content">
+	<div id="INVITE_MEMBER" class="tab_content">
+		<form action="###FORM.ACTION###" class="ajaxForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="tx_community[group]" value="###FORM.GROUP_UID###" />
+		<input type="hidden" name="tx_community[ajaxAction]" id="ajaxActionHolder" value="" />
 			<h3>###LLL:editgroup_tab_invite###</h3>
 			<dl>
 				<dt>###LLL:editgroup_invite_search###</dt>
 				<dd><input type="text" name="tx_community[invite_search]" value="" /></dd>
 			</dl>
 		</div>
+		</form>
+	</div>
 	<!-- ###INVITE_MEMBER### end -->
-</form>
-</div>
 <!-- ###GROUP_SETTINGS### end -->
 
 

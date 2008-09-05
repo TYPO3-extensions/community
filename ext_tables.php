@@ -223,6 +223,21 @@ $tempColumns = Array (
             'maxitems' => 100,
         )
     ),
+    "tx_community_image" => Array (        
+        "exclude" => 1,        
+        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_image",        
+        "config" => Array (
+            "type" => "group",
+            "internal_type" => "file",
+            "allowed" => "gif,png,jpeg,jpg",    
+            "max_size" => 5000,    
+            "uploadfolder" => "uploads/tx_community",
+            "show_thumbs" => 1,    
+            "size" => 1,    
+            "minitems" => 0,
+            "maxitems" => 1,
+        )
+    ),
     'tx_community_public' => Array (
         'exclude' => 1,
         'label' => 'LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_public',
@@ -235,7 +250,7 @@ $tempColumns = Array (
 
 t3lib_div::loadTCA('fe_groups');
 t3lib_extMgm::addTCAcolumns('fe_groups', $tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_members;;;;1-1-1,tx_community_admins;;;;2-2-2,tx_community_public;;;;3-3-3');
+t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_members;;;;1-1-1,tx_community_admins;;;;2-2-2,tx_community_image;;;;3-3-3,tx_community_public;;;;4-4-4');
 
 	// adding the static TS templates
 t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');

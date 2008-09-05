@@ -42,6 +42,17 @@ plugin.tx_community {
 
 		editGroup {
 			templateFile = EXT:community/resources/templates/editgroup/index.htm
+			defaultIcon = EXT:community/resources/icons/default_group.jpg
+			uploadPath = uploads/tx_community/
+			previewImage = IMAGE
+			previewImage {
+				file = will be overwriten
+				file {
+					maxW = 268
+					maxH = 268
+				}
+				params = id="tx-community-group-image"
+			}
 		}
 	}
 
@@ -76,6 +87,7 @@ plugin.tx_community {
 page.includeJS {
 	community_editgroup_form	= EXT:community/resources/jquery.form.js
 	community_editgroup_control	= EXT:community/resources/jquery_editgroup_control.js
+	community_editgroup_upload  = EXT:community/resources/jquery.ocupload-1.1.1.js
 }
 
 	// adding the application controllers

@@ -28,6 +28,7 @@ CREATE TABLE fe_groups (
     tx_community_members int(11) DEFAULT '0' NOT NULL,
     tx_community_admins text NOT NULL,
     tx_community_public int(1) DEFAULT '0' NOT NULL,
+    tx_community_image blob NOT NULL
 );
 
 

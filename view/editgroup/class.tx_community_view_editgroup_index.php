@@ -42,6 +42,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	protected $languageKey;
 
 	protected $formAction;
+	protected $image;
 	/**
 	 * @var tx_community_model_Group
 	 */
@@ -62,6 +63,10 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;
+	}
+	
+	public function setImage($image) {
+		$this->image = $image;
 	}
 
 	public function render() {
@@ -112,6 +117,11 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		);
 		/* @var $template tx_community_Template */
 		
+		$template->addVariable('form', array(
+			'action' => $this->formAction,
+			'group_uid'	=> $this->group->getUid()
+		));
+
 		$template->addVariable('value', array(
 			'group_title'		=> $this->group->getTitle(),
 			'group_description'	=> $this->group->getDescription(),
@@ -134,6 +144,10 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		);
 		/* @var $template tx_community_Template */
 		
+		$template->addVariable('group', array(
+			'image'		=> $this->image
+		));
+		
 		return $template->render();
 	}
 
@@ -145,6 +159,10 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'member_settings'
 		);
 		/* @var $template tx_community_Template */
+		$template->addVariable('form', array(
+			'action' => $this->formAction,
+			'group_uid'	=> $this->group->getUid()
+		));
 		
 		$members = $this->group->getAllMembers();
 		foreach ($members as $member) {
