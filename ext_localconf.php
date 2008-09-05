@@ -53,7 +53,8 @@ $TX_COMMUNITY = array(
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_profileActions',
 					'actions' => array( // those are not the actual profile actions, but controller actions
 						'index',
-						'joinGroup'
+						'joinGroup',
+						'leaveGroup'
 					),
 					'defaultAction' => 'index',
 					'accessControl' => false

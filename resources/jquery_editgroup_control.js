@@ -16,6 +16,12 @@ function showMessage(status, msg, timer) {
 }
 
 $(document).ready(function(){
+	var _PLEASE_WAIT = (typeof _PLEASE_WAIT == 'undefined') ? '' : _PLEASE_WAIT;
+	var _FORM_ACTION = (typeof _FORM_ACTION == 'undefined') ? '' : _FORM_ACTION;
+	var _GROUP_ID = (typeof _GROUP_ID == 'undefined') ? '' : _GROUP_ID;
+	var _USER_ID = (typeof _USER_ID == 'undefined') ? 0 : _USER_ID;
+
+	
 	// init image uploader
 	$('#tx-community-editgroup-imageupload').upload({
 		name: 'tx_community[imageFile]',

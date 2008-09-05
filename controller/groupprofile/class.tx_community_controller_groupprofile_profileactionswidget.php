@@ -210,31 +210,80 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 			}
 		}
 	}
+	
+	public function leaveGroupAction() {
+		$requestingUser = $this->communityApplication->getRequestingUser();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
+		
+		if (!is_null($requestingUser)) {
+			if ($requestedGroup instanceof tx_community_model_Group) {
+				if ($requestedGroup->isAdmin($requestingUser)) {
+					// TODO throw some exception
+					die($this->localizationManager->getLL('msg_leaveGroupIfIsAdminOfGroup'));
+				}
+				
+				if ($requestedGroup->removeMember($requestingUser)) {
+					// do a redirect to the profile page, no output
+					$profilePageUrl = $this->communityApplication->pi_getPageLink(
+						$this->configuration['pages.']['groupProfile'],
+						'',
+						array(
+							'tx_community' => array(
+								'group' => $requestedGroup->getUid()
+							)
+						)
+					);
+		
+					Header('HTTP/1.1 303 See Other');
+					Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
+					exit;
+				} else {
+					// TODO throw some exception
+				}
+			}
+		}
+	}
 
 	protected function getProfileActions() {
 			// TODO make this extensible at some point
 		$profileActions = array();
 
-		$profileActions[]['link'] = $this->getJoinGroupProfileAction();
+		$profileActions[]['link'] = $this->getJoinLeaveGroupProfileAction();
 		$profileActions[]['link'] = $this->getEditGroupProfileAction();
 		
 		return $profileActions;
 	}
 
-	protected function getJoinGroupProfileAction() {
+	protected function getJoinLeaveGroupProfileAction() {
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
 		if ($requestedGroup->isMember($requestingUser)) {
-				// the user are already member
-			$content = sprintf(
-				$this->localizationManager->getLL('action_isMemberOfGroup'),
+			$linkText = sprintf(
+				$this->localizationManager->getLL('action_leaveGroup'),
 				$requestingUser->getNickname()
 			);
+
+			$content = $this->communityApplication->pi_linkTP(
+				$linkText,
+				array(
+					'tx_community' => array(
+						'group' => $requestedGroup->getUid(),
+						'profileAction' => 'leaveGroup'
+					)
+				)
+			);
+			
+			if ($requestedGroup->isAdmin(($requestingUser))) {
+				$content = sprintf(
+					$this->localizationManager->getLL('action_isAdminOfGroup'),
+					$requestingUser->getNickname()
+				);
+			}
+			
 		} else {
-				// the users are not member yet, create a link
 			$linkText = sprintf(
 				$this->localizationManager->getLL('action_joinGroup'),
 				$requestingUser->getNickname()
