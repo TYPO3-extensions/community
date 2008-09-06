@@ -109,10 +109,10 @@
 }
 </style>
 <script>
-var _PLEASE_WAIT = '###MSG.WAIT###';
-var _FORM_ACTION = '###FORM.ACTION###';
-var _GROUP_ID    = '###FORM.GROUP_UID###';
-var _USER_ID     = 0;
+_PLEASE_WAIT = '###MSG.WAIT###';
+_FORM_ACTION = '###FORM.ACTION###';
+_GROUP_ID    = '###FORM.GROUP_UID###';
+_USER_ID     = '0';
 </script>
 <h2>###LLL:editgroup_editSettings###</h2>
 <div id="tx-community-editgroup-settings">
@@ -161,7 +161,25 @@ var _USER_ID     = 0;
 	<!-- ###MEMBER_SETTINGS### begin -->
 		<div id="MEMBER_SETTINGS" class="tab_content">
 			<h3>###LLL:editgroup_tab_members###</h3>
-			<table>
+			<table id="MEMBER_SETTINGS_TMPMEMBERS">
+				<caption>###LLL:editgroup_caption_tempmembers###</caption>
+				<tr>
+					<th>###LLL:editgroup_header_membername###</th>
+					<th>###LLL:editgroup_header_memberstatus###</th>
+					<th>###LLL:editgroup_header_memberactions###</th>
+				</tr>
+				<!-- ###LOOP:TEMPMEMBERS### begin -->
+				<!-- ###LOOP_CONTENT### -->
+				<tr id="memberRow###MEMBER_UID###">
+					<td class="member_name">###MEMBER_NAME###</td>
+					<td class="member_status">###MEMBER_STATUS###</td>
+					<td class="member_actions">###MEMBER_ACTIONS###</td>
+				</tr>
+				<!-- ###LOOP_CONTENT### -->
+				<!-- ###LOOP:TEMPMEMBERS### end -->
+			</table>
+			<table id="MEMBER_SETTINGS_MEMBERS">
+				<caption>###LLL:editgroup_caption_members###</caption>
 				<tr>
 					<th>###LLL:editgroup_header_membername###</th>
 					<th>###LLL:editgroup_header_memberstatus###</th>
@@ -170,9 +188,9 @@ var _USER_ID     = 0;
 				<!-- ###LOOP:MEMBERS### begin -->
 				<!-- ###LOOP_CONTENT### -->
 				<tr id="memberRow###MEMBER_UID###">
-					<td>###MEMBER_NAME###</td>
-					<td>###MEMBER_STATUS###</td>
-					<td>###MEMBER_ACTIONS###</td>
+					<td class="member_name">###MEMBER_NAME###</td>
+					<td class="member_status">###MEMBER_STATUS###</td>
+					<td class="member_actions">###MEMBER_ACTIONS###</td>
 				</tr>
 				<!-- ###LOOP_CONTENT### -->
 				<!-- ###LOOP:MEMBERS### end -->
@@ -194,6 +212,14 @@ var _USER_ID     = 0;
 		</form>
 	</div>
 	<!-- ###INVITE_MEMBER### end -->
+	
+	<div id="confirmRequestDialog" title="###LLL:editgroup_dialog_confirmRequest_title###">
+		<p>###LLL:editgroup_dialog_confirmRequest_message###</p>
+	</div>
+	
+	<div id="rejectRequestDialog" title="###LLL:editgroup_dialog_rejectRequest_title###">
+		<p>###LLL:editgroup_dialog_rejectRequest_message###</p>
+	</div>
 	
 	<div id="makeAdminDialog" title="###LLL:editgroup_dialog_makeAdmin_title###">
 		<p>###LLL:editgroup_dialog_makeAdmin_message###</p>

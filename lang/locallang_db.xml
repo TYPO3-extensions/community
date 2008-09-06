@@ -26,6 +26,7 @@
 			<label index="fe_users.tx_community_aboutme">About Me</label>
 			<label index="fe_users.tx_community_instantmessager">Instant Messager</label>
 			<label index="fe_groups.tx_community_admins">Admins</label>
+			<label index="fe_groups.tx_community_tmpmembers">Unconfirmed Members</label>
 			<label index="fe_groups.tx_community_members">Members</label>
 			<label index="fe_groups.tx_community_public">Public group?</label>
 			<label index="fe_groups.tx_community_image">Image</label>

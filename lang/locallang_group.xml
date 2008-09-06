@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'community'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<!-- Message if membership is rejected -->
+			<label index="subject_rejectMember">membership rejected</label>
+			<label index="body_rejectMember"><![CDATA[
+Hello %USER.NICKNAME%,
+sorry, your membership request for the group "%GROUP.TITLE%" has been rejected.
+			]]></label>
+
+			<!-- Message if membership is confirmed -->
+			<label index="subject_confirmMember">membership confirmed</label>
+			<label index="body_confirmMember"><![CDATA[
+Hello %USER.NICKNAME%,
+congratulation, your membership request for the group "%GROUP.TITLE%" has been confirmed.
+			]]></label>
+
+			<!-- Message if member has joined group -->
+			<label index="subject_memberHasJoined">member has joined group</label>
+			<label index="body_memberHasJoined"><![CDATA[
+Hello %ADMIN.NICKNAME%,
+A new member (%USER.NICKNAME%) has joined the group "%GROUP.TITLE%".
+
+You receive this message, because you are the admin of this group.
+			]]></label>
+
+			<!-- Message if confirmation is needed -->
+			<label index="subject_confirmationNeeded">membership confirmation needed</label>
+			<label index="body_confirmationNeeded"><![CDATA[
+Hello %ADMIN.NICKNAME%,
+A new member (%USER.NICKNAME%) has joined the group "%GROUP.TITLE%", but your confirmation is needed.
+
+You receive this message, because you are the admin of this group.
+			]]></label>
+
+			<!-- Message if a user leave a group -->
+			<label index="subject_memberLeaveGroup">member leave group</label>
+			<label index="body_memberLeaveGroup"><![CDATA[
+Hello %ADMIN.NICKNAME%,
+A member (%USER.NICKNAME%) has leaved the group "%GROUP.TITLE%".
+
+You receive this message, because you are the admin of this group.
+			]]></label>
+		</languageKey>
+	</data>
+</T3locallang>

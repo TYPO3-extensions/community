@@ -13,6 +13,8 @@
 			<label index="editgroup_tab_image">Image settings</label>
 			<label index="editgroup_tab_members">Member settings</label>
 			<label index="editgroup_tab_invite">Invite members</label>
+			<label index="editgroup_caption_tempmembers">Unconfirmed Members</label>
+			<label index="editgroup_caption_members">Members</label>
 			
 			<!-- Genereal messages -->
 			<label index="msg_please_wait">please wait...</label>
@@ -32,6 +34,15 @@
 			<label index="editgroup_header_memberactions">Member actions</label>
 			<label index="label_makeAdmin">make admin</label>
 			<label index="label_removeMember">remove member</label>
+			<label index="label_confirmRequest">confirm</label>
+			<label index="label_rejectRequest">reject</label>
+			<label index="label_status_admin">Admin</label>
+			<label index="label_status_tmpmember">Unconfirmed Member</label>
+			<label index="label_status_member">Member</label>
+			<label index="editgroup_dialog_confirmRequest_title">confirm this membership request?</label>
+			<label index="editgroup_dialog_confirmRequest_message">Do you realy want to confirm this user? This means that the user will be a member of this group.</label>
+			<label index="editgroup_dialog_rejectRequest_title">Reject this membership request?</label>
+			<label index="editgroup_dialog_rejectRequest_message">Do you realy want to reject this user? This means that the user can't join this group.</label>
 			<label index="editgroup_dialog_makeAdmin_title">make the user admin?</label>
 			<label index="editgroup_dialog_makeAdmin_message">Do you realy want to make this user admin? This means that you loose your admin status.</label>
 			<label index="editgroup_dialog_removeMember_title">remove this user?</label>

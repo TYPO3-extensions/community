@@ -11,6 +11,7 @@
 			<label index="action_joinGroup">Join this group</label>
 			<label index="action_leaveGroup">Leave this group</label>
 			<label index="action_editGroup">Edit this group</label>
+			<label index="action_pending_membership">Pending membership</label>
 		</languageKey>
 	</data>
 </T3locallang>

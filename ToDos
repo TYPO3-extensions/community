@@ -1,12 +1,3 @@
-* tx_community_controller_groupprofile_ProfileActionsWidget
-** action: joinGroup
-*** send Systemmessage to Group-Admins
-*** implement admin confirmation
-**** Wie speichern? Neue Tabelle für Anfragen?
-**** send Systemmessage to Group-Admins
-***** Link zum direkten Bestätigen, Link zum User
-** action: leaveGroup
-*** send Systemmessage to Group-Admins
 
 * NEU: tx_community_controller_GroupListApplication
 

@@ -1,3 +1,8 @@
+2008-09-06 Frank Naegler  <typo3@naegler.net>
+
+	* added sending SystemMessages on group events
+	* added confirmation handling to tx_community_controller_EditGroupApplication
+	
 2008-09-05 Frank Naegler  <typo3@naegler.net>
 
 	* added tx_community_controller_NewGroupApplication

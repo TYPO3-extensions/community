@@ -300,6 +300,12 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 			);
 		}
 
+		if ($requestedGroup->isTempMember($requestingUser)) {
+			$content = sprintf(
+				$this->localizationManager->getLL('action_pending_membership'),
+				$requestingUser->getNickname()
+			);
+		}
 		return $content;
 	}
 

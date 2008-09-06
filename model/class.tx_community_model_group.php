@@ -23,6 +23,8 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
+require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_communitymessages_api.php');
 
 /**
  * A community group, uses TYPO3's fe_groups
@@ -46,6 +48,12 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 */
 	protected $userGateway;
 	
+	protected $messageCenterLoaded = false;
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $llManager;
+	
 
 	/**
 	 * constructor for class tx_community_model_Group
@@ -58,6 +66,10 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	protected function init() {
 		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		
+		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_group.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		
 		if (!is_null($this->uid)) {
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
@@ -68,6 +80,9 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 				$this->setDataToStore($data);
 			}
+		}
+		if (t3lib_extMgm::isLoaded('community_messages')) {
+			$this->messageCenterLoaded = true;
 		}
 	}
 	
@@ -193,19 +208,41 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function addMember(tx_community_model_User $user) {
-		if (!$this->isMember($user)) {
+		$table = ($this->getTX_community_public()) ? 'fe_groups_tx_community_members_mm' : 'fe_groups_tx_community_tmpmembers_mm';
+		$field = ($this->getTX_community_public()) ? 'tx_community_members' : 'tx_community_tmpmembers';
+		if (!$this->isMember($user) && !$this->isTempMember($user)) {
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'fe_groups_tx_community_members_mm',
+				$table,
 				array(
 					'uid_local'		=> $this->uid,
 					'uid_foreign'	=> $user->getUid()
 				)
 			);
-			if ($GLOBALS['TYPO3_DB']->sql_insert_id()) {
-				$this->data['tx_community_members'] = $this->data['tx_community_members'] + 1;
+			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
+				$this->data[$field] = $this->data[$field] + 1;
 			}
 		}
-		return $this->save();
+		if ($this->save()) {
+			if ($this->getTX_community_public()) {
+				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+					$this->sendMessage(
+						$admin,
+						$this->prepareForMessage($this->llManager->getLL('subject_memberHasJoined'), $user, $admin),
+						$this->prepareForMessage($this->llManager->getLL('body_memberHasJoined'), $user, $admin)
+					);
+				}
+			} else {
+				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+					$this->sendMessage(
+						$admin,
+						$this->prepareForMessage($this->llManager->getLL('subject_confirmationNeeded'), $user, $admin),
+						$this->prepareForMessage($this->llManager->getLL('body_confirmationNeeded'), $user, $admin)
+					);
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	public function removeMember(tx_community_model_User $user) {
@@ -216,8 +253,65 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			);
 			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
 				$this->data['tx_community_members'] = intval($this->data['tx_community_members']) - 1;
+				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+					$this->sendMessage(
+						$admin,
+						$this->prepareForMessage($this->llManager->getLL('subject_memberLeaveGroup'), $user, $admin),
+						$this->prepareForMessage($this->llManager->getLL('body_memberLeaveGroup'), $user, $admin)
+					);
+				}
 				return true;
 			}
+		}
+		return false;
+	}
+
+	public function confirmMember(tx_community_model_User $user) {
+		if ($this->isTempMember($user)) {
+			$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+				'fe_groups_tx_community_tmpmembers_mm',
+				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+			);
+			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
+				$this->data['tx_community_tmpmembers'] = intval($this->data['tx_community_tmpmembers']) - 1;
+				$this->save();
+				$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+					'fe_groups_tx_community_members_mm',
+					array(
+						'uid_local'		=> $this->uid,
+						'uid_foreign'	=> $user->getUid()
+					)
+				);
+				if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
+					$this->data['tx_community_members'] = $this->data['tx_community_members'] + 1;
+					$this->sendMessage(
+						$user,
+						$this->prepareForMessage($this->llManager->getLL('subject_confirmMember'), $user),
+						$this->prepareForMessage($this->llManager->getLL('body_confirmMember'), $user)
+					);
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	public function rejectMember(tx_community_model_User $user) {
+		if ($this->isTempMember($user)) {
+			$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+				'fe_groups_tx_community_tmpmembers_mm',
+				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+			);
+			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
+				$this->sendMessage(
+					$user,
+					$this->prepareForMessage($this->llManager->getLL('subject_rejectMember'), $user),
+					$this->prepareForMessage($this->llManager->getLL('body_rejectMember'), $user)
+				);
+				return true;
+			}
+			return false;
 		}
 		return false;
 	}
@@ -238,7 +332,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return $returnUser;
 	}
-
+	
 	public function isMember(tx_community_model_User $user) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
@@ -246,6 +340,50 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
 		);
 		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
+	}
+	
+	
+	public function getAllTempMembers() {
+		$returnUser = array();
+		
+		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid_foreign',
+			'fe_groups_tx_community_tmpmembers_mm',
+			'uid_local = ' . $this->uid
+		);
+		foreach ($users as $user) {
+			$tmpUser = $this->userGateway->findById($user['uid_foreign']);
+			if (!is_null($tmpUser)) {
+				$returnUser[] = $tmpUser;
+			}
+		}
+		return $returnUser;
+	}
+	
+	public function isTempMember(tx_community_model_User $user) {
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			'fe_groups_tx_community_tmpmembers_mm',
+			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+		);
+		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
+	}
+	
+	protected function prepareForMessage($txt, $user, $admin = null) {
+		$keys = array(
+			'%USER.NICKNAME%'	=> $user->getNickname(),
+			'%GROUP.TITLE%'		=> $this->getTitle(),
+		);
+		if (!is_null($admin)) {
+			$keys['%ADMIN.NICKNAME%']	= $admin->getNickname();
+		}
+		return str_replace(array_keys($keys), array_values($keys), $txt);
+	}
+	
+	protected function sendMessage(tx_community_model_User $toUser, $subject, $message) {
+		if ($this->messageCenterLoaded) {
+			tx_communitymessages_API::sendSystemMessage($subject, $message, array($toUser));
+		}
 	}
 }
 

@@ -44,16 +44,20 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	protected $formAction;
 	protected $image;
 	protected $adminActions = array();
+	protected $tmpMembersActions = array();
 	protected $otherActions = array();
 	/**
 	 * @var tx_community_model_Group
 	 */
 	protected $group;
-
 	/**
 	 * @var tx_community_model_GroupGateway
 	 */
 	protected $groupGateway;
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $llManager;
 	
 	public function setTemplateFile($templateFile) {
 		$this->templateFile = $templateFile;
@@ -75,13 +79,17 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		$this->adminActions = $actions;
 	}
 		
+	public function setTmpMembersActions($actions) {
+		$this->tmpMembersActions = $actions;
+	}
+		
 	public function setOtherActions($actions) {
 		$this->otherActions = $actions;
 	}
 	
 	public function render() {
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_editgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_editgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
 		
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		$this->group = $this->groupGateway->findCurrentGroup();
@@ -112,7 +120,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'group_uid'	=> $this->group->getUid()
 		));
 		$template->addVariable('msg', array(
-			'wait'				=> $llManager->getLL('msg_please_wait')
+			'wait'				=> $this->llManager->getLL('msg_please_wait')
 		));
 		
 		return $template->render();
@@ -174,13 +182,27 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'group_uid'	=> $this->group->getUid()
 		));
 		
+		$members = $this->group->getAllTempMembers();
+		$loopTempMembers = array();
+		foreach ($members as $member) {
+			$tmp = array(
+				'member_uid'		=> $member->getUid(),
+				'member_name'		=> $member->getNickname(),
+				'member_status'		=> $this->getMemberStatus($member),
+				'member_actions'	=> $this->getActionsForMember($member),
+			);
+			$loopTempMembers[] = $tmp;
+		}
+		
+		$template->addLoop('tempMembers', $loopTempMembers);
+		
 		$members = $this->group->getAllMembers();
 		$loopMembers = array();
 		foreach ($members as $member) {
 			$tmp = array(
 				'member_uid'		=> $member->getUid(),
 				'member_name'		=> $member->getNickname(),
-				'member_status'		=> $this->group->isAdmin($member) ? 'admin' : 'member',
+				'member_status'		=> $this->getMemberStatus($member),
 				'member_actions'	=> $this->getActionsForMember($member),
 			);
 			$loopMembers[] = $tmp;
@@ -192,12 +214,25 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	}
 
 	protected function getActionsForMember(tx_community_model_User $member) {
-		if (!$this->group->isAdmin($member)) {
+		if ($this->group->isAdmin($member)) {
 			$return = implode(' ', $this->adminActions);
+		} elseif ($this->group->isTempMember($member)) {
+			$return = implode(' ', $this->tmpMembersActions);
 		} else {
 			$return = implode(' ', $this->otherActions);
 		}
 		$return = str_replace('%UID%', $member->getUid(), $return);
+		return $return;
+	}
+
+	protected function getMemberStatus(tx_community_model_User $member) {
+		if ($this->group->isAdmin($member)) {
+			$return = $this->llManager->getLL('label_status_admin');
+		} elseif ($this->group->isTempMember($member)) {
+			$return = $this->llManager->getLL('label_status_tmpmember');
+		} else {
+			$return = $this->llManager->getLL('label_status_member');
+		}
 		return $return;
 	}
 

@@ -198,6 +198,19 @@ t3lib_extMgm::addTCAcolumns('fe_users', $feUsersTempColumns, 1);
 t3lib_extMgm::addToAllTCAtypes('fe_users', 'tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
 
 $tempColumns = Array (
+	"tx_community_tmpmembers" => Array (        
+        "exclude" => 1,        
+        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_tmpmembers",        
+        "config" => Array (
+            "type" => "group",    
+            "internal_type" => "db",    
+            "allowed" => "fe_users",    
+            "size" => 5,    
+            "minitems" => 0,
+            "maxitems" => 100,    
+            "MM" => "fe_groups_tx_community_tmpmembers_mm",
+        )
+    ),
 	"tx_community_members" => Array (        
         "exclude" => 1,        
         "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_members",        
@@ -250,7 +263,7 @@ $tempColumns = Array (
 
 t3lib_div::loadTCA('fe_groups');
 t3lib_extMgm::addTCAcolumns('fe_groups', $tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_members;;;;1-1-1,tx_community_admins;;;;2-2-2,tx_community_image;;;;3-3-3,tx_community_public;;;;4-4-4');
+t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_tmpmembers;;;;1-1-1,tx_community_members;;;;,tx_community_admins;;;;2-2-2,tx_community_image;;;;3-3-3,tx_community_public;;;;4-4-4');
 
 	// adding the static TS templates
 t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');

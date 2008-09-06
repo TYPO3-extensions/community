@@ -145,6 +145,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$actions = $this->configuration['applications.']['editGroup.']['memberlist.']['actions.'];
 		debug($actions);
 		$adminActions = array();
+		$tmpMemberActions = array();
 		$otherActions = array();
 		foreach ($actions['admins.'] as $k => $v) {
 			switch ($v) {
@@ -152,6 +153,15 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				case 'HTML' :
 				case 'IMAGE' :
 					$adminActions[] = $this->cObj->cObjGetSingle($actions['admins.'][$k], $actions['admins.'][$k.'.']);
+				break;
+			}
+		}
+		foreach ($actions['tmpMembers.'] as $k => $v) {
+			switch ($v) {
+				case 'TEXT' :
+				case 'HTML' :
+				case 'IMAGE' :
+					$tmpMemberActions[] = $this->cObj->cObjGetSingle($actions['tmpMembers.'][$k], $actions['tmpMembers.'][$k.'.']);
 				break;
 			}
 		}
@@ -165,6 +175,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			}
 		}
 		$view->setAdminActions($adminActions);
+		$view->setTmpMembersActions($tmpMemberActions);
 		$view->setOtherActions($otherActions);
 		
 		return $view->render();
@@ -236,6 +247,26 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								$group->addAdmin($newAdmin);
 								$group->removeAdmin($user);
 								if ($group->save()) {
+									$result = "{'status': 'success', 'msg': 'saved'}";
+								} else {
+									$result = "{'status': 'error', 'msg': 'not saved'}";
+								}
+							}
+						break;
+						case 'confirmRequest':
+							$newMember = $userGateway->findById($communityRequest['memberUid']);
+							if ($newMember instanceof tx_community_model_User) {
+								if ($group->confirmMember($newMember)) {
+									$result = "{'status': 'success', 'msg': 'saved'}";
+								} else {
+									$result = "{'status': 'error', 'msg': 'not saved'}";
+								}
+							}
+						break;
+						case 'rejectRequest':
+							$newMember = $userGateway->findById($communityRequest['memberUid']);
+							if ($newMember instanceof tx_community_model_User) {
+								if ($group->rejectMember($newMember)) {
 									$result = "{'status': 'success', 'msg': 'saved'}";
 								} else {
 									$result = "{'status': 'error', 'msg': 'not saved'}";

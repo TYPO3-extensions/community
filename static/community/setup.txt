@@ -59,16 +59,26 @@ plugin.tx_community {
 			}
 			memberlist {
 				actions {
+					# actions for unconfirmed members
+					tmpMembers {
+						confirmRequest = TEXT
+						confirmRequest.data = LLL:EXT:community/lang/locallang_editgroup.xml:label_confirmRequest
+						confirmRequest.wrap = <span class="confirmRequest" id="confirmRequest%UID%">|</span>
+						rejectRequest = TEXT
+						rejectRequest.data = LLL:EXT:community/lang/locallang_editgroup.xml:label_rejectRequest
+						rejectRequest.wrap = <span class="rejectRequest" id="rejectRequest%UID%">|</span>
+					}
+					# actions for admin members
 					admins {
+					}
+					# actions for other members
+					other {
 						makeAdmin = TEXT
 						makeAdmin.data = LLL:EXT:community/lang/locallang_editgroup.xml:label_makeAdmin
 						makeAdmin.wrap = <span class="makeAdmin" id="makeAdmin%UID%">|</span>
 						removeMember = TEXT
 						removeMember.data = LLL:EXT:community/lang/locallang_editgroup.xml:label_removeMember
 						removeMember.wrap = <span class="removeMember" id="removeMember%UID%">|</span>
-					}
-					other {
-					
 					}
 				}
 			}

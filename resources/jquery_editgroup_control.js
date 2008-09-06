@@ -16,10 +16,10 @@ function showMessage(status, msg, timer) {
 }
 
 $(document).ready(function(){
-	var _PLEASE_WAIT = (typeof _PLEASE_WAIT == 'undefined') ? '' : _PLEASE_WAIT;
-	var _FORM_ACTION = (typeof _FORM_ACTION == 'undefined') ? '' : _FORM_ACTION;
-	var _GROUP_ID = (typeof _GROUP_ID == 'undefined') ? '' : _GROUP_ID;
-	var _USER_ID = (typeof _USER_ID == 'undefined') ? 0 : _USER_ID;
+	_PLEASE_WAIT = (typeof _PLEASE_WAIT == 'undefined') ? '' : _PLEASE_WAIT;
+	_FORM_ACTION = (typeof _FORM_ACTION == 'undefined') ? '' : _FORM_ACTION;
+	_GROUP_ID = (typeof _GROUP_ID == 'undefined') ? 0 : _GROUP_ID;
+	_USER_ID = (typeof _USER_ID == 'undefined') ? 0 : _USER_ID;
 
 	
 	// init image uploader
@@ -158,6 +158,87 @@ $(document).ready(function(){
 		}
 	});	
 
+	$("#confirmRequestDialog").dialog({ 
+		modal: true, 
+		autoOpen: false,
+		draggable: false,
+		resizable: false,
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
+		},
+		dialogClass: 'flora',
+		buttons: { 
+			"Ok": function() { 
+				showMessage('wait', _PLEASE_WAIT);
+				$.post(
+					_FORM_ACTION,
+					{
+						'tx_community[ajaxAction]': 'changeMemberStatus',
+						'tx_community[group]': _GROUP_ID,
+						'tx_community[memberUid]': _USER_ID,
+						'tx_community[do]': 'confirmRequest'
+					},
+					function(response) {
+						response = eval('('+response+')');
+						showMessage(response.status, response.msg, 5000);
+						if (response.status == 'success') {
+							$('#memberRow'+_USER_ID).fadeOut('slow').find('td').each(function() {
+								if ($(this).hasClass('member_status')) {
+									$(this).empty();
+								}
+								if ($(this).hasClass('member_actions')) {
+									$(this).empty();
+								}
+							}).appendTo('#MEMBER_SETTINGS_MEMBERS').fadeIn('slow');
+						}
+					}
+				);
+				$(this).dialog("close"); 
+			}, 
+			"Cancel": function() { 
+				$(this).dialog("close"); 
+			} 
+		}
+	});	
+
+	$("#rejectRequestDialog").dialog({ 
+		modal: true, 
+		autoOpen: false,
+		draggable: false,
+		resizable: false,
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
+		},
+		dialogClass: 'flora',
+		buttons: { 
+			"Ok": function() { 
+				showMessage('wait', _PLEASE_WAIT);
+				$.post(
+					_FORM_ACTION,
+					{
+						'tx_community[ajaxAction]': 'changeMemberStatus',
+						'tx_community[group]': _GROUP_ID,
+						'tx_community[memberUid]': _USER_ID,
+						'tx_community[do]': 'rejectRequest'
+					},
+					function(response) {
+						response = eval('('+response+')');
+						showMessage(response.status, response.msg, 5000);
+						if (response.status == 'success') {
+							$('#memberRow'+_USER_ID).fadeOut('slow');
+						}
+					}
+				);
+				$(this).dialog("close"); 
+			}, 
+			"Cancel": function() { 
+				$(this).dialog("close"); 
+			} 
+		}
+	});	
+
 	$('.makeAdmin').click(function(e) {
 		id = $(e.target).attr('id');
 		id = id.replace('makeAdmin', '');
@@ -170,5 +251,19 @@ $(document).ready(function(){
 		id = id.replace('removeMember', '');
 		_USER_ID = id;
 		$("#removeMemberDialog").dialog('open');
+	});
+	
+	$('.confirmRequest').click(function(e) {
+		id = $(e.target).attr('id');
+		id = id.replace('confirmRequest', '');
+		_USER_ID = id;
+		$("#confirmRequestDialog").dialog('open');
+	});
+	
+	$('.rejectRequest').click(function(e) {
+		id = $(e.target).attr('id');
+		id = id.replace('rejectRequest', '');
+		_USER_ID = id;
+		$("#rejectRequestDialog").dialog('open');
 	});
 });
