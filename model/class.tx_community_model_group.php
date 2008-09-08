@@ -160,7 +160,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					$tmpData[$k] = implode(',', $tmp);
 				break;
 				default:
-					$tmpData[$k] = mysql_escape_string($v);
+					$tmpData[$k] = $GLOBALS['TYPO3_DB']->quoteStr($v, 'fe_groups');
 				break;
 			}
 		}
