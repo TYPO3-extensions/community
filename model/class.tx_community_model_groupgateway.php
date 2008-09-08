@@ -92,6 +92,21 @@ class tx_community_model_GroupGateway {
 		return $group;
 	}
 	
+	public function getAllGroups() {
+		$groups = null;
+		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'*',
+			'fe_groups',
+			'1'
+		); // TODO restrict to certain part of the tree
+		
+		foreach ($groupRows as $groupRow) {
+			$groups[] = $this->createGroupFromRow($groupRow);
+		}
+		
+		return $groups;
+	}
+	
 	protected function createGroupFromRow(array $row) {
 		/**
 		 * @var tx_community_model_Group

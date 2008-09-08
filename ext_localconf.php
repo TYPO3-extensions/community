@@ -61,6 +61,15 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
+		'ListGroups' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_listgroupsapplication.php:tx_community_controller_ListGroupsApplication',
+			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:listGroups',
+			'accessControl' => false,
+			'actions' => array( // those are not the actual profile actions, but controller actions
+				'index'
+			),
+			'defaultAction' => 'index',
+		),
 		'EditGroup' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_editgroupapplication.php:tx_community_controller_EditGroupApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:editGroup',

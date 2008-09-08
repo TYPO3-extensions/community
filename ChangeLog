@@ -1,3 +1,7 @@
+2008-09-08 Frank Naegler  <typo3@naegler.net>
+
+	* added tx_community_controller_ListGroupsApplication
+	
 2008-09-06 Frank Naegler  <typo3@naegler.net>
 
 	* added sending SystemMessages on group events

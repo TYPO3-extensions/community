@@ -44,6 +44,10 @@ plugin.tx_community {
 			templateFile = EXT:community/resources/templates/newgroup/index.htm
 		}
 
+		listGroups {
+			templateFile = EXT:community/resources/templates/listgroups/index.htm
+		}
+
 		editGroup {
 			templateFile = EXT:community/resources/templates/editgroup/index.htm
 			defaultIcon = EXT:community/resources/icons/default_group.jpg
