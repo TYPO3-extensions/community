@@ -220,6 +220,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					$dir = t3lib_div::getFileAbsFileName($upPath);
 					$newName = md5($fileName) .'.'. $pathInfo['extension'];
 					if (move_uploaded_file($tmpFile, $dir.$newName)) {
+						t3lib_div::fixPermissions($dir.$newName);
 						$group->setTX_community_image($newName);
 						if ($group->save()) {
 							$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
