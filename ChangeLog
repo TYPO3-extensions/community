@@ -1,21 +1,25 @@
+2008-09-08 Ingo Renner  <ingo@typo3.org>
+
+	* removed dependency on a non-public extension
+
 2008-09-08 Frank Naegler  <typo3@naegler.net>
 
 	* added tx_community_controller_ListGroupsApplication
-	
+
 2008-09-06 Frank Naegler  <typo3@naegler.net>
 
 	* added sending SystemMessages on group events
 	* added confirmation handling to tx_community_controller_EditGroupApplication
-	
+
 2008-09-05 Frank Naegler  <typo3@naegler.net>
 
 	* added tx_community_controller_NewGroupApplication
 	* improve and add new ajax functions to EditGroup Application
 	* added ajax image upload to EditGroup Application
-	
+
 2008-09-04 Frank Naegler  <typo3@naegler.net>
 
-	* added tx_community_controller_EditGroupApplication	
+	* added tx_community_controller_EditGroupApplication
 	* added tx_community_controller_groupprofile_ProfileActionsWidget
 	* added tx_community_view_groupprofile_ProfileActions
 	* added profileactionswidget.htm
