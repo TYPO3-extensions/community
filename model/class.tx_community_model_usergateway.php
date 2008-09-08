@@ -66,7 +66,7 @@ class tx_community_model_UserGateway {
 
 		return $user;
 	}
-	
+
 	/**
 	 * find users by its roles
 	 *
@@ -90,7 +90,7 @@ class tx_community_model_UserGateway {
 		}
 		if (!is_null($user)) {
 			$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'friend',
+				'friend',	// FIXME friend role name must not be hardcoded!
 				'tx_community_friend',
 				'feuser = ' . $user->getUid()
 			);
@@ -100,7 +100,7 @@ class tx_community_model_UserGateway {
 				}
 			}
 		}
-		
+
 		return $friends;
 	}
 
