@@ -24,6 +24,7 @@
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_view_editgroup_index.php');
 
@@ -195,19 +196,10 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$ajaxAction = $communityRequest['ajaxAction'];
 		switch ($ajaxAction) {
 			case 'saveGeneral':
-				$isPublic = (isset($communityRequest['group_public'])) ? 1 : 0;
-				
-				if ($group->isAdmin($user)) {
-					$group->setTitle($communityRequest['group_title']);
-					$group->setDescription($communityRequest['group_description']);
-					$group->setTX_community_public($isPublic);
-					if ($group->save()) {
-						$result = "{'status': 'success', 'msg': 'saved'}";
-					} else {
-						$result = "{'status': 'error', 'msg': 'not saved'}";
-					}
+				if ($this->saveGeneral()) {
+					$result = "{'status': 'success', 'msg': 'saved'}";
 				} else {
-					$result = "{'status': 'error', 'msg': 'not admin'}";	
+					$result = "{'status': 'error', 'msg': 'not saved'}";
 				}
 			break;
 			case 'saveImage':
@@ -304,6 +296,30 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		echo $result;
 		die();
 	}
+	
+	protected function saveGeneral() {
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		/**
+		 * @var tx_community_model_Group
+		 */
+		$group = $groupGateway->findCurrentGroup();
+		$user  = $userGateway->findCurrentlyLoggedInUser();
+		
+		if ($group->isAdmin($user)) {
+			$group->setTitle($communityRequest['group_title']);
+			$group->setDescription($communityRequest['group_description']);
+			$group->setTX_community_public($isPublic);
+			if ($group->save()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;	
+		}
+	} 
 }
 
 

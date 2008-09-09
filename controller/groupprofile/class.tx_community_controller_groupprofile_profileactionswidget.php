@@ -51,6 +51,10 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
+	/**
+	 * @var tx_community_model_GroupGateway
+	 */
+	protected $groupGateway;
 	
 	public function initialize($data, $configuration) {
 		$this->data = $data;
@@ -61,6 +65,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 			$GLOBALS['PATH_community'] . 'lang/locallang_groupprofile_profileactions.xml',
 			array()
 		);
+		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 	}
 
 	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
@@ -258,7 +263,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->communityApplication->getRequestedGroup();
+		$requestedGroup = $this->groupGateway->findCurrentGroup();
 
 		if ($requestedGroup->isMember($requestingUser)) {
 			$linkText = sprintf(
@@ -313,7 +318,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->communityApplication->getRequestedGroup();
+		$requestedGroup = $this->groupGateway->findCurrentGroup();
 
 		if ($requestedGroup->isAdmin($requestingUser)) {
 			// the user is admin
