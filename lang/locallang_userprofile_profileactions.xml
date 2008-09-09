@@ -6,6 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="action_thisIsYou">This is you</label>
 			<label index="action_addAsFriend">Add %s as a Friend</label>
 			<label index="action_isFriendWith">You're Friends with %s</label>
 		</languageKey>

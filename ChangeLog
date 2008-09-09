@@ -5,6 +5,7 @@
 	* removed the init() method from the group model and joined it with the constructor
 	* added fallback to default to the LLL view helper if there's no label for the current language
 	* changed local lang labels to use underscores instead of dots as separator to make it possible to overwrite labels using TS
+	* added a label to the profile actions for the case when a user views his own profile
 
 2008-09-08 Frank Naegler  <typo3@naegler.net>
 
