@@ -1,6 +1,7 @@
 2008-09-08 Ingo Renner  <ingo@typo3.org>
 
 	* removed dependency on a non-public extension
+	* removed the group gateway from the abstract community application controller as it is not needed for every community application
 
 2008-09-08 Frank Naegler  <typo3@naegler.net>
 

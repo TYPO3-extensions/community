@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 
 /**
  * An abstract community application controller
@@ -47,11 +46,6 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	 */
 	protected $userGateway;
 
-	/**
-	 * @var tx_community_model_GroupGateway
-	 */
-	protected $groupGateway;
-	
 	// FIXME create an abstract community application widget that includes the properties, common implementations for the interfaces
 
 	// TODO add a way to have controller plugins like Zend Framework does
@@ -68,8 +62,7 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
-		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
-		
+
 		parent::tslib_pibase();
 	}
 
@@ -90,21 +83,6 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $this->name;
 	}
 
-
-	/**
-	 * returns the group that shall be displayed
-	 *
-	 * @return tx_community_model_Group
-	 */
-	public function getRequestedGroup() {
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
-
-		if (!($requestedGroup instanceof tx_community_model_Group)) {
-			// TODO throw a "user not found exception"
-		}
-
-		return $requestedGroup;
-	}
 
 	/**
 	 * returns the user that shall be displayed
@@ -130,7 +108,7 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public function getRequestingUser() {
 		return $this->userGateway->findCurrentlyLoggedInUser();;
 	}
-	
+
 	public function getTypoScriptConfiguration() {
 		return $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.'];
 	}
