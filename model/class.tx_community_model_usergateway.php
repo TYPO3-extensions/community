@@ -76,6 +76,22 @@ class tx_community_model_UserGateway {
 	public function findByRoles($roles) {
 		// @TODO find users by its role
 	}
+	
+	/**
+	 * find users by custom criteria
+	 * for example: $criteria = array(
+	 * 	'lastname'	=> 'Meyer',
+	 * 	'firstname'	=> 'Franz',
+	 * 	'roles'		=> array(new tx_community_acl_Role(1), new tx_community_acl_Role(2))
+	 * );
+	 * 
+	 * this method is neede for a user search and invite functionality
+	 *
+	 * @param array $criteria
+	 */
+	public function findByCriteria($criteria) {
+		
+	}
 
 	/**
 	 * find users friends
