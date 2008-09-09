@@ -68,7 +68,7 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 			// a full path reference...
 			$label = $this->resolveFullPathLabel($arguments[0]);
 		} else {
-			$label = $this->localLang[$this->languageFile][$this->llKey][$arguments[0]];
+			$label = $this->getLabel($this->languageFile, $arguments[0]);
 		}
 
 		return $label;
@@ -89,7 +89,19 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 			);
 		}
 
-		return $this->localLang[$path][$this->llKey][$labelKey];
+		return $this->getLabel($path, $labelKey);
+	}
+
+	protected function getLabel($locallang, $labelKey) {
+		$label = '';
+
+		if (!empty($this->localLang[$locallang][$this->llKey][$labelKey])) {
+			$label = $this->localLang[$locallang][$this->llKey][$labelKey];
+		} else {
+			$label = $this->localLang[$locallang]['default'][$labelKey];
+		}
+
+		return $label;
 	}
 }
 

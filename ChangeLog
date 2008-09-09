@@ -3,6 +3,7 @@
 	* removed dependency on a non-public extension
 	* removed the group gateway from the abstract community application controller as it is not needed for every community application
 	* removed the init() method from the group model and joined it with the constructor
+	* added fallback to default to the LLL view helper if there's no label for the current language
 
 2008-09-08 Frank Naegler  <typo3@naegler.net>
 
