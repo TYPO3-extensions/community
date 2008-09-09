@@ -22,9 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
-require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_communitymessages_api.php');
+	// FIXME must not have a dependency to EXT:community_messages
+#require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_communitymessages_api.php');
 
 /**
  * A community group, uses TYPO3's fe_groups
@@ -35,57 +37,59 @@ require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_com
  * @subpackage community
  */
 class tx_community_model_Group implements tx_community_acl_AclResource {
+
 	protected $uid;
-	protected $admins = array();
+	protected $admins  = array();
 	protected $members = array();
-	protected $data = array();
-	/**
-	 * @var tslib_cObj
-	 */
-	protected $cObj;
+	protected $data    = array();
+
 	/**
 	 * @var tx_community_model_UserGateway
 	 */
 	protected $userGateway;
-	
+
+		// FIXME (most likely) does not need to have a reference to the message center here
 	protected $messageCenterLoaded = false;
+
 	/**
+	 * FIXME rename to localizationManager
+	 *
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $llManager;
-	
+
 
 	/**
 	 * constructor for class tx_community_model_Group
 	 */
 	public function __construct($uid = null) {
-		$this->uid = (is_null($uid)) ? ($uid) : ((int) $uid);
-		$this->init();
-	}
+		$this->uid = $uid;
 
-	protected function init() {
-		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
-		
+
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_group.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
+			// FIXME must be done in the group gateway
 		if (!is_null($this->uid)) {
+			$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
 				'fe_groups',
-				'uid = ' . $this->uid . $this->cObj->enableFields('fe_groups')
+				'uid = ' . $this->uid . $pageSelect->enableFields('fe_groups')
 			);
 			if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 				$this->setDataToStore($data);
 			}
 		}
+
 		if (t3lib_extMgm::isLoaded('community_messages')) {
 			$this->messageCenterLoaded = true;
 		}
 	}
-	
+
 	/**
 	 * method to save (update or create) an usergroup
 	 *
@@ -131,7 +135,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			return $this->data[$param];
 		}
 	}
-	
+
 	/**
 	 * returns the Resource identifier
 	 *
@@ -140,7 +144,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	public function getResourceId() {
 		return (string) 'tx_community_model_Group' . $this->uid; //TODO replace class name by table name
 	}
-	
+
 	/**
 	 * prepare data for saving
 	 *
@@ -296,7 +300,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return false;
 	}
-	
+
 	public function rejectMember(tx_community_model_User $user) {
 		if ($this->isTempMember($user)) {
 			$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
@@ -315,10 +319,10 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return false;
 	}
-	
+
 	public function getAllMembers() {
 		$returnUser = array();
-		
+
 		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid_foreign',
 			'fe_groups_tx_community_members_mm',
@@ -332,7 +336,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return $returnUser;
 	}
-	
+
 	public function isMember(tx_community_model_User $user) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
@@ -341,11 +345,11 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		);
 		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
-	
-	
+
+
 	public function getAllTempMembers() {
 		$returnUser = array();
-		
+
 		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid_foreign',
 			'fe_groups_tx_community_tmpmembers_mm',
@@ -359,7 +363,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return $returnUser;
 	}
-	
+
 	public function isTempMember(tx_community_model_User $user) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
@@ -368,7 +372,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		);
 		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
-	
+
 	protected function prepareForMessage($txt, $user, $admin = null) {
 		$keys = array(
 			'%USER.NICKNAME%'	=> $user->getNickname(),
@@ -379,7 +383,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return str_replace(array_keys($keys), array_values($keys), $txt);
 	}
-	
+
 	protected function sendMessage(tx_community_model_User $toUser, $subject, $message) {
 		if ($this->messageCenterLoaded) {
 			tx_communitymessages_API::sendSystemMessage($subject, $message, array($toUser));
