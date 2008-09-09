@@ -25,8 +25,6 @@
 require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
-	// FIXME must not have a dependency to EXT:community_messages
-#require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_communitymessages_api.php');
 
 /**
  * A community group, uses TYPO3's fe_groups
@@ -86,6 +84,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 
 		if (t3lib_extMgm::isLoaded('community_messages')) {
+			require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_communitymessages_api.php');
 			$this->messageCenterLoaded = true;
 		}
 	}
