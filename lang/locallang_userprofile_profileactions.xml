@@ -6,8 +6,8 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="action.addAsFriend">Add %s as a Friend</label>
-			<label index="action.isFriendWith">You're Friends with %s</label>
+			<label index="action_addAsFriend">Add %s as a Friend</label>
+			<label index="action_isFriendWith">You're Friends with %s</label>
 		</languageKey>
 	</data>
 </T3locallang>

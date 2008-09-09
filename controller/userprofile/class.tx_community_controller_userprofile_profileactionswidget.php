@@ -230,13 +230,13 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		if ($this->isFriend($requestedUser, $requestingUser)) {
 				// the users are already friends
 			$content = sprintf(
-				$localizationManager->getLL('action.isFriendWith'),
+				$localizationManager->getLL('action_isFriendWith'),
 				$requestedUser->getAccount()->getFirstName()
 			);
 		} else {
 				// the users are not friends yet, create a link
 			$linkText = sprintf(
-				$localizationManager->getLL('action.addAsFriend'),
+				$localizationManager->getLL('action_addAsFriend'),
 				$requestedUser->getAccount()->getFirstName()
 			);
 

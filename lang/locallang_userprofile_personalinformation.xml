@@ -6,14 +6,14 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="information.personalInformation">Personal Info</label>
-			<label index="information.activities">Activities</label>
-			<label index="information.interests">Interests</label>
-			<label index="information.favoriteMusic">Favorite Music</label>
-			<label index="information.favoriteShows">Favorite TV Shows</label>
-			<label index="information.favoriteMovies">Favorite Movies</label>
-			<label index="information.favoriteBooks">Favorite Books</label>
-			<label index="information.aboutMe">About Me</label>
+			<label index="information_personalInformation">Personal Info</label>
+			<label index="information_activities">Activities</label>
+			<label index="information_interests">Interests</label>
+			<label index="information_favoriteMusic">Favorite Music</label>
+			<label index="information_favoriteShows">Favorite TV Shows</label>
+			<label index="information_favoriteMovies">Favorite Movies</label>
+			<label index="information_favoriteBooks">Favorite Books</label>
+			<label index="information_aboutMe">About Me</label>
 		</languageKey>
 	</data>
 </T3locallang>

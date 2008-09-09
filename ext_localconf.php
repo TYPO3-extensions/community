@@ -12,29 +12,29 @@ $TX_COMMUNITY = array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_userprofileapplication.php:tx_community_controller_UserProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile',
 			'accessControl' => array(
-				'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.read'
+				'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_read'
 			),
 			'widgets' => array(
 				'image' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.image',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_image',
 					'actions' => array(), // TODO move execute() stuff to at least indexAction()
 					'accessControl' => array(
-						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.imageWidget.read',
-//						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.imageWidget.addComment'
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_read',
+//						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_addComment'
 					)
 				),
 				'personalInformation' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_personalinformationwidget.php:tx_community_controller_userprofile_PersonalInformationWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.personalInformation',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_personalInformation',
 					'actions' => array(), // TODO move execute() stuff to at least indexAction()
 					'accessControl' => array(
-						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy.userProfile.personalInformationWidget.read'
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_personalInformationWidget_read'
 					)
 				),
 				'profileActions' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_profileactionswidget.php:tx_community_controller_userprofile_ProfileActionsWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile.profileActions',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_profileActions',
 					'actions' => array( // those are not the actual profile actions, but controller actions
 						'index',
 						'addAsFriend'

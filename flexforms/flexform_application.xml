@@ -7,13 +7,13 @@
 		<sDEF>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:community/lang/locallang_applications.xml:flexform.sheet_selection</sheetTitle>
+					<sheetTitle>LLL:EXT:community/lang/locallang_applications.xml:flexform_sheetSelection</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<application>
 						<TCEforms>
-							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform.application</label>
+							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform_application</label>
 							<config>
 								<type>select</type>
 								<items>
@@ -28,7 +28,7 @@
 					</application>
 					<widget>
 						<TCEforms>
-							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform.widget</label>
+							<label>LLL:EXT:community/lang/locallang_applications.xml:flexform_widget</label>
 							<config>
 								<type>select</type>
 								<items>

@@ -6,12 +6,12 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="privacy.editSettings">Edit Privacy Settings</label>
-			<label index="privacy.formSave">Save</label>
-			<label index="privacy.userProfile.read">Decide who can see your profile page.</label>
-			<label index="privacy.userProfile.imageWidget.read">Decide who can see your profile image.</label>
-			<label index="privacy.userProfile.imageWidget.addComment">Decide who can add comments to your profile image.</label>
-			<label index="privacy.userProfile.personalInformationWidget.read">Decide who can see your personal information.</label>
+			<label index="privacy_editSettings">Edit Privacy Settings</label>
+			<label index="privacy_formSave">Save</label>
+			<label index="privacy_userProfile_read">Decide who can see your profile page.</label>
+			<label index="privacy_userProfile_imageWidget_read">Decide who can see your profile image.</label>
+			<label index="privacy_userProfile_imageWidget_addComment">Decide who can add comments to your profile image.</label>
+			<label index="privacy_userProfile_personalInformationWidget_read">Decide who can see your personal information.</label>
 		</languageKey>
 	</data>
 </T3locallang>

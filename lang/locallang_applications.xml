@@ -6,16 +6,16 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="flexform.sheet_selection">Application / Widget</label>
-			<label index="flexform.application">Application</label>
-			<label index="flexform.widget">Widget</label>
+			<label index="flexform_sheetSelection">Application / Widget</label>
+			<label index="flexform_application">Application</label>
+			<label index="flexform_widget">Widget</label>
 			<label index="userProfile">User Profile</label>
-			<label index="userProfile.image">Image</label>
-			<label index="userProfile.personalInformation">Personal Information</label>
-			<label index="userProfile.profileActions">Profile Actions</label>
+			<label index="userProfile_image">Image</label>
+			<label index="userProfile_personalInformation">Personal Information</label>
+			<label index="userProfile_profileActions">Profile Actions</label>
 			<label index="groupProfile">Group Profile</label>
-			<label index="groupProfile.image">Image</label>
-			<label index="groupProfile.information">Information</label>
+			<label index="groupProfile_image">Image</label>
+			<label index="groupProfile_information">Information</label>
 			<label index="groupProfile_profileActions">Profile Actions</label>
 			<label index="privacy">Privacy</label>
 			<label index="editGroup">Edit group</label>
