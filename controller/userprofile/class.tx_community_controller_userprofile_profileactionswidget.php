@@ -178,8 +178,8 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 				'pid'    => $this->configuration['pages.']['aclStorage'],
 				'tstamp' => $_SERVER['REQUEST_TIME'],
 				'crdate' => $_SERVER['REQUEST_TIME'],
-				'feuser' => $this->communityApplication->getRequestedUser()->getUid(),
-				'friend' => $this->communityApplication->getRequestingUser()->getUid(),
+				'feuser' => $this->communityApplication->getRequestingUser()->getUid(),
+				'friend' => $this->communityApplication->getRequestedUser()->getUid(),
 				'role'   => $this->configuration['applications.']['userProfile.']['widgets.']['profileActions.']['addAsFriendDefaultRoleId']
 			)
 		);
