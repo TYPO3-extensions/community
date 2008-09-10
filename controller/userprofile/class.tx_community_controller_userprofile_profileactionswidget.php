@@ -230,7 +230,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		if ($requestedUser == $requestingUser) {
 				// viewing the own profile
 			$content = $localizationManager->getLL('action_thisIsYou');
-		} else if ($this->isFriend($requestedUser, $requestingUser)) {
+		} else if ($this->isFriend($requestingUser, $requestedUser)) {
 				// the users are already friends
 			$content = sprintf(
 				$localizationManager->getLL('action_isFriendWith'),
