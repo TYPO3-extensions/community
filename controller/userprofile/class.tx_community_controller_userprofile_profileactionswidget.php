@@ -185,7 +185,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		);
 
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
-			// do a redirect to the profile page, no output
+				// do a redirect to the profile page, no output
 
 			$profilePageUrl = $this->communityApplication->pi_getPageLink(
 				$this->configuration['pages.']['userProfile'],
@@ -197,6 +197,42 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 				)
 			);
 
+				// TODO user t3lib_div::redirect when TYPO3 4.3 is released
+			Header('HTTP/1.1 303 See Other');
+			Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
+			exit;
+		} else {
+			// TODO throw some exception
+		}
+	}
+
+	/**
+	 * removes all friend connections from the requesting user to the requested
+	 * user. However, existing connections from the other direction are not
+	 * affected.
+	 *
+	 */
+	public function removeAsFriendAction() {
+		$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_friend',
+			'pid = ' . $this->configuration['pages.']['aclStorage']
+				. ' AND feuser = ' . $this->communityApplication->getRequestingUser()->getUid()
+				. ' AND friend = ' . $this->communityApplication->getRequestedUser()->getUid()
+		);
+
+		if ($GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
+				// do a redirect to the profile page, no output
+
+			$profilePageUrl = $this->communityApplication->pi_getPageLink(
+				$this->configuration['pages.']['userProfile'],
+				'',
+				array(
+					'tx_community' => array(
+						'user' => $this->communityApplication->getRequestedUser()->getUid()
+					)
+				)
+			);
+				// TODO user t3lib_div::redirect when TYPO3 4.3 is released
 			Header('HTTP/1.1 303 See Other');
 			Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
 			exit;
@@ -210,6 +246,11 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		$profileActions = array();
 
 		$profileActions[]['link'] = $this->getAddAsFriendProfileAction();
+
+		$removeAsFriendProfileAction = $this->getRemoveAsFriendProfileAction();
+		if (!empty($removeAsFriendProfileAction)) {
+			$profileActions[]['link'] = $removeAsFriendProfileAction;
+		}
 
 		return $profileActions;
 	}
@@ -257,6 +298,39 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		return $content;
 	}
 
+	protected function getRemoveAsFriendProfileAction() {
+		$content = '';
+
+		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+		$localizationManager      = call_user_func(
+			array($localizationManagerClass, 'getInstance'),
+			$GLOBALS['PATH_community'] . 'lang/locallang_userprofile_profileactions.xml',
+			array()
+		);
+
+		$requestedUser  = $this->communityApplication->getRequestedUser();
+		$requestingUser = $this->communityApplication->getRequestingUser();
+
+		if ($this->isFriend($requestingUser, $requestedUser)) {
+			$linkText = sprintf(
+				$localizationManager->getLL('action_removeAsFriend'),
+				$requestedUser->getAccount()->getFirstName()
+			);
+
+			$content = $this->communityApplication->pi_linkTP(
+				$linkText,
+				array(
+					'tx_community' => array(
+						'user' => $requestedUser->getUid(),
+						'profileAction' => 'removeAsFriend'
+					)
+				)
+			);
+		}
+
+		return $content;
+	}
+
 	/**
 	 * checks whether the requesting user is a friend of the requested user.
 	 * This is done by checking whether a record in tx_community_friend exists
@@ -268,6 +342,8 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	protected function isFriend(tx_community_model_User $user, tx_community_model_User $friend) {
 			// TODO this schould at some time moved to a more appropriate place like a FriendshipManager or so
 			// TODO: Question: I think this is should be a method of the user object: isInRelationTo($user, $role) ?
+
+			// FIXME: a friendship should have a connection from both sides to be a valid friendship connection
 		$isFriend = false;
 
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(

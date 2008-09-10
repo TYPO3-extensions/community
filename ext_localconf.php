@@ -37,7 +37,8 @@ $TX_COMMUNITY = array(
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_profileActions',
 					'actions' => array( // those are not the actual profile actions, but controller actions
 						'index',
-						'addAsFriend'
+						'addAsFriend',
+						'removeAsFriend'
 					),
 					'defaultAction' => 'index',
 					'accessControl' => false

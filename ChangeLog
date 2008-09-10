@@ -2,6 +2,7 @@
 
 	* fixed bug: friend connections were made in the wrong direction
 	* added a hidden column to the friendship connection table to hide non approved friend relations
+	* added a "remove as friend" profile action
 
 2008-09-08 Ingo Renner  <ingo@typo3.org>
 
