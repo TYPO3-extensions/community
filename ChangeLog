@@ -1,6 +1,7 @@
 2008-09-09 Ingo Renner  <ingo@typo3.org>
 
 	* fixed bug: friend connections were made in the wrong direction
+	* added a hidden column to the friendship connection table to hide non approved friend relations
 
 2008-09-08 Ingo Renner  <ingo@typo3.org>
 

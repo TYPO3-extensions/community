@@ -29,14 +29,14 @@ CREATE TABLE fe_groups (
     tx_community_members int(11) DEFAULT '0' NOT NULL,
     tx_community_admins text NOT NULL,
     tx_community_public int(1) DEFAULT '0' NOT NULL,
-    tx_community_image blob NOT NULL
+    tx_community_image text NOT NULL
 );
 
 
 
 #
 # Table structure for table 'fe_groups_tx_community_members_mm'
-# 
+#
 #
 CREATE TABLE fe_groups_tx_community_members_mm (
   uid_local int(11) DEFAULT '0' NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE fe_groups_tx_community_members_mm (
 
 #
 # Table structure for table 'fe_groups_tx_community_tmpmembers_mm'
-# 
+#
 #
 CREATE TABLE fe_groups_tx_community_tmpmembers_mm (
   uid_local int(11) DEFAULT '0' NOT NULL,
@@ -119,6 +119,7 @@ CREATE TABLE tx_community_friend (
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
 	cruser_id int(11) DEFAULT '0' NOT NULL,
+	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	feuser text,
 	friend text,
 	role text,

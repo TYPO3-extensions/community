@@ -114,10 +114,18 @@ $TCA['tx_community_acl_rule'] = array (
 $TCA['tx_community_friend'] = array (
 	'ctrl' => $TCA['tx_community_friend']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'feuser,friend,role'
+		'showRecordFieldList' => 'hidden,feuser,friend,role'
 	),
 	'feInterface' => $TCA['tx_community_friend']['feInterface'],
 	'columns' => array (
+		'hidden' => array (
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config'  => array (
+				'type'    => 'check',
+				'default' => '0'
+			)
+		),
 		'feuser' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_friend.feuser',
@@ -156,7 +164,7 @@ $TCA['tx_community_friend'] = array (
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'feuser;;;;1-1-1, friend, role')
+		'0' => array('showitem' => 'hidden;;;;1-1-1, feuser, friend, role')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')

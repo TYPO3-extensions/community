@@ -48,6 +48,9 @@ $TCA['tx_community_friend'] = array (
 		'tstamp'    => 'tstamp',
 		'crdate'    => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+		),
 		'default_sortby' => 'ORDER BY crdate',
 		'dynamicConfigFile' => $PATH_community . 'tca.php',
 		'iconfile'          => $PATHrel_community . 'resources/icons/tables/tx_community_friend.gif',
@@ -198,29 +201,29 @@ t3lib_extMgm::addTCAcolumns('fe_users', $feUsersTempColumns, 1);
 t3lib_extMgm::addToAllTCAtypes('fe_users', 'tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
 
 $tempColumns = Array (
-	"tx_community_tmpmembers" => Array (        
-        "exclude" => 1,        
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_tmpmembers",        
+	"tx_community_tmpmembers" => Array (
+        "exclude" => 1,
+        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_tmpmembers",
         "config" => Array (
-            "type" => "group",    
-            "internal_type" => "db",    
-            "allowed" => "fe_users",    
-            "size" => 5,    
+            "type" => "group",
+            "internal_type" => "db",
+            "allowed" => "fe_users",
+            "size" => 5,
             "minitems" => 0,
-            "maxitems" => 100,    
+            "maxitems" => 100,
             "MM" => "fe_groups_tx_community_tmpmembers_mm",
         )
     ),
-	"tx_community_members" => Array (        
-        "exclude" => 1,        
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_members",        
+	"tx_community_members" => Array (
+        "exclude" => 1,
+        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_members",
         "config" => Array (
-            "type" => "group",    
-            "internal_type" => "db",    
-            "allowed" => "fe_users",    
-            "size" => 5,    
+            "type" => "group",
+            "internal_type" => "db",
+            "allowed" => "fe_users",
+            "size" => 5,
             "minitems" => 0,
-            "maxitems" => 100,    
+            "maxitems" => 100,
             "MM" => "fe_groups_tx_community_members_mm",
         )
     ),
@@ -236,17 +239,17 @@ $tempColumns = Array (
             'maxitems' => 100,
         )
     ),
-    "tx_community_image" => Array (        
-        "exclude" => 1,        
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_image",        
+    "tx_community_image" => Array (
+        "exclude" => 1,
+        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_image",
         "config" => Array (
             "type" => "group",
             "internal_type" => "file",
-            "allowed" => "gif,png,jpeg,jpg",    
-            "max_size" => 5000,    
+            "allowed" => "gif,png,jpeg,jpg",
+            "max_size" => 5000,
             "uploadfolder" => "uploads/tx_community",
-            "show_thumbs" => 1,    
-            "size" => 1,    
+            "show_thumbs" => 1,
+            "size" => 1,
             "minitems" => 0,
             "maxitems" => 1,
         )
