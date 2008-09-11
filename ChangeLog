@@ -1,6 +1,8 @@
 2008-09-10 Ingo Renner  <ingo@typo3.org>
 
 	* added a method to the user gateway to find connected users by their role
+	* added a new column to the ACL roles table to mark roles as a friend role - that is a role that acts as a "friend list", that users can assign/categorize their friends to
+	* added caching to the abstract community application controller for requesting and requested user
 
 2008-09-09 Ingo Renner  <ingo@typo3.org>
 

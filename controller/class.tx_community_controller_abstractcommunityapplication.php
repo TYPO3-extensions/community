@@ -41,6 +41,9 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	protected $data;
 	protected $name;
 
+	protected $requestedUser; // the user someone is viewing
+	protected $requestingUser; // the currently logged in user
+
 	/**
 	 * @var tx_community_model_UserGateway
 	 */
@@ -60,6 +63,9 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public function __construct() {
 		$this->extKey = 'community';
 		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
+
+		$this->requestedUser  = null;
+		$this->requestingUser = null;
 
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 
@@ -90,8 +96,16 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	 * @return tx_community_model_User
 	 */
 	public function getRequestedUser() {
-		$communityRequest = t3lib_div::_GP('tx_community');
-		$requestedUser = $this->userGateway->findById((int) $communityRequest['user']);
+		$requestedUser = null;
+
+		if (is_null($this->requestedUser)) {
+			$communityRequest = t3lib_div::_GP('tx_community');
+			$requestedUser = $this->userGateway->findById((int) $communityRequest['user']);
+
+			$this->requestedUser = $requestedUser;
+		} else {
+			$requestedUser = $this->requestedUser;
+		}
 
 		if (!($requestedUser instanceof tx_community_model_User)) {
 			// TODO throw a "user not found exception"
@@ -106,7 +120,17 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	 * @return tx_community_model_User|null
 	 */
 	public function getRequestingUser() {
-		return $this->userGateway->findCurrentlyLoggedInUser();;
+		$requestingUser = null;
+
+		if (is_null($this->requestingUser)) {
+			$requestingUser = $this->userGateway->findCurrentlyLoggedInUser();
+			$this->requestingUser = $requestingUser;
+		} else {
+			$requestingUser = $this->requestingUser;
+		}
+
+
+		return $requestingUser;
 	}
 
 	public function getTypoScriptConfiguration() {
