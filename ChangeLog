@@ -1,3 +1,7 @@
+2008-09-10 Ingo Renner  <ingo@typo3.org>
+
+	* added a method to the user gateway to find connected users by their role
+
 2008-09-09 Ingo Renner  <ingo@typo3.org>
 
 	* fixed bug: friend connections were made in the wrong direction

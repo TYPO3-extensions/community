@@ -70,13 +70,29 @@ class tx_community_model_UserGateway {
 	/**
 	 * find users by its roles
 	 *
-	 * @param array The roles objects
+	 * @param	tx_community_model_User	the user to find from which connections originate
+	 * @param	integer	A role id the connected users must have to be considered as a hit
 	 * @return	array of tx_community_model_User
 	 */
-	public function findByRoles($roles) {
-		// @TODO find users by its role
+	public function findConnectedUsersByRole(tx_community_model_User $user, $roleId) {
+		$connectedUsers = array();
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'DISTINCT u.*',
+			'fe_users AS u, tx_community_friend AS fc', // fc = friend connection
+			'fc.feuser = ' . $user->getUid()
+				. ' AND fc.role = ' . $roleId
+				. ' AND fc.hidden = 0'
+				. ' AND u.uid = fc.friend'
+		);
+
+		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$connectedUsers[] = $this->createUserAccountFromRow($userRow);
+		}
+
+		return $connectedUsers;
 	}
-	
+
 	/**
 	 * find users by custom criteria
 	 * for example: $criteria = array(
@@ -84,13 +100,11 @@ class tx_community_model_UserGateway {
 	 * 	'firstname'	=> 'Franz',
 	 * 	'roles'		=> array(new tx_community_acl_Role(1), new tx_community_acl_Role(2))
 	 * );
-	 * 
-	 * this method is neede for a user search and invite functionality
 	 *
 	 * @param array $criteria
 	 */
-	public function findByCriteria($criteria) {
-		
+	public function findByCriteria(array $criteria) {
+			// TODO use TCA information
 	}
 
 	/**
