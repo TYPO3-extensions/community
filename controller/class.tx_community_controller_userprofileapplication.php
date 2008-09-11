@@ -24,7 +24,6 @@
 
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 
 
 /**
