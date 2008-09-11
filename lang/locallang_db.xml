@@ -33,6 +33,7 @@
 			<label index="tx_community_acl_role">ACL Role</label>
 			<label index="tx_community_acl_role.name">Name</label>
 			<label index="tx_community_acl_role.is_public">Public Role</label>
+			<label index="tx_community_acl_role.is_friend_role">Is a friend role</label>
 			<label index="tx_community_acl_rule">ACL Rule</label>
 			<label index="tx_community_acl_rule.name">Name</label>
 			<label index="tx_community_acl_rule.resource">Resource</label>
