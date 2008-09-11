@@ -25,7 +25,6 @@
 require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 require_once($GLOBALS['PATH_community'] . 'view/privacy/class.tx_community_view_privacy_index.php');
 
 /**
