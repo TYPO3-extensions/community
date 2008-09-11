@@ -64,8 +64,10 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 	public function execute(array $arguments = array()) {
 		$label = '';
 
+			// TODO add a way to resolve variables in labels
+
 		if (!strncmp($arguments[0], 'EXT', 3)) {
-			// a full path reference...
+				// a full path reference...
 			$label = $this->resolveFullPathLabel($arguments[0]);
 		} else {
 			$label = $this->getLabel($this->languageFile, $arguments[0]);
