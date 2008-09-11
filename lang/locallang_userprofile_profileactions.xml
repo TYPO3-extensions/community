@@ -9,7 +9,10 @@
 			<label index="action_thisIsYou">This is you</label>
 			<label index="action_addAsFriend">Add %s as a Friend</label>
 			<label index="action_removeAsFriend">Remove %s as a Friend</label>
+			<label index="action_editRelationship">Edit Relationship</label>
 			<label index="action_isFriendWith">You're Friends with %s</label>
+			<label index="relationship_edit">Edit your relationship to</label>
+			<label index="relationship_formSave">Save</label>
 		</languageKey>
 	</data>
 </T3locallang>

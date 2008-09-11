@@ -21,5 +21,26 @@
 
 <!-- ###PROFILE_ACTIONS### end -->
 
+<!-- ###EDIT_RELATIONSHIP### begin -->
+	###LLL:relationship_edit###	###FRIEND.FIRST_NAME###
+
+<form action="###FORM.ACTION###" method="post">
+
+	<ul>
+	<!-- ###LOOP:FRIENDROLES### begin -->
+	<!-- ###LOOP_CONTENT### -->
+		<li>
+			<input type="hidden" name="###SETTING_OPTION.FIELD_NAME###" value="0" />
+			<input type="checkbox" name="###SETTING_OPTION.FIELD_NAME###" id="###SETTING_OPTION.FIELD_ID###" ###SETTING_OPTION.FIELD_CHECKED### value="1" /> <label for="###SETTING_OPTION.FIELD_ID###">###SETTING_OPTION.LABEL###</label>
+		</li>
+	<!-- ###LOOP_CONTENT### -->
+	<!-- ###LOOP:FRIENDROLES### end -->
+	</ul>
+
+<input type="submit" value="###LLL:relationship_formSave###" />
+
+</form>
+<!-- ###EDIT_RELATIONSHIP### begin -->
+
 </body>
 </html>

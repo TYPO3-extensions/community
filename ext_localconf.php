@@ -39,6 +39,7 @@ $TX_COMMUNITY = array(
 						'index',
 						'addAsFriend',
 						'editRelationship',
+						'setRelationships',
 						'removeAsFriend'
 					),
 					'defaultAction' => 'index',

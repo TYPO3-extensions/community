@@ -128,7 +128,7 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	public function getPid() {
 		return $this->pid;
 	}
-	
+
 	public function setUid($uid) {
 		$this->uid = $uid;
 	}
@@ -147,6 +147,10 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 
 	public function getNickname() {
 		return $this->nickName;
+	}
+
+	public function getFirstName() {
+		return $this->account->getFirstName();
 	}
 
 	/**

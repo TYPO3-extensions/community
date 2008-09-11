@@ -9,6 +9,8 @@ plugin.tx_community {
 		userProfile = 0
 		userEdit = 0
 
+		relationshipEdit = 0
+
 		groupProfile = 0
 		groupEdit = 0
 	}

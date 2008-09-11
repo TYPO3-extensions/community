@@ -27,6 +27,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizati
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_profileactions.php');
+require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_editrelationship.php');
 
 /**
  * A widget class to add actions to a user profile like "add as friend", "view friends", "send message", ...
@@ -171,6 +172,65 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		return $view->render();
 	}
 
+	/**
+	 * Displays a form to edit the relationship of the requested user to the
+	 * requesting user. The requesting user can add the requested user to
+	 * different roles.
+	 *
+	 * @return	string
+	 */
+	public function editRelationshipAction() {
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_EditRelationship');
+		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['profileActions.']['templateFile']);
+		$view->setLanguageKey($this->communityApplication->LLkey);
+
+		$view->setFriendUser($this->communityApplication->getRequestedUser());
+		$view->setRelationshipOptions($this->getRelationshipOptions());
+
+		$formAction = $this->communityApplication->pi_getPageLink(
+			$GLOBALS['TSFE']->id,
+			'',
+			array(
+				'tx_community' => array(
+					'user' => $this->communityApplication->getRequestedUser()->getUid(),
+					'profileAction' => 'setRelationships'
+				)
+			)
+		);
+		$view->setFormAction($formAction);
+
+
+
+
+		return $view->render();
+	}
+
+	protected function getRelationshipOptions() {
+		$relationshipOptions   = array();
+		$availableFriendRoles  = $this->getPublicFriendRoles();
+		$existingRelationships = $this->getRelationshipsToRequestedUser();
+
+		foreach ($availableFriendRoles as $roleId => $role) {
+			$checked = '';
+			if (in_array($roleId, $existingRelationships)) {
+				$checked = 'checked="checked"';
+			}
+
+			$relationshipOptions[] = array(
+				'field_name' => 'tx_community[relationship][' . $roleId . ']',
+				'field_id' => 'tx_community_relationship_' . $roleId,
+				'field_checked' => $checked,
+				'label' => $role['name']
+			);
+		}
+
+		return $relationshipOptions;
+	}
+
+	public function setRelationshipsAction() {
+
+	}
+
 	public function addAsFriendAction() {
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			'tx_community_friend',
@@ -242,14 +302,17 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	}
 
 	protected function getProfileActions() {
-			// TODO make this extensible at some point
+			// TODO make this function extensible at some point
 		$profileActions = array();
+
+		$requestedUser  = $this->communityApplication->getRequestedUser();
+		$requestingUser = $this->communityApplication->getRequestingUser();
 
 		$profileActions[]['link'] = $this->getAddAsFriendProfileAction();
 
-		$removeAsFriendProfileAction = $this->getRemoveAsFriendProfileAction();
-		if (!empty($removeAsFriendProfileAction)) {
-			$profileActions[]['link'] = $removeAsFriendProfileAction;
+		if ($this->isFriend($requestingUser, $requestedUser)) {
+			$profileActions[]['link'] = $this->getEditRelationshipProfileAction();
+			$profileActions[]['link'] = $this->getRemoveAsFriendProfileAction();
 		}
 
 		return $profileActions;
@@ -308,25 +371,50 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 			array()
 		);
 
-		$requestedUser  = $this->communityApplication->getRequestedUser();
-		$requestingUser = $this->communityApplication->getRequestingUser();
+		$requestedUser = $this->communityApplication->getRequestedUser();
 
-		if ($this->isFriend($requestingUser, $requestedUser)) {
-			$linkText = sprintf(
-				$localizationManager->getLL('action_removeAsFriend'),
-				$requestedUser->getAccount()->getFirstName()
-			);
+		$linkText = sprintf(
+			$localizationManager->getLL('action_removeAsFriend'),
+			$requestedUser->getAccount()->getFirstName()
+		);
 
-			$content = $this->communityApplication->pi_linkTP(
-				$linkText,
-				array(
-					'tx_community' => array(
-						'user' => $requestedUser->getUid(),
-						'profileAction' => 'removeAsFriend'
-					)
+		$content = $this->communityApplication->pi_linkTP(
+			$linkText,
+			array(
+				'tx_community' => array(
+					'user' => $requestedUser->getUid(),
+					'profileAction' => 'removeAsFriend'
 				)
-			);
-		}
+			)
+		);
+
+		return $content;
+	}
+
+	protected function getEditRelationshipProfileAction() {
+		$content = '';
+
+		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+		$localizationManager      = call_user_func(
+			array($localizationManagerClass, 'getInstance'),
+			$GLOBALS['PATH_community'] . 'lang/locallang_userprofile_profileactions.xml',
+			array()
+		);
+
+		$requestedUser = $this->communityApplication->getRequestedUser();
+		$linkText = $localizationManager->getLL('action_editRelationship');
+
+		$content = $this->communityApplication->pi_linkTP(
+			$linkText,
+			array(
+				'tx_community' => array(
+					'user' => $requestedUser->getUid(),
+					'profileAction' => 'editRelationship'
+				)
+			),
+			false,
+			$this->configuration['pages.']['relationshipEdit']
+		);
 
 		return $content;
 	}
@@ -361,6 +449,53 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 
 		return $isFriend;
 	}
+
+	/**
+	 * gets the roles a user can add his friends to (like categorization of
+	 * friends)
+	 *
+	 * @return	array
+	 */
+	protected function getPublicFriendRoles() {
+
+			// FIXME enablefields must not be hardcoded
+			// TODO add a page id restriction
+		$publicFriendRoles = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid, name',
+			'tx_community_acl_role',
+			'hidden = 0'
+				. ' AND deleted = 0'
+				. ' AND is_public = 1'
+				. ' AND is_friend_role = 1',
+			'',
+			'',
+			'',
+			'uid'
+		);
+
+		return $publicFriendRoles;
+	}
+
+	protected function getRelationshipsToRequestedUser() {
+		$relationships = array();
+
+		$requestedUser  = $this->communityApplication->getRequestedUser();
+		$requestingUser = $this->communityApplication->getRequestingUser();
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'DISTINCT role',
+			'tx_community_friend',
+			'feuser = ' . $requestingUser->getUid()
+				. ' AND friend = ' . $requestedUser->getUid()
+		);
+
+		while ($friendRelationshipRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$relationships[] = $friendRelationshipRow['role'];
+		}
+
+		return $relationships;
+	}
+
 }
 
 
