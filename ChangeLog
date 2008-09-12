@@ -1,3 +1,7 @@
+2008-09-11 Ingo Renner  <ingo@typo3.org>
+
+	* fixed bug: requested user could not be determined by the abstract community application controller in a mixed GET/POST request
+
 2008-09-10 Ingo Renner  <ingo@typo3.org>
 
 	* added a method to the user gateway to find connected users by their role

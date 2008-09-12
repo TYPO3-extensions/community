@@ -99,7 +99,7 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		$requestedUser = null;
 
 		if (is_null($this->requestedUser)) {
-			$communityRequest = t3lib_div::_GP('tx_community');
+			$communityRequest = t3lib_div::GParrayMerged('tx_community');
 			$requestedUser = $this->userGateway->findById((int) $communityRequest['user']);
 
 			$this->requestedUser = $requestedUser;
