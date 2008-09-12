@@ -1,4 +1,4 @@
-2008-09-11 Ingo Renner  <ingo@typo3.org>
+2008-09-12 Ingo Renner  <ingo@typo3.org>
 
 	* added a new group in the TS setup for access management
 	* added a TS property to define a role Id that acts as "anonymous"
