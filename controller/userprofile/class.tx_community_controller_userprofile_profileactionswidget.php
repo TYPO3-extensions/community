@@ -306,7 +306,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	public function addAsFriendAction() {
 
 		$friendAdded = $this->addRelationship(
-			$this->configuration['applications.']['userProfile.']['widgets.']['profileActions.']['addAsFriendDefaultRoleId']
+			$this->configuration['accessManagement.']['addAsFriendDefaultRoleId']
 		);
 
 		if ($friendAdded) {

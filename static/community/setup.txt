@@ -15,6 +15,11 @@ plugin.tx_community {
 		groupEdit = 0
 	}
 
+	accessManagement {
+		addAsFriendDefaultRoleId = 0
+		anyoneRoleId = 0
+	}
+
 	applications {
 		userProfile {
 			widgets {
@@ -24,8 +29,6 @@ plugin.tx_community {
 
 				profileActions {
 					templateFile = EXT:community/resources/templates/userprofile/profileactionswidget.htm
-
-					addAsFriendDefaultRoleId = 0
 				}
 			}
 		}
