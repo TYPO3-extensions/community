@@ -129,7 +129,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	 */
 	public function execute() {
 		$content = '';
-		$communityRequest = t3lib_div::_GP('tx_community');
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');;
 
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
@@ -228,10 +228,51 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	}
 
 	public function setRelationshipsAction() {
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+		$existingRelationships = $this->getRelationshipsToRequestedUser();
 
+		$setRelationships = array();
+		foreach ($communityRequest['relationship'] as $roleId => $activated) {
+			if ($activated) {
+				$setRelationships[] = $roleId;
+			}
+		}
+
+		$newRelationshipsToAdd = array_diff($setRelationships, $existingRelationships);
+		$oldRelationshipsToRemove = array_diff($existingRelationships, $setRelationships);
+
+		foreach ($newRelationshipsToAdd as $roleIdToAdd) {
+			$this->addRelationship($roleIdToAdd);
+		}
+
+		foreach ($oldRelationshipsToRemove as $roleIdRemove) {
+			$this->removeRelationship($roleIdRemove);
+		}
+
+		$profilePageUrl = $this->communityApplication->pi_getPageLink(
+			$this->configuration['pages.']['userProfile'],
+			'',
+			array(
+				'tx_community' => array(
+					'user' => $this->communityApplication->getRequestedUser()->getUid()
+				)
+			)
+		);
+
+		Header('HTTP/1.1 303 See Other');
+		Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
+		exit;
 	}
 
-	public function addAsFriendAction() {
+	/**
+	 * adds a relationship between the requested user and the requesting user
+	 * with the given role
+	 *
+	 * @param	integer	$roleId
+	 */
+	protected function addRelationship($roleId) {
+		$success = false;
+
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			'tx_community_friend',
 			array(
@@ -240,11 +281,35 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 				'crdate' => $_SERVER['REQUEST_TIME'],
 				'feuser' => $this->communityApplication->getRequestingUser()->getUid(),
 				'friend' => $this->communityApplication->getRequestedUser()->getUid(),
-				'role'   => $this->configuration['applications.']['userProfile.']['widgets.']['profileActions.']['addAsFriendDefaultRoleId']
+				'role'   => $roleId
 			)
 		);
 
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
+			$success = true;
+		}
+
+		return $success;
+	}
+
+	protected function removeRelationship($roleId) {
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_friend',
+			'feuser = ' . $this->communityApplication->getRequestingUser()->getUid()
+				. ' AND friend = ' . $this->communityApplication->getRequestedUser()->getUid()
+				. ' AND role = ' . $roleId
+		);
+
+		// TODO check for errors, throw exceptions, add pid to where clause
+	}
+
+	public function addAsFriendAction() {
+
+		$friendAdded = $this->addRelationship(
+			$this->configuration['applications.']['userProfile.']['widgets.']['profileActions.']['addAsFriendDefaultRoleId']
+		);
+
+		if ($friendAdded) {
 				// do a redirect to the profile page, no output
 
 			$profilePageUrl = $this->communityApplication->pi_getPageLink(
@@ -490,7 +555,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		);
 
 		while ($friendRelationshipRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			$relationships[] = $friendRelationshipRow['role'];
+			$relationships[] = (int) $friendRelationshipRow['role'];
 		}
 
 		return $relationships;
