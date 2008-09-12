@@ -266,7 +266,7 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 				. ' AND role = ' . $role
 		);
 
-		// TODO check for errors, throw exceptions
+		// TODO check for errors, throw exceptions, add pid to where clause
 	}
 }
 
