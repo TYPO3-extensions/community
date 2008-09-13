@@ -1,3 +1,7 @@
+2008-09-13 Ingo Renner  <ingo@typo3.org>
+
+	* added initial support for anonymous visitors (anyone role)
+
 2008-09-12 Ingo Renner  <ingo@typo3.org>
 
 	* added a new group in the TS setup for access management

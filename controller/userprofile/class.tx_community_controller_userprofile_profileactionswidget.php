@@ -373,7 +373,12 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		$requestedUser  = $this->communityApplication->getRequestedUser();
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
-		$profileActions[]['link'] = $this->getAddAsFriendProfileAction();
+		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
+		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
+
+		if ($accessManager->isLoggedIn()) {
+			$profileActions[]['link'] = $this->getAddAsFriendProfileAction();
+		}
 
 		if ($this->isFriend($requestingUser, $requestedUser)) {
 			$profileActions[]['link'] = $this->getEditRelationshipProfileAction();

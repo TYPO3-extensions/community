@@ -52,7 +52,7 @@ class tx_community_AccessManager {
 	 * @var tx_community_acl_Acl
 	 */
 	protected $acl;
-	
+
 	/**
 	 * @var tx_community_model_UserGateway
 	 */
@@ -147,20 +147,45 @@ class tx_community_AccessManager {
 	}
 
 	/**
+	 * determines whether a user is logged in or whether it is an anonymous guest
+	 *
+	 * @param	tx_community_model_User	$requestingUser
+	 * @return	boolean
+	 */
+	public function isLoggedIn(tx_community_model_User $requestingUser = null) {
+		$userIsLoggedIn = false;
+
+		if (is_null($requestingUser)) {
+			$requestingUser = $this->userGateway->findCurrentlyLoggedInUser();
+		}
+
+		if ($requestingUser->getUid()) {
+			$userIsLoggedIn = true;
+		}
+
+		return $userIsLoggedIn;
+	}
+
+	/**
 	 * gets the role of a friend
 	 *
 	 * @param	integer	the requested user's Id
 	 * @param	integer	the friend's user Id
 	 */
-	protected function getRoleFromFriendConnection($userId, $friendId) {
+	protected function getRoleFromFriendConnection($requestingUserId, $requestedUserId) {
 		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+		$anonymousRoleId = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['accessManagement.']['anonymousRoleId'];
 
 		$roles = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'DISTINCT tx_community_acl_role.name',
 			'tx_community_friend, tx_community_acl_role',
-			'feuser = ' . $userId
-				. ' AND friend = ' . $friendId
-				. ' AND tx_community_acl_role.uid = tx_community_friend.role'
+			'('
+					. '(feuser = ' . $requestingUserId
+					. ' AND friend = ' . $requestedUserId
+					. ' AND tx_community_acl_role.uid = tx_community_friend.role)'
+				. ' OR'
+					. '(tx_community_acl_role.uid = ' . $anonymousRoleId . ')'
+			. ')'
 				. $pageSelect->enableFields('tx_community_acl_role')
 		);
 

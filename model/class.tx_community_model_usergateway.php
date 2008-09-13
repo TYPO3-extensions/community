@@ -145,6 +145,9 @@ class tx_community_model_UserGateway {
 
 		if ($GLOBALS['TSFE']->loginUser) {
 			$loggedInUser = $this->findById($GLOBALS['TSFE']->fe_user->user['uid']);
+		} else {
+			$userClass = t3lib_div::makeInstanceClassName('tx_community_model_User');
+			$loggedInUser = new $userClass(0);
 		}
 
 		return $loggedInUser;

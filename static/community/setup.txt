@@ -17,7 +17,8 @@ plugin.tx_community {
 
 	accessManagement {
 		addAsFriendDefaultRoleId = 0
-		anyoneRoleId = 0
+
+		anonymousRoleId = 0
 	}
 
 	applications {

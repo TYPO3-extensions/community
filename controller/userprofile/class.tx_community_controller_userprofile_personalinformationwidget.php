@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
@@ -158,9 +157,6 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
 		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
-		/**
-		 * @var tx_community_AccessManager
-		 */
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
 
 		$allowed = false;
