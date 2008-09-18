@@ -64,6 +64,26 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
+		'Search' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_searchapplication.php:tx_community_controller_SearchApplication',
+			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:search',
+			'accessControl' => false,
+			'actions' => array(
+				'index'
+			),
+			'defaultAction' => 'index',
+			'widgets' => array(
+				'quickSearchInput' => array(
+					'classReference' => 'EXT:community/controller/search/class.tx_community_controller_search_quicksearchinputwidget.php:tx_community_controller_search_QuickSearchInputWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:search_quickSearchInput',
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index',
+					'accessControl' => false
+				)
+			)
+		),
 		'ListGroups' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_listgroupsapplication.php:tx_community_controller_ListGroupsApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:listGroups',

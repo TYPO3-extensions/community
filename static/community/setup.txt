@@ -13,6 +13,9 @@ plugin.tx_community {
 
 		groupProfile = 0
 		groupEdit = 0
+
+		searchAdvanced = 0
+		searchResults = 0
 	}
 
 	accessManagement {
@@ -38,6 +41,14 @@ plugin.tx_community {
 			widgets {
 				profileActions {
 					templateFile = EXT:community/resources/templates/groupprofile/profileactionswidget.htm
+				}
+			}
+		}
+
+		search {
+			widgets {
+				quickSearchInput {
+					templateFile = EXT:community/resources/templates/search/quicksearchinputwidget.htm
 				}
 			}
 		}

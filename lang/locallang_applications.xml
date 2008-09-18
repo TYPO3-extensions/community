@@ -21,6 +21,8 @@
 			<label index="editGroup">Edit group</label>
 			<label index="newGroup">New group</label>
 			<label index="listGroups">Group list</label>
+			<label index="search">Search</label>
+			<label index="search_quickSearchInput">Quick Search Input Field</label>
 		</languageKey>
 	</data>
 </T3locallang>
