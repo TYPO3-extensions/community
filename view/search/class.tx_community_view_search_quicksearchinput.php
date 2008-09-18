@@ -78,6 +78,7 @@ class tx_community_view_search_QuickSearchInput implements tx_community_View {
 			)
 		);
 
+		$template->addVariable('form', array('action' => $this->formAction));
 		$template->addVariable('input_field', $this->inputFieldProperties);
 
 		return $template->render();
