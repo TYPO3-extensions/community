@@ -1,3 +1,8 @@
+2008-09-19 Ingo Renner  <ingo@typo3.org>
+
+	* added initial scaffolding for a criteria class to work with conditions for selecting records in an object oriented way
+	* added initial code for the user profile search feature
+
 2008-09-18 Ingo Renner  <ingo@typo3.org>
 
 	* added a quick search input field widget

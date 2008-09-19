@@ -155,6 +155,32 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 
 		return $formModel;
 	}
+
+	public function searchAction() {
+		t3lib_div::loadTCA('fe_users');
+		$feUserTcaColumns = $GLOBALS['TCA']['fe_users']['columns'];
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+		$searchConfiguration = $this->configuration['applications.']['search.'];
+
+debug($communityRequest, 'community request');
+#debug($searchConfiguration, 'search configuration');
+debug($GLOBALS['TCA']['fe_users'], 'tca');
+
+
+		$searchParameters = array();
+		foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
+			if (!empty($submittedParameterValue)
+				&& array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
+			) {
+				$searchInFields = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
+debug($searchInFields);
+
+			}
+		}
+#debug($searchParameters);
+
+		return 'search application, search action';
+	}
 }
 
 

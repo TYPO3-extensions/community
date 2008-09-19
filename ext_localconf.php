@@ -69,7 +69,8 @@ $TX_COMMUNITY = array(
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:search',
 			'accessControl' => false,
 			'actions' => array(
-				'index'
+				'index',
+				'search'
 			),
 			'defaultAction' => 'index',
 			'widgets' => array(
