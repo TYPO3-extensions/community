@@ -7,6 +7,23 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="search_formSubmitSearch">Search</label>
+			<label index="search_fieldgroup_basic">Basic Info</label>
+			<label index="search_fieldgroup_contact">Contact Info</label>
+			<label index="search_fieldgroup_personal">Personal Info</label>
+			<label index="search_field_name">Name</label>
+			<label index="search_field_sex">Sex</label>
+			<label index="search_field_sex_male">Male</label>
+			<label index="search_field_sex_female">Female</label>
+			<label index="search_field_city">City</label>
+			<label index="search_field_email">Email</label>
+			<label index="search_field_im">Screen Name</label>
+			<label index="search_field_activities">Activities</label>
+			<label index="search_field_interests">Interests</label>
+			<label index="search_field_music">Music</label>
+			<label index="search_field_tvshows">TV Shows</label>
+			<label index="search_field_movies">Movies</label>
+			<label index="search_field_books">Books</label>
+			<label index="search_field_about">About Me</label>
 		</languageKey>
 	</data>
 </T3locallang>

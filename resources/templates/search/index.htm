@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Template file for the advanced search form for EXT:community</title>
+</head>
+<body>
+
+<!-- ###ADVANCED_SEARCH_FORM### begin -->
+
+<form action="###FORM.ACTION###" method="post" >
+
+<!-- ###SEARCH_FIELD_GROUP### begin -->
+<fieldset>
+	<legend>###LLL:###GROUP_LABEL######</legend>
+
+	<!-- ###SEARCH_FIELDS### begin -->
+	<ul>
+
+	<!-- ###SEARCH_FIELD### begin -->
+	<li>
+		<label for="###SEARCH_FIELD.ID###">###LLL:###SEARCH_FIELD.LABEL######</label>
+
+		<!-- ###SEARCH_FIELD_SELECT### begin -->
+		<select name="###SEARCH_FIELD.NAME###" id="###SEARCH_FIELD.ID###">
+			###SEARCH_FIELD.OPTIONS###
+		</select>
+		<!-- ###SEARCH_FIELD_SELECT### end -->
+
+		<!-- ###SEARCH_FIELD_TEXT### begin -->
+		<input type="text" name="###SEARCH_FIELD.NAME###" id="###SEARCH_FIELD.ID###" />
+		<!-- ###SEARCH_FIELD_TEXT### end -->
+
+	</li>
+	<!-- ###SEARCH_FIELD### end -->
+
+	</ul>
+	<!-- ###SEARCH_FIELDS### end -->
+
+</fieldset>
+<!-- ###SEARCH_FIELD_GROUP### begin -->
+
+<input type="submit" value="###LLL:search_formSubmitSearch###" />
+
+</form>
+
+<!-- ###ADVANCED_SEARCH_FORM### end -->
+
+</body>
+</html>

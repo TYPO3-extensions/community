@@ -46,9 +46,108 @@ plugin.tx_community {
 		}
 
 		search {
+
+			templateFile = EXT:community/resources/templates/search/index.htm
+
 			widgets {
 				quickSearchInput {
 					templateFile = EXT:community/resources/templates/search/quicksearchinputwidget.htm
+				}
+			}
+
+			searchFieldGroups {
+				10 {
+					label = EXT:community/lang/locallang_search.xml:search_fieldgroup_basic
+					fields = name, sex
+				}
+
+				20 {
+					label = EXT:community/lang/locallang_search.xml:search_fieldgroup_contact
+					fields = city, email, im
+				}
+
+				30 {
+					label = EXT:community/lang/locallang_search.xml:search_fieldgroup_personal
+					fields = activities, interests, music, tvshows, movies, books, about
+				}
+			}
+
+			searchFields {
+				name {
+					label = EXT:community/lang/locallang_search.xml:search_field_name
+					searchIn = tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname
+					type = text
+				}
+
+				sex {
+					label = EXT:community/lang/locallang_search.xml:search_field_sex
+					searchIn = tx_community_sex
+					type = select
+					selectOptions {
+						10 = 0|
+						20 = m|EXT:community/lang/locallang_search.xml:search_field_sex_male
+						30 = f|EXT:community/lang/locallang_search.xml:search_field_sex_female
+					}
+				}
+
+				city {
+					label = EXT:community/lang/locallang_search.xml:search_field_city
+					searchIn = city
+					type = text
+				}
+
+				email {
+					label = EXT:community/lang/locallang_search.xml:search_field_email
+					searchIn = email
+					type = text
+				}
+
+				im {
+					label = EXT:community/lang/locallang_search.xml:search_field_im
+					searchIn = tx_community_instantmessager
+					type = text
+				}
+
+				activities {
+					label = EXT:community/lang/locallang_search.xml:search_field_activities
+					searchIn = tx_community_activities
+					type = text
+				}
+
+				interests {
+					label = EXT:community/lang/locallang_search.xml:search_field_interests
+					searchIn = tx_community_interests
+					type = text
+				}
+
+				music {
+					label = EXT:community/lang/locallang_search.xml:search_field_music
+					searchIn = tx_community_favoritemusic
+					type = text
+				}
+
+				tvshows {
+					label = EXT:community/lang/locallang_search.xml:search_field_tvshows
+					searchIn = tx_community_favoritetvshows
+					type = text
+				}
+
+				movies {
+					label = EXT:community/lang/locallang_search.xml:search_field_movies
+					searchIn = tx_community_favoritetvshows
+					type = text
+				}
+
+				books {
+					label = EXT:community/lang/locallang_search.xml:search_field_books
+					searchIn = tx_community_favoritebooks
+					type = text
+				}
+
+				about {
+					label = EXT:community/lang/locallang_search.xml:search_field_about
+					searchIn = tx_community_aboutme
+					type = text
 				}
 			}
 		}

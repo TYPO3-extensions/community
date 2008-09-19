@@ -2,6 +2,8 @@
 
 	* added a quick search input field widget
 	* added basic scaffolding for the search application
+	* added configuration for advanced search form
+	* added rendering of advanced search form
 
 2008-09-13 Ingo Renner  <ingo@typo3.org>
 

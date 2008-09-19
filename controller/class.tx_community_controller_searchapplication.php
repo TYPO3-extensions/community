@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
+require_once($GLOBALS['PATH_community'] . 'view/search/class.tx_community_view_search_index.php');
 
 /**
  * User search application
@@ -117,7 +118,42 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 	 * @return unknown
 	 */
 	public function indexAction() {
-		return 'search index action (advanced search input form)';
+		$view = t3lib_div::makeInstance('tx_community_view_search_Index');
+		/* @var $view tx_community_view_privacy_Index */
+		$view->setTemplateFile($this->configuration['applications.']['search.']['templateFile']);
+		$view->setLanguageKey($this->LLkey);
+
+		$formAction = $this->pi_getPageLink(
+			$this->configuration['pages.']['searchResults']
+		);
+		$view->setFormAction($formAction);
+
+		$searchFormModel = $this->getSearchFormModel();
+		$view->setFormModel($searchFormModel);
+
+		return $view->render();
+	}
+
+	protected function getSearchFormModel() {
+		$formModel = array();
+		$searchApplicationConfiguration = $this->conf['applications.']['search.'];
+
+		foreach ($searchApplicationConfiguration['searchFieldGroups.'] as $searchFieldGroupConfiguration) {
+			$groupFields = array();
+
+			$groupFieldNames = t3lib_div::trimExplode(',', $searchFieldGroupConfiguration['fields'], true);
+			foreach ($groupFieldNames as $groupFieldName) {
+				$groupFields[$groupFieldName] = $searchApplicationConfiguration['searchFields.'][$groupFieldName . '.'];
+			}
+
+
+			$formModel[] = array(
+				'label' => $searchFieldGroupConfiguration['label'],
+				'fields' => $groupFields
+			);
+		}
+
+		return $formModel;
 	}
 }
 
