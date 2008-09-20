@@ -73,10 +73,14 @@ plugin.tx_community {
 			}
 
 			searchFields {
+				// default compare mode is equal
+				// default validation is string, strip tags
+
 				name {
 					label = EXT:community/lang/locallang_search.xml:search_field_name
 					searchIn = tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname
 					type = text
+					compareMode = like
 				}
 
 				sex {
@@ -100,6 +104,7 @@ plugin.tx_community {
 					label = EXT:community/lang/locallang_search.xml:search_field_email
 					searchIn = email
 					type = text
+					validate = email
 				}
 
 				im {

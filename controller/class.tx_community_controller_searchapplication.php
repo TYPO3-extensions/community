@@ -157,29 +157,87 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 	}
 
 	public function searchAction() {
-		t3lib_div::loadTCA('fe_users');
-		$feUserTcaColumns = $GLOBALS['TCA']['fe_users']['columns'];
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+		$feUserTcaColumns    = $GLOBALS['TCA']['fe_users']['columns'];
+		$communityRequest    = t3lib_div::GParrayMerged('tx_community');
 		$searchConfiguration = $this->configuration['applications.']['search.'];
+		$whereClauses        = array();
 
-debug($communityRequest, 'community request');
-#debug($searchConfiguration, 'search configuration');
-debug($GLOBALS['TCA']['fe_users'], 'tca');
+#debug($communityRequest, 'community request');
 
-
-		$searchParameters = array();
 		foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
 			if (!empty($submittedParameterValue)
 				&& array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
 			) {
-				$searchInFields = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
-debug($searchInFields);
+				$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
 
+				$clauseParts = array();
+				$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
+				foreach ($searchInColumns as $columnName) {
+					if (!empty($searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode'])) {
+							// use a custom comparison
+						$clauseParts[] = $this->getWhereClause(
+							$columnName,
+							$filteredInput,
+							$searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode']
+						);
+					} else {
+							// use the default "equal" comparison
+						$clauseParts[] = $this->getWhereClause(
+							$columnName,
+							$filteredInput
+						);
+					}
+				}
+
+				$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
 			}
 		}
-#debug($searchParameters);
+
+		$whereClause = implode(' AND ', $whereClauses);
+#debug($whereClause, 'final where clause');
 
 		return 'search application, search action';
+	}
+
+	protected function filterInput($content, array $filterConfiguration = array()) {
+			// first apply a default string filter (FILTER_SANITIZE_STRING)
+		$content = filter_var($content);
+
+		if (!empty($filterConfiguration['validate'])) {
+			$filters = t3lib_div::trimExplode(',', $filterConfiguration['validate']);
+
+			foreach ($filters as $filter) {
+					// put this in a separate method if we get more filters
+				switch ($filter) {
+					case 'email':
+						$content = filter_var($content, FILTER_VALIDATE_EMAIL);
+						break;
+				}
+			}
+		}
+
+		return $content;
+	}
+
+	protected function getWhereClause($columnName, $value, $compareMode = 'equal') {
+		$clause = '';
+
+		switch ($compareMode) {
+			case 'equal':
+				if (is_string($value)) {
+					$value = '\'' . $value . '\'';
+				}
+
+				$clause = $columnName . ' = ' . $value;
+				break;
+			case 'like':
+				$clause = $columnName . ' LIKE \'' . $value . '%\'';
+				break;
+			default:
+				// TODO throw an unknown column exception
+		}
+
+		return $clause;
 	}
 }
 

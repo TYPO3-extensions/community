@@ -107,6 +107,10 @@ class tx_community_model_UserGateway {
 			// TODO use TCA information
 	}
 
+	public function findByWhereClause($whereClause) {
+
+	}
+
 	/**
 	 * find users friends
 	 *
