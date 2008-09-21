@@ -1,3 +1,7 @@
+2008-09-21 Ingo Renner  <ingo@typo3.org>
+
+	* added a way to exclude community application from being listed in the community plugin's flexform
+
 2008-09-19 Ingo Renner  <ingo@typo3.org>
 
 	* added initial scaffolding for a criteria class to work with conditions for selecting records in an object oriented way

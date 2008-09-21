@@ -173,10 +173,13 @@ class tx_community_ApplicationManager {
 
 	public function getFlexformApplicationList(&$params, &$pObj) {
 		foreach ($GLOBALS['TX_COMMUNITY']['applications'] as $applicationName => $applicationConfiguration) {
-			$params['items'][] = array(
-				$GLOBALS['LANG']->sL($applicationConfiguration['label']),
-				$applicationName
-			);
+
+			if (!(isset($applicationConfiguration['excludeFromPluginListing']) && $applicationConfiguration['excludeFromPluginListing'] == true)) {
+				$params['items'][] = array(
+					$GLOBALS['LANG']->sL($applicationConfiguration['label']),
+					$applicationName
+				);
+			}
 		}
 	}
 
