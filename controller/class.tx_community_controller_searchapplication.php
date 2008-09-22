@@ -48,31 +48,24 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 	public function execute() {
 		$content = '';
 
-		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
-		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
-		/* @var $applicationManager tx_community_ApplicationManager */
-
 		$widgetName = $this->pi_getFFvalue(
 			$this->data['pi_flexform'],
 			'widget'
 		);
 
 		if (!empty($widgetName)) {
-			$content = $this->executeWidget(
-				$applicationManager,
-				$widgetName
-			);
+			$content = $this->executeWidget($widgetName);
 		} else {
-			$content = $this->executeApllicationAction($applicationManager);
+			$content = $this->executeApllicationAction();
 		}
 
 		return $content;
 	}
 
-	protected function executeWidget(tx_community_ApplicationManager $applicationManager, $widgetName) {
+	protected function executeWidget($widgetName) {
 		$content = '';
 
-		$widgetConfiguration = $applicationManager->getWidgetConfiguration(
+		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
 			$this->name,
 			$widgetName
 		);
@@ -87,11 +80,11 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		return $content;
 	}
 
-	protected function executeApllicationAction(tx_community_ApplicationManager $applicationManager) {
+	protected function executeApllicationAction() {
 		$content = '';
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
-		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
+		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
 			$this->getName()
 		);
 
@@ -192,11 +185,16 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 				$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
 			}
 		}
-
 		$whereClause = implode(' AND ', $whereClauses);
-#debug($whereClause, 'final where clause');
 
-		return 'search application, search action';
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		$foundUsers  = $userGateway->findByWhereClause($whereClause);
+
+		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication('UserList');
+		$userList->initialize($this->data, $this->configuration);
+		$userList->setUserListModel($foundUsers);
+
+		return $userList->execute() . ', search application, search action';
 	}
 
 	protected function filterInput($content, array $filterConfiguration = array()) {
@@ -231,7 +229,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 				$clause = $columnName . ' = ' . $value;
 				break;
 			case 'like':
-				$clause = $columnName . ' LIKE \'' . $value . '%\'';
+				$clause = $columnName . ' LIKE \'%' . $value . '%\'';
 				break;
 			default:
 				// TODO throw an unknown column exception

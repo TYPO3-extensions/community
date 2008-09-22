@@ -85,6 +85,15 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
+		'UserList' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_userlistapplication.php:tx_community_controller_UserListApplication',
+			'accessControl' => false,
+			'excludeFromPluginListing' => true,
+			'action' => array(
+				'index'
+			),
+			'defaultAction' => 'index'
+		),
 		'ListGroups' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_listgroupsapplication.php:tx_community_controller_ListGroupsApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:listGroups',

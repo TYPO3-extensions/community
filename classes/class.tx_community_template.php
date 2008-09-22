@@ -172,7 +172,7 @@ class tx_community_Template {
 		$loopSingleItem = $this->getSubpart('loop_content', $loopTemplate);
 		$loopMarker     = $this->loops[$loop]['marker'];
 		$loopVariables  = $this->loops[$loop]['data'];
-		$foundMarkers   = $this->getMarkersFromSubpart($loopSingleItem);
+		$foundMarkers   = $this->getMarkersFromTemplate($loopSingleItem, $loopMarker . '\.');
 
 		foreach ($loopVariables as $value) {
 			$resolvedMarkers = $this->resolveVariableMarkers($foundMarkers, $value);
@@ -182,6 +182,13 @@ class tx_community_Template {
 				$resolvedMarkers,
 				'###|###'
 			);
+
+			$inLoopProcessMarkers = $this->getMarkersFromTemplate(
+				$loopContent,
+				'LOOP:'
+			);
+#debug($loopContent, '$loopContent');
+#debug($inLoopProcessMarkers, '$inLoopProcessMarkers');
 		}
 
 		$this->workOnSubpart = t3lib_parsehtml::substituteSubpart(
@@ -296,16 +303,18 @@ class tx_community_Template {
 
 	}
 
-	public function getMarkersFromSubpart($subpart, $markerPrefix = '') {
-		$regex = '!###([A-Z0-9_-|.]*)\###!is';
+	public function getMarkersFromTemplate($template, $markerPrefix = '') {
 
+
+#debug($markerPrefix, '$markerPrefix');
+
+		$regex = '!###([A-Z0-9_-|.]*)\###!is';
 		if (!empty($markerPrefix)) {
-			$regex = '!###(' . strtoupper($markerPrefix) . '\.[A-Z0-9_-|]*)\###!is';
+			$regex = '!###(' . strtoupper($markerPrefix) . '[A-Z0-9_-|]*)\###!is';
 		}
 
-		preg_match_all('!###([A-Z0-9_-|.]*)\###!is', $subpart, $match);
+		preg_match_all($regex, $template, $match);
 		$markers = array_unique($match[1]);
-debug($markers);
 
 		return $markers;
 	}

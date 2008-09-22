@@ -5,6 +5,9 @@
 	* removed includes of the application manager as it is loaded with the community FE plugin
 	* changed existing community applications to use the global instance of the application manager
 	* !!! changed API of addLoop() in the template engine, now requires a marker name as second parameter for the looped variable
+	* !!! renamed method in template engine, getMarkersFromSupart() is now named getMarkersFromTemplate()
+	* added a new community application (UserList) to list users
+	* added rendering of search results using the new UserList application
 
 2008-09-19 Ingo Renner  <ingo@typo3.org>
 

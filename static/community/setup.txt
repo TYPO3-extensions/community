@@ -164,6 +164,10 @@ plugin.tx_community {
 			}
 		}
 
+		userList {
+			templateFile = EXT:community/resources/templates/userlist/index.htm
+		}
+
 		privacy {
 			templateFile = EXT:community/resources/templates/privacy/index.htm
 		}

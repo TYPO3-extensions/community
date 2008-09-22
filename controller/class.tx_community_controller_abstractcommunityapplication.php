@@ -39,6 +39,7 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public $extKey;
 
 	public $conf;
+	protected $configuration;
 	protected $data;
 	protected $name;
 

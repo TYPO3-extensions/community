@@ -22,6 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_user.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_account.php');
 
@@ -34,11 +35,21 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_accoun
  */
 class tx_community_model_UserGateway {
 
+	static protected $feUsersEnableFields = null;
+
 	/**
 	 * constructor for class tx_community_model_UserGateway
 	 */
 	public function __construct() {
+		if (is_null(self::$feUsersEnableFields)) {
+			$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+			self::$feUsersEnableFields = $pageSelect->enableFields(
+				'fe_users'
+			);
 
+				// free up some memory
+			unset($pageSelect);
+		}
 	}
 
 	/**
@@ -108,7 +119,20 @@ class tx_community_model_UserGateway {
 	}
 
 	public function findByWhereClause($whereClause) {
+		$foundUsers = array();
 
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'DISTINCT fe_users.*',
+			'fe_users',
+			'(' . $whereClause . ')'
+				. self::$feUsersEnableFields
+		);
+
+		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$foundUsers[] = $this->createUserFromRow($userRow);
+		}
+
+		return $foundUsers;
 	}
 
 	/**
