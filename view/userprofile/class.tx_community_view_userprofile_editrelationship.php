@@ -82,7 +82,7 @@ class tx_community_view_userprofile_EditRelationship implements tx_community_Vie
 
 		$template->addVariable('friend', $this->friendUser);
 		$template->addVariable('form', array('action' => $this->formAction));
-		$template->addLoop('friendroles', $this->relationshipOptions);
+		$template->addLoop('setting_options', 'setting_option', $this->relationshipOptions);
 
 		$template->addViewHelper(
 			'lll',

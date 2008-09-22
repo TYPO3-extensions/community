@@ -58,7 +58,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $llManager;
-	
+
 	public function setTemplateFile($templateFile) {
 		$this->templateFile = $templateFile;
 	}
@@ -70,30 +70,30 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;
 	}
-	
+
 	public function setImage($image) {
 		$this->image = $image;
 	}
-	
+
 	public function setAdminActions($actions) {
 		$this->adminActions = $actions;
 	}
-		
+
 	public function setTmpMembersActions($actions) {
 		$this->tmpMembersActions = $actions;
 	}
-		
+
 	public function setOtherActions($actions) {
 		$this->otherActions = $actions;
 	}
-	
+
 	public function render() {
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_editgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		$this->group = $this->groupGateway->findCurrentGroup();
-		
+
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
@@ -122,7 +122,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		$template->addVariable('msg', array(
 			'wait'				=> $this->llManager->getLL('msg_please_wait')
 		));
-		
+
 		return $template->render();
 	}
 
@@ -134,7 +134,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'general_settings'
 		);
 		/* @var $template tx_community_Template */
-		
+
 		$template->addVariable('form', array(
 			'action' => $this->formAction,
 			'group_uid'	=> $this->group->getUid()
@@ -149,7 +149,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 		$template->addVariable('checked', array(
 			'public'		=> (($this->group->getTX_community_public()) ? 'checked="checked" ' : '')
 		));
-		
+
 		return $template->render();
 	}
 
@@ -161,11 +161,11 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'image_settings'
 		);
 		/* @var $template tx_community_Template */
-		
+
 		$template->addVariable('group', array(
 			'image'		=> $this->image
 		));
-		
+
 		return $template->render();
 	}
 
@@ -181,35 +181,35 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'action' => $this->formAction,
 			'group_uid'	=> $this->group->getUid()
 		));
-		
+
 		$members = $this->group->getAllTempMembers();
 		$loopTempMembers = array();
 		foreach ($members as $member) {
 			$tmp = array(
-				'member_uid'		=> $member->getUid(),
-				'member_name'		=> $member->getNickname(),
-				'member_status'		=> $this->getMemberStatus($member),
-				'member_actions'	=> $this->getActionsForMember($member),
+				'uid'     => $member->getUid(),
+				'name'    => $member->getNickname(),
+				'status'  => $this->getMemberStatus($member),
+				'actions' => $this->getActionsForMember($member),
 			);
 			$loopTempMembers[] = $tmp;
 		}
-		
-		$template->addLoop('tempMembers', $loopTempMembers);
-		
+
+		$template->addLoop('tempMembers', 'tempMember', $loopTempMembers);
+
 		$members = $this->group->getAllMembers();
 		$loopMembers = array();
 		foreach ($members as $member) {
 			$tmp = array(
-				'member_uid'		=> $member->getUid(),
-				'member_name'		=> $member->getNickname(),
-				'member_status'		=> $this->getMemberStatus($member),
-				'member_actions'	=> $this->getActionsForMember($member),
+				'uid'     => $member->getUid(),
+				'name'    => $member->getNickname(),
+				'status'  => $this->getMemberStatus($member),
+				'actions' => $this->getActionsForMember($member),
 			);
 			$loopMembers[] = $tmp;
 		}
-		
-		$template->addLoop('members', $loopMembers);
-		
+
+		$template->addLoop('members', 'member', $loopMembers);
+
 		return $template->render();
 	}
 
@@ -244,7 +244,7 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 			'invite_member'
 		);
 		/* @var $template tx_community_Template */
-		
+
 		return $template->render();
 	}
 }

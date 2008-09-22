@@ -27,14 +27,14 @@
 <form action="###FORM.ACTION###" method="post">
 
 	<ul>
-	<!-- ###LOOP:FRIENDROLES### begin -->
+	<!-- ###LOOP:SETTING_OPTIONS### begin -->
 	<!-- ###LOOP_CONTENT### -->
 		<li>
 			<input type="hidden" name="###SETTING_OPTION.FIELD_NAME###" value="0" />
 			<input type="checkbox" name="###SETTING_OPTION.FIELD_NAME###" id="###SETTING_OPTION.FIELD_ID###" ###SETTING_OPTION.FIELD_CHECKED### value="1" /> <label for="###SETTING_OPTION.FIELD_ID###">###SETTING_OPTION.LABEL###</label>
 		</li>
 	<!-- ###LOOP_CONTENT### -->
-	<!-- ###LOOP:FRIENDROLES### end -->
+	<!-- ###LOOP:SETTING_OPTIONS### end -->
 	</ul>
 
 <input type="submit" value="###LLL:relationship_formSave###" />

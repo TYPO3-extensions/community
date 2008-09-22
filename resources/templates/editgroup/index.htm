@@ -21,7 +21,7 @@
 		border: 1px solid #333;
 		padding: 5px;
 	}
-	
+
 	#tab_navigation li a {
 		color: #333;
 	}
@@ -30,7 +30,7 @@
 		background-color: #333;
 		color: #fff;
 	}
-	
+
 	#tab_navigation li.ui-tabs-selected a {
 		color: #fff;
 	}
@@ -38,7 +38,7 @@
 		width: 800px;
 		border: 1px solid #333;
 	}
-	
+
 .flora .ui-dialog,
 .flora.ui-dialog {
 	background-color: #e6f7d4;
@@ -140,7 +140,7 @@ _USER_ID     = '0';
 				<dt>###LLL:editgroup_general_public###</dt>
 				<dd><input type="checkbox" name="tx_community[group_public]" value="###VALUE.GROUP_PUBLIC###" ###CHECKED.PUBLIC###/></dd>
 			</dl>
-			
+
 			<input type="submit" value="###LLL:editgroup_formSave###" />
 		</form>
 	</div>
@@ -171,9 +171,9 @@ _USER_ID     = '0';
 				<!-- ###LOOP:TEMPMEMBERS### begin -->
 				<!-- ###LOOP_CONTENT### -->
 				<tr id="memberRow###MEMBER_UID###">
-					<td class="member_name">###MEMBER_NAME###</td>
-					<td class="member_status">###MEMBER_STATUS###</td>
-					<td class="member_actions">###MEMBER_ACTIONS###</td>
+					<td class="member_name">###TEMPMEMBER.NAME###</td>
+					<td class="member_status">###TEMPMEMBER.STATUS###</td>
+					<td class="member_actions">###TEMPMEMBER.ACTIONS###</td>
 				</tr>
 				<!-- ###LOOP_CONTENT### -->
 				<!-- ###LOOP:TEMPMEMBERS### end -->
@@ -188,9 +188,9 @@ _USER_ID     = '0';
 				<!-- ###LOOP:MEMBERS### begin -->
 				<!-- ###LOOP_CONTENT### -->
 				<tr id="memberRow###MEMBER_UID###">
-					<td class="member_name">###MEMBER_NAME###</td>
-					<td class="member_status">###MEMBER_STATUS###</td>
-					<td class="member_actions">###MEMBER_ACTIONS###</td>
+					<td class="member_name">###MEMBER.NAME###</td>
+					<td class="member_status">###MEMBER.STATUS###</td>
+					<td class="member_actions">###MEMBER.ACTIONS###</td>
 				</tr>
 				<!-- ###LOOP_CONTENT### -->
 				<!-- ###LOOP:MEMBERS### end -->
@@ -212,19 +212,19 @@ _USER_ID     = '0';
 		</form>
 	</div>
 	<!-- ###INVITE_MEMBER### end -->
-	
+
 	<div id="confirmRequestDialog" title="###LLL:editgroup_dialog_confirmRequest_title###">
 		<p>###LLL:editgroup_dialog_confirmRequest_message###</p>
 	</div>
-	
+
 	<div id="rejectRequestDialog" title="###LLL:editgroup_dialog_rejectRequest_title###">
 		<p>###LLL:editgroup_dialog_rejectRequest_message###</p>
 	</div>
-	
+
 	<div id="makeAdminDialog" title="###LLL:editgroup_dialog_makeAdmin_title###">
 		<p>###LLL:editgroup_dialog_makeAdmin_message###</p>
 	</div>
-	
+
 	<div id="removeMemberDialog" title="###LLL:editgroup_dialog_removeMember_title###">
 		<p>###LLL:editgroup_dialog_removeMember_message###</p>
 	</div>

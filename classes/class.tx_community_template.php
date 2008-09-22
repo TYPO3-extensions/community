@@ -170,11 +170,12 @@ class tx_community_Template {
 		$loopContent    = '';
 		$loopTemplate   = $this->getSubpart('LOOP:' . $loop);
 		$loopSingleItem = $this->getSubpart('loop_content', $loopTemplate);
-		$variables      = $this->loops[$loop];
-		$markers        = $this->getMarkersFromSubpart($loopSingleItem);
+		$loopMarker     = $this->loops[$loop]['marker'];
+		$loopVariables  = $this->loops[$loop]['data'];
+		$foundMarkers   = $this->getMarkersFromSubpart($loopSingleItem);
 
-		foreach ($variables as $value) {
-			$resolvedMarkers = $this->resolveVariableMarkers($markers, $value);
+		foreach ($loopVariables as $value) {
+			$resolvedMarkers = $this->resolveVariableMarkers($foundMarkers, $value);
 
 			$loopContent .= t3lib_parsehtml::substituteMarkerArray(
 				$loopSingleItem,
@@ -284,17 +285,27 @@ class tx_community_Template {
 		$this->variables[$key] = $value;
 	}
 
-	public function addLoop($loopName, array $variables) {
+	public function addLoop($loopName, $markerName, array $variables) {
 
-		$this->loops[$loopName] = $variables;
+		$this->loops[$loopName] = array(
+			'marker' => $markerName,
+			'data'   => $variables
+		);
 
 		// use foreach with an "Iterator" to run through $variables
 
 	}
 
-	public function getMarkersFromSubpart($subpart) {
+	public function getMarkersFromSubpart($subpart, $markerPrefix = '') {
+		$regex = '!###([A-Z0-9_-|.]*)\###!is';
+
+		if (!empty($markerPrefix)) {
+			$regex = '!###(' . strtoupper($markerPrefix) . '\.[A-Z0-9_-|]*)\###!is';
+		}
+
 		preg_match_all('!###([A-Z0-9_-|.]*)\###!is', $subpart, $match);
 		$markers = array_unique($match[1]);
+debug($markers);
 
 		return $markers;
 	}

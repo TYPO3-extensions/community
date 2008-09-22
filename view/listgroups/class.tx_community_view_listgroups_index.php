@@ -51,7 +51,7 @@ class tx_community_view_listGroups_Index implements tx_community_View {
 	 */
 	protected $llManager;
 	protected $groupLink;
-	
+
 	public function setTemplateFile($templateFile) {
 		$this->templateFile = $templateFile;
 	}
@@ -59,11 +59,11 @@ class tx_community_view_listGroups_Index implements tx_community_View {
 	public function setLanguageKey($languageKey) {
 		$this->languageKey = $languageKey;
 	}
-	
+
 	public function setGroups($groups) {
 		$this->groups = $groups;
 	}
-	
+
 	public function setGroupDetailLink($link) {
 		$this->groupLink = $link;
 	}
@@ -71,7 +71,7 @@ class tx_community_view_listGroups_Index implements tx_community_View {
 	public function render() {
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_listgroups.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
@@ -88,22 +88,22 @@ class tx_community_view_listGroups_Index implements tx_community_View {
 				'llKey'        => $this->languageKey
 			)
 		);
-		
+
 		foreach ($this->groups as $group) {
 			$tmp = array(
-				'group_uid'			=> $group->getUid(),
-				'group_title'		=> $group->getTitle(),
-				'group_description'	=> $group->getDescription(),
-				'group_url'			=> $this->getGroupDetailLink($group->getUid()),
+				'uid'         => $group->getUid(),
+				'title'       => $group->getTitle(),
+				'description' => $group->getDescription(),
+				'url'         => $this->getGroupDetailLink($group->getUid()),
 			);
 			$loopGroups[] = $tmp;
 		}
-		
-		$template->addLoop('groups', $loopGroups);
+
+		$template->addLoop('groups', 'group', $loopGroups);
 
 		return $template->render();
 	}
-	
+
 	protected function getGroupDetailLink($uid) {
 		return str_replace('%25UID%25', $uid, $this->groupLink);
 	}

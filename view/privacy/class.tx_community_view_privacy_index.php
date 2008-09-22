@@ -171,7 +171,7 @@ class tx_community_view_privacy_Index implements tx_community_View {
 			);
 		}
 
-		$template->addLoop('setting_options', $roleOptions);
+		$template->addLoop('setting_options', 'setting_option', $roleOptions);
 		$applicationSettings .= $template->render();
 
 		return $applicationSettings;

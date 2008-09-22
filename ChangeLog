@@ -4,6 +4,7 @@
 	* made the application manager available in global scope when the community plugin is executed
 	* removed includes of the application manager as it is loaded with the community FE plugin
 	* changed existing community applications to use the global instance of the application manager
+	* !!! changed API of addLoop() in the template engine, now requires a marker name as second parameter for the looped variable
 
 2008-09-19 Ingo Renner  <ingo@typo3.org>
 

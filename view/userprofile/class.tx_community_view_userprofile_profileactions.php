@@ -58,7 +58,7 @@ class tx_community_view_userprofile_ProfileActions implements tx_community_View 
 			'profile_actions'
 		);
 
-		$template->addLoop('profileactions', $this->profileActions);
+		$template->addLoop('profileactions', 'profileaction', $this->profileActions);
 
 		return $template->render();
 	}
