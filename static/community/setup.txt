@@ -117,42 +117,49 @@ plugin.tx_community {
 					label = EXT:community/lang/locallang_search.xml:search_field_activities
 					searchIn = tx_community_activities
 					type = text
+					compareMode = like
 				}
 
 				interests {
 					label = EXT:community/lang/locallang_search.xml:search_field_interests
 					searchIn = tx_community_interests
 					type = text
+					compareMode = like
 				}
 
 				music {
 					label = EXT:community/lang/locallang_search.xml:search_field_music
 					searchIn = tx_community_favoritemusic
 					type = text
+					compareMode = like
 				}
 
 				tvshows {
 					label = EXT:community/lang/locallang_search.xml:search_field_tvshows
 					searchIn = tx_community_favoritetvshows
 					type = text
+					compareMode = like
 				}
 
 				movies {
 					label = EXT:community/lang/locallang_search.xml:search_field_movies
 					searchIn = tx_community_favoritetvshows
 					type = text
+					compareMode = like
 				}
 
 				books {
 					label = EXT:community/lang/locallang_search.xml:search_field_books
 					searchIn = tx_community_favoritebooks
 					type = text
+					compareMode = like
 				}
 
 				about {
 					label = EXT:community/lang/locallang_search.xml:search_field_about
 					searchIn = tx_community_aboutme
 					type = text
+					compareMode = like
 				}
 			}
 		}
