@@ -161,6 +161,26 @@ class tx_community_model_UserGateway {
 
 		return $friends;
 	}
+	
+	public function isFriendOfCurrentlyLoggedInUser(tx_community_model_User $user) {
+		$isFriend = false;
+		$loggedinUser = $this->findCurrentlyLoggedInUser();
+		if (is_null($loggedinUser)) {
+			return $isFriend;
+		}
+		if ($user instanceof tx_community_model_User) {
+			$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'friend',	// FIXME friend role name must not be hardcoded!
+				'tx_community_friend',
+				'feuser = ' . $user->getUid() . ' AND friend = ' . $user->getUid()	// FIXME friend role name must not be hardcoded!
+			);
+			if (is_array($userRows) && count($userRows)) {
+				$isFriend = true;
+			}
+		}
+		
+		return $isFriend;
+	}
 
 	/**
 	 * finds the currently logged in user

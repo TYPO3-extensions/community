@@ -44,6 +44,12 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 * @var tx_community_controller_AbstractCommunityApplication
 	 */
 	protected $communityApplication;
+	/**
+	 * a reference to the community application manager
+	 *
+	 * @var tx_community_ApplicationManager
+	 */
+	protected $communityApplicationManager;
 	protected $configuration;
 	protected $data;
 	/**
@@ -67,6 +73,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		);
 
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		$this->communityApplicationManager = tx_community_ApplicationManager::getInstance();
 	}
 
 	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
@@ -148,7 +155,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$content = '';
 		$communityRequest = t3lib_div::_GP('tx_community');
 
-		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
+		$widgetConfiguration = $this->communityApplicationManager->getWidgetConfiguration(
 			$this->communityApplication->getName(),
 			$this->getId()
 		);

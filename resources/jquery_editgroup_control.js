@@ -266,4 +266,51 @@ $(document).ready(function(){
 		_USER_ID = id;
 		$("#rejectRequestDialog").dialog('open');
 	});
+	
+	// Invite User
+	function formatItem(row) {
+		return row[0] + " (<strong>id: " + row[1] + "</strong>)";
+	}
+	function formatResult(row) {
+		return row[0].replace(/(<.+?>)/gi, '');
+	}
+
+	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').autocomplete(_FORM_ACTION, {
+		width: 300,
+		autoFill: true,
+		multiple: true,
+		/* matchContains: true, */
+		formatItem: formatItem,
+		formatResult: formatResult,
+		extraParams: {
+			'tx_community[ajaxAction]': 'inviteMember',
+			'tx_community[do]': 'search',
+			'tx_community[group]': _GROUP_ID
+		},
+	});
+	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').result(function(event, data, formatted) {
+		var hidden = $('#inviteUids');
+		console.log(hidden);
+		hidden.val( (hidden.val() ? hidden.val() + ";" : hidden.val()) + data[1]);
+	});
+
+	
+	$('#INVITE_MEMBER .doInviteLink').click(function() {
+		var hidden = $('#inviteUids');
+		$.post(
+			_FORM_ACTION,
+			{
+				'tx_community[ajaxAction]': 'inviteMember',
+				'tx_community[group]': _GROUP_ID,
+				'tx_community[do]': 'invite',
+				'tx_community[inviteUids]': hidden.val()
+			},
+			function(response) {
+				response = eval('('+response+')');
+				showMessage(response.status, response.msg, 5000);
+			}
+		);
+	});
+	
+	
 });

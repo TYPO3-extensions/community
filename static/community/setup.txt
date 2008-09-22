@@ -250,9 +250,10 @@ plugin.tx_community {
 }
 
 page.includeJS {
-	community_editgroup_form	= EXT:community/resources/jquery.form.js
-	community_editgroup_control	= EXT:community/resources/jquery_editgroup_control.js
-	community_editgroup_upload  = EXT:community/resources/jquery.ocupload-1.1.1.js
+	community_editgroup_form			= EXT:community/resources/jquery.form.js
+	community_editgroup_autocomplete	= EXT:community/resources/jquery.autocomplete.js
+	community_editgroup_control			= EXT:community/resources/jquery_editgroup_control.js
+	community_editgroup_upload  		= EXT:community/resources/jquery.ocupload-1.1.1.js
 }
 
 	// adding the application controllers

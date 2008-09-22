@@ -42,6 +42,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 	protected $name;
 	protected $configuration;
 	protected $group;
+	protected $messageAPILoaded = false;
 
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
@@ -52,6 +53,11 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$this->prefixId = 'tx_community_controller_EditGroupApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_editgroupapplication.php';
 		$this->name = 'EditGroup';
+		
+		if (t3lib_extMgm::isLoaded('community_messages')) {
+			require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
+			$this->messageAPILoaded = true;
+		}
 	}
 
 	public function execute() {
@@ -282,7 +288,74 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				}
 			break;
 			case 'inviteMember':
-
+				switch($communityRequest['do']) {
+					case 'invite':
+						$requestedGroup = $groupGateway->findCurrentGroup();
+						if (is_null($requestedGroup)) {
+							// @TODO: throw exception
+							die('no group in request');
+						}
+						
+						$status = 'success';
+						$uidsToInvite = t3lib_div::trimExplode(';', $communityRequest['inviteUids']);
+						foreach ($uidsToInvite as $uid) {
+							$inviteUser = $this->userGateway->findById($uid);
+							if (is_null($inviteUser)) {
+								$status = 'error';
+								$message = 'unknown user';
+								break;
+							}
+							if ($this->userGateway->isFriendOfCurrentlyLoggedInUser($inviteUser)) {
+								$recipients[] = $inviteUser;
+								$message = 'users invited';
+							} else {
+								$status = 'error';
+								$message = 'is not a friend';
+								break;
+							}
+						}
+						if ($status == 'success') {
+							$inviteUrl = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$this->pi_getPageLink(
+								$this->configuration['pages.']['groupProfile'],
+								'',
+								array(
+									'tx_community' => array(
+										'group' => $requestedGroup->getUid(),
+										'profileAction' => 'joinGroup'
+									)
+								)
+							);
+							$subject = 'invite for group';
+							$bodytext = "
+								Einladung zur Gruppe.<br/>
+								<a href=\"{$inviteUrl}\">Einladung annehmen</a>
+							";
+							if ($this->messageAPILoaded) {
+								tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
+							}
+						}
+						$result = "{'status': '{$status}', 'msg': '{$message}'}";
+					break;
+					case 'search':
+					default:
+						$searchTerm = t3lib_div::_GP('q');
+						$friends = $this->userGateway->findFriends();
+						$returnData = array();
+						if (count($friends)) {
+							foreach ($friends as $friend) {
+								if (strpos(strtolower($friend->getNickname()), strtolower($searchTerm)) !== false) {
+									$returnData[] = $friend->getNickname().'|'.$friend->getUid();
+								}
+							}
+						}
+						if (count($returnData)) {
+							echo implode("\n", $returnData) . "\n";
+						} else {
+							echo '';
+						}
+						die();
+					break;
+				}
 			break;
 			default:
 				$result = "{'status': 'error', 'msg': 'no ajax action'}";

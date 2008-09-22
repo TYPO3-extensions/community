@@ -199,15 +199,30 @@ _USER_ID     = '0';
 	<!-- ###MEMBER_SETTINGS### end -->
 
 	<!-- ###INVITE_MEMBER### begin -->
+<style>
+.ac_odd {
+	background-color: #ebebeb;
+}
+.ac_even {
+	background-color: #e1e1e1;
+}
+.ac_over {
+	background-color: #999;
+}
+</style>
 	<div id="INVITE_MEMBER" class="tab_content">
 		<form action="###FORM.ACTION###" class="ajaxForm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="tx_community[group]" value="###FORM.GROUP_UID###" />
 		<input type="hidden" name="tx_community[ajaxAction]" id="ajaxActionHolder" value="" />
+		<input type="hidden" name="tx_community[invite_uids]" id="inviteUids" value="" />
 			<h3>###LLL:editgroup_tab_invite###</h3>
 			<dl>
 				<dt>###LLL:editgroup_invite_search###</dt>
-				<dd><input type="text" name="tx_community[invite_search]" value="" /></dd>
+				<dd><input type="text" name="tx_community[invite_search]" value="" /> <a href="#" class="doInviteLink">Diese Personen zur Gruppe einladen.</a></dd>
 			</dl>
+			<div id="INVITE_MEMBER_RESULTS">
+			
+			</div>
 		</div>
 		</form>
 	</div>
