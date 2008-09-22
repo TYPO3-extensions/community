@@ -24,7 +24,6 @@
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'view/listgroups/class.tx_community_view_listgroups_index.php');
 
 /**
@@ -63,15 +62,15 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
 		/* @var $applicationManager tx_community_ApplicationManager */
-		
+
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
-		
+
 		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
 			$this->getName()
 		);
-				
+
 		$content = $this->indexAction();
-		
+
 		return $content;
 	}
 
@@ -83,7 +82,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	protected function indexAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_listGroups_Index');
 		/* @var $view tx_community_view_listGroups_Index */
@@ -92,7 +91,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 
 		$groups = $this->groupGateway->getAllGroups();
 		$view->setGroups($groups);
-		
+
 		$groupsDetailLink = $this->pi_getPageLink(
 			$this->configuration['pages.']['groupProfile'],
 			'',
@@ -103,7 +102,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			)
 		);
 		$view->setGroupDetailLink($groupsDetailLink);
-		
+
 		return $view->render();
 	}
 }

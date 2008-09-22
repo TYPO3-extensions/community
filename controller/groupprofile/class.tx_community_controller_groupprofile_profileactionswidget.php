@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
@@ -55,16 +54,18 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 * @var tx_community_model_GroupGateway
 	 */
 	protected $groupGateway;
-	
+
 	public function initialize($data, $configuration) {
 		$this->data = $data;
 		$this->configuration = $configuration;
+
 		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$this->localizationManager = call_user_func(
 			array($localizationManagerClass, 'getInstance'),
 			$GLOBALS['PATH_community'] . 'lang/locallang_groupprofile_profileactions.xml',
 			array()
 		);
+
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 	}
 
@@ -191,7 +192,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	public function joinGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->communityApplication->getRequestedGroup();
-		
+
 		if (!is_null($requestingUser)) {
 			if ($requestedGroup instanceof tx_community_model_Group) {
 				if ($requestedGroup->addMember($requestingUser)) {
@@ -205,7 +206,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 							)
 						)
 					);
-		
+
 					Header('HTTP/1.1 303 See Other');
 					Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
 					exit;
@@ -215,18 +216,18 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 			}
 		}
 	}
-	
+
 	public function leaveGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->communityApplication->getRequestedGroup();
-		
+
 		if (!is_null($requestingUser)) {
 			if ($requestedGroup instanceof tx_community_model_Group) {
 				if ($requestedGroup->isAdmin($requestingUser)) {
 					// TODO throw some exception
 					die($this->localizationManager->getLL('msg_leaveGroupIfIsAdminOfGroup'));
 				}
-				
+
 				if ($requestedGroup->removeMember($requestingUser)) {
 					// do a redirect to the profile page, no output
 					$profilePageUrl = $this->communityApplication->pi_getPageLink(
@@ -238,7 +239,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 							)
 						)
 					);
-		
+
 					Header('HTTP/1.1 303 See Other');
 					Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
 					exit;
@@ -255,7 +256,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 
 		$profileActions[]['link'] = $this->getJoinLeaveGroupProfileAction();
 		$profileActions[]['link'] = $this->getEditGroupProfileAction();
-		
+
 		return $profileActions;
 	}
 
@@ -280,14 +281,14 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 					)
 				)
 			);
-			
+
 			if ($requestedGroup->isAdmin(($requestingUser))) {
 				$content = sprintf(
 					$this->localizationManager->getLL('action_isAdminOfGroup'),
 					$requestingUser->getNickname()
 				);
 			}
-			
+
 		} else {
 			$linkText = sprintf(
 				$this->localizationManager->getLL('action_joinGroup'),

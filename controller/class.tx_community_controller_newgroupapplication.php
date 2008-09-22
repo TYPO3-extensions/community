@@ -24,7 +24,6 @@
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'view/newgroup/class.tx_community_view_newgroup_index.php');
 require_once($GLOBALS['PATH_community'] . 'view/newgroup/class.tx_community_view_newgroup_newgroup.php');
 
@@ -62,22 +61,22 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
 		/* @var $applicationManager tx_community_ApplicationManager */
-		
+
 		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
 			$this->getName()
 		);
-		
+
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		/* @var $userGateway tx_community_model_UserGateway */
-		
+
 		$this->user  = $userGateway->findCurrentlyLoggedInUser();
 		if (is_null($this->user)) {
 			// @TODO throw Exception
 			die('no loggedin user');
 		}
-		
+
 			// dispatch
 		if (!empty($communityRequest['newGroupAction'])
 			&& method_exists($this, $communityRequest['newGroupAction'] . 'Action')
@@ -103,7 +102,7 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	protected function indexAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_newGroup_Index');
 		/* @var $view tx_community_view_newGroup_Index */
@@ -120,10 +119,10 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 			)
 		);
 		$view->setFormAction($formAction);
-		
+
 		return $view->render();
 	}
-	
+
 	protected function newGroupAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_newGroup_NewGroup');
 		/* @var $view tx_community_view_newGroup_Index */
@@ -132,7 +131,7 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_newgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		if (isset($communityRequest['group_title'])) {
 			$group = t3lib_div::makeInstance('tx_community_model_Group');
@@ -152,7 +151,7 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 						)
 					)
 				);
-	
+
 				Header('HTTP/1.1 303 See Other');
 				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
 				exit;

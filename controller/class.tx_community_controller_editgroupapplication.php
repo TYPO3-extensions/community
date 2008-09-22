@@ -25,7 +25,6 @@
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_view_editgroup_index.php');
 
 /**
@@ -61,37 +60,37 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
 		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
 		/* @var $applicationManager tx_community_ApplicationManager */
-		
+
 		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
 			$this->getName()
 		);
-		
+
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		/* @var $groupGateway tx_community_model_GroupGateway */
-		
+
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		/* @var $userGateway tx_community_model_UserGateway */
-		
+
 		$this->group = $groupGateway->findCurrentGroup();
 		if (is_null($this->group)) {
 			// @TODO throw Exception
 			die('no group id');
 		}
-		
+
 		$user  = $userGateway->findCurrentlyLoggedInUser();
 		if (is_null($user)) {
 			// @TODO throw Exception
 			die('no loggedin user');
 		}
-		
+
 		if (!$this->group->isAdmin($user)) {
 			// @TODO throw Exception
 			die('not admin');
 		}
-		
-		
+
+
 			// dispatch
 		if (!empty($communityRequest['editGroupAction'])
 			&& method_exists($this, $communityRequest['editGroupAction'] . 'Action')
@@ -117,7 +116,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	protected function indexAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_editGroup_Index');
 		/* @var $view tx_community_view_editGroup_Index */
@@ -134,14 +133,14 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			)
 		);
 		$view->setFormAction($formAction);
-		
+
 		$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
-		
+
 		$imagePath = (strlen($this->group->getTX_community_image())) ? $this->configuration['applications.']['editGroup.']['uploadPath'] . $this->group->getTX_community_image() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
 		$imgConf['file'] = $imagePath;
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$view->setImage($cObj->cObjGetSingle($this->configuration['applications.']['editGroup.']['previewImage'], $imgConf));
-		
+
 		// make actions
 		$actions = $this->configuration['applications.']['editGroup.']['memberlist.']['actions.'];
 		debug($actions);
@@ -178,10 +177,10 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$view->setAdminActions($adminActions);
 		$view->setTmpMembersActions($tmpMemberActions);
 		$view->setOtherActions($otherActions);
-		
+
 		return $view->render();
 	}
-	
+
 	protected function saveDataAction() {
 		// @TODO: localize all messages
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
@@ -192,7 +191,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		 */
 		$group = $groupGateway->findCurrentGroup();
 		$user  = $userGateway->findCurrentlyLoggedInUser();
-		
+
 		$ajaxAction = $communityRequest['ajaxAction'];
 		switch ($ajaxAction) {
 			case 'saveGeneral':
@@ -292,11 +291,11 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			default:
 				$result = "{'status': 'error', 'msg': 'no ajax action'}";
 			break;
-		}		
+		}
 		echo $result;
 		die();
 	}
-	
+
 	protected function saveGeneral() {
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
@@ -306,7 +305,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		 */
 		$group = $groupGateway->findCurrentGroup();
 		$user  = $userGateway->findCurrentlyLoggedInUser();
-		
+
 		if ($group->isAdmin($user)) {
 			$group->setTitle($communityRequest['group_title']);
 			$group->setDescription($communityRequest['group_description']);
@@ -317,9 +316,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				return false;
 			}
 		} else {
-			return false;	
+			return false;
 		}
-	} 
+	}
 }
 
 
