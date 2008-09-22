@@ -56,7 +56,6 @@ class tx_community_ApplicationManager {
 
 	public static function getInstance() {
 		if (is_null(self::$instance)) {
-				// TODO use t3lib_div ...
 			self::$instance = new tx_community_ApplicationManager();
 		}
 

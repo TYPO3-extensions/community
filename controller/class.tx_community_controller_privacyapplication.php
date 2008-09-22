@@ -59,11 +59,7 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 		$content = '';
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
-		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
-		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
-		/* @var $applicationManager tx_community_ApplicationManager */
-
-		$applicationConfiguration = $applicationManager->getApplicationConfiguration(
+		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
 			$this->getName()
 		);
 

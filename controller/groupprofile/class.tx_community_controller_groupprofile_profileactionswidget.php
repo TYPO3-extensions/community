@@ -148,11 +148,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$content = '';
 		$communityRequest = t3lib_div::_GP('tx_community');
 
-		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
-		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
-		/* @var $applicationManager tx_community_ApplicationManager */
-
-		$widgetConfiguration = $applicationManager->getWidgetConfiguration(
+		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
 			$this->communityApplication->getName(),
 			$this->getId()
 		);

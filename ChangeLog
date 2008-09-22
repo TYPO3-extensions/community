@@ -2,6 +2,8 @@
 
 	* added a way to exclude community application from being listed in the community plugin's flexform
 	* made the application manager available in global scope when the community plugin is executed
+	* removed includes of the application manager as it is loaded with the community FE plugin
+	* changed existing community applications to use the global instance of the application manager
 
 2008-09-19 Ingo Renner  <ingo@typo3.org>
 
