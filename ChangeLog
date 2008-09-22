@@ -1,6 +1,7 @@
 2008-09-21 Ingo Renner  <ingo@typo3.org>
 
 	* added a way to exclude community application from being listed in the community plugin's flexform
+	* made the application manager available in global scope when the community plugin is executed
 
 2008-09-19 Ingo Renner  <ingo@typo3.org>
 

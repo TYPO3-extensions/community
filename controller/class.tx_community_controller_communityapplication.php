@@ -44,6 +44,10 @@ class tx_community_controller_CommunityApplication extends tslib_pibase {
 	 */
 	public function __construct() {
 
+			// make the application manager available to the global scope when the plugin is executed
+		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
+		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
+		$GLOBALS['TX_COMMUNITY']['applicationManager'] = $applicationManager;
 	}
 
 	public function initialize($configuration) {
@@ -63,17 +67,12 @@ class tx_community_controller_CommunityApplication extends tslib_pibase {
 		$content = '';
 		$this->initialize($configuration);
 
-		$applicationManagerClass = t3lib_div::makeInstanceClassName('tx_community_ApplicationManager');
-		$applicationManager      = call_user_func(array($applicationManagerClass, 'getInstance'));
-		/* @var $applicationManager tx_community_ApplicationManager */
-
 		$applicationName = $this->pi_getFFvalue(
 			$this->cObj->data['pi_flexform'],
 			'application'
 		);
-		$applicationConfiguration = $applicationManager->getApplicationConfiguration($applicationName);
-		$application = t3lib_div::getUserObj($applicationConfiguration['classReference']);
-		/* @var $application tx_community_controller_AbstractCommunityApplication */
+
+		$application = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication($applicationName);
 		$application->initialize($this->cObj->data, $this->conf);
 
 		$content = $application->execute();
