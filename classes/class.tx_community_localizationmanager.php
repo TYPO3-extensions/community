@@ -39,7 +39,7 @@ class tx_community_LocalizationManager {
 	protected $llFile;							// the LL-File
 	protected $LLkey = 'default';				// Pointer to the language to use.
 	protected $altLLkey = '';					// Pointer to alternative fall-back language to use.
-		
+
 	protected $LOCAL_LANG = array();			// Local Language content
 	protected $LOCAL_LANG_charset = array();	// Local Language content charset for individual labels (overriding)
 
@@ -58,7 +58,7 @@ class tx_community_LocalizationManager {
 				$this->altLLkey = $GLOBALS['TSFE']->config['config']['language_alt'];
 			}
 		}
-		
+
 		$this->loadLL();
 	}
 
@@ -85,7 +85,7 @@ class tx_community_LocalizationManager {
 			$tempLOCAL_LANG = t3lib_div::readLLfile($this->llFile, $this->altLLkey);
 			$this->LOCAL_LANG = array_merge(is_array($this->LOCAL_LANG) ? $this->LOCAL_LANG : array(), $tempLOCAL_LANG);
 		}
-		
+
 		// Overlaying labels from TypoScript (including fictitious language keys for non-system languages!):
 		if (is_array($this->conf['_LOCAL_LANG.'])) {
 			reset($this->conf['_LOCAL_LANG.']);
@@ -129,8 +129,8 @@ class tx_community_LocalizationManager {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_applicationmanager.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_applicationmanager.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_localizationmanager.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_localizationmanager.php']);
 }
 
 ?>
