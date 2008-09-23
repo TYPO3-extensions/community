@@ -11,6 +11,7 @@ plugin.tx_community {
 
 		relationshipEdit = 0
 
+		groupOverview = 0
 		groupProfile = 0
 		groupEdit = 0
 

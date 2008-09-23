@@ -194,7 +194,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 
 	public function joinGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->communityApplication->getRequestedGroup();
+		$requestedGroup = $this->groupGateway->findCurrentGroup();
 
 		if (!is_null($requestingUser)) {
 			if ($requestedGroup instanceof tx_community_model_Group) {
@@ -222,18 +222,37 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 
 	public function leaveGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->communityApplication->getRequestedGroup();
+		/**
+		 * @var $requestedGroup tx_community_model_Group
+		 */
+		$requestedGroup = $this->groupGateway->findCurrentGroup();
 
 		if (!is_null($requestingUser)) {
 			if ($requestedGroup instanceof tx_community_model_Group) {
 				if ($requestedGroup->isAdmin($requestingUser)) {
-					// TODO throw some exception
-					die($this->localizationManager->getLL('msg_leaveGroupIfIsAdminOfGroup'));
+					$membersOfGroup = $requestedGroup->getAllMembers();
+					if (count($membersOfGroup) > 1) {
+						// TODO throw some exception
+						die($this->localizationManager->getLL('msg_leaveGroupIfIsAdminOfGroup'));
+					}
 				}
 
 				if ($requestedGroup->removeMember($requestingUser)) {
+					$membersOfGroup = $requestedGroup->getAllMembers();
+					if (count($membersOfGroup) == 0) {
+						// trying to delete the group
+						if ($requestedGroup->delete()) {
+							$targetURL = $this->communityApplication->pi_getPageLink(
+								$this->configuration['pages.']['groupOverview'],
+								'',
+								array()
+							);
+							Header('HTTP/1.1 303 See Other');
+							Header('Location: ' . t3lib_div::locationHeaderUrl($targetURL));
+						}
+					}
 					// do a redirect to the profile page, no output
-					$profilePageUrl = $this->communityApplication->pi_getPageLink(
+					$targetURL = $this->communityApplication->pi_getPageLink(
 						$this->configuration['pages.']['groupProfile'],
 						'',
 						array(
@@ -244,7 +263,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 					);
 
 					Header('HTTP/1.1 303 See Other');
-					Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
+					Header('Location: ' . t3lib_div::locationHeaderUrl($targetURL));
 					exit;
 				} else {
 					// TODO throw some exception
@@ -285,7 +304,8 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 				)
 			);
 
-			if ($requestedGroup->isAdmin(($requestingUser))) {
+			$membersOfGroup = $requestedGroup->getAllMembers();
+			if ($requestedGroup->isAdmin(($requestingUser)) && count($membersOfGroup) > 1) {
 				$content = sprintf(
 					$this->localizationManager->getLL('action_isAdminOfGroup'),
 					$requestingUser->getNickname()

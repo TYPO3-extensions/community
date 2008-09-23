@@ -45,10 +45,17 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 	protected $communityApplication;
 	protected $configuration;
 	protected $data;
-
+	/**
+	 * a reference to the community application manager
+	 *
+	 * @var tx_community_ApplicationManager
+	 */
+	protected $communityApplicationManager;
+	
 	public function initialize($data, $configuration) {
 		$this->data = $data;
 		$this->configuration = $configuration;
+		$this->communityApplicationManager = tx_community_ApplicationManager::getInstance();
 	}
 
 	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
@@ -130,7 +137,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 		$content = '';
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');;
 
-		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
+		$widgetConfiguration = $this->communityApplicationManager->getWidgetConfiguration(
 			$this->communityApplication->getName(),
 			$this->getId()
 		);

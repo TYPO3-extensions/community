@@ -371,6 +371,14 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		);
 		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
+	
+	public function delete() {
+		$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'fe_groups',
+			'uid = ' . $this->uid
+		);
+		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
+	}
 
 	protected function prepareForMessage($txt, $user, $admin = null) {
 		$keys = array(
