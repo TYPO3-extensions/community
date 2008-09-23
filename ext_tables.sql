@@ -112,7 +112,7 @@ CREATE TABLE tx_community_acl_rule (
 
 
 #
-# Table structure for table 'tx_test_friend'
+# Table structure for table 'tx_community_friend'
 #
 CREATE TABLE tx_community_friend (
 	uid int(11) NOT NULL auto_increment,
@@ -124,6 +124,7 @@ CREATE TABLE tx_community_friend (
 	feuser text,
 	friend text,
 	role text,
+	voting int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
