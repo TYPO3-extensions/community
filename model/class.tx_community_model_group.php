@@ -227,20 +227,24 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		if ($this->save()) {
 			if ($this->getTX_community_public()) {
-				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
-					$this->sendMessage(
-						$admin,
-						$this->prepareForMessage($this->llManager->getLL('subject_memberHasJoined'), $user, $admin),
-						$this->prepareForMessage($this->llManager->getLL('body_memberHasJoined'), $user, $admin)
-					);
+				if (is_array($this->data['tx_community_admins'])) {
+					foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+						$this->sendMessage(
+							$admin,
+							$this->prepareForMessage($this->llManager->getLL('subject_memberHasJoined'), $user, $admin),
+							$this->prepareForMessage($this->llManager->getLL('body_memberHasJoined'), $user, $admin)
+						);
+					}
 				}
 			} else {
-				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
-					$this->sendMessage(
-						$admin,
-						$this->prepareForMessage($this->llManager->getLL('subject_confirmationNeeded'), $user, $admin),
-						$this->prepareForMessage($this->llManager->getLL('body_confirmationNeeded'), $user, $admin)
-					);
+				if (is_array($this->data['tx_community_admins'])) {
+					foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+						$this->sendMessage(
+							$admin,
+							$this->prepareForMessage($this->llManager->getLL('subject_confirmationNeeded'), $user, $admin),
+							$this->prepareForMessage($this->llManager->getLL('body_confirmationNeeded'), $user, $admin)
+						);
+					}
 				}
 			}
 			return true;
