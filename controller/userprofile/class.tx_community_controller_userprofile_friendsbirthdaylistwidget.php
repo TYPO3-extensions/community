@@ -30,21 +30,17 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_FriendsBirthdayListWidget {
+class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_FriendsBirthdayListWidget
 	 */
 	public function __construct() {
+		parent::__construct();
 
-	}
-
-	public function initialize() {
-
-	}
-
-	public function execute() {
-		return $this->indexAction();
+		$this->name     = 'friendsBirthdayList';
+		$this->label    = 'FriendsBirthdayListWidget';
+		$this->cssClass = '';
 	}
 
 	public function indexAction() {
