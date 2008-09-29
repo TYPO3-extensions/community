@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'view/search/class.tx_community_view_search_index.php');
 
 /**
@@ -43,66 +42,6 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$this->prefixId = 'tx_community_controller_SearchApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_searchapplication.php';
 		$this->name = 'search';
-	}
-
-	public function execute() {
-		$content = '';
-
-		$widgetName = $this->pi_getFFvalue(
-			$this->data['pi_flexform'],
-			'widget'
-		);
-
-		if (!empty($widgetName)) {
-			$content = $this->executeWidget($widgetName);
-		} else {
-			$content = $this->executeApllicationAction();
-		}
-
-		return $content;
-	}
-
-	protected function executeWidget($widgetName) {
-		$content = '';
-
-		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
-			$this->name,
-			$widgetName
-		);
-
-		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
-		/* @var $widget tx_community_CommunityApplicationWidget */
-		$widget->initialize($this->data, $this->conf);
-		$widget->setCommunityApplication($this);
-
-		$content = $widget->execute();
-
-		return $content;
-	}
-
-	protected function executeApllicationAction() {
-		$content = '';
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
-		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
-			$this->getName()
-		);
-
-			// dispatch
-		if (!empty($communityRequest['searchAction'])
-			&& method_exists($this, $communityRequest['searchAction'] . 'Action')
-			&& in_array($communityRequest['searchAction'], $applicationConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest['searchAction'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
 	}
 
 	/**
@@ -190,8 +129,11 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
 
-		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication('UserList');
-		$userList->initialize($this->data, $this->configuration);
+		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication(
+			'UserList',
+			$this->data,
+			$this->configuration
+		);
 		$userList->setUserListModel($foundUsers);
 
 		return $userList->execute() . ', search application, search action';

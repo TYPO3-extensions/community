@@ -22,8 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+
 
 /**
  * An abstract community application controller
@@ -159,7 +158,65 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $applicationConfiguration['widgets.'][$widgetName . '.'];
 	}
 
-	abstract public function execute();
+	public function execute() {
+		$content = '';
+
+		$widgetName = $this->pi_getFFvalue(
+			$this->data['pi_flexform'],
+			'widget'
+		);
+
+		if (!empty($widgetName)) {
+			$content = $this->executeWidget($widgetName);
+		} else {
+			$content = $this->executeApllicationAction();
+		}
+
+		return $content;
+	}
+
+	protected function executeWidget($widgetName) {
+		$content = '';
+
+		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
+			$this->name,
+			$widgetName
+		);
+
+		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+		/* @var $widget tx_community_CommunityApplicationWidget */
+		$widget->initialize($this->data, $this->configuration);
+		$widget->setCommunityApplication($this);
+
+		$content = $widget->execute();
+
+		return $content;
+	}
+
+	protected function executeApllicationAction() {
+		$content = '';
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+
+		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
+			$this->name
+		);
+
+			// dispatch
+		if (!empty($communityRequest[$this->name . 'Action'])
+			&& method_exists($this, $communityRequest[$this->name . 'Action'] . 'Action')
+			&& in_array($communityRequest[$this->name . 'Action'], $applicationConfiguration['actions'])
+		) {
+				// call a specifically requested action
+			$actionName = $communityRequest[$this->name . 'Action'] . 'Action';
+			$content = $this->$actionName();
+		} else {
+				// call the default action
+			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
+			$content = $this->$defaultActionName();
+		}
+
+		return $content;
+	}
 }
 
 
