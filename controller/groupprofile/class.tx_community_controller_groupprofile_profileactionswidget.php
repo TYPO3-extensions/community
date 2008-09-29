@@ -343,11 +343,9 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->groupGateway->findCurrentGroup();
-
 		if ($requestedGroup->isAdmin($requestingUser)) {
 			// the user is admin
 			$linkText = $this->localizationManager->getLL('action_editGroup');
-
 			$content = $this->communityApplication->pi_linkToPage(
 				$linkText,
 				$this->configuration['pages.']['groupEdit'],

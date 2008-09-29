@@ -63,7 +63,7 @@ class tx_community_controller_GroupProfileApplication extends tx_community_contr
 
 		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		/* @var $widget tx_community_CommunityApplicationWidget */
-		$widget->initialize($this->data, $this->conf);
+		$widget->initialize($this->data, $this->configuration);
 		$widget->setCommunityApplication($this);
 
 		$content = $widget->execute();
