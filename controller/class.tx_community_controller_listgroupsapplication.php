@@ -53,8 +53,8 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 
 		$this->prefixId = 'tx_community_controller_ListGroupsApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_listgroupsapplication.php';
-		$this->name = 'ListGroups';
-		
+		$this->name = 'listGroups';
+
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 	}
 

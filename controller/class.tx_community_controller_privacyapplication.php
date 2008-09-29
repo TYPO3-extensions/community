@@ -44,7 +44,7 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 
 		$this->prefixId = 'tx_community_controller_PrivacyApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_privacyapplication.php';
-		$this->name = 'Privacy';
+		$this->name = 'privacy';
 	}
 
 	/**

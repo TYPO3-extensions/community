@@ -135,8 +135,22 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $requestingUser;
 	}
 
-	public function getTypoScriptConfiguration() {
-		return $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.'];
+	/**
+	 * returns the configuration for the whole community environment
+	 *
+	 * @return	array	configuration for the community environment
+	 */
+	public function getCommunityTypoScriptConfiguration() {
+		return $this->configuration;
+	}
+
+	/**
+	 * returns the application's TypoScript configuration
+	 *
+	 * @return	array	The application's TypoScript configuration
+	 */
+	public function getApplicationTypoScriptConfiguration() {
+		return $this->configuration['applications.'][$this->name . '.'];
 	}
 
 	abstract public function execute();

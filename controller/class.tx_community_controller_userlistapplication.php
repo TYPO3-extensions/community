@@ -45,7 +45,7 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 
 		$this->prefixId = 'tx_community_controller_UserListApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_userlistapplication.php';
-		$this->name = 'UserList';
+		$this->name = 'userList';
 	}
 
 	public function execute() {

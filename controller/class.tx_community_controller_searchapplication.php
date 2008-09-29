@@ -42,7 +42,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 
 		$this->prefixId = 'tx_community_controller_SearchApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_searchapplication.php';
-		$this->name = 'Search';
+		$this->name = 'search';
 	}
 
 	public function execute() {

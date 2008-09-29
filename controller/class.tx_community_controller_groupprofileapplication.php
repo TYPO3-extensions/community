@@ -45,7 +45,7 @@ class tx_community_controller_GroupProfileApplication extends tx_community_contr
 
 		$this->prefixId = 'tx_community_controller_GroupProfileApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_groupprofileapplication.php';
-		$this->name = 'GroupProfile';
+		$this->name = 'groupProfile';
 	}
 
 	public function execute() {

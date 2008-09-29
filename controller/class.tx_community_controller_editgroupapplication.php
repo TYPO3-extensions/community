@@ -53,8 +53,8 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 
 		$this->prefixId = 'tx_community_controller_EditGroupApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_editgroupapplication.php';
-		$this->name = 'EditGroup';
-		
+		$this->name = 'editGroup';
+
 		if (t3lib_extMgm::isLoaded('community_messages')) {
 			require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
 			$this->messageAPILoaded = true;
@@ -298,7 +298,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							// @TODO: throw exception
 							die('no group in request');
 						}
-						
+
 						$status = 'success';
 						$uidsToInvite = t3lib_div::trimExplode(';', $communityRequest['inviteUids']);
 						foreach ($uidsToInvite as $uid) {

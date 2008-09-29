@@ -53,7 +53,7 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 
 		$this->prefixId = 'tx_community_controller_NewGroupApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_newgroupapplication.php';
-		$this->name = 'NewGroup';
+		$this->name = 'newGroup';
 	}
 
 	public function execute() {

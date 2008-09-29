@@ -40,7 +40,7 @@ class tx_community_controller_UserProfileApplication extends tx_community_contro
 
 		$this->prefixId = 'tx_community_controller_UserProfileApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';
-		$this->name = 'UserProfile';
+		$this->name = 'userProfile';
 	}
 
 	public function execute() {
