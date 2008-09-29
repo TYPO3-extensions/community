@@ -8,7 +8,7 @@ $PATH_community = t3lib_extMgm::extPath('community');
 	// this is all here instead of in TS so that it is available in both, BE and FE
 $TX_COMMUNITY = array(
 	'applications' => array(
-		'UserProfile' => array(
+		'userProfile' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_userprofileapplication.php:tx_community_controller_UserProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile',
 			'accessControl' => array(
@@ -22,7 +22,11 @@ $TX_COMMUNITY = array(
 					'accessControl' => array(
 						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_read',
 //						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_addComment'
-					)
+					),
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
 				),
 				'personalInformation' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_personalinformationwidget.php:tx_community_controller_userprofile_PersonalInformationWidget',
@@ -47,7 +51,7 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
-		'GroupProfile' => array(
+		'groupProfile' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_groupprofileapplication.php:tx_community_controller_GroupProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile',
 			'widgets' => array(
@@ -64,7 +68,7 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
-		'Search' => array(
+		'search' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_searchapplication.php:tx_community_controller_SearchApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:search',
 			'accessControl' => false,
@@ -85,7 +89,7 @@ $TX_COMMUNITY = array(
 				)
 			)
 		),
-		'UserList' => array(
+		'userList' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_userlistapplication.php:tx_community_controller_UserListApplication',
 			'accessControl' => false,
 			'excludeFromPluginListing' => true,
@@ -94,7 +98,7 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index'
 		),
-		'ListGroups' => array(
+		'listGroups' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_listgroupsapplication.php:tx_community_controller_ListGroupsApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:listGroups',
 			'accessControl' => false,
@@ -103,7 +107,7 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index',
 		),
-		'EditGroup' => array(
+		'editGroup' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_editgroupapplication.php:tx_community_controller_EditGroupApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:editGroup',
 			'accessControl' => false,
@@ -116,7 +120,7 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index',
 		),
-		'NewGroup' => array(
+		'newGroup' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_newgroupapplication.php:tx_community_controller_NewGroupApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:newGroup',
 			'accessControl' => false,
@@ -126,7 +130,7 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index',
 		),
-		'Privacy' => array(
+		'privacy' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_privacyapplication.php:tx_community_controller_PrivacyApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:privacy',
 			'accessControl' => false,

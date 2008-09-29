@@ -1,13 +1,17 @@
+2008-09-29 Ingo Renner  <ingo@typo3.org>
+
+	* !!! changed the way the configuration for community applications is build, their names now start with lower case letters like anything else, too
+
 2008-09-29 Frank Naegler  <typo3@naegler.net>
 
 	* move function isFriendOfCurrentlyLoggedInUser from tx_community_model_UserGateway to tx_community_AccessManager
-	
+
 2008-09-22 Frank Naegler  <typo3@naegler.net>
 
 	* added member invite function for group editing settings
 	* added new function isFriendOfCurrentlyLoggedInUser to the tx_community_model_UserGateway
 	* bugfix: initialize groupGateway in tx_community_controller_ListGroupsApplication
-	
+
 2008-09-21 Ingo Renner  <ingo@typo3.org>
 
 	* added a way to exclude community application from being listed in the community plugin's flexform
