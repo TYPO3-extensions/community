@@ -1,3 +1,7 @@
+2008-09-29 Frank Naegler  <typo3@naegler.net>
+
+	* move function isFriendOfCurrentlyLoggedInUser from tx_community_model_UserGateway to tx_community_AccessManager
+	
 2008-09-22 Frank Naegler  <typo3@naegler.net>
 
 	* added member invite function for group editing settings
