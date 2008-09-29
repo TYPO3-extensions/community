@@ -28,6 +28,13 @@ plugin.tx_community {
 	applications {
 		userProfile {
 			widgets {
+				image {
+
+					imageContentObject {
+						file.maxW = 150
+					}
+				}
+
 				personalInformation {
 					templateFile = EXT:community/resources/templates/userprofile/personalinformationwidget.htm
 				}

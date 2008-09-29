@@ -24,7 +24,7 @@
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
-require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_htmlimage.php');
+require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_contentobjectimage.php');
 
 /**
  * image widget for a user profile
@@ -55,14 +55,6 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 
 	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
 		$this->communityApplication = $communityApplication;
-	}
-
-	public function execute() {
-		$requestedUser = $this->communityApplication->getRequestedUser();
-		$view = t3lib_div::makeInstance('tx_community_view_userprofile_HtmlImage');
-		$view->setUserModel($requestedUser);
-
-		return $view->render();
 	}
 
 	/**
@@ -127,6 +119,22 @@ class tx_community_controller_userprofile_ImageWidget implements tx_community_Co
 	 */
 	public function getWidgetClass() {
 		return '';
+	}
+
+	public function execute() {
+			// TODO add dispatching of widget actions
+		return $this->indexAction();
+	}
+
+	public function indexAction() {
+		$requestedUser = $this->communityApplication->getRequestedUser();
+		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->getId());
+
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
+		$view->setUserModel($requestedUser);
+		$view->setImageConfiguration($widgetTypoScriptConfiguration['imageContentObject.']);
+
+		return $view->render();
 	}
 }
 

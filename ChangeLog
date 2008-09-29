@@ -1,6 +1,7 @@
 2008-09-29 Ingo Renner  <ingo@typo3.org>
 
 	* !!! changed the way the configuration for community applications is build, their names now start with lower case letters like anything else, too
+	* made the profile image rendering configurable through TS
 
 2008-09-29 Frank Naegler  <typo3@naegler.net>
 

@@ -153,6 +153,12 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $this->configuration['applications.'][$this->name . '.'];
 	}
 
+	public function getWidgetTypoScriptConfiguration($widgetName) {
+		$applicationConfiguration = $this->getApplicationTypoScriptConfiguration();
+
+		return $applicationConfiguration['widgets.'][$widgetName . '.'];
+	}
+
 	abstract public function execute();
 }
 
