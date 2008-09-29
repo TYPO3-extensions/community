@@ -2,6 +2,7 @@
 
 	* !!! changed the way the configuration for community applications is build, their names now start with lower case letters like anything else, too
 	* made the profile image rendering configurable through TS
+	* The application manager now returns initialized applications
 
 2008-09-29 Frank Naegler  <typo3@naegler.net>
 

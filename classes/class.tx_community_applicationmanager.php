@@ -73,7 +73,11 @@ class tx_community_ApplicationManager {
 		if (!array_key_exists($applicationName, $this->applications)) {
 			// TODO throw an "application not found exception"
 		}
-		return t3lib_div::getUserObj($this->applications[$applicationName]['classReference']);
+
+		$application = t3lib_div::getUserObj($this->applications[$applicationName]['classReference']);
+		$application->initialize('', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+
+		return $application;
 	}
 
 	public function getApplicationConfiguration($applicationName) {
