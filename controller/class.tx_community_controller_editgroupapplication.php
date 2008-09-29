@@ -43,6 +43,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 	protected $configuration;
 	protected $group;
 	protected $messageAPILoaded = false;
+	protected $accessManager;
 
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
@@ -58,6 +59,8 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
 			$this->messageAPILoaded = true;
 		}
+		
+		$this->accessManager = tx_community_AccessManager::getInstance();
 	}
 
 	public function execute() {
@@ -305,7 +308,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								$message = 'unknown user';
 								break;
 							}
-							if ($this->userGateway->isFriendOfCurrentlyLoggedInUser($inviteUser)) {
+							if ($this->accessManager->isFriendOfCurrentlyLoggedInUser($inviteUser)) {
 								$recipients[] = $inviteUser;
 								$message = 'users invited';
 							} else {
