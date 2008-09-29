@@ -72,9 +72,7 @@ class tx_community_controller_CommunityApplication extends tslib_pibase {
 			'application'
 		);
 
-		$application = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication($applicationName);
-		$application->initialize($this->cObj->data, $this->conf);
-
+		$application = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication($applicationName, $this->cObj->data, $this->conf);
 		$content = $application->execute();
 
 		return $this->pi_wrapInBaseClass($content);

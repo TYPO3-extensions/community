@@ -67,15 +67,22 @@ class tx_community_ApplicationManager {
 	 * application with that name exists
 	 *
 	 * @param	string	application name/id
+	 * @param	array	data coming from an content object (cObj)
+	 * @param	array	additional configuration that is merged on top of the global community configuration environment
 	 * @return	tx_community_controller_AbstractCommunityApplication
 	 */
-	public function getApplication($applicationName) {
+	public function getApplication($applicationName, array $data = array(), array $configuration = array()) {
 		if (!array_key_exists($applicationName, $this->applications)) {
 			// TODO throw an "application not found exception"
 		}
 
+		$configuration = t3lib_div::array_merge_recursive_overrule(
+			$configuration,
+			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
+		);
+
 		$application = t3lib_div::getUserObj($this->applications[$applicationName]['classReference']);
-		$application->initialize('', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		$application->initialize($data, $configuration);
 
 		return $application;
 	}
