@@ -23,8 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 require_once($GLOBALS['PATH_community'] . 'view/groupprofile/class.tx_community_view_groupprofile_profileactions.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 

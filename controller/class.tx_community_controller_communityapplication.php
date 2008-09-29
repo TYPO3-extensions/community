@@ -25,6 +25,11 @@
 require_once(PATH_tslib.'class.tslib_pibase.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
+require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplicationwidget.php');
+
 /**
  * central application controller for the community extension
  *
@@ -72,7 +77,11 @@ class tx_community_controller_CommunityApplication extends tslib_pibase {
 			'application'
 		);
 
-		$application = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication($applicationName, $this->cObj->data, $this->conf);
+		$application = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication(
+			$applicationName,
+			$this->cObj->data,
+			$this->conf
+		);
 		$content = $application->execute();
 
 		return $this->pi_wrapInBaseClass($content);

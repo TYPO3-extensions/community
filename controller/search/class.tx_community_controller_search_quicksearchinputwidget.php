@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 require_once($GLOBALS['PATH_community'] . 'view/search/class.tx_community_view_search_quicksearchinput.php');
 
 /**

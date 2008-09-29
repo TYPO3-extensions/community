@@ -4,6 +4,8 @@
 	* made the profile image rendering configurable through TS
 	* The application manager now returns initialized applications
 	* added a dispatching mechanism to the abstract community application controller, it executes in the following priorities: widget, specific action, default action
+	* renamed the widgets' getId() method into getName() to make it more consistent with the according community application method
+	* refactored the existing user profile widgets to use a new abstract community application widget class as parent
 
 2008-09-29 Frank Naegler  <typo3@naegler.net>
 

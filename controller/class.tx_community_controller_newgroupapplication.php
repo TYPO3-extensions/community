@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_group.php');
 require_once($GLOBALS['PATH_community'] . 'view/newgroup/class.tx_community_view_newgroup_index.php');

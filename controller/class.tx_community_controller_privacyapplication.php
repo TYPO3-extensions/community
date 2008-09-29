@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(PATH_t3lib . 'class.t3lib_page.php');
-require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
 require_once($GLOBALS['PATH_community'] . 'view/privacy/class.tx_community_view_privacy_index.php');
 
@@ -45,37 +44,6 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 		$this->prefixId = 'tx_community_controller_PrivacyApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_privacyapplication.php';
 		$this->name = 'privacy';
-	}
-
-	/**
-	 * central execution and dispatching method of the privacy application. This
-	 * methods decides which action to call.
-	 *
-	 * @return	string
-	 */
-	public function execute() {
-		$content = '';
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
-		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
-			$this->getName()
-		);
-
-			// dispatch
-		if (!empty($communityRequest['privacyAction'])
-			&& method_exists($this, $communityRequest['privacyAction'] . 'Action')
-			&& in_array($communityRequest['privacyAction'], $applicationConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest['privacyAction'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
 	}
 
 	public function indexAction() {

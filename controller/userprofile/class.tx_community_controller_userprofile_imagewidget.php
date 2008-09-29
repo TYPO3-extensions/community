@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_contentobjectimage.php');
 
 /**
@@ -33,102 +31,25 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_ImageWidget implements tx_community_CommunityApplicationWidget, tx_community_Command {
-
-	/**
-	 * a reference to the parent community application this widget belongs to
-	 *
-	 * @var tx_community_controller_AbstractCommunityApplication
-	 */
-	protected $communityApplication;
+class tx_community_controller_userprofile_ImageWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_Imagewidget
 	 */
 	public function __construct() {
+		parent::__construct();
 
-	}
+		$this->name = 'image';
+		$this->dragable = true;
+		$this->removable = true;
 
-	public function initialize($data, $configuration) {
-
-	}
-
-	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
-		$this->communityApplication = $communityApplication;
-	}
-
-	/**
-	 * returns whether a user is allowed to drag the widget to a different
-	 * container or position
-	 *
-	 * @return	boolean	true if dragging is allowed, false otherwise
-	 */
-	public function isDragable() {
-		return true;
-	}
-
-	/**
-	 * returns whether the widget can be removed from being displayed
-	 *
-	 * @return	boolean	true id removing is allowed, false otherwise
-	 */
-	public function isRemovable() {
-		return true;
-	}
-
-	/**
-	 * return the current layout container the widget is located in
-	 *
-	 * @return	string
-	 */
-	public function getLayoutContainer() {
-		return 0;
-	}
-
-	/**
-	 * returns the widget's ID, this is the ID which is used while register the widget in the ext_localconf.php
-	 *
-	 * @return	string	the widget's CSS class
-	 */
-	public function getId() {
-		return 'image';
-	}
-
-	/**
-	 * gets the position of the widget within its container
-	 *
-	 * @return	integer	the position within a container
-	 */
-	public function getPosition() {
-		return 2;
-	}
-
-	/**
-	 * returns the widget's label
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function getLabel() {
-		return "ImageWidget";
-	}
-
-	/**
-	 * returns the widget's CSS class(es)
-	 *
-	 * @return	string	the widget's CSS class
-	 */
-	public function getWidgetClass() {
-		return '';
-	}
-
-	public function execute() {
-			// TODO add dispatching of widget actions
-		return $this->indexAction();
+		$this->label = 'ImageWidget';
+		$this->cssClass = '';
 	}
 
 	public function indexAction() {
 		$requestedUser = $this->communityApplication->getRequestedUser();
-		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->getId());
+		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
 		$view->setUserModel($requestedUser);

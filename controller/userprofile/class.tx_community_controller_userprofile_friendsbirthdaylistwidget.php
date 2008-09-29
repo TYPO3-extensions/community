@@ -23,28 +23,38 @@
 ***************************************************************/
 
 
-
 /**
- * User Profile Application Controller
+ * A user profile widget to display upcoming friend birthdays
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_UserProfileApplication extends tx_community_controller_AbstractCommunityApplication {
+class tx_community_controller_userprofile_FriendsBirthdayListWidget {
 
+	/**
+	 * constructor for class tx_community_controller_userprofile_FriendsBirthdayListWidget
+	 */
 	public function __construct() {
-		parent::__construct();
 
-		$this->prefixId = 'tx_community_controller_UserProfileApplication';
-		$this->scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';
-		$this->name = 'userProfile';
+	}
+
+	public function initialize() {
+
+	}
+
+	public function execute() {
+		return $this->indexAction();
+	}
+
+	public function indexAction() {
+		return 'friends birthday list index action';
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_userprofileapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/userprofile/class.tx_community_controller_userprofile_friendsbirthdaylistwidget.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/userprofile/class.tx_community_controller_userprofile_friendsbirthdaylistwidget.php']);
 }
 
 ?>

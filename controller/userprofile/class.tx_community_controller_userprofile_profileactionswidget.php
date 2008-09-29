@@ -23,8 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_profileactions.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_editrelationship.php');
 
@@ -35,121 +33,14 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_ProfileActionsWidget implements tx_community_CommunityApplicationWidget, tx_community_Command {
+class tx_community_controller_userprofile_ProfileActionsWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
 
-	/**
-	 * a reference to the parent community application this widget belongs to
-	 *
-	 * @var tx_community_controller_AbstractCommunityApplication
-	 */
-	protected $communityApplication;
-	protected $configuration;
-	protected $data;
+	public function __construct() {
+		parent::__construct();
 
-	public function initialize($data, $configuration) {
-		$this->data = $data;
-		$this->configuration = $configuration;
-	}
-
-	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
-		$this->communityApplication = $communityApplication;
-	}
-
-	/**
-	 * returns whether a user is allowed to drag the widget to a different
-	 * container or position
-	 *
-	 * @return	boolean	true if dragging is allowed, false otherwise
-	 */
-	public function isDragable() {
-		return false;
-	}
-
-	/**
-	 * returns whether the widget can be removed from being displayed
-	 *
-	 * @return	boolean	true id removing is allowed, false otherwise
-	 */
-	public function isRemovable() {
-		return false;
-	}
-
-	/**
-	 * return the current layout container the widget is located in
-	 *
-	 * @return	string
-	 */
-	public function getLayoutContainer() {
-		return 0;
-	}
-
-	/**
-	 * returns the widget's Id, this is the ID which is used while the widget
-	 * gets registerd in ext_localconf.php
-	 *
-	 * @return	string	the widget's Id
-	 */
-	public function getId() {
-		return 'profileActions';
-	}
-
-	/**
-	 * gets the position of the widget within its container
-	 *
-	 * @return	integer	the position within a container
-	 */
-	public function getPosition() {
-		return 2;
-	}
-
-	/**
-	 * returns the widget's label
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function getLabel() {
-		return 'ProfileActionWidget';
-	}
-
-	/**
-	 * returns the widget's CSS class(es)
-	 *
-	 * @return	string	the widget's CSS class
-	 */
-	public function getWidgetClass() {
-		return '';
-	}
-
-	/**
-	 * central excution method of this widget, acts as a dispatcher for the
-	 * different actions
-	 *
-	 * @return	string	the result of the called action, usually some form of output/rendered HTML
-	 */
-	public function execute() {
-		$content = '';
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');;
-
-		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
-			$this->communityApplication->getName(),
-			$this->getId()
-		);
-
-			// dispatch
-		if (!empty($communityRequest['profileAction'])
-			&& method_exists($this, $communityRequest['profileAction'] . 'Action')
-			&& in_array($communityRequest['profileAction'], $widgetConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest['profileAction'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $widgetConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
+		$this->name     = 'profileActions';
+		$this->label    = 'ProfileActionWidget';
+		$this->cssClass = '';
 	}
 
 	/**
@@ -193,9 +84,6 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 			)
 		);
 		$view->setFormAction($formAction);
-
-
-
 
 		return $view->render();
 	}
@@ -560,7 +448,6 @@ class tx_community_controller_userprofile_ProfileActionsWidget implements tx_com
 
 		return $relationships;
 	}
-
 }
 
 

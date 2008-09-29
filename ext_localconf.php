@@ -14,6 +14,7 @@ $TX_COMMUNITY = array(
 			'accessControl' => array(
 				'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_read'
 			),
+			'actions' => array(),
 			'widgets' => array(
 				'image' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
@@ -31,7 +32,10 @@ $TX_COMMUNITY = array(
 				'personalInformation' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_personalinformationwidget.php:tx_community_controller_userprofile_PersonalInformationWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_personalInformation',
-					'actions' => array(), // TODO move execute() stuff to at least indexAction()
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index',
 					'accessControl' => array(
 						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_personalInformationWidget_read'
 					)
@@ -48,6 +52,15 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index',
 					'accessControl' => false
+				),
+				'friendsBirthdayList' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_friendsbirthdaylistwidget.php:tx_community_controller_userprofile_FriendsBirthdayListWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_friendsBirthdayList',
+					'accessControl' => false,
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
 				)
 			)
 		),

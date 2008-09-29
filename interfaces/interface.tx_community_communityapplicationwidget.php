@@ -80,14 +80,14 @@ interface tx_community_CommunityApplicationWidget {
 	 *
 	 * @return	string the CSS class of the widget
 	 */
-	public function getWidgetClass();
+	public function getCssClass();
 
 	/**
-	 * gets the id of the widget
+	 * gets the name of the widget
 	 *
-	 * @return	string id string of the widget
+	 * @return	string name of the widget
 	 */
-	public function getId();
+	public function getName();
 }
 
 ?>

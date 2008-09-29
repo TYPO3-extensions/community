@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_view_editgroup_index.php');
@@ -59,7 +58,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
 			$this->messageAPILoaded = true;
 		}
-		
+
 		$this->accessManager = tx_community_AccessManager::getInstance();
 	}
 

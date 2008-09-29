@@ -22,9 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_communityapplicationwidget.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_command.php');
-require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_personalinformation.php');
 
 /**
@@ -35,69 +32,23 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_PersonalInformationWidget implements tx_community_CommunityApplicationWidget, tx_community_Command, tx_community_acl_AclResource {
+class tx_community_controller_userprofile_PersonalInformationWidget extends tx_community_controller_AbstractCommunityApplicationWidget implements tx_community_acl_AclResource {
 
-	/**
-	 * a reference to the parent community application this widget belongs to
-	 *
-	 * @var tx_community_controller_AbstractCommunityApplication
-	 */
-	protected $communityApplication;
-	protected $configuration;
-	protected $data;
 	protected $accessMode;
 
-	// TODO move the code in execute() into viewAction(), define viewAction() as default/index action, then let execute() decide which action to call (others may be added later)
-
 	public function __construct() {
+		parent::__construct();
+
 			// set default access mode
 		$this->accessMode = 'read';
-	}
 
-	public function initialize($data, $configuration) {
-		$this->data = $data;
-		$this->configuration = $configuration;
-	}
+		$this->name     = 'personalInformation';
+		$this->label    = 'PersonalInformationWidget';
+		$this->cssClass = '';
 
-	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
-		$this->communityApplication = $communityApplication;
-	}
-
-	/**
-	 * returns whether a user is allowed to drag the widget to a different
-	 * container or position
-	 *
-	 * @return	boolean	true if dragging is allowed, false otherwise
-	 */
-	public function isDragable() {
-		return true;
-	}
-
-	/**
-	 * returns whether the widget can be removed from being displayed
-	 *
-	 * @return	boolean	true id removing is allowed, false otherwise
-	 */
-	public function isRemovable() {
-		return true;
-	}
-
-	/**
-	 * return the current layout container the widget is located in
-	 *
-	 * @return	string
-	 */
-	public function getLayoutContainer() {
-		return 0;
-	}
-
-	/**
-	 * returns the widget's ID, this is the ID which is used while register the widget in the ext_localconf.php
-	 *
-	 * @return	string	the widget's CSS class
-	 */
-	public function getId() {
-		return 'personalInformation';
+		$this->dragable  = true;
+		$this->removable = true;
+		$this->position  = 2;
 	}
 
 	/**
@@ -109,7 +60,7 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 		$requestedUser = $this->communityApplication->getRequestedUser();
 
 		$resourceId = $this->communityApplication->getName()
-			. '_' . $this->getID()
+			. '_' . $this->name
 			. '_' . $this->accessMode
 			. '_' . $requestedUser->getUid();
 
@@ -117,39 +68,12 @@ class tx_community_controller_userprofile_PersonalInformationWidget implements t
 	}
 
 	/**
-	 * gets the position of the widget within its container
-	 *
-	 * @return	integer	the position within a container
-	 */
-	public function getPosition() {
-		return 2;
-	}
-
-	/**
-	 * returns the widget's label
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function getLabel() {
-		return 'PersonalInformationWidget';
-	}
-
-	/**
-	 * returns the widget's CSS class(es)
-	 *
-	 * @return	string	the widget's CSS class
-	 */
-	public function getWidgetClass() {
-		return '';
-	}
-
-	/**
-	 * excutes the controller, fetches the user to show the personal
-	 * information for, creates a view and return the view's output
+	 * the default action for this widget, fetches the user to show the personal
+	 * information for, creates a view and returns the view's output
 	 *
 	 * @return	string	the view's output
 	 */
-	public function execute() {
+	public function indexAction() {
 			// TODO move this into a indexAction() method
 		$content = '';
 
