@@ -146,22 +146,25 @@ class tx_community_model_UserGateway {
 		if (is_null($user)) {
 			$user = $this->findCurrentlyLoggedInUser();
 		}
-		if (!is_null($user)) {
-			$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'friend',	// FIXME friend role name must not be hardcoded!
-				'tx_community_friend',
-				'feuser = ' . $user->getUid()
-			);
-			if (is_array($userRows)) {
-				foreach($userRows as $userRow) {
-					$friends[] = $this->findById($userRow['friend']);
-				}
+
+		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'DISTINCT f1.friend',
+			'tx_community_friend as f1 JOIN tx_community_friend AS f2'
+			. 'ON f1.feuser = f2.friend
+				AND f1.friend = f2.feuser
+				AND f1.feuser = ' . $user->getUid(),
+			''
+		);
+
+		if (is_array($userRows)) {
+			foreach($userRows as $userRow) {
+				$friends[] = $this->findById($userRow['friend']);
 			}
 		}
 
 		return $friends;
 	}
-	
+
 	/**
 	 * finds the currently logged in user
 	 *
