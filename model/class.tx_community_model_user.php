@@ -144,6 +144,14 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 		$this->pid = (int) $pageId;
 	}
 
+	public function setSex($sex) {
+		$this->sex = $sex;
+	}
+
+	public function getSex() {
+		return $this->sex;
+	}
+
 	public function setNickname($nickname) {
 		$this->nickName = $nickname;
 	}
