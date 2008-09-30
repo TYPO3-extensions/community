@@ -51,9 +51,14 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 		$requestedUser = $this->communityApplication->getRequestedUser();
 		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
 
+		$profileImageConfiguration = array(
+			$widgetTypoScriptConfiguration['profileImage'],
+			$widgetTypoScriptConfiguration['profileImage.']
+		);
+		$profileImageConfiguration[1]['file'] = $requestedUser->getImage();
+
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
-		$view->setUserModel($requestedUser);
-		$view->setImageConfiguration($widgetTypoScriptConfiguration['imageContentObject.']);
+		$view->setImageConfiguration($profileImageConfiguration);
 
 		return $view->render();
 	}
