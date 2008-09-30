@@ -207,12 +207,12 @@ class tx_community_Template {
 	}
 
 	protected function processInLoopMarkers($content, $loopName, array $markers, $currentIterationValue) {
-debug(array(
-	'content' => $content,
-	'loop name' => $loopName,
-	'markers' => $markers,
-	'current value' => $currentIterationValue
-), 'processInLoopMarkers');
+//debug(array(
+//	'content' => $content,
+//	'loop name' => $loopName,
+//	'markers' => $markers,
+//	'current value' => $currentIterationValue
+//), 'processInLoopMarkers');
 
 		return $content;
 	}
