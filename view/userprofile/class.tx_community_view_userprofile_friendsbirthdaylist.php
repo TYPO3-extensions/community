@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_date.php');
 
 /**
  * View class to render the friends birthday list widget
@@ -39,7 +40,21 @@ class tx_community_view_userprofile_FriendsBirthdayList extends tx_community_vie
 	}
 
 	public function render() {
-		return 'birthday list view';
+		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
+		$template = new $templateClass(
+			t3lib_div::makeInstance('tslib_cObj'),
+			$this->templateFile,
+			'friends_birthday_list'
+		);
+
+		$template->addViewHelper(
+			'date',
+			'tx_community_viewhelper_Date'
+		);
+
+		$template->addLoop('friends', 'user', $this->userModel);
+
+		return $template->render() . 'birthday list view';
 	}
 }
 

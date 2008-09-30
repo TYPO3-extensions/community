@@ -49,7 +49,7 @@ plugin.tx_community {
 				}
 
 				friendsBirthdayList {
-					templateFile = EXT:community/resources/templates/userprofile/friendbirthdaylistwidget.htm
+					templateFile = EXT:community/resources/templates/userprofile/friendsbirthdaylistwidget.htm
 
 					maxNumberOfItemsShown = 5
 				}

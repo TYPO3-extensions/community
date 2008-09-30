@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_friendsbirthdaylist.php');
 
 /**
  * A user profile widget to display upcoming friend birthdays
@@ -44,7 +45,17 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 	}
 
 	public function indexAction() {
-		return 'friends birthday list index action';
+		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
+		$friends = $this->communityApplication->getUserGateway()->findFriends();
+
+		$friends = array_slice($friends, 0, $widgetTypoScriptConfiguration['maxNumberOfItemsShown']);
+
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_FriendsBirthdayList');
+		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['friendsBirthdayList.']['templateFile']);
+		$view->setLanguageKey($this->communityApplication->LLkey);
+		$view->setUserModel($friends);
+
+		return $view->render() . ' friends birthday list index action';
 	}
 }
 
