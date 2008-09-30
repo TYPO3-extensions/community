@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 
 /**
  * An abstract community view, best used for widgets

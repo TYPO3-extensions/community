@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
@@ -35,7 +34,7 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_newGroup_Index implements tx_community_View {
+class tx_community_view_newGroup_Index extends tx_community_view_AbstractView {
 
 	protected $formAction;
 	/**
