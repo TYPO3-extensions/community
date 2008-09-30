@@ -81,6 +81,66 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		$this->configuration = $configuration;
 	}
 
+	public function execute() {
+		$content = '';
+
+		$widgetName = $this->pi_getFFvalue(
+			$this->data['pi_flexform'],
+			'widget'
+		);
+
+		if (!empty($widgetName)) {
+			$content = $this->executeWidget($widgetName);
+		} else {
+			$content = $this->executeApllicationAction();
+		}
+
+		return $content;
+	}
+
+	protected function executeWidget($widgetName) {
+		$content = '';
+
+		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
+			$this->name,
+			$widgetName
+		);
+
+		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
+		/* @var $widget tx_community_CommunityApplicationWidget */
+		$widget->initialize($this->data, $this->configuration);
+		$widget->setCommunityApplication($this);
+
+		$content = $widget->execute();
+
+		return $content;
+	}
+
+	protected function executeApllicationAction() {
+		$content = '';
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+
+		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
+			$this->name
+		);
+
+			// dispatch
+		if (!empty($communityRequest[$this->name . 'Action'])
+			&& method_exists($this, $communityRequest[$this->name . 'Action'] . 'Action')
+			&& in_array($communityRequest[$this->name . 'Action'], $applicationConfiguration['actions'])
+		) {
+				// call a specifically requested action
+			$actionName = $communityRequest[$this->name . 'Action'] . 'Action';
+			$content = $this->$actionName();
+		} else {
+				// call the default action
+			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
+			$content = $this->$defaultActionName();
+		}
+
+		return $content;
+	}
+
 	/**
 	 * returns the name of this community application
 	 *
@@ -158,64 +218,13 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $applicationConfiguration['widgets.'][$widgetName . '.'];
 	}
 
-	public function execute() {
-		$content = '';
-
-		$widgetName = $this->pi_getFFvalue(
-			$this->data['pi_flexform'],
-			'widget'
-		);
-
-		if (!empty($widgetName)) {
-			$content = $this->executeWidget($widgetName);
-		} else {
-			$content = $this->executeApllicationAction();
-		}
-
-		return $content;
-	}
-
-	protected function executeWidget($widgetName) {
-		$content = '';
-
-		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
-			$this->name,
-			$widgetName
-		);
-
-		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
-		/* @var $widget tx_community_CommunityApplicationWidget */
-		$widget->initialize($this->data, $this->configuration);
-		$widget->setCommunityApplication($this);
-
-		$content = $widget->execute();
-
-		return $content;
-	}
-
-	protected function executeApllicationAction() {
-		$content = '';
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
-		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
-			$this->name
-		);
-
-			// dispatch
-		if (!empty($communityRequest[$this->name . 'Action'])
-			&& method_exists($this, $communityRequest[$this->name . 'Action'] . 'Action')
-			&& in_array($communityRequest[$this->name . 'Action'], $applicationConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest[$this->name . 'Action'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
+	/**
+	 * gets the user gateway
+	 *
+	 * @return	tx_community_model_UserGateway
+	 */
+	public function getUserGateway() {
+		return $this->userGateway;
 	}
 }
 

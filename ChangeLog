@@ -1,6 +1,9 @@
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 
 	* Fixed profile action links in the profile actions widget
+	* Added a status field for friend relations
+	* Changed the way friend relations are handled, now both users must be friends with the other
+	* Added a method to the abstract community application controller to get an instance of the user gateway
 
 2008-09-30 Frank Naegler  <typo3@naegler.net>
 
