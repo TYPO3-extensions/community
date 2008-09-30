@@ -112,7 +112,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 *
 	 * @return	string	the widget's Id
 	 */
-	public function getId() {
+	public function getName() {
 		return 'profileActions';
 	}
 
@@ -139,7 +139,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 *
 	 * @return	string	the widget's CSS class
 	 */
-	public function getWidgetClass() {
+	public function getCssClass() {
 		return '';
 	}
 
@@ -155,7 +155,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 
 		$widgetConfiguration = $this->communityApplicationManager->getWidgetConfiguration(
 			$this->communityApplication->getName(),
-			$this->getId()
+			$this->getName()
 		);
 
 			// dispatch

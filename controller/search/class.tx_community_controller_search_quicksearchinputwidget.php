@@ -85,7 +85,7 @@ class tx_community_controller_search_QuickSearchInputWidget implements tx_commun
 	 *
 	 * @return	string	the widget's Id
 	 */
-	public function getId() {
+	public function getName() {
 		return 'quickSearchInput';
 	}
 
@@ -112,7 +112,7 @@ class tx_community_controller_search_QuickSearchInputWidget implements tx_commun
 	 *
 	 * @return	string	the widget's CSS class
 	 */
-	public function getWidgetClass() {
+	public function getCssClass() {
 		return '';
 	}
 
@@ -122,7 +122,7 @@ class tx_community_controller_search_QuickSearchInputWidget implements tx_commun
 
 		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
 			$this->communityApplication->getName(),
-			$this->getId()
+			$this->getName()
 		);
 
 			// dispatch
@@ -155,7 +155,7 @@ class tx_community_controller_search_QuickSearchInputWidget implements tx_commun
 		$view->setFormAction($formAction);
 		$view->setInputFieldProperties(array(
 			'name' => 'tx_community[profileSearch][name]',
-			'id'   => 'tx_community-profileSearch-' . $this->getId()
+			'id'   => 'tx_community-profileSearch-' . $this->getName()
 		));
 
 		return $view->render();
