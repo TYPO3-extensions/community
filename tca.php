@@ -122,7 +122,7 @@ $TCA['tx_community_acl_rule'] = array (
 $TCA['tx_community_friend'] = array (
 	'ctrl' => $TCA['tx_community_friend']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,feuser,friend,role'
+		'showRecordFieldList' => 'hidden,feuser,friend,role,status'
 	),
 	'feInterface' => $TCA['tx_community_friend']['feInterface'],
 	'columns' => array (
@@ -170,9 +170,17 @@ $TCA['tx_community_friend'] = array (
 				'maxitems' => 1,
 			)
 		),
+		'status' => array ( // TODO use this field to save a status like "waiting for confirmation" or "friendship cancelled"
+			'exclude' => 0,
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_friend.status',
+			'config' => array (
+				'type' => 'input',
+				'size' => '30',
+			)
+		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;;;1-1-1, feuser, friend, role')
+		'0' => array('showitem' => 'hidden;;;;1-1-1, feuser, friend, role, status')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')

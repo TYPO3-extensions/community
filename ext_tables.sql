@@ -124,7 +124,7 @@ CREATE TABLE tx_community_friend (
 	feuser text,
 	friend text,
 	role text,
-	voting int(11) DEFAULT '0' NOT NULL,
+	status varchar(50) DEFAULT '' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

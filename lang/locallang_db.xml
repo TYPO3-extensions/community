@@ -45,6 +45,7 @@
 			<label index="tx_community_friend.feuser">FE User</label>
 			<label index="tx_community_friend.friend">Friend FE User</label>
 			<label index="tx_community_friend.role">Role</label>
+			<label index="tx_community_friend.status">Status</label>
 		</languageKey>
 	</data>
 </T3locallang>
