@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once(PATH_t3lib . 'class.t3lib_parsehtml.php');
+require_once $GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_viewhelper.php';
 
 /**
  * templating class
@@ -166,36 +167,54 @@ class tx_community_Template {
 		return $this->workOnSubpart;
 	}
 
-	protected function renderLoop($loop) {
+	protected function renderLoop($loopName) {
 		$loopContent    = '';
-		$loopTemplate   = $this->getSubpart('LOOP:' . $loop);
+		$loopTemplate   = $this->getSubpart('LOOP:' . $loopName);
 		$loopSingleItem = $this->getSubpart('loop_content', $loopTemplate);
-		$loopMarker     = $this->loops[$loop]['marker'];
-		$loopVariables  = $this->loops[$loop]['data'];
+		$loopMarker     = $this->loops[$loopName]['marker'];
+		$loopVariables  = $this->loops[$loopName]['data'];
 		$foundMarkers   = $this->getMarkersFromTemplate($loopSingleItem, $loopMarker . '\.');
 
 		foreach ($loopVariables as $value) {
 			$resolvedMarkers = $this->resolveVariableMarkers($foundMarkers, $value);
 
-			$loopContent .= t3lib_parsehtml::substituteMarkerArray(
+			$currentIterationContent = t3lib_parsehtml::substituteMarkerArray(
 				$loopSingleItem,
 				$resolvedMarkers,
 				'###|###'
 			);
 
-			$inLoopProcessMarkers = $this->getMarkersFromTemplate(
-				$loopContent,
-				'LOOP:'
+			$processInLoopMarkers = $this->getMarkersFromTemplate(
+				$currentIterationContent,
+				'LOOP:',
+				false
 			);
-#debug($loopContent, '$loopContent');
-#debug($inLoopProcessMarkers, '$inLoopProcessMarkers');
+			$currentIterationContent = $this->processInLoopMarkers(
+				$currentIterationContent,
+				$loopName,
+				$processInLoopMarkers,
+				$value
+			);
+
+			$loopContent .= $currentIterationContent;
 		}
 
 		$this->workOnSubpart = t3lib_parsehtml::substituteSubpart(
 			$this->workOnSubpart,
-			'###LOOP:' . strtoupper($loop) . '###',
+			'###LOOP:' . strtoupper($loopName) . '###',
 			$loopContent
 		);
+	}
+
+	protected function processInLoopMarkers($content, $loopName, array $markers, $currentIterationValue) {
+debug(array(
+	'content' => $content,
+	'loop name' => $loopName,
+	'markers' => $markers,
+	'current value' => $currentIterationValue
+), 'processInLoopMarkers');
+
+		return $content;
 	}
 
 	protected function resolveVariableMarkers(array $markers, $variableValue) {
@@ -303,14 +322,15 @@ class tx_community_Template {
 
 	}
 
-	public function getMarkersFromTemplate($template, $markerPrefix = '') {
+	public function getMarkersFromTemplate($template, $markerPrefix = '', $capturePrefix = true) {
+		$regex = '!###([A-Z0-9_-|:.]*)\###!is';
 
-
-#debug($markerPrefix, '$markerPrefix');
-
-		$regex = '!###([A-Z0-9_-|.]*)\###!is';
 		if (!empty($markerPrefix)) {
-			$regex = '!###(' . strtoupper($markerPrefix) . '[A-Z0-9_-|]*)\###!is';
+			if ($capturePrefix) {
+				$regex = '!###(' . strtoupper($markerPrefix) . '[A-Z0-9_-|:.]*)\###!is';
+			} else {
+				$regex = '!###' . strtoupper($markerPrefix) . '([A-Z0-9_-|:.]*)\###!is';
+			}
 		}
 
 		preg_match_all($regex, $template, $match);

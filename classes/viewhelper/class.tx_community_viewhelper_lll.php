@@ -22,10 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-require_once $GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_viewhelper.php';
 require_once $GLOBALS['PATH_community'] . 'classes/exception/class.tx_community_exception_languagefileunavailable.php';
-
 
 /**
  * view helper to replace label markers starting with "LLL:"

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 
-require_once $GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_viewhelper.php';
-
 
 /**
  * view helper to replace label markers starting with "NL2BR:" with content that has been sent through nl2br()
