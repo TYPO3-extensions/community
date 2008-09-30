@@ -46,6 +46,15 @@ plugin.tx_community {
 		}
 
 		groupProfile {
+			groupImage = IMAGE
+			groupImage {
+				// will be overwriten if an user image is available
+				file = EXT:community/resources/icons/default_group.jpg
+				file {
+					maxW = 100
+					maxH = 100
+				}
+			}
 			widgets {
 				profileActions {
 					templateFile = EXT:community/resources/templates/groupprofile/profileactionswidget.htm

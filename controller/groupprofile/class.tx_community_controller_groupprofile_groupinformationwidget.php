@@ -105,6 +105,7 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 			$view = t3lib_div::makeInstance('tx_community_view_groupprofile_GroupInformation');
 			$view->setGroupModel($requestedGroup);
 			$view->setTemplateFile($this->configuration['applications.']['groupProfile.']['widgets.']['groupInformation.']['templateFile']);
+			$view->setConfiguration($this->configuration);
 			$view->setLanguageKey($this->communityApplication->LLkey);
 
 			$content = $view->render();

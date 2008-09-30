@@ -136,7 +136,12 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function getImage() {
-		return 'uploads/tx_community/' . $this->data['tx_community_image'];
+		if (strlen($this->data['tx_community_image'])) {
+			return 'uploads/tx_community/' . $this->data['tx_community_image'];	
+		} else {
+			return '';
+		}
+		
 	}
 	
 	public function getAdmin() {

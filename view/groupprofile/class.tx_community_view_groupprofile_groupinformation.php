@@ -43,6 +43,7 @@ class tx_community_view_groupprofile_GroupInformation implements tx_community_Vi
 	protected $groupModel;
 	protected $templateFile;
 	protected $languageKey;
+	protected $configuration;
 
 	public function setGroupModel(tx_community_model_Group $group) {
 		$this->groupModel = $group;
@@ -54,6 +55,10 @@ class tx_community_view_groupprofile_GroupInformation implements tx_community_Vi
 
 	public function setLanguageKey($languageKey) {
 		$this->languageKey = $languageKey;
+	}
+	
+	public function setConfiguration($configuration) {
+		$this->configuration = $configuration;
 	}
 
 	public function render() {
@@ -74,7 +79,16 @@ class tx_community_view_groupprofile_GroupInformation implements tx_community_Vi
 		);
 
 		$template->addVariable('group', $this->groupModel);
-
+		
+		$imgConf = $this->configuration['applications.']['groupProfile.']['groupImage.'];
+		$imgConf['file'] = (strlen($this->groupModel->getImage()) > 0) ? $this->groupModel->getImage() : $imgConf['file'];
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
+		
+		$template->addVariable('groupimage', array(
+			'image'		=> $genImage
+		));
+		
 		return $template->render();
 	}
 }
