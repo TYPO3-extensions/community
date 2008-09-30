@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
@@ -36,10 +35,7 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_editGroup_Index implements tx_community_View {
-
-	protected $templateFile;
-	protected $languageKey;
+class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 
 	protected $formAction;
 	protected $image;
@@ -58,14 +54,6 @@ class tx_community_view_editGroup_Index implements tx_community_View {
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $llManager;
-
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
 
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;

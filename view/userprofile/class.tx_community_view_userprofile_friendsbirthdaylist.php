@@ -24,29 +24,28 @@
 
 
 /**
- * An abstract community application widget view
+ * View class to render the friends birthday list widget
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-abstract class tx_community_view_AbstractCommunityApplicationWidget {
+class tx_community_view_userprofile_FriendsBirthdayList extends tx_community_view_AbstractView {
 
-	/**
-	 * constructor for class tx_community_view_AbstractCommunityApplicationWidget
-	 */
-	public function __construct() {
+	protected $userModel;
 
+	public function setUserModel(array $userModel) {
+		$this->userModel = $userModel;
 	}
 
 	public function render() {
-
+		return 'birthday list view';
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/class.tx_community_view_abstractcommunityapplicationwidget.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/class.tx_community_view_abstractcommunityapplicationwidget.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/userprofile/class.tx_community_view_userprofile_friendsbirthdaylist.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/userprofile/class.tx_community_view_userprofile_friendsbirthdaylist.php']);
 }
 
 ?>

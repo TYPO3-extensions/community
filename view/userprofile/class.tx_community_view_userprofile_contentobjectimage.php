@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
+
 
 /**
  * displays the user's image y using a IMAGE content object
@@ -31,40 +31,20 @@ require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_vie
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_userprofile_ContentObjectImage implements tx_community_View {
+class tx_community_view_userprofile_ContentObjectImage extends tx_community_view_AbstractView {
 
-	/**
-	 * The user model used to render this view
-	 *
-	 * @var tx_community_model_User
-	 */
-	protected $userModel;
 	protected $imageConfiguration;
-	protected $templateFile;
-	protected $languageKey;
-
-	public function setUserModel(tx_community_model_User $user) {
-		$this->userModel = $user;
-	}
-
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
 
 	public function setImageConfiguration(array $imageConfiguration) {
 		$this->imageConfiguration = $imageConfiguration;
 	}
 
 	public function render() {
-		$this->imageConfiguration['file'] = $this->userModel->getImage();
-
 		$contentObject = t3lib_div::makeInstance('tslib_cObj');
-		$image = $contentObject->IMAGE(
-			$this->imageConfiguration
+
+		$image = $contentObject->cObjGetSingle(
+			$this->imageConfiguration[0], // the content element type
+			$this->imageConfiguration[1]  // the content element configuration
 		);
 
 		return $image;

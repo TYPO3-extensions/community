@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 
@@ -33,21 +32,11 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_search_QuickSearchInput implements tx_community_View {
+class tx_community_view_search_QuickSearchInput extends tx_community_view_AbstractView {
 
-	protected $templateFile;
-	protected $languageKey;
 	protected $profileActions;
 	protected $formAction;
 	protected $inputFieldProperties;
-
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
 
 	public function setProfileActionsModel(array $profileActions) {
 		$this->profileActions = $profileActions;

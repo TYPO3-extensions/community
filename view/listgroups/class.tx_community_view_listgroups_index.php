@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
@@ -38,9 +37,6 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
  */
 class tx_community_view_listGroups_Index implements tx_community_View {
 
-	protected $templateFile;
-	protected $languageKey;
-
 	protected $groups;
 	/**
 	 * @var tx_community_model_Group
@@ -51,14 +47,6 @@ class tx_community_view_listGroups_Index implements tx_community_View {
 	 */
 	protected $llManager;
 	protected $groupLink;
-
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
 
 	public function setGroups($groups) {
 		$this->groups = $groups;

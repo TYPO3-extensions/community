@@ -4,6 +4,7 @@
 	* Added a status field for friend relations
 	* Changed the way friend relations are handled, now both users must be friends with the other
 	* Added a method to the abstract community application controller to get an instance of the user gateway
+	* Added an abstract view and changed all views to use this new abstract view
 
 2008-09-30 Frank Naegler  <typo3@naegler.net>
 

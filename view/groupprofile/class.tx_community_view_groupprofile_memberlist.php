@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 
@@ -33,7 +32,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_groupprofile_MemberList implements tx_community_View {
+class tx_community_view_groupprofile_MemberList extends tx_community_view_AbstractView {
 
 	/**
 	 * The group model used to render this view
@@ -41,8 +40,6 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 	 * @var tx_community_model_Group
 	 */
 	protected $groupModel;
-	protected $templateFile;
-	protected $languageKey;
 	protected $configuration;
 	protected $userDetailLink;
 
@@ -50,22 +47,14 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 		$this->groupModel = $group;
 	}
 
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
-	
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
 	}
-		
+
 	public function setUserDetailLink($userDetailLink) {
 		$this->userDetailLink = $userDetailLink;
 	}
-	
+
 	public function render() {
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
@@ -84,7 +73,7 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 		);
 
 		$template->addVariable('group', $this->groupModel);
-		
+
 		$members = $this->groupModel->getAllMembers();
 		foreach ($members as $member) {
 			$imgConf = $this->configuration['applications.']['groupProfile.']['widgets.']['memberList.']['userImage.'];
@@ -95,7 +84,7 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 			$member->setUserDetailLink(str_replace('%25UID%25', $member->getUid(), $this->userDetailLink));
 		}
 		$template->addLoop('members', 'member', $members);
-		
+
 		return $template->render();
 	}
 }

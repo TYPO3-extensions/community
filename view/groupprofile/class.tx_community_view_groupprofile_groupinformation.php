@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 
@@ -41,22 +40,12 @@ class tx_community_view_groupprofile_GroupInformation implements tx_community_Vi
 	 * @var tx_community_model_Group
 	 */
 	protected $groupModel;
-	protected $templateFile;
-	protected $languageKey;
 	protected $configuration;
 
 	public function setGroupModel(tx_community_model_Group $group) {
 		$this->groupModel = $group;
 	}
 
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
-	
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
 	}
@@ -79,16 +68,16 @@ class tx_community_view_groupprofile_GroupInformation implements tx_community_Vi
 		);
 
 		$template->addVariable('group', $this->groupModel);
-		
+
 		$imgConf = $this->configuration['applications.']['groupProfile.']['groupImage.'];
 		$imgConf['file'] = (strlen($this->groupModel->getImage()) > 0) ? $this->groupModel->getImage() : $imgConf['file'];
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
-		
+
 		$template->addVariable('groupimage', array(
 			'image'		=> $genImage
 		));
-		
+
 		return $template->render();
 	}
 }

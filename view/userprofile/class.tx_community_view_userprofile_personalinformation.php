@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 
@@ -33,7 +32,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_userprofile_PersonalInformation implements tx_community_View {
+class tx_community_view_userprofile_PersonalInformation extends tx_community_view_AbstractView {
 
 	/**
 	 * The user model used to render this view
@@ -41,19 +40,9 @@ class tx_community_view_userprofile_PersonalInformation implements tx_community_
 	 * @var tx_community_model_User
 	 */
 	protected $userModel;
-	protected $templateFile;
-	protected $languageKey;
 
 	public function setUserModel(tx_community_model_User $user) {
 		$this->userModel = $user;
-	}
-
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
 	}
 
 	public function render() {

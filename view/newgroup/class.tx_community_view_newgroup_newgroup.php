@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
@@ -36,37 +35,26 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_newGroup_NewGroup implements tx_community_View {
-
-	protected $templateFile;
-	protected $languageKey;
+class tx_community_view_newGroup_NewGroup extends tx_community_view_AbstractView {
 
 	/**
 	 * @var tx_community_model_Group
 	 */
 	protected $group;
 	protected $message;
-	
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
 
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;
 	}
-	
+
 	public function setMessage($message) {
 		$this->message = $message;
 	}
-	
+
 	public function render() {
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_newgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
@@ -83,11 +71,11 @@ class tx_community_view_newGroup_NewGroup implements tx_community_View {
 				'llKey'        => $this->languageKey
 			)
 		);
-		
+
 		$template->addVariable('msg', array(
 			'message' => $this->message,
 		));
-		
+
 		return $template->render();
 	}
 }

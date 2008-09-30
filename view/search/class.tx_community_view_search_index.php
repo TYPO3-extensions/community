@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 
@@ -35,19 +34,8 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
  */
 class tx_community_view_search_Index implements tx_community_View {
 
-	protected $templateFile;
-	protected $languageKey;
-
 	protected $formAction;
 	protected $formModel;
-
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
-	}
-
-	public function setLanguageKey($languageKey) {
-		$this->languageKey = $languageKey;
-	}
 
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;

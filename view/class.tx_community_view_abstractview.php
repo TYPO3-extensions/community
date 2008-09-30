@@ -22,40 +22,32 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_template.php');
+require_once($GLOBALS['PATH_community'] . 'interfaces/interface.tx_community_view.php');
 
 /**
- * profile actions widget view
+ * An abstract community view, best used for widgets
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_userprofile_ProfileActions implements tx_community_View {
+abstract class tx_community_view_AbstractView implements tx_community_View {
 
-	protected $profileActions;
+	protected $templateFile;
+	protected $languageKey;
 
-	public function setProfileActionsModel(array $profileActions) {
-		$this->profileActions = $profileActions;
+	public function setTemplateFile($templateFile) {
+		$this->templateFile = $templateFile;
 	}
 
-	public function render() {
-		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
-		$template = new $templateClass(
-			t3lib_div::makeInstance('tslib_cObj'),
-			$this->templateFile,
-			'profile_actions'
-		);
-
-		$template->addLoop('profileactions', 'profileaction', $this->profileActions);
-
-		return $template->render();
+	public function setLanguageKey($languageKey) {
+		$this->languageKey = $languageKey;
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/userprofile/class.tx_community_view_userprofile_profileactions.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/userprofile/class.tx_community_view_userprofile_profileactions.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/class.tx_community_view_abstractview.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/class.tx_community_view_abstractview.php']);
 }
 
 ?>
