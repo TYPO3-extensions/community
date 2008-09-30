@@ -150,7 +150,7 @@ class tx_community_model_UserGateway {
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'DISTINCT f1.friend',
 			'tx_community_friend as f1 JOIN tx_community_friend AS f2'
-			. 'ON f1.feuser = f2.friend
+			. ' ON f1.feuser = f2.friend
 				AND f1.friend = f2.feuser
 				AND f1.feuser = ' . $user->getUid(),
 			''
