@@ -215,8 +215,8 @@ plugin.tx_community {
 			templateFile = EXT:community/resources/templates/privacy/index.htm
 		}
 
-		newGroup {
-			templateFile = EXT:community/resources/templates/newgroup/index.htm
+		createGroup {
+			templateFile = EXT:community/resources/templates/creategroup/index.htm
 		}
 
 		listGroups {

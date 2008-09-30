@@ -57,6 +57,23 @@ $TCA['tx_community_friend'] = array (
 	),
 );
 
+$TCA['tx_community_group'] = array (
+	'ctrl' => array (
+		'title'     => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_group',
+		'label'     => 'name',
+		'tstamp'    => 'tstamp',
+		'crdate'    => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'default_sortby' => 'ORDER BY name',
+		'delete' => 'deleted',
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+		),
+		'dynamicConfigFile' => $PATH_community . 'tca.php',
+		'iconfile'          => $PATHrel_community . 'resources/icons/tables/tx_community_group.gif',
+	),
+);
+
 	// extending fe_users
 $feUsersTempColumns = array (
 	'tx_community_sex' => array (
@@ -200,73 +217,6 @@ t3lib_div::loadTCA('fe_users');
 t3lib_extMgm::addTCAcolumns('fe_users', $feUsersTempColumns, 1);
 t3lib_extMgm::addToAllTCAtypes('fe_users', 'tx_community_sex;;;;1-1-1, tx_community_nickname, tx_community_firstname, tx_community_middlename, tx_community_lastname, tx_community_mobilephone, tx_community_instantmessager, tx_community_birthday, tx_community_activities, tx_community_interests, tx_community_favoritemusic, tx_community_favoritetvshows, tx_community_favoritemovies, tx_community_favoritebooks, tx_community_aboutme');
 
-$tempColumns = Array (
-	"tx_community_tmpmembers" => Array (
-        "exclude" => 1,
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_tmpmembers",
-        "config" => Array (
-            "type" => "group",
-            "internal_type" => "db",
-            "allowed" => "fe_users",
-            "size" => 5,
-            "minitems" => 0,
-            "maxitems" => 100,
-            "MM" => "fe_groups_tx_community_tmpmembers_mm",
-        )
-    ),
-	"tx_community_members" => Array (
-        "exclude" => 1,
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_members",
-        "config" => Array (
-            "type" => "group",
-            "internal_type" => "db",
-            "allowed" => "fe_users",
-            "size" => 5,
-            "minitems" => 0,
-            "maxitems" => 100,
-            "MM" => "fe_groups_tx_community_members_mm",
-        )
-    ),
-    'tx_community_admins' => Array (
-        'exclude' => 1,
-        'label' => 'LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_admins',
-        'config' => Array (
-            'type' => 'group',
-            'internal_type' => 'db',
-            'allowed' => 'fe_users',
-            'size' => 5,
-            'minitems' => 0,
-            'maxitems' => 100,
-        )
-    ),
-    "tx_community_image" => Array (
-        "exclude" => 1,
-        "label" => "LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_image",
-        "config" => Array (
-            "type" => "group",
-            "internal_type" => "file",
-            "allowed" => "gif,png,jpeg,jpg",
-            "max_size" => 5000,
-            "uploadfolder" => "uploads/tx_community",
-            "show_thumbs" => 1,
-            "size" => 1,
-            "minitems" => 0,
-            "maxitems" => 1,
-        )
-    ),
-    'tx_community_public' => Array (
-        'exclude' => 1,
-        'label' => 'LLL:EXT:community/lang/locallang_db.xml:fe_groups.tx_community_public',
-        'config' => Array (
-            'type' => 'check',
-        )
-    ),
-);
-
-
-t3lib_div::loadTCA('fe_groups');
-t3lib_extMgm::addTCAcolumns('fe_groups', $tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes('fe_groups', 'tx_community_tmpmembers;;;;1-1-1,tx_community_members;;;;,tx_community_admins;;;;2-2-2,tx_community_image;;;;3-3-3,tx_community_public;;;;4-4-4');
 
 	// adding the static TS templates
 t3lib_extMgm::addStaticFile($_EXTKEY, 'static/community/', 'Community');

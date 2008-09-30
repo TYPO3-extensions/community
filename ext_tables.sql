@@ -22,51 +22,6 @@ CREATE TABLE fe_users (
 
 
 #
-# Table structure for table 'fe_groups'
-#
-CREATE TABLE fe_groups (
-    tx_community_tmpmembers int(11) DEFAULT '0' NOT NULL,
-    tx_community_members int(11) DEFAULT '0' NOT NULL,
-    tx_community_admins text NOT NULL,
-    tx_community_public int(1) DEFAULT '0' NOT NULL,
-    tx_community_image text NOT NULL
-);
-
-
-
-#
-# Table structure for table 'fe_groups_tx_community_members_mm'
-#
-#
-CREATE TABLE fe_groups_tx_community_members_mm (
-  uid_local int(11) DEFAULT '0' NOT NULL,
-  uid_foreign int(11) DEFAULT '0' NOT NULL,
-  tablenames varchar(30) DEFAULT '' NOT NULL,
-  sorting int(11) DEFAULT '0' NOT NULL,
-  KEY uid_local (uid_local),
-  KEY uid_foreign (uid_foreign)
-);
-
-
-
-
-#
-# Table structure for table 'fe_groups_tx_community_tmpmembers_mm'
-#
-#
-CREATE TABLE fe_groups_tx_community_tmpmembers_mm (
-  uid_local int(11) DEFAULT '0' NOT NULL,
-  uid_foreign int(11) DEFAULT '0' NOT NULL,
-  tablenames varchar(30) DEFAULT '' NOT NULL,
-  sorting int(11) DEFAULT '0' NOT NULL,
-  KEY uid_local (uid_local),
-  KEY uid_foreign (uid_foreign)
-);
-
-
-
-
-#
 # Table structure for table 'tx_community_acl_role'
 #
 CREATE TABLE tx_community_acl_role (
@@ -129,3 +84,79 @@ CREATE TABLE tx_community_friend (
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );
+
+
+
+#
+# Table structure for table 'tx_community_group'
+#
+CREATE TABLE tx_community_group (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	tstamp int(11) DEFAULT '0' NOT NULL,
+	crdate int(11) DEFAULT '0' NOT NULL,
+	cruser_id int(11) DEFAULT '0' NOT NULL,
+	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	hidden tinyint(4) DEFAULT '0' NOT NULL,
+	name tinytext,
+	type int(11) DEFAULT '0' NOT NULL,
+	description text,
+	image blob,
+	creator blob,
+	admins int(11) DEFAULT '0' NOT NULL,
+	members int(11) DEFAULT '0' NOT NULL,
+	pending_members int(11) DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);
+
+
+
+#
+# Table structure for table 'tx_community_group_admins_mm'
+#
+#
+CREATE TABLE tx_community_group_admins_mm (
+  uid_local int(11) DEFAULT '0' NOT NULL,
+  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  tablenames varchar(30) DEFAULT '' NOT NULL,
+  sorting int(11) DEFAULT '0' NOT NULL,
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
+
+
+
+#
+# Table structure for table 'tx_community_group_members_mm'
+#
+#
+CREATE TABLE tx_community_group_members_mm (
+  uid_local int(11) DEFAULT '0' NOT NULL,
+  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  tablenames varchar(30) DEFAULT '' NOT NULL,
+  sorting int(11) DEFAULT '0' NOT NULL,
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
+
+
+
+#
+# Table structure for table 'tx_community_group_pending_members_mm'
+#
+#
+CREATE TABLE tx_community_group_pending_members_mm (
+  uid_local int(11) DEFAULT '0' NOT NULL,
+  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  tablenames varchar(30) DEFAULT '' NOT NULL,
+  sorting int(11) DEFAULT '0' NOT NULL,
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
+
+

@@ -152,13 +152,13 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index',
 		),
-		'newGroup' => array(
-			'classReference' => 'EXT:community/controller/class.tx_community_controller_newgroupapplication.php:tx_community_controller_NewGroupApplication',
-			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:newGroup',
+		'createGroup' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_creategroupapplication.php:tx_community_controller_CreateGroupApplication',
+			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:createGroup',
 			'accessControl' => false,
 			'actions' => array( // those are not the actual profile actions, but controller actions
 				'index',
-				'newGroup'
+				'createGroup'
 			),
 			'defaultAction' => 'index',
 		),

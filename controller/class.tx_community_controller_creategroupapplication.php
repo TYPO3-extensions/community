@@ -22,25 +22,19 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_group.php');
-require_once($GLOBALS['PATH_community'] . 'view/newgroup/class.tx_community_view_newgroup_index.php');
-require_once($GLOBALS['PATH_community'] . 'view/newgroup/class.tx_community_view_newgroup_newgroup.php');
+require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_index.php');
+require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_creategroup.php');
 
 /**
- * Edit Group Application Controller
+ * Create Group Application Controller
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_NewGroupApplication extends tx_community_controller_AbstractCommunityApplication {
+class tx_community_controller_CreateGroupApplication extends tx_community_controller_AbstractCommunityApplication {
 
-	public $cObj;
-	public $conf;
-	protected $data;
-	protected $name;
-	protected $configuration;
 	protected $group;
 	protected $user;
 
@@ -50,67 +44,24 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 	public function __construct() {
 		parent::__construct();
 
-		$this->prefixId = 'tx_community_controller_NewGroupApplication';
-		$this->scriptRelPath = 'controller/class.tx_community_controller_newgroupapplication.php';
-		$this->name = 'newGroup';
-	}
-
-	public function execute() {
-		$content = '';
-
-		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
-			$this->getName()
-		);
-
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
-		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
-		/* @var $userGateway tx_community_model_UserGateway */
-
-		$this->user  = $userGateway->findCurrentlyLoggedInUser();
-		if (is_null($this->user)) {
-			// @TODO throw Exception
-			die('no loggedin user');
-		}
-
-			// dispatch
-		if (!empty($communityRequest['newGroupAction'])
-			&& method_exists($this, $communityRequest['newGroupAction'] . 'Action')
-			&& in_array($communityRequest['newGroupAction'], $applicationConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest['newGroupAction'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
-	}
-
-	/**
-	 * returns the name of this community application
-	 *
-	 * @return	string	This community application's name
-	 */
-	public function getName() {
-		return $this->name;
+		$this->prefixId = 'tx_community_controller_CreateGroupApplication';
+		$this->scriptRelPath = 'controller/class.tx_community_controller_creategroupapplication.php';
+		$this->name = 'createGroup';
 	}
 
 	protected function indexAction() {
-		$view = t3lib_div::makeInstance('tx_community_view_newGroup_Index');
+		$view = t3lib_div::makeInstance('tx_community_view_creategroup_Index');
 		/* @var $view tx_community_view_newGroup_Index */
-		$view->setTemplateFile($this->configuration['applications.']['newGroup.']['templateFile']);
+		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
+			// TODO move the create group action into a hidden field
 		$formAction = $this->pi_getPageLink(
 			$GLOBALS['TSFE']->id,
 			'',
 			array(
 				'tx_community' => array(
-					'newGroupAction' => 'newGroup'
+					$this->name . 'Action' => 'createGroup'
 				)
 			)
 		);
@@ -119,10 +70,10 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 		return $view->render();
 	}
 
-	protected function newGroupAction() {
-		$view = t3lib_div::makeInstance('tx_community_view_newGroup_NewGroup');
+	protected function createGroupAction() {
+		$view = t3lib_div::makeInstance('tx_community_view_creategroup_CreateGroup');
 		/* @var $view tx_community_view_newGroup_Index */
-		$view->setTemplateFile($this->configuration['applications.']['newGroup.']['templateFile']);
+		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
@@ -159,8 +110,8 @@ class tx_community_controller_NewGroupApplication extends tx_community_controlle
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_newgroupapplication.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_newgroupapplication.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_creategroupapplication.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/class.tx_community_controller_creategroupapplication.php']);
 }
 
 ?>

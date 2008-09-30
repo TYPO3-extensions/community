@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the create group application</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="creategroup_createGroup">Create a new group</label>
+			<label index="creategroup_formSave">Create group</label>
+			<label index="creategroup_title">Group title</label>
+			<label index="msg_create_error">error while creating the group</label>
+		</languageKey>
+	</data>
+</T3locallang>

@@ -97,6 +97,16 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 		// set deleted to true, then save
 	}
 
+	public function isAnonymous() {
+		$isAnonymous = false;
+
+		if($this->uid === 0) {
+			$isAnonymous = true;
+		}
+
+		return $isAnonymous;
+	}
+
 	/**
 	 * returns the Resource identifier
 	 *

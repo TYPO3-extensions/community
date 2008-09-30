@@ -1,6 +1,8 @@
-2008-09-30 Frank Nägler <typo3@naegler.net>
-	* added community logger to tx_community_Template
-	* added draggable and removeable to the image widget
+2008-10-01 Ingo Renner  <ingo@typo3.org>
+
+	* renamed the new group application to create group
+	* added dedicated table for groups
+	* removed extension fields for fegroups
 
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 
@@ -17,6 +19,8 @@
 2008-09-30 Frank Naegler  <typo3@naegler.net>
 
 	* adding GroupInformationWidget
+	* added community logger to tx_community_Template
+	* added draggable and removeable to the image widget
 
 2008-09-29 Ingo Renner  <ingo@typo3.org>
 
