@@ -79,7 +79,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 			array(
 				'tx_community' => array(
 					'user' => $this->communityApplication->getRequestedUser()->getUid(),
-					'profileAction' => 'setRelationships'
+					$this->name . 'Action' => 'setRelationships'
 				)
 			)
 		);
@@ -305,7 +305,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				array(
 					'tx_community' => array(
 						'user' => $requestedUser->getUid(),
-						'profileAction' => 'addAsFriend'
+						$this->name . 'Action' => 'addAsFriend'
 					)
 				)
 			);
@@ -336,7 +336,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 			array(
 				'tx_community' => array(
 					'user' => $requestedUser->getUid(),
-					'profileAction' => 'removeAsFriend'
+					$this->name . 'Action' => 'removeAsFriend'
 				)
 			)
 		);
@@ -362,7 +362,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 			array(
 				'tx_community' => array(
 					'user' => $requestedUser->getUid(),
-					'profileAction' => 'editRelationship'
+					$this->name . 'Action' => 'editRelationship'
 				)
 			),
 			false,
