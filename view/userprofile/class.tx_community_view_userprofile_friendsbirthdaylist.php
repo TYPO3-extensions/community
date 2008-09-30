@@ -54,7 +54,7 @@ class tx_community_view_userprofile_FriendsBirthdayList extends tx_community_vie
 
 		$template->addLoop('friends', 'user', $this->userModel);
 
-		return $template->render() . 'birthday list view';
+		return $template->render();
 	}
 }
 
