@@ -240,7 +240,12 @@ class tx_community_Template {
 			}
 
 			if (is_null($resolvedValue)) {
-				$resolvedValue = '!!!Marker &quot;' . $marker . '&quot; could not be resolved.';
+				if (t3lib_extMgm::isLoaded('community_logger')) {
+					require_once(t3lib_extMgm::extPath('community_logger').'classes/class.tx_communitylogger_logger.php');
+					$logger = tx_communitylogger_Logger::getInstance('community');
+					$logger->debug('!!!Marker "' . $marker . '" could not be resolved.');
+				}
+				$resolvedValue = '';
 			}
 
 			$resolvedMarkers[$marker] = $resolvedValue;
