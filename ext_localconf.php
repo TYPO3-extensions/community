@@ -68,6 +68,7 @@ $TX_COMMUNITY = array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_groupprofileapplication.php:tx_community_controller_GroupProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile',
 			'widgets' => array(
+				// TODO add the goup profile image as a widget
 				'profileActions' => array(
 					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_profileactionswidget.php:tx_community_controller_groupprofile_ProfileActionsWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_profileActions',
