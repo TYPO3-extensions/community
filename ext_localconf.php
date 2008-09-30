@@ -87,6 +87,15 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index',
 					'accessControl' => false
+				),
+				'memberList' => array(
+					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_memberlistwidget.php:tx_community_controller_groupprofile_MemberListWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_memberList',
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index',
+					'accessControl' => false
 				)
 			),
 		),

@@ -62,6 +62,18 @@ plugin.tx_community {
 				groupInformation {
 					templateFile = EXT:community/resources/templates/groupprofile/groupinformationwidget.htm
 				}
+				memberList {
+					templateFile = EXT:community/resources/templates/groupprofile/memberlistwidget.htm
+					userImage = IMAGE
+					userImage {
+						// will be overwriten if an user image is available
+						file = EXT:community/resources/icons/default_user.png
+						file {
+							maxW = 50
+							maxH = 50
+						}
+					}
+				}
 			}
 		}
 

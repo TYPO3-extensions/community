@@ -67,6 +67,7 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	protected $aboutMe;
 
 	protected $image;
+	protected $htmlImage;
 
 	/**
 	 * constructor for class tx_community_model_User
@@ -166,14 +167,25 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	 *
 	 */
 	public function getImage() {
-		t3lib_div::loadTCA('fe_users');
-		return $GLOBALS['TCA']['fe_users']['columns']['image']['config']['uploadfolder'] . '/' . $this->image;
+		if (strlen($this->image)) {
+			return 'uploads/pics/' . $this->image;	
+		} else {
+			return '';
+		}
 	}
-
+	
 	public function setImage($image) {
 		$this->image = $image;
 	}
 
+	public function getHtmlImage() {
+		return $this->htmlImage;
+	}
+	
+	public function setHtmlImage($htmlcode) {
+		$this->htmlImage = $htmlcode;
+	}
+	
 	public function getActivities() {
 		return $this->activities;
 	}
