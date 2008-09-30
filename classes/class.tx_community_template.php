@@ -36,6 +36,7 @@ class tx_community_Template {
 
 	protected $prefix;
 	protected $cObj;
+	protected $templateFile;
 	protected $template;
 	protected $workOnSubpart;
 	protected $viewHelperIncludePath;
@@ -49,13 +50,14 @@ class tx_community_Template {
 	 * constructor for the html marker template view
 	 *
 	 * @param	tslib_cObj	content object
-	 * @param	string	path to the html template file
+	 * @param	string	path to the template file
 	 * @param	string	name of the subpart to work on
 	 */
-	public function __construct(tslib_cObj $contentObject, $htmlFile, $subpart) {
+	public function __construct(tslib_cObj $contentObject, $templateFile, $subpart) {
 		$this->cObj = $contentObject;
+		$this->templateFile = $templateFile;
 
-		$this->loadHtmlFile($htmlFile);
+		$this->loadHtmlFile($templateFile);
 		$this->workOnSubpart($subpart);
 	}
 
