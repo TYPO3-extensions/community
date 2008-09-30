@@ -78,8 +78,17 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index',
 					'accessControl' => false
+				),
+				'groupInformation' => array(
+					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_groupinformationwidget.php:tx_community_controller_groupprofile_GroupInformationWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_groupInformation',
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index',
+					'accessControl' => false
 				)
-			)
+			),
 		),
 		'search' => array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_searchapplication.php:tx_community_controller_SearchApplication',

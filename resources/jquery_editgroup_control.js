@@ -23,6 +23,7 @@ $(document).ready(function(){
 
 	
 	// init image uploader
+	
 	$('#tx-community-editgroup-imageupload').upload({
 		name: 'tx_community[imageFile]',
 		method: 'post',
@@ -36,6 +37,7 @@ $(document).ready(function(){
 			showMessage('wait', _PLEASE_WAIT);
 		},
 		onComplete: function(response) {
+			console.log(response);
 			response = eval('('+response+')');
 			$('#tx-community-group-image').attr('src', response.newImage);
 			$('#tx-community-group-image').attr('width', response.newWidth);
@@ -44,7 +46,7 @@ $(document).ready(function(){
 			showMessage(response.status, response.msg, 5000);
 		}
 	});
-	
+
     // init tabs
     $("#tx-community-editgroup-settings ul#tab_navigation").tabs({
     	fx: {
@@ -311,6 +313,4 @@ $(document).ready(function(){
 			}
 		);
 	});
-	
-	
 });
