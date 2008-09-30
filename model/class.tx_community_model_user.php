@@ -68,7 +68,7 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 
 	protected $image;
 	protected $htmlImage;
-	
+
 	protected $userDetailLink;
 
 	/**
@@ -172,18 +172,26 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 		return $this->account->getLastName();
 	}
 
+	public function setBirthday($birthday) {
+		$this->birthday = (int) $birthday;
+	}
+
+	public function getBirthday() {
+		return $this->birthday;
+	}
+
 	/**
 	 * returns the user's image as path + file relative to the TYPO3 site root
 	 *
 	 */
 	public function getImage() {
 		if (strlen($this->image)) {
-			return 'uploads/pics/' . $this->image;	
+			return 'uploads/pics/' . $this->image;
 		} else {
 			return '';
 		}
 	}
-	
+
 	public function setImage($image) {
 		$this->image = $image;
 	}
@@ -191,19 +199,19 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	public function getHtmlImage() {
 		return $this->htmlImage;
 	}
-	
+
 	public function setHtmlImage($htmlcode) {
 		$this->htmlImage = $htmlcode;
 	}
-	
+
 	public function getUserDetailLink() {
 		return $this->userDetailLink;
 	}
-	
+
 	public function setUserDetailLink($userDetailLink) {
 		$this->userDetailLink = $userDetailLink;
 	}
-	
+
 	public function getActivities() {
 		return $this->activities;
 	}
