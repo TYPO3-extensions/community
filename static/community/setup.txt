@@ -25,12 +25,17 @@ plugin.tx_community {
 		anonymousRoleId = 0
 	}
 
+	common {
+		dateFormat.date = d.m.Y
+	}
+
 	applications {
 		userProfile {
 			widgets {
 				image {
 
-					imageContentObject {
+					profileImage = IMAGE
+					profileImage {
 						file.maxW = 150
 					}
 				}
@@ -41,6 +46,12 @@ plugin.tx_community {
 
 				profileActions {
 					templateFile = EXT:community/resources/templates/userprofile/profileactionswidget.htm
+				}
+
+				friendsBirthdayList {
+					templateFile = EXT:community/resources/templates/userprofile/friendbirthdaylistwidget.htm
+
+					maxNumberOfItemsShown = 5
 				}
 			}
 		}

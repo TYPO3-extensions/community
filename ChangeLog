@@ -5,6 +5,7 @@
 	* Changed the way friend relations are handled, now both users must be friends with the other
 	* Added a method to the abstract community application controller to get an instance of the user gateway
 	* Added an abstract view and changed all views to use this new abstract view
+	* Added a new section in the TS configuration for common settings, for now contains a setting how dates should be rendered
 
 2008-09-30 Frank Naegler  <typo3@naegler.net>
 
