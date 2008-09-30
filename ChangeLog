@@ -1,3 +1,7 @@
+2008-09-30 Frank Nägler <typo3@naegler.net>
+	* added community logger to tx_community_Template
+	* added draggable and removeable to the image widget
+
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 
 	* Fixed profile action links in the profile actions widget

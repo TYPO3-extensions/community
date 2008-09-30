@@ -41,6 +41,8 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 
 		$this->name     = 'friendsBirthdayList';
 		$this->label    = 'FriendsBirthdayListWidget';
+		$this->draggable = true;
+		$this->removable = true;
 		$this->cssClass = '';
 	}
 
