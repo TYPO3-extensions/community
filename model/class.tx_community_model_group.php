@@ -55,6 +55,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $llManager;
+	
+	protected $htmlImage = 'no image';
 
 
 	/**
@@ -142,6 +144,14 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			return '';
 		}
 		
+	}
+
+	public function getHtmlImage() {
+		return $this->htmlImage;
+	}
+	
+	public function setHtmlImage($htmlcode) {
+		$this->htmlImage = $htmlcode;
 	}
 	
 	public function getAdmin() {

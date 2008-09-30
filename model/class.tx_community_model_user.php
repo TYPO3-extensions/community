@@ -68,6 +68,8 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 
 	protected $image;
 	protected $htmlImage;
+	
+	protected $userDetailLink;
 
 	/**
 	 * constructor for class tx_community_model_User
@@ -184,6 +186,14 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	
 	public function setHtmlImage($htmlcode) {
 		$this->htmlImage = $htmlcode;
+	}
+	
+	public function getUserDetailLink() {
+		return $this->userDetailLink;
+	}
+	
+	public function setUserDetailLink($userDetailLink) {
+		$this->userDetailLink = $userDetailLink;
 	}
 	
 	public function getActivities() {

@@ -95,6 +95,7 @@ class tx_community_view_listGroups_Index implements tx_community_View {
 				'title'       => $group->getTitle(),
 				'description' => $group->getDescription(),
 				'url'         => $this->getGroupDetailLink($group->getUid()),
+				'image'		  => $group->getHtmlImage()
 			);
 			$loopGroups[] = $tmp;
 		}

@@ -85,6 +85,13 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setLanguageKey($this->LLkey);
 
 		$groups = $this->groupGateway->getAllGroups();
+		foreach ($groups as $group) {
+			$imgConf = $this->configuration['applications.']['listGroups.']['groupImage.'];
+			$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
+			$cObj = t3lib_div::makeInstance('tslib_cObj');
+			$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
+			$group->setHTMLImage($genImage);
+		}
 		$view->setGroups($groups);
 
 		$groupsDetailLink = $this->pi_getPageLink(

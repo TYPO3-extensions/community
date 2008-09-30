@@ -6,11 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="information_groupInformation">Group Information</label>
-			<label index="information_title">Title</label>
-			<label index="information_description">Description</label>
-			<label index="information_image">Image</label>
-			<label index="information_admin">Admins</label>
+			<label index="information_memberList">Member List</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -44,6 +44,7 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 	protected $templateFile;
 	protected $languageKey;
 	protected $configuration;
+	protected $userDetailLink;
 
 	public function setGroupModel(tx_community_model_Group $group) {
 		$this->groupModel = $group;
@@ -60,7 +61,11 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
 	}
-
+		
+	public function setUserDetailLink($userDetailLink) {
+		$this->userDetailLink = $userDetailLink;
+	}
+	
 	public function render() {
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
@@ -85,10 +90,9 @@ class tx_community_view_groupprofile_MemberList implements tx_community_View {
 			$imgConf = $this->configuration['applications.']['groupProfile.']['widgets.']['memberList.']['userImage.'];
 			$imgConf['file'] = (strlen($member->getImage()) > 0) ? $member->getImage() : $imgConf['file'];
 			$cObj = t3lib_div::makeInstance('tslib_cObj');
-			debug($imgConf);
 			$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
-			debug($genImage);
 			$member->setHTMLImage($genImage);
+			$member->setUserDetailLink(str_replace('%25UID%25', $member->getUid(), $this->userDetailLink));
 		}
 		$template->addLoop('members', 'member', $members);
 		

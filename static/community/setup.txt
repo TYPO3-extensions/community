@@ -209,6 +209,15 @@ plugin.tx_community {
 		}
 
 		listGroups {
+			groupImage = IMAGE
+			groupImage {
+				// will be overwriten if an user image is available
+				file = EXT:community/resources/icons/default_group.jpg
+				file {
+					maxW = 50
+					maxH = 50
+				}
+			}
 			templateFile = EXT:community/resources/templates/listgroups/index.htm
 		}
 

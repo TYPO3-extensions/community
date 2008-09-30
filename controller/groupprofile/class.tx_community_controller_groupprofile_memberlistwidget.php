@@ -95,6 +95,16 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 			$allowed = $accessManager->isAllowed($this);
 		}
 
+		$userDetailLink = $this->communityApplication->pi_getPageLink(
+			$this->configuration['pages.']['userProfile'],
+			'',
+			array(
+				'tx_community' => array(
+					'user' => '%UID%'
+				)
+			)
+		);
+		
 		/*
  		 * no access maner needed here?
  		 * we overwrite it
@@ -106,6 +116,7 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 			$view->setTemplateFile($this->configuration['applications.']['groupProfile.']['widgets.']['memberList.']['templateFile']);
 			$view->setConfiguration($this->configuration);
 			$view->setLanguageKey($this->communityApplication->LLkey);
+			$view->setUserDetailLink($userDetailLink);
 
 			$content = $view->render();
 		}
