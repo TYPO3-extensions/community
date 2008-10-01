@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 
 /**
  * Widget view to which groups a user is member of
@@ -44,6 +46,16 @@ class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractV
 			t3lib_div::makeInstance('tslib_cObj'),
 			$this->templateFile,
 			'my_groups'
+		);
+
+		$template->addViewHelper(
+			'ts',
+			'tx_community_viewhelper_Ts'
+		);
+
+		$template->addViewHelper(
+			'link',
+			'tx_community_viewhelper_Link'
 		);
 
 		$template->addLoop('groups', 'group', $this->groupModel);

@@ -14,6 +14,7 @@
 	* moved the include for the localization manager into the community application controller
 	* added a TS viewhelper to retrieve TS values
 	* added a link viewhelper to create links on the fly
+	* added the link viewhelper to the my groups user profile widget to build links to profile pages
 
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 
