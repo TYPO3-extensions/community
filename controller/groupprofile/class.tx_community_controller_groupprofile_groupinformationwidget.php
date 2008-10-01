@@ -35,10 +35,6 @@ require_once($GLOBALS['PATH_community'] . 'view/groupprofile/class.tx_community_
 class tx_community_controller_groupprofile_GroupInformationWidget extends tx_community_controller_AbstractCommunityApplicationWidget implements tx_community_acl_AclResource {
 
 	protected $accessMode;
-	/**
-	 * @var tx_community_model_GroupGateway
-	 */
-	protected $groupGateway;
 
 	/**
 	 * @var tx_community_LocalizationManager
@@ -59,8 +55,6 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 		$this->dragable  = true;
 		$this->removable = true;
 		$this->position  = 2;
-
-		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 	}
 
 	/**
@@ -69,7 +63,7 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 	 * @return string
 	 */
 	public function getResourceId() {
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
 		$resourceId = $this->communityApplication->getName()
 			. '_' . $this->name
@@ -89,7 +83,7 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
 		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
@@ -103,7 +97,7 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 		}
 
 		/*
- 		 * no access maner needed here?
+ 		 * no access manager needed here?
  		 * we overwrite it
  		 */
 		$allowed = true;
@@ -111,7 +105,6 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 			$view = t3lib_div::makeInstance('tx_community_view_groupprofile_GroupInformation');
 			$view->setGroupModel($requestedGroup);
 			$view->setTemplateFile($this->configuration['applications.']['groupProfile.']['widgets.']['groupInformation.']['templateFile']);
-			$view->setConfiguration($this->configuration);
 			$view->setLanguageKey($this->communityApplication->LLkey);
 
 			$content = $view->render();

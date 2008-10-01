@@ -39,14 +39,9 @@ class tx_community_view_groupprofile_GroupInformation extends tx_community_view_
 	 * @var tx_community_model_Group
 	 */
 	protected $groupModel;
-	protected $configuration;
 
 	public function setGroupModel(tx_community_model_Group $group) {
 		$this->groupModel = $group;
-	}
-
-	public function setConfiguration($configuration) {
-		$this->configuration = $configuration;
 	}
 
 	public function render() {
@@ -67,15 +62,6 @@ class tx_community_view_groupprofile_GroupInformation extends tx_community_view_
 		);
 
 		$template->addVariable('group', $this->groupModel);
-
-		$imgConf = $this->configuration['applications.']['groupProfile.']['groupImage.'];
-		$imgConf['file'] = (strlen($this->groupModel->getImage()) > 0) ? $this->groupModel->getImage() : $imgConf['file'];
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
-		$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
-
-		$template->addVariable('groupimage', array(
-			'image'		=> $genImage
-		));
 
 		return $template->render();
 	}

@@ -16,6 +16,7 @@
 	* added a link viewhelper to create links on the fly
 	* added the link viewhelper to the my groups user profile widget to build links to profile pages
 	* extracted the group image into a separate group profile widget
+	* changed the grou profile information widget look more like thos found in other communities
 
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 
