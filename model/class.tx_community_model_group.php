@@ -86,15 +86,13 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 */
 	protected $localizationManager;
 
-	protected $htmlImage = 'no image';
-
-
 	/**
 	 * constructor for class tx_community_model_Group
 	 *
 	 * @param	array	A tx_community_group database record as array
 	 */
 	public function __construct(array $data) {
+		$this->data = $data;
 
 		if (!empty($data['uid'])) {
 			$this->uid = $data['uid'];
@@ -159,23 +157,6 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		} else if (substr($methodName, 0, 3) === 'get') {
 			return $this->data[$property];
 		}
-	}
-
-	public function getImage() {
-		if (strlen($this->data['tx_community_image'])) {
-			return 'uploads/tx_community/' . $this->data['tx_community_image'];
-		} else {
-			return '';
-		}
-
-	}
-
-	public function getHtmlImage() {
-		return $this->htmlImage;
-	}
-
-	public function setHtmlImage($htmlcode) {
-		$this->htmlImage = $htmlcode;
 	}
 
 	public function getAdmin() {

@@ -39,7 +39,16 @@ class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractV
 	}
 
 	public function render() {
-		return ' my groups widget view';
+		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
+		$template = new $templateClass(
+			t3lib_div::makeInstance('tslib_cObj'),
+			$this->templateFile,
+			'my_groups'
+		);
+
+		$template->addLoop('groups', 'group', $this->groupModel);
+
+		return $template->render();
 	}
 }
 

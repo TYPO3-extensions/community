@@ -183,6 +183,11 @@ $TX_COMMUNITY = array(
 			),
 			'defaultAction' => 'index'
 		)
+	),
+	'tableFieldMaps' => array(
+		'fe_users' => array(
+
+		)
 	)
 );
 
