@@ -30,7 +30,7 @@
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_userprofile_HtmlImage {
+class tx_community_view_userprofile_HtmlImage extends tx_community_view_AbstractView {
 
 	/**
 	 * The user model used to render this view
