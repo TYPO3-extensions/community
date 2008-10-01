@@ -4,6 +4,7 @@
 	* added dedicated table for groups
 	* removed extension fields for fegroups
 	* changed the createGroup application to use the new dedicated table for groups
+	* fixed bug in birthday list, the list should always show the birthdays of the requested user's friends
 
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 
