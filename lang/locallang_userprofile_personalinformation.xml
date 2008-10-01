@@ -6,6 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="label_PersonalInformationWidget">About me</label>
 			<label index="information_personalInformation">Personal Info</label>
 			<label index="information_activities">Activities</label>
 			<label index="information_interests">Interests</label>

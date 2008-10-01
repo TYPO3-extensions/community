@@ -6,6 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="label_GroupInformationWidget">Group Information</label>
 			<label index="information_groupInformation">Group Information</label>
 			<label index="information_title">Title</label>
 			<label index="information_description">Description</label>

@@ -2,12 +2,11 @@
 <T3locallang>
 	<meta type="array">
 		<type>module</type>
-		<description>Language labels for the user profile's personal information widget</description>
+		<description>Language labels for the user profile's profile actions widget</description>
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="label_MemberListWidget">Member List</label>
-			<label index="information_memberList">Member List</label>
+			<label index="label_MyGroupsWidget">My groups</label>
 		</languageKey>
 	</data>
 </T3locallang>
