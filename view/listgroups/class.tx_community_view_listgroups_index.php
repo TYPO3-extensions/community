@@ -75,6 +75,7 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 			)
 		);
 
+		$loopGroups = array();
 		foreach ($this->groups as $group) {
 			$tmp = array(
 				'uid'         => $group->getUid(),
