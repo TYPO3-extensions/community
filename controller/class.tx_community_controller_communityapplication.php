@@ -26,6 +26,7 @@ require_once(PATH_tslib.'class.tslib_pibase.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_applicationmanager.php');
 
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_accessmanager.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplication.php');
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_abstractcommunityapplicationwidget.php');

@@ -11,6 +11,7 @@
 	* fixed bug in birthday list, the list should always show the birthdays of the requested user's friends
 	* added the my groups widget
 	* refactored the group gateway
+	* moved the include for the localization manager into the community application controller
 
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 

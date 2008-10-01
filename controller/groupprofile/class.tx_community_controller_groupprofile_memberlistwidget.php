@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'view/groupprofile/class.tx_community_view_groupprofile_memberlist.php');
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * meber list widget for the group profile community application
@@ -39,19 +38,19 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 	 * @var tx_community_model_GroupGateway
 	 */
 	protected $groupGateway;
-	
+
 	/**
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
-	
+
 	public function __construct() {
 		parent::__construct();
 
 			// set default access mode
 		$this->accessMode = 'read';
 		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_groupprofile_memberlist.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$this->name     = 'memberList';
 		$this->label    = $this->localizationManager->getLL('label_MemberListWidget');
 		$this->cssClass = '';
@@ -90,7 +89,7 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->groupGateway->findCurrentGroup();
-		
+
 		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
 
@@ -111,7 +110,7 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 				)
 			)
 		);
-		
+
 		/*
  		 * no access maner needed here?
  		 * we overwrite it

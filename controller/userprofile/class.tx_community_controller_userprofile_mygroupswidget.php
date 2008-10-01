@@ -22,7 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
+require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_mygroups.php');
 
 /**
  * a widget for the user profile to show the user's group memberships
@@ -32,27 +33,32 @@ require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizati
  * @subpackage community
  */
 class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
-	/**
-	 * @var tx_community_LocalizationManager
-	 */
-	protected $localizationManager;
-	
+
 	/**
 	 * constructor for class tx_community_controller_userprofile_MyGroupsWidget
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_mygroupswidget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$this->name     = 'myGroups';
-		$this->label    = $this->localizationManager->getLL('label_MyGroupsWidget');
+		$this->label    = 'MyGroupsWidget';
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';
 	}
 
 	public function indexAction() {
-		return 'my groups widget index action';
+		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		$groups = $groupGateway->findGroupsByUser(
+			$this->communityApplication->getRequestedUser()
+		);
+
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_MyGroups');
+		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['myGroups.']['templateFile']);
+		$view->setLanguageKey($this->communityApplication->LLkey);
+		$view->setGroupModel($groups);
+
+		return $view->render();
 	}
 }
 

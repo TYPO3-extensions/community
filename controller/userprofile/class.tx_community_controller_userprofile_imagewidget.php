@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_contentobjectimage.php');
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * image widget for a user profile
@@ -37,14 +36,14 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
-	
+
 	/**
 	 * constructor for class tx_community_controller_userprofile_Imagewidget
 	 */
 	public function __construct() {
 		parent::__construct();
 		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_imagewidget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$this->name = 'image';
 		$this->dragable = true;
 		$this->removable = true;

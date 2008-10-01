@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_personalinformation.php');
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * personal information widget for the user profile community application
@@ -38,13 +37,13 @@ class tx_community_controller_userprofile_PersonalInformationWidget extends tx_c
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
-	
+
 	protected $accessMode;
 
 	public function __construct() {
 		parent::__construct();
 		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_personalinformation.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 			// set default access mode
 		$this->accessMode = 'read';
 

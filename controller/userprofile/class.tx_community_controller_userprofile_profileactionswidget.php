@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_profileactions.php');
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_editrelationship.php');
 
