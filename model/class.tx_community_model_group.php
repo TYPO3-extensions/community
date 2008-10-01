@@ -158,6 +158,14 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 	}
 
+	public function getImage() {
+		if (!empty($this->data['image'])) {
+			return 'uploads/tx_community/' . $this->data['image'];
+		} else {
+			return '';
+		}
+	}
+
 	public function getAdmin() {
 		$admins = array();
 		foreach ($this->data['tx_community_admins'] as $admin) {

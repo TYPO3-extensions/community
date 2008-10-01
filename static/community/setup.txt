@@ -38,6 +38,7 @@ plugin.tx_community {
 					profileImage = IMAGE
 					profileImage {
 						file.maxW = 150
+						file.maxH = 200
 					}
 				}
 
@@ -62,22 +63,24 @@ plugin.tx_community {
 		}
 
 		groupProfile {
-			groupImage = IMAGE
-			groupImage {
-				// will be overwriten if an user image is available
-				file = EXT:community/resources/icons/default_group.png
-				file {
-					maxW = 150
-					maxH = 200
-				}
-			}
 			widgets {
+				image {
+
+					groupImage = IMAGE
+					groupImage {
+						file.maxW = 150
+						file.maxH = 200
+					}
+				}
+
 				profileActions {
 					templateFile = EXT:community/resources/templates/groupprofile/profileactionswidget.htm
 				}
+
 				groupInformation {
 					templateFile = EXT:community/resources/templates/groupprofile/groupinformationwidget.htm
 				}
+
 				memberList {
 					templateFile = EXT:community/resources/templates/groupprofile/memberlistwidget.htm
 					userImage = IMAGE

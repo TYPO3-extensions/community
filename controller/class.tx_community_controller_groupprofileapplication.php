@@ -33,6 +33,9 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupg
  */
 class tx_community_controller_GroupProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
 
+	protected $groupGateway   = null;
+	protected $requestedGroup = null;
+
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
 	 */
@@ -42,6 +45,44 @@ class tx_community_controller_GroupProfileApplication extends tx_community_contr
 		$this->prefixId = 'tx_community_controller_GroupProfileApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_groupprofileapplication.php';
 		$this->name = 'groupProfile';
+
+		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+	}
+
+	/**
+	 * returns the group that shall be displayed
+	 *
+	 * @return tx_community_model_Group
+	 */
+	public function getRequestedGroup() {
+		$requestedGroup = null;
+
+		if (is_null($this->requestedGroup)) {
+			$communityRequest = t3lib_div::GParrayMerged('tx_community');
+			$requestedGroup = $this->groupGateway->findById((int) $communityRequest['group']);
+
+			$this->requestedGroup = $requestedGroup;
+		} else {
+			$requestedGroup = $this->requestedGroup;
+		}
+
+		if (!($requestedGroup instanceof tx_community_model_Group)) {
+			// TODO throw a "group not found exception"
+		}
+
+		return $requestedGroup;
+	}
+
+	/**
+	 * sets the requested group, usefull for example when the requested group is
+	 * different from the one given in the GET parameter or no GET parameter is
+	 * available
+	 *
+	 * @param	tx_community_model_Group	The group to set as requested group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function setRequestedGroup(tx_community_model_Group $group) {
+		$this->requestedGroup = $group;
 	}
 }
 

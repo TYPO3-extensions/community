@@ -19,7 +19,7 @@ $TX_COMMUNITY = array(
 				'image' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_image',
-					'actions' => array(), // TODO move execute() stuff to at least indexAction()
+					'actions' => array(),
 					'accessControl' => array(
 						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_read',
 //						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_addComment'
@@ -79,7 +79,16 @@ $TX_COMMUNITY = array(
 			'classReference' => 'EXT:community/controller/class.tx_community_controller_groupprofileapplication.php:tx_community_controller_GroupProfileApplication',
 			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile',
 			'widgets' => array(
-				// TODO add the goup profile image as a widget
+				'image' => array(
+					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_imagewidget.php:tx_community_controller_groupprofile_ImageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_image',
+					'actions' => array(),
+					'accessControl' => false,
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
+				),
 				'profileActions' => array(
 					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_profileactionswidget.php:tx_community_controller_groupprofile_ProfileActionsWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_profileActions',
