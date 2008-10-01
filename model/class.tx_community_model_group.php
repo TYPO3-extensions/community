@@ -36,12 +36,12 @@ require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizati
  */
 class tx_community_model_Group implements tx_community_acl_AclResource {
 
-	const TYPE_OPEN = 0;
+	const TYPE_OPEN         = 0;
 	const TYPE_MEMBERS_ONLY = 1;
-	const TYPE_PRIVATE = 2;
-	const TYPE_SECRET = 3;
+	const TYPE_PRIVATE      = 2;
+	const TYPE_SECRET       = 3;
 
-	protected $uid;
+	protected $uid = null;
 	protected $data = array();
 
 	/*
@@ -70,6 +70,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	protected $removedPendingMembers = array();
 
 	/**
+	 * Instance of the user gateway
+	 *
 	 * @var tx_community_model_UserGateway
 	 */
 	protected $userGateway;
@@ -78,40 +80,34 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	protected $messageCenterLoaded = false;
 
 	/**
-	 * FIXME rename to localizationManager
+	 * Instance of the localization manager
 	 *
 	 * @var tx_community_LocalizationManager
 	 */
-	protected $llManager;
+	protected $localizationManager;
 
 	protected $htmlImage = 'no image';
 
 
 	/**
 	 * constructor for class tx_community_model_Group
+	 *
+	 * @param	array	A tx_community_group database record as array
 	 */
-	public function __construct($uid = null) {
-		$this->uid = $uid;
+	public function __construct(array $data) {
+
+		if (!empty($data['uid'])) {
+			$this->uid = $data['uid'];
+		}
 
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_group.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-
-			// FIXME must be done in the group gateway
-		if (!is_null($this->uid)) {
-			$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
-
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'*',
-				'tx_community_group',
-				'uid = ' . $this->uid . $pageSelect->enableFields('tx_community_group')
-			);
-			if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
-				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-				$this->setDataToStore($data);
-			}
-		}
+		$this->localizationManager = call_user_func(
+			array($llMangerClass, 'getInstance'),
+			'EXT:community/lang/locallang_group.xml',
+			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
+		);
 
 		if (t3lib_extMgm::isLoaded('community_messages')) {
 			require_once(t3lib_extMgm::extPath('community_messages') . 'classes/class.tx_communitymessages_api.php');
@@ -313,8 +309,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					foreach ($this->data['admins'] as $uid => $admin) {
 						$this->sendMessage(
 							$admin,
-							$this->prepareForMessage($this->llManager->getLL('subject_memberHasJoined'), $user, $admin),
-							$this->prepareForMessage($this->llManager->getLL('body_memberHasJoined'), $user, $admin)
+							$this->prepareForMessage($this->localizationManager->getLL('subject_memberHasJoined'), $user, $admin),
+							$this->prepareForMessage($this->localizationManager->getLL('body_memberHasJoined'), $user, $admin)
 						);
 					}
 				}
@@ -323,8 +319,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					foreach ($this->data['admins'] as $uid => $admin) {
 						$this->sendMessage(
 							$admin,
-							$this->prepareForMessage($this->llManager->getLL('subject_confirmationNeeded'), $user, $admin),
-							$this->prepareForMessage($this->llManager->getLL('body_confirmationNeeded'), $user, $admin)
+							$this->prepareForMessage($this->localizationManager->getLL('subject_confirmationNeeded'), $user, $admin),
+							$this->prepareForMessage($this->localizationManager->getLL('body_confirmationNeeded'), $user, $admin)
 						);
 					}
 				}
@@ -347,8 +343,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
 					$this->sendMessage(
 						$admin,
-						$this->prepareForMessage($this->llManager->getLL('subject_memberLeaveGroup'), $user, $admin),
-						$this->prepareForMessage($this->llManager->getLL('body_memberLeaveGroup'), $user, $admin)
+						$this->prepareForMessage($this->localizationManager->getLL('subject_memberLeaveGroup'), $user, $admin),
+						$this->prepareForMessage($this->localizationManager->getLL('body_memberLeaveGroup'), $user, $admin)
 					);
 				}
 				return true;
@@ -377,8 +373,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					$this->data['tx_community_members'] = $this->data['tx_community_members'] + 1;
 					$this->sendMessage(
 						$user,
-						$this->prepareForMessage($this->llManager->getLL('subject_confirmMember'), $user),
-						$this->prepareForMessage($this->llManager->getLL('body_confirmMember'), $user)
+						$this->prepareForMessage($this->localizationManager->getLL('subject_confirmMember'), $user),
+						$this->prepareForMessage($this->localizationManager->getLL('body_confirmMember'), $user)
 					);
 					return true;
 				}
@@ -397,8 +393,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
 				$this->sendMessage(
 					$user,
-					$this->prepareForMessage($this->llManager->getLL('subject_rejectMember'), $user),
-					$this->prepareForMessage($this->llManager->getLL('body_rejectMember'), $user)
+					$this->prepareForMessage($this->localizationManager->getLL('subject_rejectMember'), $user),
+					$this->prepareForMessage($this->localizationManager->getLL('body_rejectMember'), $user)
 				);
 				return true;
 			}

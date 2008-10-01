@@ -25,99 +25,111 @@
 require_once(t3lib_extMgm::extPath('community').'model/class.tx_community_model_group.php');
 
 /**
- * gateway too retrieve groups
+ * gateway to retrieve groups
  *
- * @author	Frank Nägler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
 class tx_community_model_GroupGateway {
 
 	/**
-	 * constructor for class tx_community_model_GroupGateway
-	 */
-	public function __construct() {
-
-	}
-
-	/**
 	 * find a group by its uid
 	 *
 	 * @param integer The groups uid
 	 * @return	tx_community_model_Group
+	 * @author	Frank Naegler <typo3@naegler.net>
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function findById($uid) {
 		$group = null;
 
 		$groupRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',
-			'fe_groups',
+			'tx_community_group',
 			'uid = ' . (int) $uid
-		); // TODO restrict to certain part of the tree
-		$groupRow = $groupRow[0];
+		); // TODO restrict to certain part of the tree, use enablefields
 
-		// TODO first check whether we got exactly one result
-		if (is_array($groupRow)) {
-			$group = $this->createGroupFromRow($groupRow);
+		if (is_array($groupRow[0])) {
+			$group = $this->createGroupFromRow($groupRow[0]);
 		}
 
 		return $group;
 	}
 
 	/**
-	 * find current group
+	 * finds the requested group
 	 *
 	 * @return	tx_community_model_Group
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function findCurrentGroup() {
+	public function findRequestedGroup() {
 		$group = null;
 		$communityRequest = t3lib_div::_GP('tx_community');
-		if (!isset($communityRequest['group'])) {
-			return $group;
+
+		if (isset($communityRequest['group'])) {
+			$group = $this->findById($communityRequest['group']);
 		}
-		
-		$groupRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'*',
-			'fe_groups',
-			'uid = ' . (int) $communityRequest['group']
-		); // TODO restrict to certain part of the tree
-		
-		$groupRow = $groupRow[0];
-		
-		// TODO first check whether we got exactly one result
-		if (is_array($groupRow)) {
-			$group = $this->createGroupFromRow($groupRow);
-		}
-		
+
 		return $group;
 	}
-	
+
+	/**
+	 * finds all groups
+	 *
+	 * @return	array	Array of tx_community_model_Group instances
+	 * @author	Frank Naegler <typo3@naegler.net>
+	 */
 	public function getAllGroups() {
-		$groups = null;
+		$groups = array();
+
 		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',
-			'fe_groups',
-			'1'
-		); // TODO restrict to certain part of the tree
-		
+			'tx_community_group',
+			'1=1'
+		); // TODO restrict to certain part of the tree, use enableFields
+
 		foreach ($groupRows as $groupRow) {
 			$groups[] = $this->createGroupFromRow($groupRow);
 		}
-		
+
 		return $groups;
 	}
-	
+
+	/**
+	 * finds all groups where the given user is member
+	 *
+	 * @param	tx_community_model_User	The user for which to find his groups
+	 * @return	array	array of tx_community_model_Group entries
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function findGroupsByUser(tx_community_model_User $user) {
+		$groups = array();
+
+		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid_local',
+			'tx_community_group_members_mm',
+			'uid_foreign = ' . $user->getUid()
+		);
+
+		foreach ($groupRows as $groupRow) {
+			$groups[] = $this->findById($groupRow['uid_local']);
+		}
+
+		return $groups;
+	}
+
+	/**
+	 * creates a tx_community_model_Group instance from a database record
+	 *
+	 * @param	array	database record in the form of an array
+	 * @return	tx_community_model_Group	A tx_community_model_Group group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	protected function createGroupFromRow(array $row) {
-		/**
-		 * @var tx_community_model_Group
-		 */
+
 		$groupClass = t3lib_div::makeInstanceClassName('tx_community_model_Group');
-		
-		/**
-		 * @var tx_community_model_Group
-		 */
-		$group = new $groupClass($row['uid']);
-		
+		$group = new $groupClass($row);
+
 		return $group;
 	}
 }
