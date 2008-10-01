@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'view/groupprofile/class.tx_community_view_groupprofile_groupinformation.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * roup information widget for the group profile community application
@@ -40,14 +41,20 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 	 */
 	protected $groupGateway;
 	
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $localizationManager;
+	
 	public function __construct() {
 		parent::__construct();
 
 			// set default access mode
 		$this->accessMode = 'read';
-
+		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_groupprofile_groupinformation.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		
 		$this->name     = 'groupInformation';
-		$this->label    = 'GroupInformationWidget';
+		$this->label    = $this->localizationManager->getLL('label_GroupInformationWidget');
 		$this->cssClass = '';
 
 		$this->dragable  = true;

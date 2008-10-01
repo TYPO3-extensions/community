@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_view_userprofile_friendsbirthdaylist.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * A user profile widget to display upcoming friend birthdays
@@ -32,15 +33,20 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @subpackage community
  */
 class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $localizationManager;
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_FriendsBirthdayListWidget
 	 */
 	public function __construct() {
 		parent::__construct();
-
+		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_friendsbirthdaylist.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		
 		$this->name     = 'friendsBirthdayList';
-		$this->label    = 'FriendsBirthdayListWidget';
+		$this->label    = $this->localizationManager->getLL('label_FriendsBirthdayListWidget');
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';

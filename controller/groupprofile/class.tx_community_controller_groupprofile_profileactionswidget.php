@@ -131,7 +131,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 * @return	string	the widget's content (HTML, XML, JSON, ...)
 	 */
 	public function getLabel() {
-		return 'ProfileActionWidget';
+		return $this->localizationManager->getLL('label_ProfileActionWidget');
 	}
 
 	/**

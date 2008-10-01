@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * a widget for the user profile to show the user's group memberships
@@ -31,15 +32,20 @@
  * @subpackage community
  */
 class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
-
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $localizationManager;
+	
 	/**
 	 * constructor for class tx_community_controller_userprofile_MyGroupsWidget
 	 */
 	public function __construct() {
 		parent::__construct();
-
+		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_mygroupswidget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		
 		$this->name     = 'myGroups';
-		$this->label    = 'MyGroupsWidget';
+		$this->label    = $this->localizationManager->getLL('label_MyGroupsWidget');
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';
