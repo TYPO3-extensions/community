@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 
 /**
  * Group Profile Application Controller
@@ -31,11 +32,6 @@
  * @subpackage community
  */
 class tx_community_controller_GroupProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
-	public $prefixId      = 'tx_community_controller_GroupProfileApplication';		// Same as class name
-	public $scriptRelPath = 'controller/class.tx_community_controller_groupprofileapplication.php';	// Path to this script relative to the extension dir.
-	public $extKey        = 'community';	// The extension key.
-
-	public $cObj;
 
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
@@ -46,29 +42,6 @@ class tx_community_controller_GroupProfileApplication extends tx_community_contr
 		$this->prefixId = 'tx_community_controller_GroupProfileApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_groupprofileapplication.php';
 		$this->name = 'groupProfile';
-	}
-
-	public function execute() {
-		$content = '';
-
-		$widgetName = $this->pi_getFFvalue(
-			$this->data['pi_flexform'],
-			'widget'
-		);
-
-		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
-			$this->name,
-			$widgetName
-		);
-
-		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
-		/* @var $widget tx_community_CommunityApplicationWidget */
-		$widget->initialize($this->data, $this->configuration);
-		$widget->setCommunityApplication($this);
-
-		$content = $widget->execute();
-
-		return $content;
 	}
 }
 
