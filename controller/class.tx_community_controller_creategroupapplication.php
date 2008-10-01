@@ -51,7 +51,7 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 
 	protected function indexAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_creategroup_Index');
-		/* @var $view tx_community_view_newGroup_Index */
+		/* @var $view tx_community_view_creategroup_Index */
 		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
@@ -72,12 +72,12 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 
 	protected function createGroupAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_creategroup_CreateGroup');
-		/* @var $view tx_community_view_newGroup_Index */
+		/* @var $view tx_community_view_creategroup_Index */
 		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
 		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_newgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_creategroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
 
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		if (isset($communityRequest['group_title'])) {
