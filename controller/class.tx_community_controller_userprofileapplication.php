@@ -40,6 +40,18 @@ class tx_community_controller_UserProfileApplication extends tx_community_contro
 		$this->scriptRelPath = 'controller/class.tx_community_controller_userprofileapplication.php';
 		$this->name = 'userProfile';
 	}
+
+	/**
+	 * sets the requested user, usefull for example when the requested user is
+	 * different from the one given in the GET parameter or no GET parameter is
+	 * available
+	 *
+	 * @param	tx_community_model_User	The user to set as requested user
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function setRequestedUser(tx_community_model_User $user) {
+		$this->requestedUser = $user;
+	}
 }
 
 
