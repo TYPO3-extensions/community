@@ -54,6 +54,10 @@ plugin.tx_community {
 
 					maxNumberOfItemsShown = 5
 				}
+
+				myGroups {
+					templateFile = EXT:community/resources/templates/userprofile/mygroupswidget.htm
+				}
 			}
 		}
 
