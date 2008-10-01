@@ -32,6 +32,7 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @subpackage community
  */
 class tx_community_controller_userprofile_ImageWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
+
 	/**
 	 * @var tx_community_LocalizationManager
 	 */
