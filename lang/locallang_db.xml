@@ -48,17 +48,17 @@
 			<label index="tx_community_friend.status">Status</label>
 			<label index="tx_community_group">Group</label>
 			<label index="tx_community_group.name">Name</label>
-			<label index="tx_community_group.type.I.0">Open</label>
-			<label index="tx_community_group.type.I.1">Members Only</label>
-			<label index="tx_community_group.type.I.2">Private</label>
-			<label index="tx_community_group.type.I.3">Secret</label>
-			<label index="tx_community_group.type">Type</label>
+			<label index="tx_community_group.groupType.I.0">Open</label>
+			<label index="tx_community_group.groupType.I.1">Members Only</label>
+			<label index="tx_community_group.groupType.I.2">Private</label>
+			<label index="tx_community_group.groupType.I.3">Secret</label>
+			<label index="tx_community_group.groupType">Type</label>
 			<label index="tx_community_group.description">Description</label>
 			<label index="tx_community_group.image">Image</label>
 			<label index="tx_community_group.creator">Creator</label>
 			<label index="tx_community_group.admins">Admins</label>
 			<label index="tx_community_group.members">Members</label>
-			<label index="tx_community_group.pending_members">Pending Members</label>
+			<label index="tx_community_group.pendingMembers">Pending Members</label>
 		</languageKey>
 	</data>
 </T3locallang>

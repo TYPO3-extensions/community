@@ -3,6 +3,7 @@
 	* renamed the new group application to create group
 	* added dedicated table for groups
 	* removed extension fields for fegroups
+	* changed the createGroup application to use the new dedicated table for groups
 
 2008-09-30 Ingo Renner  <ingo@typo3.org>
 

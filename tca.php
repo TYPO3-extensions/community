@@ -192,7 +192,7 @@ $TCA['tx_community_friend'] = array (
 $TCA['tx_community_group'] = array (
 	'ctrl' => $TCA['tx_community_group']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,name,type,description,image,creator,admins,members,pending_members'
+		'showRecordFieldList' => 'hidden,name,groupType,description,image,creator,admins,members,pendingmembers'
 	),
 	'feInterface' => $TCA['tx_community_group']['feInterface'],
 	'columns' => array (
@@ -212,16 +212,16 @@ $TCA['tx_community_group'] = array (
 				'size' => '30',
 			)
 		),
-		'type' => array (
+		'groupType' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_group.type',
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType',
 			'config' => array (
 				'type' => 'radio',
 				'items' => array (
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.type.I.0', '0'),
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.type.I.1', '1'),
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.type.I.2', '2'),
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.type.I.3', '3'),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.0', '0'),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.1', '1'),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.2', '2'),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.3', '3'),
 				),
 			)
 		),
@@ -287,9 +287,9 @@ $TCA['tx_community_group'] = array (
 				'MM' => 'tx_community_group_members_mm',
 			)
 		),
-		'pending_members' => array (
+		'pendingmembers' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_group.pending_members',
+			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_group.pendingMembers',
 			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -297,12 +297,12 @@ $TCA['tx_community_group'] = array (
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 100,
-				'MM' => 'tx_community_group_pending_members_mm',
+				'MM' => 'tx_community_group_pendingmembers_mm',
 			)
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, type, description, image, creator, admins, members, pending_members')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, groupType, description, image, creator, admins, members, pendingmembers')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')

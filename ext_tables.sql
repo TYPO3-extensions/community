@@ -99,13 +99,13 @@ CREATE TABLE tx_community_group (
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	name tinytext,
-	type int(11) DEFAULT '0' NOT NULL,
+	grouptype int(11) DEFAULT '0' NOT NULL,
 	description text,
 	image blob,
 	creator blob,
 	admins int(11) DEFAULT '0' NOT NULL,
 	members int(11) DEFAULT '0' NOT NULL,
-	pending_members int(11) DEFAULT '0' NOT NULL,
+	pendingmembers int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
@@ -146,10 +146,10 @@ CREATE TABLE tx_community_group_members_mm (
 
 
 #
-# Table structure for table 'tx_community_group_pending_members_mm'
+# Table structure for table 'tx_community_group_pendingmembers_mm'
 #
 #
-CREATE TABLE tx_community_group_pending_members_mm (
+CREATE TABLE tx_community_group_pendingmembers_mm (
   uid_local int(11) DEFAULT '0' NOT NULL,
   uid_foreign int(11) DEFAULT '0' NOT NULL,
   tablenames varchar(30) DEFAULT '' NOT NULL,

@@ -36,7 +36,6 @@ require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_v
 class tx_community_controller_CreateGroupApplication extends tx_community_controller_AbstractCommunityApplication {
 
 	protected $group;
-	protected $user;
 
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
@@ -71,6 +70,9 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 	}
 
 	protected function createGroupAction() {
+
+$GLOBALS['TYPO3_DB']->debugOutput = true;
+
 		$view = t3lib_div::makeInstance('tx_community_view_creategroup_CreateGroup');
 		/* @var $view tx_community_view_creategroup_Index */
 		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
@@ -80,15 +82,19 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_creategroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
 
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-		if (isset($communityRequest['group_title'])) {
+		if (isset($communityRequest['groupName'])) {
 			$group = t3lib_div::makeInstance('tx_community_model_Group');
-			$group->setTitle($communityRequest['group_title']);
-			$group->setPid($this->configuration['pages.']['userStorage']);
+			$group->setName($communityRequest['groupName']);
+			$group->setPid($this->configuration['pages.']['groupStorage']);
+
+			$loggedInUser = $this->userGateway->findCurrentlyLoggedInUser();
+
 			if ($group->save()) {
-				$group->addMember($this->user);
-				$group->addAdmin($this->user);
+				$group->addMember($loggedInUser);
+				$group->addAdmin($loggedInUser);
 				$group->save();
-				// redirect
+
+					// redirect
 				$editGroupUrl = $this->pi_getPageLink(
 					$this->configuration['pages.']['groupEdit'],
 					'',
@@ -99,9 +105,9 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 					)
 				);
 
-				Header('HTTP/1.1 303 See Other');
-				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
-				exit;
+//				Header('HTTP/1.1 303 See Other');
+//				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
+//				exit;
 			} else {
 				$view->setMessage($llManager->getLL('msg_create_error'));
 			}

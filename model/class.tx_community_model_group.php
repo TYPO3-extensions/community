@@ -36,10 +36,38 @@ require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizati
  */
 class tx_community_model_Group implements tx_community_acl_AclResource {
 
+	const TYPE_OPEN = 0;
+	const TYPE_MEMBERS_ONLY = 1;
+	const TYPE_PRIVATE = 2;
+	const TYPE_SECRET = 3;
+
 	protected $uid;
-	protected $admins  = array();
-	protected $members = array();
-	protected $data    = array();
+	protected $data = array();
+
+	/*
+	 * FIXME change the way handling and saving of admins, members, and pending members works
+	 *
+	 * members are arrays of users (maybe even lazy loaded)
+	 * only diffs of added/removed members are processed
+	 *
+	 * members do not get added/removed to/from the DB by using add/removeMember,
+	 * they get processed with save()
+	 *
+	 * add/removeMember only adds to arrays added/removedMembers
+	 *
+	 * admin, members, pendingMembers are used as lazy loading cache
+	 */
+
+	protected $admins         = array();
+	protected $members        = array();
+	protected $pendingMembers = array();
+
+	protected $addedAdmins           = array();
+	protected $removedAdmins         = array();
+	protected $addedMembers          = array();
+	protected $removedMembers        = array();
+	protected $addedPendingMembers   = array();
+	protected $removedPendingMembers = array();
 
 	/**
 	 * @var tx_community_model_UserGateway
@@ -55,7 +83,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $llManager;
-	
+
 	protected $htmlImage = 'no image';
 
 
@@ -76,8 +104,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
-				'fe_groups',
-				'uid = ' . $this->uid . $pageSelect->enableFields('fe_groups')
+				'tx_community_group',
+				'uid = ' . $this->uid . $pageSelect->enableFields('tx_community_group')
 			);
 			if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 				$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
@@ -98,19 +126,21 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 */
 	public function save() {
 		$data = $this->getDataForSave();
+
 		if (is_null($this->uid)) {
 			// insert
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'fe_groups',
+				'tx_community_group',
 				$data
 			);
 			$this->uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 			$this->data['uid'] = $this->uid;
+
 			return $this->uid;
 		} else {
 			// update
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-				'fe_groups',
+				'tx_community_group',
 				'uid = ' . $this->uid,
 				$data
 			);
@@ -125,35 +155,33 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * @param array $arguments
 	 * @return void|mixted
 	 */
-	public function __call($name, $arguments) {
-		if (substr($name, 0, 3) === 'set') {
-			$param = strtolower(substr($name, 3));
-			$this->data[$param] = $arguments[0];
-		}
+	public function __call($methodName, $arguments) {
+		$property = strtolower(substr($methodName, 3));
 
-		if (substr($name, 0, 3) === 'get') {
-			$param = strtolower(substr($name, 3));
-			return $this->data[$param];
+		if (substr($methodName, 0, 3) === 'set') {
+			$this->data[$property] = $arguments[0]; // FIXME add sanitization
+		} else if (substr($methodName, 0, 3) === 'get') {
+			return $this->data[$property];
 		}
 	}
 
 	public function getImage() {
 		if (strlen($this->data['tx_community_image'])) {
-			return 'uploads/tx_community/' . $this->data['tx_community_image'];	
+			return 'uploads/tx_community/' . $this->data['tx_community_image'];
 		} else {
 			return '';
 		}
-		
+
 	}
 
 	public function getHtmlImage() {
 		return $this->htmlImage;
 	}
-	
+
 	public function setHtmlImage($htmlcode) {
 		$this->htmlImage = $htmlcode;
 	}
-	
+
 	public function getAdmin() {
 		$admins = array();
 		foreach ($this->data['tx_community_admins'] as $admin) {
@@ -161,7 +189,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 		return implode(', ', $admins);
 	}
-	
+
 	/**
 	 * returns the Resource identifier
 	 *
@@ -178,22 +206,26 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 */
 	protected function getDataForSave() {
 		$tmpData = array();
+
 		foreach ($this->data as $k => $v) {
 			switch ($k) {
-				case 'tx_community_admins':
-					$tmp = array();
-					foreach ($this->data['tx_community_admins'] as $admin) {
-						if ($admin instanceof tx_community_model_User) {
-							$tmp[] = $admin->getUid();
-						}
-					}
-					$tmpData[$k] = implode(',', $tmp);
-				break;
+//				case 'admins':
+//						// FIXME the admin field is not a comma separated field
+//					$adminUids = array();
+//					foreach ($this->data['admins'] as $admin) {
+//						if ($admin instanceof tx_community_model_User) {
+//							$adminUids[] = $admin->getUid();
+//						}
+//					}
+//
+//					$tmpData[$k] = implode(',', $adminUids);
+//				break;
 				default:
 					$tmpData[$k] = $GLOBALS['TYPO3_DB']->quoteStr($v, 'fe_groups');
 				break;
 			}
 		}
+
 		return $tmpData;
 	}
 
@@ -226,7 +258,20 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function addAdmin(tx_community_model_User $user) {
-		$this->data['tx_community_admins'][$user->getUid()] = $user;
+
+		if (!$this->isAdmin($user)) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_community_group_admins_mm',
+				array(
+					'uid_local'		=> $this->uid,
+					'uid_foreign'	=> $user->getUid()
+				)
+			);
+
+			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
+				$this->data['admins']++;
+			}
+		}
 	}
 
 	public function removeAdmin(tx_community_model_User $user) {
@@ -238,24 +283,34 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function addMember(tx_community_model_User $user) {
-		$table = ($this->getTX_community_public()) ? 'fe_groups_tx_community_members_mm' : 'fe_groups_tx_community_tmpmembers_mm';
-		$field = ($this->getTX_community_public()) ? 'tx_community_members' : 'tx_community_tmpmembers';
-		if (!$this->isMember($user) && !$this->isTempMember($user)) {
+		$memberAdded = false;
+
+		$memberAssignmentTable = 'tx_community_group_pendingmembers_mm';
+		$memberAssignmentField = 'pendingmembers';
+
+		if ($this->getGroupType() == self::TYPE_OPEN) {
+			$memberAssignmentTable = 'tx_community_group_members_mm';
+			$memberAssignmentField = 'members';
+		}
+
+		if (!$this->isMember($user) && !$this->isPendingMember($user)) {
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				$table,
+				$memberAssignmentTable,
 				array(
 					'uid_local'		=> $this->uid,
 					'uid_foreign'	=> $user->getUid()
 				)
 			);
+
 			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
-				$this->data[$field] = $this->data[$field] + 1;
+				$this->data[$memberAssignmentField]++;
 			}
 		}
+
 		if ($this->save()) {
-			if ($this->getTX_community_public()) {
-				if (is_array($this->data['tx_community_admins'])) {
-					foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+			if ($this->getGroupType() == self::TYPE_OPEN) {
+				if (is_array($this->data['admins'])) {
+					foreach ($this->data['admins'] as $uid => $admin) {
 						$this->sendMessage(
 							$admin,
 							$this->prepareForMessage($this->llManager->getLL('subject_memberHasJoined'), $user, $admin),
@@ -264,8 +319,8 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					}
 				}
 			} else {
-				if (is_array($this->data['tx_community_admins'])) {
-					foreach ($this->data['tx_community_admins'] as $uid => $admin) {
+				if (is_array($this->data['admins'])) {
+					foreach ($this->data['admins'] as $uid => $admin) {
 						$this->sendMessage(
 							$admin,
 							$this->prepareForMessage($this->llManager->getLL('subject_confirmationNeeded'), $user, $admin),
@@ -274,9 +329,11 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					}
 				}
 			}
-			return true;
+
+			$memberAdded = true;
 		}
-		return false;
+
+		return $memberAdded;
 	}
 
 	public function removeMember(tx_community_model_User $user) {
@@ -301,7 +358,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function confirmMember(tx_community_model_User $user) {
-		if ($this->isTempMember($user)) {
+		if ($this->isPendingMember($user)) {
 			$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 				'fe_groups_tx_community_tmpmembers_mm',
 				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
@@ -332,7 +389,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	public function rejectMember(tx_community_model_User $user) {
-		if ($this->isTempMember($user)) {
+		if ($this->isPendingMember($user)) {
 			$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 				'fe_groups_tx_community_tmpmembers_mm',
 				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
@@ -370,9 +427,10 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	public function isMember(tx_community_model_User $user) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
-			'fe_groups_tx_community_members_mm',
+			'tx_community_group_members_mm',
 			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
 		);
+
 		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
 
@@ -394,15 +452,15 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		return $returnUser;
 	}
 
-	public function isTempMember(tx_community_model_User $user) {
+	public function isPendingMember(tx_community_model_User $user) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
-			'fe_groups_tx_community_tmpmembers_mm',
+			'tx_community_group_pendingmembers_mm',
 			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
 		);
 		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
-	
+
 	public function delete() {
 		$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			'fe_groups',
