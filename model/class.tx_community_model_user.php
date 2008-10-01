@@ -195,7 +195,7 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	 *
 	 */
 	public function getImage() {
-		if (strlen($this->image)) {
+		if (!empty($this->image)) {
 			return 'uploads/pics/' . $this->image;
 		} else {
 			return '';
