@@ -42,8 +42,8 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	protected $data;
 	protected $name;
 
-	protected $requestedUser; // the user someone is viewing
-	protected $requestingUser; // the currently logged in user
+	protected $requestedUser  = null; // the user someone is viewing
+	protected $requestingUser = null; // the currently logged in user
 
 	/**
 	 * @var tx_community_model_UserGateway
@@ -64,9 +64,6 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	public function __construct() {
 		$this->extKey = 'community';
 		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-
-		$this->requestedUser  = null;
-		$this->requestingUser = null;
 
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 
