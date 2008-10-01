@@ -155,6 +155,7 @@ class tx_community_Template {
 
 			foreach ($helperMarkers as $marker) {
 				$arguments = explode('|', $marker);
+					// TODO check whether on of the parameters is a Helper itself, if so resolve it before handing it of to the actual helper
 				$content   = $helper->execute($arguments);
 
 				$this->workOnSubpart = t3lib_parsehtml::substituteMarker(
