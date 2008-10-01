@@ -14,6 +14,7 @@
 			<label index="userProfile_personalInformation">Personal Information</label>
 			<label index="userProfile_profileActions">Profile Actions</label>
 			<label index="userProfile_friendsBirthdayList">Friends Birthday List</label>
+			<label index="userProfile_myGroups">My Groups</label>
 			<label index="groupProfile">Group Profile</label>
 			<label index="groupProfile_image">Image</label>
 			<label index="groupProfile_information">Information</label>

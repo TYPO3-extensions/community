@@ -12,6 +12,7 @@
 			<label index="privacy_userProfile_imageWidget_read">Decide who can see your profile image.</label>
 			<label index="privacy_userProfile_imageWidget_addComment">Decide who can add comments to your profile image.</label>
 			<label index="privacy_userProfile_personalInformationWidget_read">Decide who can see your personal information.</label>
+			<label index="privacy_userProfile_myGroupsWidget_read">Decide who can see your group memberships.</label>
 		</languageKey>
 	</data>
 </T3locallang>

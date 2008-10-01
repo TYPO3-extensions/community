@@ -61,6 +61,17 @@ $TX_COMMUNITY = array(
 						'index'
 					),
 					'defaultAction' => 'index'
+				),
+				'myGroups' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_mygroupswidget.php:tx_community_controller_userprofile_MyGroupsWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_myGroups',
+					'accessControl' => array(
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_myGroupsWidget_read'
+					),
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
 				)
 			)
 		),
