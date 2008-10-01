@@ -192,7 +192,7 @@ $TCA['tx_community_friend'] = array (
 $TCA['tx_community_group'] = array (
 	'ctrl' => $TCA['tx_community_group']['ctrl'],
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,name,groupType,description,image,creator,admins,members,pendingmembers'
+		'showRecordFieldList' => 'hidden,name,grouptype,description,image,creator,admins,members,pendingmembers'
 	),
 	'feInterface' => $TCA['tx_community_group']['feInterface'],
 	'columns' => array (
@@ -212,17 +212,18 @@ $TCA['tx_community_group'] = array (
 				'size' => '30',
 			)
 		),
-		'groupType' => array (
+		'grouptype' => array (
 			'exclude' => 0,
 			'label' => 'LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType',
 			'config' => array (
 				'type' => 'radio',
 				'items' => array (
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.0', '0'),
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.1', '1'),
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.2', '2'),
-					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.3', '3'),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.0', 0),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.1', 1),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.2', 2),
+					array('LLL:EXT:community/lang/locallang_db.xml:tx_community_group.groupType.I.3', 3),
 				),
+				'default' => 0
 			)
 		),
 		'description' => array (
@@ -302,7 +303,7 @@ $TCA['tx_community_group'] = array (
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, groupType, description, image, creator, admins, members, pendingmembers')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, grouptype, description, image, creator, admins, members, pendingmembers')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')
