@@ -78,7 +78,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_editgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
 
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
-		$this->group = $this->groupGateway->findCurrentGroup();
+		$this->group = $this->groupGateway->findRequestedGroup();
 
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(

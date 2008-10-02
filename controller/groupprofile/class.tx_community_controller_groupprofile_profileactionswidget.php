@@ -191,7 +191,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 
 	public function joinGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->groupGateway->findRequestedGroup();
 
 		if (!is_null($requestingUser)) {
 			if ($requestedGroup instanceof tx_community_model_Group) {
@@ -222,7 +222,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		/**
 		 * @var $requestedGroup tx_community_model_Group
 		 */
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->groupGateway->findRequestedGroup();
 
 		if (!is_null($requestingUser)) {
 			if ($requestedGroup instanceof tx_community_model_Group) {
@@ -283,7 +283,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->groupGateway->findRequestedGroup();
 
 		if ($requestedGroup->isMember($requestingUser)) {
 			$linkText = sprintf(
@@ -339,7 +339,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->groupGateway->findRequestedGroup();
 		if ($requestedGroup->isAdmin($requestingUser)) {
 			// the user is admin
 			$linkText = $this->localizationManager->getLL('action_editGroup');

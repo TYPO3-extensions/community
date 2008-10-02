@@ -68,7 +68,7 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 	 * @return string
 	 */
 	public function getResourceId() {
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->groupGateway->findRequestedGroup();
 
 		$resourceId = $this->communityApplication->getName()
 			. '_' . $this->name
@@ -88,7 +88,7 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findCurrentGroup();
+		$requestedGroup = $this->groupGateway->findRequestedGroup();
 
 		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));

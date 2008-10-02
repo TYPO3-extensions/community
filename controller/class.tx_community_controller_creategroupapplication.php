@@ -83,9 +83,12 @@ $GLOBALS['TYPO3_DB']->debugOutput = true;
 
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		if (isset($communityRequest['groupName'])) {
-			$group = t3lib_div::makeInstance('tx_community_model_Group');
-			$group->setName($communityRequest['groupName']);
-			$group->setPid($this->configuration['pages.']['groupStorage']);
+			$groupClass	= t3lib_div::makeInstanceClassName('tx_community_model_Group');
+			$groupData	= array(
+				'name'		=> $communityRequest['groupName'],
+				'pid'		=> $this->configuration['pages.']['groupStorage']
+			);
+			$group		= new $groupClass($groupData);
 
 			$loggedInUser = $this->userGateway->findCurrentlyLoggedInUser();
 
@@ -105,9 +108,9 @@ $GLOBALS['TYPO3_DB']->debugOutput = true;
 					)
 				);
 
-//				Header('HTTP/1.1 303 See Other');
-//				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
-//				exit;
+				Header('HTTP/1.1 303 See Other');
+				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
+				exit;
 			} else {
 				$view->setMessage($llManager->getLL('msg_create_error'));
 			}

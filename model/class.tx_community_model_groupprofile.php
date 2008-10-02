@@ -78,7 +78,7 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 		if ($this->uid == 0) {
 			throw new tx_community_exception_NoProfileId();
 		}
-		$this->group		= $this->groupGateway->findCurrentGroup();
+		$this->group		= $this->groupGateway->findRequestedGroup();
 		
 		if ($this->group === null) {
 			throw new tx_community_exception_UnknownProfile();

@@ -77,7 +77,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		/* @var $userGateway tx_community_model_UserGateway */
 
-		$this->group = $groupGateway->findCurrentGroup();
+		$this->group = $groupGateway->findRequestedGroup();
 		if (is_null($this->group)) {
 			// @TODO throw Exception
 			die('no group id');
@@ -193,7 +193,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		/**
 		 * @var tx_community_model_Group
 		 */
-		$group = $groupGateway->findCurrentGroup();
+		$group = $groupGateway->findRequestedGroup();
 		$user  = $userGateway->findCurrentlyLoggedInUser();
 
 		$ajaxAction = $communityRequest['ajaxAction'];
@@ -292,7 +292,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			case 'inviteMember':
 				switch($communityRequest['do']) {
 					case 'invite':
-						$requestedGroup = $groupGateway->findCurrentGroup();
+						$requestedGroup = $groupGateway->findRequestedGroup();
 						if (is_null($requestedGroup)) {
 							// @TODO: throw exception
 							die('no group in request');
@@ -374,7 +374,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		/**
 		 * @var tx_community_model_Group
 		 */
-		$group = $groupGateway->findCurrentGroup();
+		$group = $groupGateway->findRequestedGroup();
 		$user  = $userGateway->findCurrentlyLoggedInUser();
 
 		if ($group->isAdmin($user)) {
