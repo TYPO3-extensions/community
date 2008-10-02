@@ -42,7 +42,7 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 		$this->name      = 'image';
 		$this->label     = 'ImageWidget';
 		$this->cssClass  = '';
-		$this->dragable  = true;
+		$this->draggable = true;
 		$this->removable = true;
 	}
 

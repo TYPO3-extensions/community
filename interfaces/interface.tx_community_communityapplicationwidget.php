@@ -45,7 +45,7 @@ interface tx_community_CommunityApplicationWidget {
 	 *
 	 * @return	boolean	true if dragging is allowed, false otherwise
 	 */
-	public function isDragable();
+	public function isDraggable();
 
 	/**
 	 * returns whether the widget can be removed from being displayed

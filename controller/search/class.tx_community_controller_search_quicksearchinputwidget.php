@@ -57,7 +57,7 @@ class tx_community_controller_search_QuickSearchInputWidget implements tx_commun
 	 *
 	 * @return	boolean	true if dragging is allowed, false otherwise
 	 */
-	public function isDragable() {
+	public function isDraggable() {
 		return false;
 	}
 

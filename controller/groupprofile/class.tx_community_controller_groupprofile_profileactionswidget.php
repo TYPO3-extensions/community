@@ -83,7 +83,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 	 *
 	 * @return	boolean	true if dragging is allowed, false otherwise
 	 */
-	public function isDragable() {
+	public function isDraggable() {
 		return false;
 	}
 

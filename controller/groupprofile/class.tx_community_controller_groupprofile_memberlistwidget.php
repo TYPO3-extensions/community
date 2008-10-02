@@ -55,7 +55,7 @@ class tx_community_controller_groupprofile_MemberListWidget extends tx_community
 		$this->label    = $this->localizationManager->getLL('label_MemberListWidget');
 		$this->cssClass = '';
 
-		$this->dragable  = true;
+		$this->draggable = true;
 		$this->removable = true;
 		$this->position  = 2;
 

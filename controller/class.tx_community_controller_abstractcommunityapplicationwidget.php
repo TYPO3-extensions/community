@@ -48,13 +48,13 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	protected $label    = null;
 	protected $cssClass = null;
 
-	protected $dragable;
+	protected $draggable;
 	protected $removable;
 	protected $layoutContainer;
 	protected $position;
 
 	public function __construct() {
-		$this->dragable        = true;
+		$this->draggable       = true;
 		$this->removable       = true;
 		$this->layoutContainer = 0;
 		$this->position        = 0;
@@ -116,8 +116,8 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	 *
 	 * @return	boolean	true if dragging is allowed, false otherwise
 	 */
-	public function isDragable() {
-		return $this->dragable;
+	public function isDraggable() {
+		return $this->draggable;
 	}
 
 	/**
