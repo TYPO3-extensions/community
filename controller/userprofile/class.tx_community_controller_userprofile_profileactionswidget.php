@@ -37,9 +37,11 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	public function __construct() {
 		parent::__construct();
 
-		$this->name     = 'profileActions';
-		$this->label    = 'ProfileActionWidget';
-		$this->cssClass = '';
+		$this->name     	= 'profileActions';
+		$this->label    	= 'ProfileActionWidget';
+		$this->draggable	= false;
+		$this->removable	= false;
+		$this->cssClass		= '';
 	}
 
 	/**
