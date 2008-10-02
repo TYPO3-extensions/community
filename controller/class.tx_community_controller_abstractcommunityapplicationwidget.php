@@ -54,8 +54,8 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	protected $position;
 
 	public function __construct() {
-		$this->dragable        = false;
-		$this->removable       = false;
+		$this->dragable        = true;
+		$this->removable       = true;
 		$this->layoutContainer = 0;
 		$this->position        = 0;
 	}
