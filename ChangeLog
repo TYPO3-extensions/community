@@ -1,6 +1,7 @@
 2008-10-02 Ingo Renner  <ingo@typo3.org>
 
 	* added a method to the user gateway to find multiple users by id with one query
+	* !!! major refactoring of the group model
 
 2008-10-02 Frank Naegler  <typo3@naegler.net>
 

@@ -22,14 +22,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
 
 /**
- * A community group, uses TYPO3's fe_groups
+ * A community group
  *
- * @author	Ingo Renner <ingo@typo3.org>
- * @author 	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -40,22 +37,9 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	const TYPE_PRIVATE      = 2;
 	const TYPE_SECRET       = 3;
 
-	protected $uid = null;
-	protected $data = array();
-
-	/*
-	 * FIXME change the way handling and saving of admins, members, and pending members works
-	 *
-	 * members are arrays of users (maybe even lazy loaded)
-	 * only diffs of added/removed members are processed
-	 *
-	 * members do not get added/removed to/from the DB by using add/removeMember,
-	 * they get processed with save()
-	 *
-	 * add/removeMember only adds to arrays added/removedMembers
-	 *
-	 * admin, members, pendingMembers are used as lazy loading cache
-	 */
+	protected $uid        = null;
+	protected $data       = array();
+	private $originalData = array(); // must not be changed except when saving
 
 	protected $admins         = array();
 	protected $members        = array();
@@ -67,6 +51,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	protected $removedMembers        = array();
 	protected $addedPendingMembers   = array();
 	protected $removedPendingMembers = array();
+	protected $invitedMembers        = array();
 
 	/**
 	 * Instance of the user gateway
@@ -75,8 +60,10 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 */
 	protected $userGateway;
 
-		// FIXME (most likely) does not need to have a reference to the message center here
+		// TODO remove as soon as the messages are integrated into the community core
 	protected $messageCenterLoaded = false;
+
+	protected $messageQueue = array();
 
 	/**
 	 * Instance of the localization manager
@@ -91,17 +78,18 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * @param	array	A tx_community_group database record as array
 	 */
 	public function __construct(array $data) {
+		$this->originalData = $data;
 		$this->data = $data;
 
 		if (!empty($data['uid'])) {
-			$this->uid = $data['uid'];
+			$this->uid = (int) $data['uid'];
 		}
 
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 
-		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$this->localizationManager = call_user_func(
-			array($llMangerClass, 'getInstance'),
+			array($localizationManagerClass, 'getInstance'),
 			'EXT:community/lang/locallang_group.xml',
 			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
 		);
@@ -113,51 +101,126 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	}
 
 	/**
-	 * method to save (update or create) an usergroup
+	 * Method for dynamic handling of getter and setter methods
 	 *
-	 * @return bool|int
-	 */
-	public function save() {
-		$data = $this->getDataForSave();
-
-		if (is_null($this->uid)) {
-			// insert
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'tx_community_group',
-				$data
-			);
-			$this->uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-			$this->data['uid'] = $this->uid;
-
-			return $this->uid;
-		} else {
-			// update
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-				'tx_community_group',
-				'uid = ' . $this->uid,
-				$data
-			);
-			return $GLOBALS['TYPO3_DB']->sql_affected_rows();
-		}
-	}
-
-	/**
-	 * __call method for dynamic handling of getter and setter methods
-	 *
-	 * @param string $name
-	 * @param array $arguments
-	 * @return void|mixted
+	 * @param	string	method name
+	 * @param	array	arguments
+	 * @return	void|mixed
+	 * @author 	Frank Naegler <typo3@naegler.net>
 	 */
 	public function __call($methodName, $arguments) {
 		$property = strtolower(substr($methodName, 3));
 
-		if (substr($methodName, 0, 3) === 'set') {
+		if (substr($methodName, 0, 3) == 'set') {
 			$this->data[$property] = $arguments[0]; // FIXME add sanitization
-		} else if (substr($methodName, 0, 3) === 'get') {
+		} else if (substr($methodName, 0, 3) == 'get') {
 			return $this->data[$property];
 		}
 	}
 
+	/**
+	 * saves (updates or creates) an usergroup
+	 *
+	 * @return	boolean|integer	returns boolean true if the group was successfully updated, false if the update failed. An integer is returned as a new group is created and is the group's new uid
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function save() {
+		$result = null;
+
+		$this->processAdmins();
+		$this->processMembers();
+		$this->processPendingMembers();
+		$this->processInvitedMembers();
+		$this->sendMessages();
+
+		if (is_null($this->uid)) {
+				// new group, insert
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_community_group',
+				$this->data
+			);
+			$this->uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+			$this->data['uid'] = $this->uid;
+
+			$result = $this->uid;
+		} else {
+				// update
+			$changedFields = array_diff_assoc($this->data, $this->originalData);
+
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				'tx_community_group',
+				'uid = ' . $this->uid,
+				$changedFields
+			);
+
+			$result = (boolean) $GLOBALS['TYPO3_DB']->sql_affected_rows();
+		}
+			// "resetting"
+		$this->originalData = $this->data;
+
+		return $result;
+	}
+
+	/**
+	 * deletes the group and all admin, member, and pending member relations
+	 *
+	 * @return	boolean	true if everything is cleaned up, false otherwise
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function delete() {
+		$groupDeleteResource = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_group',
+			'uid = ' . $this->uid
+		);
+		$groupDeleted = ($GLOBALS['TYPO3_DB']->sql_affected_rows($groupDeleteResource) > 0);
+
+		$groupAdminsDeleteResource = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_group_admins_mm',
+			'uid_local = ' . $this->uid
+		);
+		$adminRelationsDeleted = ($GLOBALS['TYPO3_DB']->sql_affected_rows($groupAdminsDeleteResource) > 0);
+
+		$groupMembersDeleteResource = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_group_members_mm',
+			'uid_local = ' . $this->uid
+		);
+		$memberRelationsDeleted = ($GLOBALS['TYPO3_DB']->sql_affected_rows($groupMembersDeleteResource) >= 0);
+
+		$groupPendingMembersDeleteResource = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_group_pendingmembers_mm',
+			'uid_local = ' . $this->uid
+		);
+		$pendingMemberRelationsDeleted = ($GLOBALS['TYPO3_DB']->sql_affected_rows($groupPendingMembersDeleteResource) >= 0);
+
+		$cleanedUp = (
+			$groupDeleted &&
+			$adminRelationsDeleted &&
+			$memberRelationsDeleted &&
+			$pendingMemberRelationsDeleted
+		);
+
+		return $cleanedUp;
+	}
+
+	/**
+	 * sets the unique id for this group, makes sure that it is an integer
+	 *
+	 * @param	integer	unique id
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function setUid($uid) {
+		$uid = (int) $uid;
+
+		$this->data['uid'] = $uid;
+		$this->uid = $uid;
+	}
+
+	/**
+	 * gets the group's image and its path
+	 *
+	 * @return	string	the group's image and path
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	public function getImage() {
 		if (!empty($this->data['image'])) {
 			return 'uploads/tx_community/' . $this->data['image'];
@@ -166,180 +229,346 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		}
 	}
 
-	public function getAdmin() {
-		$admins = array();
-		foreach ($this->data['tx_community_admins'] as $admin) {
-			$admins[] = $admin->getNickname();
-		}
-		return implode(', ', $admins);
-	}
-
 	/**
 	 * returns the Resource identifier
 	 *
 	 * @return string
+	 * @author 	Frank Naegler <typo3@naegler.net>
 	 */
 	public function getResourceId() {
-		return (string) 'tx_community_model_Group' . $this->uid; //TODO replace class name by table name
+		return 'tx_community_group_' . $this->uid;
 	}
 
 	/**
-	 * prepare data for saving
+	 * adds an admin to the group, doesn't get affective until save() is called
 	 *
-	 * @return array of data
+	 * @param	tx_community_model_User	The user to add as an admin
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	protected function getDataForSave() {
-		$tmpData = array();
-
-		foreach ($this->data as $k => $v) {
-			switch ($k) {
-//				case 'admins':
-//						// FIXME the admin field is not a comma separated field
-//					$adminUids = array();
-//					foreach ($this->data['admins'] as $admin) {
-//						if ($admin instanceof tx_community_model_User) {
-//							$adminUids[] = $admin->getUid();
-//						}
-//					}
-//
-//					$tmpData[$k] = implode(',', $adminUids);
-//				break;
-				default:
-					$tmpData[$k] = $GLOBALS['TYPO3_DB']->quoteStr($v, 'fe_groups');
-				break;
-			}
-		}
-
-		return $tmpData;
-	}
-
-	/**
-	 * prepare data for storing in object
-	 *
-	 * @param array $data of data
-	 */
-	protected function setDataToStore($data) {
-		foreach ($data as $k => $v) {
-			switch ($k) {
-				case 'tx_community_admins':
-					if (strlen($v) > 0) {
-						$uids = t3lib_div::trimExplode(',', $v);
-						foreach ($uids as $uid) {
-							$admUser = $this->userGateway->findById($uid);
-							if (!is_null($admUser)) {
-								$this->data['tx_community_admins'][$admUser->getUid()] = $admUser;
-							}
-						}
-					} else {
-						$this->data['tx_community_admins'] = array();
-					}
-				break;
-				default:
-					$this->data[$k] = $v;
-				break;
-			}
-		}
-	}
-
 	public function addAdmin(tx_community_model_User $user) {
-
-		if (!$this->isAdmin($user)) {
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'tx_community_group_admins_mm',
-				array(
-					'uid_local'		=> $this->uid,
-					'uid_foreign'	=> $user->getUid()
-				)
-			);
-
-			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
-				$this->data['admins']++;
-			}
+		if (!$this->isAdmin($user) && $this->isMember($user)) {
+			$this->addedAdmins[] = $user;
 		}
 	}
 
+	/**
+	 * removes an admin from the group, doesn't get affective until save() is called
+	 *
+	 * @param tx_community_model_User $user
+	 * @return	void|boolean	returns false if the user coldn't be removed from the list of admins
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	public function removeAdmin(tx_community_model_User $user) {
-		unset($this->data['tx_community_admins'][$user->getUid()]);
+		$currentAdminCount = $this->getNumberOfAdmins();
+		$remainingAdminCount = $currentAdminCount - count($this->removedAdmins);
+
+			// make sure the user is admin of the group and that at least one
+			// admin is left after removing the user as admin
+		if ($this->isAdmin($user) && $remainingAdminCount > 1) {
+			$this->removedAdmins[] = $user;
+		} else {
+				// TODO throw an exception instead
+			return $false;
+		}
 	}
 
+	/**
+	 * finds the admins for the group
+	 *
+	 * @return	array	The admins of this group as an array of tx_community_model_User objects
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getAdmins() {
+		$adminUids = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid_foreign',
+			'tx_community_group_admins_mm',
+			'uid_local = ' . $this->uid
+		);
+
+		$adminUidList = array();
+		foreach($adminUids as $adminUid) {
+			$adminUidList[] = $adminUid['uid_foreign'];
+		}
+		$adminUidList = implode(',', $adminUidList);
+
+		return $this->userGateway->findByIdList($adminUidList);
+	}
+
+	/**
+	 * checks whether a user is admin of the group
+	 *
+	 * @param	tx_community_model_User	the user to check whether he is admin of this group
+	 * @return	boolean	true if the user is admin of this group, false otherwise
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	public function isAdmin(tx_community_model_User $user) {
-		return isset($this->data['tx_community_admins'][$user->getUid()]);
+		$isAdmin = false;
+
+		$isAdminRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'COUNT(uid_foreign) as isAdmin',
+			'tx_community_group_admins_mm',
+			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+		);
+
+		if (is_array($isAdminRow) && $isAdminRow[0]['isAdmin'] == 1) {
+			$isAdmin = true;
+		}
+
+		return $isAdmin;
 	}
 
+	/**
+	 * gets the current number of admins for the group
+	 *
+	 * @return	integer	current number of admins for this group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getNumberOfAdmins() {
+		$adminCount = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'admins',
+			'tx_community_group',
+			'uid = ' . $this->uid
+		);
+
+		return (int) $adminCount['admins'];
+	}
+
+	/**
+	 * adds a member to the group, doesn't get affective until save() is called
+	 *
+	 * @param	tx_community_model_User	the user to add as a member for this group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	public function addMember(tx_community_model_User $user) {
-		$memberAdded = false;
+		$groupType = $this->getGroupType();
 
-		$memberAssignmentTable = 'tx_community_group_pendingmembers_mm';
-		$memberAssignmentField = 'pendingmembers';
-
-		if ($this->getGroupType() == self::TYPE_OPEN) {
-			$memberAssignmentTable = 'tx_community_group_members_mm';
-			$memberAssignmentField = 'members';
-		}
-
-		if (!$this->isMember($user) && !$this->isPendingMember($user)) {
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				$memberAssignmentTable,
-				array(
-					'uid_local'		=> $this->uid,
-					'uid_foreign'	=> $user->getUid()
-				)
-			);
-
-			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
-				$this->data[$memberAssignmentField]++;
+		if (!$this->isMember($user)) {
+			switch ($groupType) {
+				case self::TYPE_OPEN:
+				case self::TYPE_MEMBERS_ONLY:
+						// for open and members only groups the user joins immediately
+					$this->addedMembers[] = $user;
+					break;
+				case self::TYPE_PRIVATE:
+				case self::TYPE_SECRET:
+						// for private and secret groups the user needs to be approved
+						// approvals are granted after request or by invitation for private groups
+						// secret groups are invitation only
+					if ($this->isPendingMember($user) && $this->hasUserBeenApproved($user)) {
+						$this->addedMembers[] = $user;
+						$this->removedPendingMembers[] = $user;
+					}
+					break;
 			}
 		}
-
-		if ($this->save()) {
-			if ($this->getGroupType() == self::TYPE_OPEN) {
-				if (is_array($this->data['admins'])) {
-					foreach ($this->data['admins'] as $uid => $admin) {
-						$this->sendMessage(
-							$admin,
-							$this->prepareForMessage($this->localizationManager->getLL('subject_memberHasJoined'), $user, $admin),
-							$this->prepareForMessage($this->localizationManager->getLL('body_memberHasJoined'), $user, $admin)
-						);
-					}
-				}
-			} else {
-				if (is_array($this->data['admins'])) {
-					foreach ($this->data['admins'] as $uid => $admin) {
-						$this->sendMessage(
-							$admin,
-							$this->prepareForMessage($this->localizationManager->getLL('subject_confirmationNeeded'), $user, $admin),
-							$this->prepareForMessage($this->localizationManager->getLL('body_confirmationNeeded'), $user, $admin)
-						);
-					}
-				}
-			}
-
-			$memberAdded = true;
-		}
-
-		return $memberAdded;
 	}
 
+	/**
+	 * removes a user as member, pending member, and/or admin from the group
+	 *
+	 * @param	tx_community_model_User	The user to remove as a member
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	public function removeMember(tx_community_model_User $user) {
 		if ($this->isMember($user)) {
-			$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
-				'fe_groups_tx_community_members_mm',
-				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+			$this->removedMembers[] = $user;
+		}
+
+		if ($this->isPendingMember($user)) {
+			$this->removedPendingMembers[] = $user;
+		}
+
+		if ($this->isAdmin($user)) {
+			$this->removedAdmins[] = $user;
+		}
+	}
+
+	/**
+	 * gets all members of the group. Use with care, groups may have 'many'
+	 * members
+	 *
+	 * @return	array	array of tx_community_model_User objects
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getMembers() {
+		$memberUids = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid_foreign',
+			'tx_community_group_admins_mm',
+			'uid_local = ' . $this->uid
+		);
+
+		$memberUidList = array();
+		foreach($memberUids as $memberUid) {
+			$memberUidList[] = $memberUid['uid_foreign'];
+		}
+		$memberUidList = implode(',', $memberUidList);
+
+		return $this->userGateway->findByIdList($memberUidList);
+	}
+
+	/**
+	 * checks whether the given user is a member of this group
+	 *
+	 * @param	tx_community_model_User	the user to check the membership for
+	 * @return	boolean	true if the user is a member of this group, false otherwise
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function isMember(tx_community_model_User $user) {
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			'tx_community_group_members_mm',
+			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+		);
+
+		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
+	}
+
+	/**
+	 * gets the current number of members for this group
+	 *
+	 * @return	integer	current number of members for this group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getNumberOfMembers() {
+		$adminCount = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'members',
+			'tx_community_group',
+			'uid = ' . $this->uid
+		);
+
+		return (int) $adminCount['members'];
+	}
+
+	/**
+	 * gets all pending members of this group
+	 *
+	 * @return	array	an array of tx_community_model_User objects
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getPendingMembers() {
+		$userUids = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid_foreign',
+			'tx_community_group_pendingmembers_mm',
+			'uid_local = ' . $this->uid
+		);
+
+		$pendingMemberUidList = array();
+		foreach($userUids as $userUid) {
+			$pendingMemberUidList[] = $userUid['uid_foreign'];
+		}
+		$pendingMemberUidList = implode(',', $pendingMemberUidList);
+
+		return $this->userGateway->findByIdList($pendingMemberUidList);
+	}
+
+	/**
+	 * checks whether the given user is a pending member of this group
+	 *
+	 * @param	tx_community_model_User	the user to check the membership for
+	 * @return	boolean	true if the user is a pending member of this group, false otherwise
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function isPendingMember(tx_community_model_User $user) {
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			'tx_community_group_pendingmembers_mm',
+			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+		);
+		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
+	}
+
+	/**
+	 * gets the current number of pending members for this group
+	 *
+	 * @return	integer	current number of pending members for this group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getNumberOfPendingMembers() {
+		$adminCount = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'pendingmembers',
+			'tx_community_group',
+			'uid = ' . $this->uid
+		);
+
+		return (int) $adminCount['pendingmembers'];
+	}
+
+	/**
+	 * sends an invitation to join this group to a user. The user at the same
+	 * time gets approved and added to the pending members list. You need to
+	 * call save() afterwards to make the approval and addition to the pending
+	 * members list affective.
+	 *
+	 * @param	tx_community_model_User	The user to invite to this group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function sendInvitationToUser(tx_community_model_User $user) {
+			// TODO send an invitation message, do not send the message
+			// immidiately, only send when calling save
+
+
+		$this->invitedMembers[] = $user;
+	}
+
+	/**
+	 * approves a membership request for this group for a pending member, also
+	 * sends a message to the user that his membership request has been approved
+	 *
+	 * @param	tx_community_model_User	The user to approve his membership request for
+	 * @param	boolean	Switch to turn of sending of a approval message to the user, sending of messages is on by default
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function approveMembershipRequestForUser(tx_community_model_User $user, $sendApprovalMessage = true) {
+		if ($this->isPendingMember($user)) {
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				'tx_community_group_pendingmembers_mm',
+				'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid(),
+				array('isapproved' => 1)
 			);
-			if ($GLOBALS['TYPO3_DB']->sql_affected_rows()) {
-				$this->data['tx_community_members'] = intval($this->data['tx_community_members']) - 1;
-				foreach ($this->data['tx_community_admins'] as $uid => $admin) {
-					$this->sendMessage(
-						$admin,
-						$this->prepareForMessage($this->localizationManager->getLL('subject_memberLeaveGroup'), $user, $admin),
-						$this->prepareForMessage($this->localizationManager->getLL('body_memberLeaveGroup'), $user, $admin)
-					);
-				}
-				return true;
+
+			if ($sendApprovalMessage) {
+				// TODO send a message (by adding a meesage to the message queue)
 			}
 		}
-		return false;
 	}
+
+	/**
+	 * declines a user's membership request for this group by simply removing
+	 * him from the list of pending members
+	 *
+	 * @param	tx_community_model_User	The user to decline his membership request
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function declineMembershipRequestForUser(tx_community_model_User $user) {
+		$this->removedPendingMembers[] = $user;
+
+			// TODO send a message (by adding a meesage to the message queue
+	}
+
+	/**
+	 * checks whether a user's membership request for this group has been approved
+	 *
+	 * @param	tx_community_model_User	The user to check his approval status for
+	 * @return	boolean	return true if the user's membership request has been approved, false if it hasn't or the user wasn't found to be a pending member
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function hasUserBeenApproved(tx_community_model_User $user) {
+		$memberIsApproved = false;
+
+		$memberRelation = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'isapproved',
+			'tx_community_group_pendingmembers_mm',
+			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+		);
+
+		if (is_array($memberRelation) && $memberRelation[0]['isapproved'] == 1) {
+			$memberIsApproved = true;
+		}
+
+		return $memberIsApproved;
+	}
+
+
 
 	public function confirmMember(tx_community_model_User $user) {
 		if ($this->isPendingMember($user)) {
@@ -391,77 +620,174 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		return false;
 	}
 
-	public function getAllMembers() {
-		$returnUser = array();
-
-		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'uid_foreign',
-			'fe_groups_tx_community_members_mm',
-			'uid_local = ' . $this->uid
-		);
-		foreach ($users as $user) {
-			$tmpUser = $this->userGateway->findById($user['uid_foreign']);
-			if (!is_null($tmpUser)) {
-				$returnUser[] = $tmpUser;
-			}
+	/**
+	 * processes admins: actually adds and removes admins from the group
+	 *
+	 * @return	void
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function processAdmins() {
+		foreach ($this->addedAdmins as $addedAdmin) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_community_group_admins_mm',
+				array(
+					'uid_local'   => $this->uid,
+					'uid_foreign' => $addedAdmin->getUid()
+				)
+			);
+			$this->data['admins']++;
 		}
-		return $returnUser;
+
+		$removedAdminList = array();
+		foreach ($this->removedAdmins as $removedAdmin) {
+			$removedAdminList[] = $removedAdmin->getUid();
+			$this->data['admins']--;
+		}
+
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_group_admins_mm',
+			'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedAdminList) . ')'
+		);
 	}
 
-	public function isMember(tx_community_model_User $user) {
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
+	/**
+	 * processes members: actually adds and removes members from the group
+	 *
+	 * @return	void
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function processMembers() {
+		foreach ($this->addedMembers as $addedMember) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_community_group_members_mm',
+				array(
+					'uid_local'   => $this->uid,
+					'uid_foreign' => $addedMember->getUid()
+				)
+			);
+			$this->data['members']++;
+
+				// TODO add the messages to the message queue instead of actually sending them here
+			$this->sendMessageToAdmins(
+				$this->localizationManager->getLL('subject_memberHasJoined'),
+				$this->localizationManager->getLL('body_memberHasJoined'),
+				$addedMember
+			);
+		}
+
+		$removedMemberList = array();
+		foreach ($this->removedMembers as $removedMember) {
+			$removedMemberList[] = $removedMember->getUid();
+			$this->data['members']--;
+		}
+
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			'tx_community_group_members_mm',
-			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+			'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedMemberList) . ')'
 		);
-
-		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
 
+	/**
+	 * processes pending members: actually adds and removes pending members
+	 * from the group
+	 *
+	 * @return	void
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function processPendingMembers() {
+		foreach ($this->addedPendingMembers as $addedPendingMember) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_community_group_pendingmembers_mm',
+				array(
+					'uid_local'   => $this->uid,
+					'uid_foreign' => $addedPendingMember->getUid()
+				)
+			);
+			$this->data['pendingmembers']++;
 
-	public function getAllTempMembers() {
-		$returnUser = array();
-
-		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'uid_foreign',
-			'fe_groups_tx_community_tmpmembers_mm',
-			'uid_local = ' . $this->uid
-		);
-		foreach ($users as $user) {
-			$tmpUser = $this->userGateway->findById($user['uid_foreign']);
-			if (!is_null($tmpUser)) {
-				$returnUser[] = $tmpUser;
-			}
+				// TODO add the messages to the message queue instead of actually sending them here
+			$this->sendMessageToAdmins(
+				$this->localizationManager->getLL('subject_confirmationNeeded'),
+				$this->localizationManager->getLL('body_confirmationNeeded'),
+				$addedMember
+			);
 		}
-		return $returnUser;
-	}
 
-	public function isPendingMember(tx_community_model_User $user) {
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
+		$removedPendingMemberList = array();
+		foreach ($this->removedPendingMembers as $removedPendingMember) {
+			$removedPendingMemberList[] = $removedPendingMember->getUid();
+			$this->data['pendingmembers']--;
+		}
+
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			'tx_community_group_pendingmembers_mm',
-			'uid_local = ' . $this->uid . ' AND uid_foreign = ' . $user->getUid()
+			'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedPendingMemberList) . ')'
 		);
-		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
 	}
 
-	public function delete() {
-		$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'fe_groups',
-			'uid = ' . $this->uid
-		);
-		return ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0);
+	/**
+	 * processes invited members: actually adds the invited members as pending
+	 * members and sets their approval status to approved
+	 *
+	 * @return	void
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function processInvitedMembers() {
+		foreach ($this->invitedMembers as $invitedMember) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_community_group_pendingmembers_mm',
+				array(
+					'uid_local'   => $this->uid,
+					'uid_foreign' => $invitedMember->getUid(),
+					'isapproved'  => 1
+				)
+			);
+			$this->data['pendingmembers']++;
+		}
 	}
 
-	protected function prepareForMessage($txt, $user, $admin = null) {
+	/**
+	 * sends a message to all admins
+	 *
+	 * @param	string	The message's subject
+	 * @param	string	The message's body text
+	 * @param	tx_community_model_User	$user ?
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function sendMessageToAdmins($subject, $message, tx_community_model_User $user) {
+		$admins = $this->getAdmins();
+
+		foreach ($admins as $admin) {
+			$this->sendMessage(
+				$admin,
+				$this->prepareMessage($subject, $user, $admin),
+				$this->prepareMessage($message, $user, $admin)
+			);
+		}
+	}
+
+	/**
+	 * iterates through the message queue and sends the messages
+	 *
+	 * @return	void
+	 */
+	protected function sendMessages() {
+		// TODO process the message queue and actually send the messages
+	}
+
+
+
+		// TODO the methods below still need some polishing as soon as the messaging feature is integrated into the community core
+
+	protected function prepareMessage($message, tx_community_model_User $user, $admin = null) {
 		$keys = array(
 			'%USER.NICKNAME%'	=> $user->getNickname(),
-			'%GROUP.TITLE%'		=> $this->getTitle(),
+			'%GROUP.TITLE%'		=> $this->getName(),
 		);
 		if (!is_null($admin)) {
 			$keys['%ADMIN.NICKNAME%']	= $admin->getNickname();
 		}
-		return str_replace(array_keys($keys), array_values($keys), $txt);
+		return str_replace(array_keys($keys), array_values($keys), $message);
 	}
 
 	protected function sendMessage(tx_community_model_User $toUser, $subject, $message) {
