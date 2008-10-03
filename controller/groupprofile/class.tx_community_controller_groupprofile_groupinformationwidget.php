@@ -85,6 +85,8 @@ class tx_community_controller_groupprofile_GroupInformationWidget extends tx_com
 		$requestingUser = $this->communityApplication->getRequestingUser();
 		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
+		/* @var $requestedGroup tx_community_model_Group */
+
 		$accessManagerClass = t3lib_div::makeInstanceClassName('tx_community_AccessManager');
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
 
