@@ -1,6 +1,10 @@
+2008-10-02 Ingo Renner  <ingo@typo3.org>
+
+	* added a method to the user gateway to find multiple users by id with one query
+
 2008-10-02 Frank Naegler  <typo3@naegler.net>
 
-	* change the attribute name from dragable to draggable on all widgets
+	* changed the attribute name from dragable to draggable on all widgets
 
 2008-10-01 Frank Naegler  <typo3@naegler.net>
 

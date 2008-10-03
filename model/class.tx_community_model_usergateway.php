@@ -79,6 +79,33 @@ class tx_community_model_UserGateway {
 	}
 
 	/**
+	 * finds multiple users by a list of user IDs (using only one query)
+	 *
+	 * @param	string	comma separated list of user IDs
+	 * @return	array	An array of tx_community_model_User objects
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function findByIdList($uidList) {
+		$users = array();
+
+		$cleanUidList = implode(',', t3lib_div::intExplode(',', $uidList));
+
+		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'*',
+			'fe_users',
+			'uid IN (' . $cleanUidList . ')'
+		); // TODO restrict to certain part of the tree
+
+		foreach($userRows as $userRow) {
+			$users[] = $this->createUserFromRow($userRow);
+		}
+
+			// TODO cache the users to save queries
+
+		return $users;
+	}
+
+	/**
 	 * find users by its roles
 	 *
 	 * @param	tx_community_model_User	the user to find from which connections originate
