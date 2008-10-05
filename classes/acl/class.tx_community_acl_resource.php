@@ -62,8 +62,8 @@ class tx_community_acl_Resource implements tx_community_acl_AclResource {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['/EXT:community/classes/acl/class.tx_community_acl_resource.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['/EXT:community/classes/acl/class.tx_community_acl_resource.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_resource.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_resource.php']);
 }
 
 ?>

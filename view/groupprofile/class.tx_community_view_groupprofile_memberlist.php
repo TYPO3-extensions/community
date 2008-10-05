@@ -89,8 +89,8 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/userprofile/class.tx_community_view_userprofile_personalinformation.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/userprofile/class.tx_community_view_userprofile_personalinformation.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/groupprofile/class.tx_community_view_groupprofile_memberlist.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/groupprofile/class.tx_community_view_groupprofile_memberlist.php']);
 }
 
 ?>

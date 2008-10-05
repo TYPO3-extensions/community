@@ -32,4 +32,9 @@ class tx_community_exception_NoProfileId extends Exception {
 		return "tx_community_NoProfileIdException at line {$this->getLine()} on {$this->getFile()} Message: {$this->getMessage()}";
 	}
 }
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/exception/class.tx_community_exception_noprofileid.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/exception/class.tx_community_exception_noprofileid.php']);
+}
+
 ?>

@@ -43,15 +43,15 @@ class tx_community_model_AbstractProfile {
 	public function isEditable() {
 		die('overwrite this function in your profile implementation');
 	}
-	
+
 	public function getUid() {
 		return $this->uid;
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_model_abstractprofile.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_model_abstractprofile.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_abstractprofile.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/model/class.tx_community_model_abstractprofile.php']);
 }
 
 ?>

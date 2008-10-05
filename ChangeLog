@@ -1,3 +1,11 @@
+2008-10-05 Ingo Renner  <ingo@typo3.org>
+
+	* fixes for the group model
+	* fixed the create group application to fit the refactored group model
+	* fixed XCLASS definitions
+	* fixes to the db table definitions
+	* updated emconf
+
 2008-10-02 Ingo Renner  <ingo@typo3.org>
 
 	* added a method to the user gateway to find multiple users by id with one query

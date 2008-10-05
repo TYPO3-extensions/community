@@ -30,13 +30,13 @@
  * @package TYPO3
  * @subpackage communitty
  */
-class tx_communitty_acl_RoleRegistryException extends Exception {
+class tx_community_acl_RoleRegistryException extends Exception {
 
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_exception.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_exception.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_roleregistryexception.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/acl/class.tx_community_acl_roleregistryexception.php']);
 }
 
 ?>

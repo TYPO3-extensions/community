@@ -74,7 +74,7 @@ class tx_community_Registry {
 	}
 
 	/**
-	 * gets the configuration array stored in the registry. 
+	 * gets the configuration array stored in the registry.
 	 * returns null if no configuration is available for the given key
 	 *
 	 * @return	mixed
@@ -93,7 +93,7 @@ class tx_community_Registry {
 	}
 
 	/**
-	 * gets the LocalizationManager object stored in the registry. 
+	 * gets the LocalizationManager object stored in the registry.
 	 * returns null if no object is available for the given key
 	 *
 	 * @return	tx_community_LocalizationManager
@@ -104,8 +104,8 @@ class tx_community_Registry {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_Registry.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_Registry.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_registry.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/class.tx_community_registry.php']);
 }
 
 ?>
