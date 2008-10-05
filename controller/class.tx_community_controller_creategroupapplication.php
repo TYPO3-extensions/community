@@ -24,7 +24,7 @@
 
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_group.php');
 require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_index.php');
-require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_creategroup.php');
+require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_creategrouperror.php');
 
 /**
  * Create Group Application Controller
@@ -48,62 +48,43 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 		$this->name = 'createGroup';
 	}
 
-	protected function indexAction() {
+	public function indexAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_creategroup_Index');
 		/* @var $view tx_community_view_creategroup_Index */
 		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
-			// TODO move the create group action into a hidden field
-		$formAction = $this->pi_getPageLink(
-			$GLOBALS['TSFE']->id,
-			'',
-			array(
-				'tx_community' => array(
-					$this->name . 'Action' => 'createGroup'
-				)
-			)
-		);
-		$view->setFormAction($formAction);
+		$view->setFormAction($this->pi_getPageLink($GLOBALS['TSFE']->id));
 
 		return $view->render();
 	}
 
-	protected function createGroupAction() {
-
-$GLOBALS['TYPO3_DB']->debugOutput = true;
-
-		$view = t3lib_div::makeInstance('tx_community_view_creategroup_CreateGroup');
-		/* @var $view tx_community_view_creategroup_Index */
-		$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
-		$view->setLanguageKey($this->LLkey);
-
-		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_creategroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-
+	public function createGroupAction() {
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+
 		if (isset($communityRequest['groupName'])) {
-			$groupClass	= t3lib_div::makeInstanceClassName('tx_community_model_Group');
-			$groupData	= array(
-				'name'		=> $communityRequest['groupName'],
-				'pid'		=> $this->configuration['pages.']['groupStorage']
+			$groupClass = t3lib_div::makeInstanceClassName('tx_community_model_Group');
+			$groupData  = array(
+				'name'      => $communityRequest['groupName'],
+				'grouptype' => $communityRequest['groupType'],
+				'pid'       => $this->configuration['pages.']['groupStorage']
 			);
-			$group		= new $groupClass($groupData);
+			$group = new $groupClass($groupData);
 
-			$loggedInUser = $this->userGateway->findCurrentlyLoggedInUser();
+			$requestingUser = $this->getRequestingUser();
 
-			if ($group->save()) {
-				$group->addMember($loggedInUser);
-				$group->addAdmin($loggedInUser);
-				$group->save();
+			$group->setCreator($requestingUser);
+			$groupUid = $group->save();
 
-					// redirect
+
+			if ($groupUid) {
+					// success, redirect
 				$editGroupUrl = $this->pi_getPageLink(
 					$this->configuration['pages.']['groupEdit'],
 					'',
 					array(
 						'tx_community' => array(
-							'group' => $group->getUid()
+							'group' => $groupUid
 						)
 					)
 				);
@@ -112,7 +93,17 @@ $GLOBALS['TYPO3_DB']->debugOutput = true;
 				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
 				exit;
 			} else {
-				$view->setMessage($llManager->getLL('msg_create_error'));
+				$view = t3lib_div::makeInstance('tx_community_view_creategroup_CreateGroupError');
+				/* @var $view tx_community_view_creategroup_CreateGroupError */
+				$view->setTemplateFile($this->configuration['applications.']['createGroup.']['templateFile']);
+				$view->setLanguageKey($this->LLkey);
+
+				$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+				$llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_creategroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+
+				$view->setMessage($llManager->getLL('creategroup_errorMsg'));
+
+				return $view->render();
 			}
 		}
 	}

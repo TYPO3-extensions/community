@@ -29,11 +29,11 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
 /**
  * index view for the edit group application
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_view_creategroup_CreateGroup extends tx_community_view_AbstractView {
+class tx_community_view_creategroup_CreateGroupError extends tx_community_view_AbstractView {
 
 	/**
 	 * @var tx_community_model_Group
@@ -79,8 +79,8 @@ class tx_community_view_creategroup_CreateGroup extends tx_community_view_Abstra
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/creategroup/class.tx_community_view_creategroup_creategroup.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/creategroup/class.tx_community_view_creategroup_creategroup.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/creategroup/class.tx_community_view_creategroup_creategrouperror.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/view/creategroup/class.tx_community_view_creategroup_creategrouperror.php']);
 }
 
 ?>

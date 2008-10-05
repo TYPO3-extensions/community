@@ -16,9 +16,25 @@
 <div id="tx-community-creategroup">
 	<form action="###FORM.ACTION###" class="ajaxForm" method="post" enctype="multipart/form-data">
 		<dl>
-			<dt>###LLL:creategroup_title###</dt>
+			<dt>###LLL:creategroup_name###</dt>
 			<dd><input type="text" name="tx_community[groupName]" value="" /></dd>
 		</dl>
+		<dl>
+			<dt>###LLL:creategroup_type###</dt>
+			<dd>
+				<input type="radio" name="tx_community[groupType]" value="0" checked="checked" />
+				###LLL:creategroup_type_open###<br />
+				<input type="radio" name="tx_community[groupType]" value="1" />
+				###LLL:creategroup_type_membersOnly###<br />
+				<input type="radio" name="tx_community[groupType]" value="2" />
+				###LLL:creategroup_type_private###<br />
+				<input type="radio" name="tx_community[groupType]" value="3" />
+				###LLL:creategroup_type_secret###
+			</dd>
+		</dl>
+
+		<input type="hidden" name="tx_community[createGroupAction]" value="createGroup" />
+
 		<input type="submit" value="###LLL:creategroup_formSave###" />
 	</form>
 </div>
