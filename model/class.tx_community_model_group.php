@@ -114,7 +114,13 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		if (substr($methodName, 0, 3) == 'set') {
 			$this->data[$property] = $arguments[0]; // FIXME add sanitization
 		} else if (substr($methodName, 0, 3) == 'get') {
-			return $this->data[$property];
+			$value = null;
+
+			if (array_key_exists($property, $this->data)) {
+				$value = $this->data[$property];
+			}
+
+			return $value;
 		}
 	}
 
@@ -127,14 +133,15 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	public function save() {
 		$result = null;
 
-		$this->processAdmins();
-		$this->processMembers();
-		$this->processPendingMembers();
-		$this->processInvitedMembers();
-		$this->sendMessages();
+		$this->data['tstamp'] = $_SERVER['REQUEST_TIME'];
 
 		if (is_null($this->uid)) {
 				// new group, insert
+			$this->data['crdate'] = $_SERVER['REQUEST_TIME'];
+			$this->data['admins'] = count($this->addedAdmins) - count($this->removedAdmins);
+			$this->data['members'] = count($this->addedMembers) - count($this->removedMembers);
+			$this->data['pendingmembers'] = count($this->addedPendingMembers) + count($this->invitedMembers) - count($this->removedPendingMembers);
+
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
 				'tx_community_group',
 				$this->data
@@ -155,6 +162,13 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 
 			$result = (boolean) $GLOBALS['TYPO3_DB']->sql_affected_rows();
 		}
+
+		$this->processAdmins();
+		$this->processMembers();
+		$this->processPendingMembers();
+		$this->processInvitedMembers();
+		$this->sendMessages();
+
 			// "resetting"
 		$this->originalData = $this->data;
 
@@ -237,6 +251,28 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 */
 	public function getResourceId() {
 		return 'tx_community_group_' . $this->uid;
+	}
+
+	/**
+	 * sets the group's creator and adds him as admin and member
+	 *
+	 * @param	tx_community_model_User	the group's creator
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function setCreator(tx_community_model_User $user) {
+		$this->data['creator'] = $user->getUid();
+		$this->addedAdmins[]   = $user;
+		$this->addedMembers[]  = $user;
+	}
+
+	/**
+	 * gets the groups creator as a tx_community_model_User object
+	 *
+	 * @return	tx_community_model_User	the group's creator
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getCreator() {
+		return $this->userGateway->findById($this->data['creator']);
 	}
 
 	/**
@@ -644,10 +680,12 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			$this->data['admins']--;
 		}
 
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'tx_community_group_admins_mm',
-			'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedAdminList) . ')'
-		);
+		if (!empty($removedAdminList)) {
+			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+				'tx_community_group_admins_mm',
+				'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedAdminList) . ')'
+			);
+		}
 	}
 
 	/**
@@ -681,10 +719,12 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			$this->data['members']--;
 		}
 
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'tx_community_group_members_mm',
-			'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedMemberList) . ')'
-		);
+		if (!empty($removedMemberList)) {
+			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+				'tx_community_group_members_mm',
+				'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedMemberList) . ')'
+			);
+		}
 	}
 
 	/**
@@ -719,10 +759,12 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			$this->data['pendingmembers']--;
 		}
 
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'tx_community_group_pendingmembers_mm',
-			'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedPendingMemberList) . ')'
-		);
+		if (!empty($removedPendingMemberList)) {
+			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+				'tx_community_group_pendingmembers_mm',
+				'uid_local = ' . $this->uid . ' AND uid_foreign IN (' . implode(',', $removedPendingMemberList) . ')'
+			);
+		}
 	}
 
 	/**
