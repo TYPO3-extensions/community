@@ -1,6 +1,10 @@
-2008-10-02 Frank Naegler  <typo3@naegler.net>
-	
-	* some changes due to the refactoring of the group model 
+2008-10-06 Ingo Renner  <ingo@typo3.org>
+
+	* changed the name of the general sttings branch in TS ffrom common to general
+
+2008-10-06 Frank Naegler  <typo3@naegler.net>
+
+	* some changes due to the refactoring of the group model
 	* changed the method name from getAllMember to getMembers in tx_community_view_groupprofile_MemberList
 	* added ViewHelper to listgroup
 	* fix mm tabale name in groupmodel for function getMembers()

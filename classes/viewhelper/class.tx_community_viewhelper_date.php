@@ -45,7 +45,7 @@ class tx_community_viewhelper_Date implements tx_community_ViewHelper {
 	 */
 	public function __construct(array $arguments = array()) {
 		if(is_null($this->dateFormat) || is_null($this->contentObject)) {
-			$this->dateFormat = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['common.']['dateFormat.'];
+			$this->dateFormat = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['general.']['dateFormat.'];
 			$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
 		}
 	}
