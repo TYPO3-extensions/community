@@ -90,7 +90,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
 			$cObj = t3lib_div::makeInstance('tslib_cObj');
 			$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
-			$group->setImage($genImage);
+			$group->setHTMLImage($genImage);
 		}
 		$view->setGroups($groups);
 

@@ -75,12 +75,7 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 			)
 		);
 
-		$loopGroups = array();
-		foreach ($this->groups as $group) {
-			$loopGroups[] = $group;
-		}
-
-		$template->addLoop('groups', 'group', $loopGroups);
+		$template->addLoop('groups', 'group', $this->groups);
 
 		return $template->render();
 	}
