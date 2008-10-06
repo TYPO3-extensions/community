@@ -429,7 +429,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	public function getMembers() {
 		$memberUids = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid_foreign',
-			'tx_community_group_admins_mm',
+			'tx_community_group_members_mm',
 			'uid_local = ' . $this->uid
 		);
 
