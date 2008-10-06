@@ -1,3 +1,7 @@
+2008-10-02 Frank Naegler  <typo3@naegler.net>
+
+	* changed the method name from getAllMember to getMembers in tx_community_view_groupprofile_MemberList
+
 2008-10-05 Ingo Renner  <ingo@typo3.org>
 
 	* fixes for the group model

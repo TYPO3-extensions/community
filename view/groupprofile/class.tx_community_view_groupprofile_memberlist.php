@@ -73,7 +73,8 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 
 		$template->addVariable('group', $this->groupModel);
 
-		$members = $this->groupModel->getAllMembers();
+		$members = $this->groupModel->getMembers();
+		debug($members);
 		foreach ($members as $member) {
 			$imgConf = $this->configuration['applications.']['groupProfile.']['widgets.']['memberList.']['userImage.'];
 			$imgConf['file'] = (strlen($member->getImage()) > 0) ? $member->getImage() : $imgConf['file'];
