@@ -22,27 +22,21 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
+require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_groupprofileapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_view_editgroup_index.php');
 
 /**
  * Edit Group Application Controller
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_EditGroupApplication extends tx_community_controller_AbstractCommunityApplication {
+class tx_community_controller_EditGroupApplication extends tx_community_controller_GroupProfileApplication implements tx_community_acl_AclResource {
 
-	public $cObj;
-	public $conf;
-	protected $data;
-	protected $name;
-	protected $configuration;
-	protected $group;
 	protected $messageAPILoaded = false;
-	protected $accessManager;
+	protected $accessManager    = null;
 
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
@@ -60,68 +54,37 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		}
 
 		$this->accessManager = tx_community_AccessManager::getInstance();
-	}
-
-	public function execute() {
-		$content = '';
-
-		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
-			$this->getName()
-		);
-
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
-		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
-		/* @var $groupGateway tx_community_model_GroupGateway */
-
-		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
-		/* @var $userGateway tx_community_model_UserGateway */
-
-		$this->group = $groupGateway->findRequestedGroup();
-		if (is_null($this->group)) {
-			// @TODO throw Exception
-			die('no group id');
-		}
-
-		$user  = $userGateway->findCurrentlyLoggedInUser();
-		if (is_null($user)) {
-			// @TODO throw Exception
-			die('no loggedin user');
-		}
-
-		if (!$this->group->isAdmin($user)) {
-			// @TODO throw Exception
-			die('not admin');
-		}
-
-
-			// dispatch
-		if (!empty($communityRequest['editGroupAction'])
-			&& method_exists($this, $communityRequest['editGroupAction'] . 'Action')
-			&& in_array($communityRequest['editGroupAction'], $applicationConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest['editGroupAction'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $applicationConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
+		$this->getRequestedGroup();
 	}
 
 	/**
-	 * returns the name of this community application
+	 * does an initial access check
 	 *
-	 * @return	string	This community application's name
+	 * @return	void
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function getName() {
-		return $this->name;
+	protected function checkAccess() {
+			// TODO should be moved to some central place, should be made extendable
+		if (is_null($this->requestedGroup)) {
+				// @TODO throw Exception
+			die('no group id given');
+		}
+
+		if ($this->getRequestingUser()->getUid() === 0) {
+				// @TODO throw Exception
+			die('no user logged in');
+		}
+
+		if (!$this->requestedGroup->isAdmin($this->getRequestingUser())) {
+				// @TODO throw Exception
+			die('not an admin of this group');
+		}
 	}
 
-	protected function indexAction() {
+		// TODO refactor this method
+	public function indexAction() {
+		$this->checkAccess();
+
 		$view = t3lib_div::makeInstance('tx_community_view_editGroup_Index');
 		/* @var $view tx_community_view_editGroup_Index */
 		$view->setTemplateFile($this->configuration['applications.']['editGroup.']['templateFile']);
@@ -140,7 +103,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 
 		$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
 
-		$imagePath = (strlen($this->group->getImage())) ? $this->group->getImage() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
+		$imagePath = (strlen($this->requestedGroup->getImage())) ? $this->requestedGroup->getImage() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
 		$imgConf['file'] = $imagePath;
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$view->setImage($cObj->cObjGetSingle($this->configuration['applications.']['editGroup.']['previewImage'], $imgConf));
@@ -185,7 +148,8 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		return $view->render();
 	}
 
-	protected function saveDataAction() {
+		// TODO refactor this method
+	public function saveDataAction() {
 		// @TODO: localize all messages
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
@@ -368,6 +332,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		die();
 	}
 
+		// TODO refactor this method
 	protected function saveGeneral() {
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
@@ -390,6 +355,15 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * returns the Resource identifier
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		return $this->name . '_update_' . $this->getRequestedGroup()->getUid();
 	}
 }
 

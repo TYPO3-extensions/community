@@ -167,8 +167,10 @@ $TX_COMMUNITY = array(
 				'index',
 				'saveData',
 				'inviteUser',
+				'addMember',
 				'removeMember',
-				'changeAdmin'
+				'addAdmin',
+				'removeAdmin'
 			),
 			'defaultAction' => 'index',
 		),
