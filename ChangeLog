@@ -3,6 +3,9 @@
 	* changed the name of the general sttings branch in TS ffrom common to general
 	* added a description field to the create group application
 	* initial refactoring of the edit group application
+	* fixed the counting of members/admins/pending members in the group model
+	* fixed the group profile actions widget to fit the new group model API
+	* renamed the groupOverview page property to groupList
 
 2008-10-06 Frank Naegler  <typo3@naegler.net>
 
