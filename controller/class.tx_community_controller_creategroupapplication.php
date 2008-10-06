@@ -65,9 +65,10 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 		if (isset($communityRequest['groupName'])) {
 			$groupClass = t3lib_div::makeInstanceClassName('tx_community_model_Group');
 			$groupData  = array(
-				'name'      => $communityRequest['groupName'],
-				'grouptype' => $communityRequest['groupType'],
-				'pid'       => $this->configuration['pages.']['groupStorage']
+				'name'        => $communityRequest['groupName'],
+				'description' => $communityRequest['groupDescription'],
+				'grouptype'   => $communityRequest['groupType'],
+				'pid'         => $this->configuration['pages.']['groupStorage']
 			);
 			$group = new $groupClass($groupData);
 
@@ -75,7 +76,6 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 
 			$group->setCreator($requestingUser);
 			$groupUid = $group->save();
-
 
 			if ($groupUid) {
 					// success, redirect

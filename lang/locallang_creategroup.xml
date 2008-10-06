@@ -8,8 +8,9 @@
 		<languageKey index="default" type="array">
 			<label index="creategroup_createGroup">Create a new group</label>
 			<label index="creategroup_formSave">Create group</label>
-			<label index="creategroup_name">Group Name</label>
-			<label index="creategroup_type">Group Type</label>
+			<label index="creategroup_name">Name</label>
+			<label index="creategroup_description">Description</label>
+			<label index="creategroup_type">Type</label>
 			<label index="creategroup_type_open">Open: Membership is open and non-members can view content and participate.</label>
 			<label index="creategroup_type_membersOnly">Members Only: Membership is open and non-members can view content, but must join to participate.</label>
 			<label index="creategroup_type_private">Private: Membership is by invitation/approval only and only members can view content and participate.</label>
