@@ -138,20 +138,41 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		if (is_null($this->uid)) {
 				// new group, insert
 			$this->data['crdate'] = $_SERVER['REQUEST_TIME'];
-			$this->data['admins'] = count($this->addedAdmins) - count($this->removedAdmins);
-			$this->data['members'] = count($this->addedMembers) - count($this->removedMembers);
-			$this->data['pendingmembers'] = count($this->addedPendingMembers) + count($this->invitedMembers) - count($this->removedPendingMembers);
 
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
 				'tx_community_group',
 				$this->data
 			);
-			$this->uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-			$this->data['uid'] = $this->uid;
+			$this->data['uid'] = $this->uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+
+				// "resetting"
+			$this->originalData = $this->data;
+
+				// works only after we have a uid
+			$this->processAdmins();
+			$this->processMembers();
+			$this->processPendingMembers();
+			$this->processInvitedMembers();
+			$this->sendMessages();
+
+			$changedFields = array_diff_assoc($this->data, $this->originalData);
+
+				// an immediate update is needed to add the member count
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				'tx_community_group',
+				'uid = ' . $this->uid,
+				$changedFields
+			);
 
 			$result = $this->uid;
 		} else {
 				// update
+			$this->processAdmins();
+			$this->processMembers();
+			$this->processPendingMembers();
+			$this->processInvitedMembers();
+			$this->sendMessages();
+
 			$changedFields = array_diff_assoc($this->data, $this->originalData);
 
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
@@ -160,17 +181,11 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				$changedFields
 			);
 
+				// "resetting"
+			$this->originalData = $this->data;
+
 			$result = (boolean) $GLOBALS['TYPO3_DB']->sql_affected_rows();
 		}
-
-		$this->processAdmins();
-		$this->processMembers();
-		$this->processPendingMembers();
-		$this->processInvitedMembers();
-		$this->sendMessages();
-
-			// "resetting"
-		$this->originalData = $this->data;
 
 		return $result;
 	}
@@ -366,7 +381,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			'uid = ' . $this->uid
 		);
 
-		return (int) $adminCount['admins'];
+		return (int) $adminCount[0]['admins'];
 	}
 
 	/**
@@ -387,7 +402,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 					break;
 				case self::TYPE_PRIVATE:
 				case self::TYPE_SECRET:
-						// for private and secret groups the user needs to be approved
+						// for private and secret groups the user needs to be approved,
 						// approvals are granted after request or by invitation for private groups
 						// secret groups are invitation only
 					if ($this->isPendingMember($user) && $this->hasUserBeenApproved($user)) {
@@ -472,7 +487,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			'uid = ' . $this->uid
 		);
 
-		return (int) $adminCount['members'];
+		return (int) $adminCount[0]['members'];
 	}
 
 	/**
@@ -526,7 +541,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			'uid = ' . $this->uid
 		);
 
-		return (int) $adminCount['pendingmembers'];
+		return (int) $adminCount[0]['pendingmembers'];
 	}
 
 	/**
