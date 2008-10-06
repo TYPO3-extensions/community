@@ -320,7 +320,7 @@ class tx_community_Template {
 	}
 
 	public function addLoop($loopName, $markerName, array $variables) {
-
+			// TODO make loops objects so that they can be nested
 		$this->loops[$loopName] = array(
 			'marker' => $markerName,
 			'data'   => $variables
