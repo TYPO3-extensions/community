@@ -33,7 +33,18 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupg
  */
 class tx_community_controller_GroupProfileApplication extends tx_community_controller_AbstractCommunityApplication  {
 
+	/**
+	 * The group gateway to make queries
+	 *
+	 * @var	tx_community_model_GroupGateway
+	 */
 	protected $groupGateway   = null;
+
+	/**
+	 * the requested group as tx_community_model_Group instance
+	 *
+	 * @var	tx_community_model_Group
+	 */
 	protected $requestedGroup = null;
 
 	/**
