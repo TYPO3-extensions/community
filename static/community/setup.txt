@@ -86,7 +86,7 @@ plugin.tx_community {
 					userImage = IMAGE
 					userImage {
 						// will be overwriten if an user image is available
-						file = EXT:community/resources/icons/default_user.png
+						file = EXT:community/resources/icons/default_user.jpg
 						file {
 							maxW = 50
 							maxH = 50
@@ -231,7 +231,7 @@ plugin.tx_community {
 			groupImage = IMAGE
 			groupImage {
 				// will be overwriten if an user image is available
-				file = EXT:community/resources/icons/default_group.png
+				file = EXT:community/resources/icons/default_group.jpg
 				file {
 					maxW = 120
 					maxH = 160
@@ -242,7 +242,7 @@ plugin.tx_community {
 
 		editGroup {
 			templateFile = EXT:community/resources/templates/editgroup/index.htm
-			defaultIcon = EXT:community/resources/icons/default_group.png
+			defaultIcon = EXT:community/resources/icons/default_group.jpg
 			uploadPath = uploads/tx_community/
 			previewImage = IMAGE
 			previewImage {
