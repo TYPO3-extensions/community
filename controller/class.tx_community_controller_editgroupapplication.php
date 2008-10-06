@@ -306,7 +306,6 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					default:
 						$searchTerm = t3lib_div::_GP('q');
 						$friends = $this->userGateway->findFriends();
-						print_r($friends); die();
 						$returnData = array();
 						if (count($friends)) {
 							foreach ($friends as $friend) {

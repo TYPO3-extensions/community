@@ -23,6 +23,8 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_date.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 
 /**
  * View class to render the friends birthday list widget
@@ -52,6 +54,17 @@ class tx_community_view_userprofile_FriendsBirthdayList extends tx_community_vie
 			'tx_community_viewhelper_Date'
 		);
 
+		$template->addViewHelper(
+			'ts',
+			'tx_community_viewhelper_Ts'
+		);
+
+		$template->addViewHelper(
+			'link',
+			'tx_community_viewhelper_Link'
+		);
+
+		$template->addLoop('groups', 'group', $this->groupModel);
 		$template->addLoop('friends', 'user', $this->userModel);
 
 		return $template->render();
