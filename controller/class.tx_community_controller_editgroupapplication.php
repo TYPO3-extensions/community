@@ -140,7 +140,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 
 		$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
 
-		$imagePath = (strlen($this->group->getTX_community_image())) ? $this->configuration['applications.']['editGroup.']['uploadPath'] . $this->group->getTX_community_image() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
+		$imagePath = (strlen($this->group->getImage())) ? $this->group->getImage() : $this->configuration['applications.']['editGroup.']['defaultIcon'];
 		$imgConf['file'] = $imagePath;
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$view->setImage($cObj->cObjGetSingle($this->configuration['applications.']['editGroup.']['previewImage'], $imgConf));
@@ -216,7 +216,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					$newName = md5($fileName) .'.'. $pathInfo['extension'];
 					if (move_uploaded_file($tmpFile, $dir.$newName)) {
 						t3lib_div::fixPermissions($dir.$newName);
-						$group->setTX_community_image($newName);
+						$group->setImage($newName);
 						if ($group->save()) {
 							$imgConf = $this->configuration['applications.']['editGroup.']['previewImage.'];
 							$imgConf['file'] = $upPath.$newName;
@@ -342,6 +342,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					default:
 						$searchTerm = t3lib_div::_GP('q');
 						$friends = $this->userGateway->findFriends();
+						print_r($friends); die();
 						$returnData = array();
 						if (count($friends)) {
 							foreach ($friends as $friend) {
@@ -378,9 +379,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$user  = $userGateway->findCurrentlyLoggedInUser();
 
 		if ($group->isAdmin($user)) {
-			$group->setTitle($communityRequest['group_title']);
-			$group->setDescription($communityRequest['group_description']);
-			$group->setTX_community_public($isPublic);
+			$group->setName($communityRequest['groupName']);
+			$group->setDescription($communityRequest['groupDescription']);
+			$group->setGrouptype($communityRequest['groupType']);
 			if ($group->save()) {
 				return true;
 			} else {

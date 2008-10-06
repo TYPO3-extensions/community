@@ -23,6 +23,11 @@
 			<label index="editgroup_general_title">Title</label>
 			<label index="editgroup_general_description">Description</label>
 			<label index="editgroup_general_public">Is this group public? this means no admin confirmation is needed</label>
+			<label index="editgroup_general_type">Group Type</label>
+			<label index="editgroup_general_type_open">Open: Membership is open and non-members can view content and participate.</label>
+			<label index="editgroup_general_type_membersOnly">Members Only: Membership is open and non-members can view content, but must join to participate.</label>
+			<label index="editgroup_general_type_private">Private: Membership is by invitation/approval only and only members can view content and participate.</label>
+			<label index="editgroup_general_type_secret">Secret: Membership is by invitation only, only members may participate, and the group is not listed in the group directory.</label>
 			
 			<!-- Tab: Image settings -->
 			<label index="editgroup_image_image">Image</label>

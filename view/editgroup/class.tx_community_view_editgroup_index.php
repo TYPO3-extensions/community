@@ -126,14 +126,13 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 			'group_uid'	=> $this->group->getUid()
 		));
 
-		$template->addVariable('value', array(
-			'group_title'		=> $this->group->getTitle(),
-			'group_description'	=> $this->group->getDescription(),
-			'group_public'		=> 1,
-		));
+		$template->addVariable('group', $this->group);
 
 		$template->addVariable('checked', array(
-			'public'		=> (($this->group->getTX_community_public()) ? 'checked="checked" ' : '')
+			'type_0'		=> (($this->group->getGrouptype() == 0) ? 'checked="checked" ' : ''),
+			'type_1'		=> (($this->group->getGrouptype() == 1) ? 'checked="checked" ' : ''),
+			'type_2'		=> (($this->group->getGrouptype() == 2) ? 'checked="checked" ' : ''),
+			'type_3'		=> (($this->group->getGrouptype() == 3) ? 'checked="checked" ' : '')
 		));
 
 		return $template->render();
@@ -168,7 +167,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 			'group_uid'	=> $this->group->getUid()
 		));
 
-		$members = $this->group->getAllTempMembers();
+		$members = $this->group->getPendingMembers();
 		$loopTempMembers = array();
 		foreach ($members as $member) {
 			$tmp = array(
@@ -182,7 +181,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 
 		$template->addLoop('tempMembers', 'tempMember', $loopTempMembers);
 
-		$members = $this->group->getAllMembers();
+		$members = $this->group->getMembers();
 		$loopMembers = array();
 		foreach ($members as $member) {
 			$tmp = array(

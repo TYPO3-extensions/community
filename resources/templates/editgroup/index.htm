@@ -132,13 +132,22 @@ _USER_ID     = '0';
 			<h3>###LLL:editgroup_tab_general###</h3>
 			<dl>
 				<dt>###LLL:editgroup_general_title###</dt>
-				<dd><input type="text" name="tx_community[group_title]" value="###VALUE.GROUP_TITLE###" /></dd>
+				<dd><input type="text" name="tx_community[group_title]" value="###GROUP.TITLE###" /></dd>
 
 				<dt>###LLL:editgroup_general_description###</dt>
-				<dd><textarea name="tx_community[group_description]">###VALUE.GROUP_DESCRIPTION###</textarea></dd>
+				<dd><textarea name="tx_community[group_description]">###GROUP.DESCRIPTION###</textarea></dd>
 
-				<dt>###LLL:editgroup_general_public###</dt>
-				<dd><input type="checkbox" name="tx_community[group_public]" value="###VALUE.GROUP_PUBLIC###" ###CHECKED.PUBLIC###/></dd>
+				<dt>###LLL:editgroup_type###</dt>
+				<dd>
+					<input type="radio" name="tx_community[groupType]" value="0" ###CHECKED.TYPE_0###/>
+					###LLL:editgroup_general_type_open###<br />
+					<input type="radio" name="tx_community[groupType]" value="1" ###CHECKED.TYPE_1### />
+					###LLL:editgroup_general_type_membersOnly###<br />
+					<input type="radio" name="tx_community[groupType]" value="2" ###CHECKED.TYPE_2### />
+					###LLL:editgroup_general_type_private###<br />
+					<input type="radio" name="tx_community[groupType]" value="3" ###CHECKED.TYPE_3### />
+					###LLL:editgroup_general_type_secret###
+				</dd>
 			</dl>
 
 			<input type="submit" value="###LLL:editgroup_formSave###" />
