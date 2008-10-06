@@ -201,7 +201,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 	protected function getActionsForMember(tx_community_model_User $member) {
 		if ($this->group->isAdmin($member)) {
 			$return = implode(' ', $this->adminActions);
-		} elseif ($this->group->isTempMember($member)) {
+		} elseif ($this->group->isPendingMember($member)) {
 			$return = implode(' ', $this->tmpMembersActions);
 		} else {
 			$return = implode(' ', $this->otherActions);
@@ -213,7 +213,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 	protected function getMemberStatus(tx_community_model_User $member) {
 		if ($this->group->isAdmin($member)) {
 			$return = $this->llManager->getLL('label_status_admin');
-		} elseif ($this->group->isTempMember($member)) {
+		} elseif ($this->group->isPendingMember($member)) {
 			$return = $this->llManager->getLL('label_status_tmpmember');
 		} else {
 			$return = $this->llManager->getLL('label_status_member');

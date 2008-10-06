@@ -23,6 +23,8 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 
 /**
  * member list widget view
@@ -50,10 +52,6 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 		$this->configuration = $configuration;
 	}
 
-	public function setUserDetailLink($userDetailLink) {
-		$this->userDetailLink = $userDetailLink;
-	}
-
 	public function render() {
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
@@ -71,6 +69,16 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 			)
 		);
 
+		$template->addViewHelper(
+			'ts',
+			'tx_community_viewhelper_Ts'
+		);
+
+		$template->addViewHelper(
+			'link',
+			'tx_community_viewhelper_Link'
+		);
+
 		$template->addVariable('group', $this->groupModel);
 
 		$members = $this->groupModel->getMembers();
@@ -81,7 +89,6 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 			$cObj = t3lib_div::makeInstance('tslib_cObj');
 			$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
 			$member->setHTMLImage($genImage);
-			$member->setUserDetailLink(str_replace('%25UID%25', $member->getUid(), $this->userDetailLink));
 		}
 		$template->addLoop('members', 'member', $members);
 
