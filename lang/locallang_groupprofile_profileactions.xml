@@ -12,7 +12,7 @@
 			<label index="action_joinGroup">Join this group</label>
 			<label index="action_leaveGroup">Leave this group</label>
 			<label index="action_editGroup">Edit this group</label>
-			<label index="action_pending_membership">Pending membership</label>
+			<label index="action_pending_membership">A membership request is pending</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'view/groupprofile/class.tx_community_view_groupprofile_profileactions.php');
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 
 
 /**
@@ -33,34 +32,20 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupg
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_community_CommunityApplicationWidget, tx_community_Command {
+class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
 
-	/**
-	 * a reference to the parent community application this widget belongs to
-	 *
-	 * @var tx_community_controller_AbstractCommunityApplication
-	 */
-	protected $communityApplication;
-	/**
-	 * a reference to the community application manager
-	 *
-	 * @var tx_community_ApplicationManager
-	 */
-	protected $communityApplicationManager;
-	protected $configuration;
-	protected $data;
 	/**
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
-	/**
-	 * @var tx_community_model_GroupGateway
-	 */
-	protected $groupGateway;
 
-	public function initialize($data, $configuration) {
-		$this->data = $data;
-		$this->configuration = $configuration;
+	/**
+	 * constructor for the group profile actions widget
+	 *
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function __construct() {
+		parent::__construct();
 
 		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
 		$this->localizationManager = call_user_func(
@@ -69,109 +54,10 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 			array()
 		);
 
-		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
-		$this->communityApplicationManager = tx_community_ApplicationManager::getInstance();
-	}
-
-	public function setCommunityApplication(tx_community_controller_AbstractCommunityApplication $communityApplication) {
-		$this->communityApplication = $communityApplication;
-	}
-
-	/**
-	 * returns whether a user is allowed to drag the widget to a different
-	 * container or position
-	 *
-	 * @return	boolean	true if dragging is allowed, false otherwise
-	 */
-	public function isDraggable() {
-		return false;
-	}
-
-	/**
-	 * returns whether the widget can be removed from being displayed
-	 *
-	 * @return	boolean	true id removing is allowed, false otherwise
-	 */
-	public function isRemovable() {
-		return false;
-	}
-
-	/**
-	 * return the current layout container the widget is located in
-	 *
-	 * @return	string
-	 */
-	public function getLayoutContainer() {
-		return 1;
-	}
-
-	/**
-	 * returns the widget's Id, this is the ID which is used while the widget
-	 * gets registerd in ext_localconf.php
-	 *
-	 * @return	string	the widget's Id
-	 */
-	public function getName() {
-		return 'profileActions';
-	}
-
-	/**
-	 * gets the position of the widget within its container
-	 *
-	 * @return	integer	the position within a container
-	 */
-	public function getPosition() {
-		return 2;
-	}
-
-	/**
-	 * returns the widget's label
-	 *
-	 * @return	string	the widget's content (HTML, XML, JSON, ...)
-	 */
-	public function getLabel() {
-		return $this->localizationManager->getLL('label_ProfileActionWidget');
-	}
-
-	/**
-	 * returns the widget's CSS class(es)
-	 *
-	 * @return	string	the widget's CSS class
-	 */
-	public function getCssClass() {
-		return '';
-	}
-
-	/**
-	 * central excution method of this widget, acts as a dispatcher for the
-	 * different actions
-	 *
-	 * @return	string	the result of the called action, usually some form of output/rendered HTML
-	 */
-	public function execute() {
-		$content = '';
-		$communityRequest = t3lib_div::_GP('tx_community');
-
-		$widgetConfiguration = $this->communityApplicationManager->getWidgetConfiguration(
-			$this->communityApplication->getName(),
-			$this->getName()
-		);
-
-			// dispatch
-		if (!empty($communityRequest['profileAction'])
-			&& method_exists($this, $communityRequest['profileAction'] . 'Action')
-			&& in_array($communityRequest['profileAction'], $widgetConfiguration['actions'])
-		) {
-				// call a specifically requested action
-			$actionName = $communityRequest['profileAction'] . 'Action';
-			$content = $this->$actionName();
-		} else {
-				// call the default action
-			$defaultActionName = $widgetConfiguration['defaultAction'] . 'Action';
-			$content = $this->$defaultActionName();
-		}
-
-		return $content;
+		$this->name            = 'profileActions';
+		$this->label           = $this->localizationManager->getLL('label_ProfileActionWidget');
+		$this->position        = 2;
+		$this->layoutContainer = 1;
 	}
 
 	/**
@@ -189,83 +75,97 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		return $view->render();
 	}
 
+	/**
+	 * adds a member to the group if that is allowed at all
+	 *
+	 * @return	void
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	public function joinGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findRequestedGroup();
 
-		if (!is_null($requestingUser)) {
-			if ($requestedGroup instanceof tx_community_model_Group) {
-				if ($requestedGroup->addMember($requestingUser)) {
-					// do a redirect to the profile page, no output
-					$profilePageUrl = $this->communityApplication->pi_getPageLink(
-						$this->configuration['pages.']['groupProfile'],
-						'',
-						array(
-							'tx_community' => array(
-								'group' => $requestedGroup->getUid()
-							)
-						)
-					);
+			// TODO move this check into some central function
+		if ($requestingUser->getUid() !== 0) {
+			$requestedGroup = $this->communityApplication->getRequestedGroup();
+			$groupType = $requestedGroup->getGroupType();
 
-					Header('HTTP/1.1 303 See Other');
-					Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
-					exit;
-				} else {
-					// TODO throw some exception
-				}
+			switch ($groupType) {
+				case tx_community_model_Group::TYPE_OPEN:
+				case tx_community_model_Group::TYPE_MEMBERS_ONLY:
+					$requestedGroup->addMember($requestingUser);
+					break;
+				case tx_community_model_Group::TYPE_PRIVATE:
+					$requestedGroup->addPendingMember($requestingUser);
+					break;
+				case tx_community_model_Group::TYPE_SECRET:
+						// do nothing, the user needs an invitation, can't invite himself
+					break;
 			}
+
+			$requestedGroup->save();
+
+				// done, now redirect back to the group profile page
+			$profilePageUrl = $this->communityApplication->pi_getPageLink(
+				$this->configuration['pages.']['groupProfile'],
+				'',
+				array(
+					'tx_community' => array(
+						'group' => $requestedGroup->getUid()
+					)
+				)
+			);
+
+			Header('HTTP/1.1 303 See Other');
+			Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
+			exit;
 		}
 	}
 
+	/**
+	 * removes a user as member from the group
+	 *
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 * @auhtor	Frank Naegler <typo3@naegler.net>
+	 */
 	public function leaveGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		/**
-		 * @var $requestedGroup tx_community_model_Group
-		 */
-		$requestedGroup = $this->groupGateway->findRequestedGroup();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
-		if (!is_null($requestingUser)) {
-			if ($requestedGroup instanceof tx_community_model_Group) {
-				if ($requestedGroup->isAdmin($requestingUser)) {
-					$membersOfGroup = $requestedGroup->getAllMembers();
-					if (count($membersOfGroup) > 1) {
-						// TODO throw some exception
-						die($this->localizationManager->getLL('msg_leaveGroupIfIsAdminOfGroup'));
-					}
-				}
+			// TODO move this check into some central function
+		if ($requestingUser->getUid() !== 0) {
+			if ($requestedGroup->isAdmin($requestingUser) && $requestedGroup->getNumberOfMembers() > 1) {
+					// TODO throw an exception instead
+				die($this->localizationManager->getLL('msg_leaveGroupIfIsAdminOfGroup'));
+			}
 
-				if ($requestedGroup->removeMember($requestingUser)) {
-					$membersOfGroup = $requestedGroup->getAllMembers();
-					if (count($membersOfGroup) == 0) {
-						// trying to delete the group
-						if ($requestedGroup->delete()) {
-							$targetURL = $this->communityApplication->pi_getPageLink(
-								$this->configuration['pages.']['groupOverview'],
-								'',
-								array()
-							);
-							Header('HTTP/1.1 303 See Other');
-							Header('Location: ' . t3lib_div::locationHeaderUrl($targetURL));
-						}
-					}
-					// do a redirect to the profile page, no output
+			$requestedGroup->removeMember($requestingUser);
+			$requestedGroup->save();
+
+			if ($requestedGroup->getNumberOfMembers() == 0) {
+					// trying to delete the group
+				if ($requestedGroup->delete()) {
 					$targetURL = $this->communityApplication->pi_getPageLink(
-						$this->configuration['pages.']['groupProfile'],
-						'',
-						array(
-							'tx_community' => array(
-								'group' => $requestedGroup->getUid()
-							)
-						)
+						$this->configuration['pages.']['groupList']
 					);
-
 					Header('HTTP/1.1 303 See Other');
 					Header('Location: ' . t3lib_div::locationHeaderUrl($targetURL));
-					exit;
-				} else {
-					// TODO throw some exception
 				}
 			}
+
+				// do a redirect to the profile page, no output
+			$targetURL = $this->communityApplication->pi_getPageLink(
+				$this->configuration['pages.']['groupProfile'],
+				'',
+				array(
+					'tx_community' => array(
+						'group' => $requestedGroup->getUid()
+					)
+				)
+			);
+
+			Header('HTTP/1.1 303 See Other');
+			Header('Location: ' . t3lib_div::locationHeaderUrl($targetURL));
+			exit;
 		}
 	}
 
@@ -279,72 +179,72 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 		return $profileActions;
 	}
 
+	/**
+	 * creates the action links to join a group if the user is not a member of
+	 * the group yet or a link to leave the group if he is a member already. In
+	 * case there's a pending membership request, this will be shown instead of
+	 * a link.
+	 *
+	 * @return	string	the join or leave profile action link or a notification that there already is a pending membership request
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 * @author	Frank Naegler <typo3@naegler.net>
+	 */
 	protected function getJoinLeaveGroupProfileAction() {
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findRequestedGroup();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
 
 		if ($requestedGroup->isMember($requestingUser)) {
-			$linkText = sprintf(
+			$content = $this->communityApplication->pi_linkTP(
 				$this->localizationManager->getLL('action_leaveGroup'),
-				$requestingUser->getNickname()
-			);
-
-			$content = $this->communityApplication->pi_linkTP(
-				$linkText,
 				array(
 					'tx_community' => array(
 						'group' => $requestedGroup->getUid(),
-						'profileAction' => 'leaveGroup'
+						$this->name . 'Action' => 'leaveGroup'
 					)
 				)
 			);
 
-			$membersOfGroup = $requestedGroup->getAllMembers();
-			if ($requestedGroup->isAdmin(($requestingUser)) && count($membersOfGroup) > 1) {
-				$content = sprintf(
-					$this->localizationManager->getLL('action_isAdminOfGroup'),
-					$requestingUser->getNickname()
-				);
+			if ($requestedGroup->isAdmin($requestingUser)) {
+				$content = $this->localizationManager->getLL('action_isAdminOfGroup');
 			}
-
 		} else {
-			$linkText = sprintf(
-				$this->localizationManager->getLL('action_joinGroup'),
-				$requestingUser->getNickname()
-			);
-
 			$content = $this->communityApplication->pi_linkTP(
-				$linkText,
+				 $this->localizationManager->getLL('action_joinGroup'),
 				array(
 					'tx_community' => array(
 						'group' => $requestedGroup->getUid(),
-						'profileAction' => 'joinGroup'
+						$this->name . 'Action' => 'joinGroup'
 					)
 				)
 			);
 		}
 
-		if ($requestedGroup->isTempMember($requestingUser)) {
-			$content = sprintf(
-				$this->localizationManager->getLL('action_pending_membership'),
-				$requestingUser->getNickname()
-			);
+		if ($requestedGroup->isPendingMember($requestingUser)) {
+			$content = $this->localizationManager->getLL('action_pending_membership');
 		}
+
 		return $content;
 	}
 
+	/**
+	 * If the user is an admin of the group this method returns an "edit group"
+	 * link.
+	 *
+	 * @return	string	an edit group link if the user is admin of the group, an empty string otherwise
+	 * @author	Frank Naegler <typo3@naegler.net>
+	 */
 	protected function getEditGroupProfileAction() {
 		$content = '';
 
 		$requestingUser = $this->communityApplication->getRequestingUser();
-		$requestedGroup = $this->groupGateway->findRequestedGroup();
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
+
 		if ($requestedGroup->isAdmin($requestingUser)) {
-			// the user is admin
-			$linkText = $this->localizationManager->getLL('action_editGroup');
+				// the user is admin
 			$content = $this->communityApplication->pi_linkToPage(
-				$linkText,
+				$this->localizationManager->getLL('action_editGroup'),
 				$this->configuration['pages.']['groupEdit'],
 				'',
 				array(
@@ -353,8 +253,6 @@ class tx_community_controller_groupprofile_ProfileActionsWidget implements tx_co
 					)
 				)
 			);
-		} else {
-			// the user are not admin yet, create no link
 		}
 
 		return $content;
