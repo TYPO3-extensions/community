@@ -2,6 +2,7 @@
 	
 	* some changes due to the refactoring of the group model 
 	* changed the method name from getAllMember to getMembers in tx_community_view_groupprofile_MemberList
+	* added ViewHelper to listgroup
 
 2008-10-05 Ingo Renner  <ingo@typo3.org>
 
