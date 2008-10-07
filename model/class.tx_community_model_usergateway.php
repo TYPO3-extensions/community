@@ -213,8 +213,8 @@ class tx_community_model_UserGateway {
 			. ' ON f1.feuser = f2.friend
 				AND f1.friend = f2.feuser
 				AND f1.feuser = ' . $user->getUid()
-				. 'JOIN fe_sessions AS fses ON fses.ses_userid = f1.friend
-					AND fses.ses_tstamp >= ' . $_SERVER['REQUEST_TIME'] - $onlineTimeout,
+				. ' JOIN fe_sessions AS fses ON fses.ses_userid = f1.friend
+					AND fses.ses_tstamp >= ' . ($_SERVER['REQUEST_TIME'] - $onlineTimeout),
 			''
 		);
 
