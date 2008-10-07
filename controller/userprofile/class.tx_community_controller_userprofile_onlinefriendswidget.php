@@ -37,9 +37,10 @@ class tx_community_controller_userprofile_OnlineFriendsWidget extends tx_communi
 	 */
 	public function __construct() {
 		parent::__construct();
-
+		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_onlinefriends.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+		
 		$this->name     = 'onlineFriends';
-		$this->label    = 'onlineFriendsWidget';
+		$this->label    = $this->localizationManager->getLL('label_OnlineFriendsWidget');
 		$this->cssClass = '';
 	}
 

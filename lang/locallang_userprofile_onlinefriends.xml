@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the user profile's profile actions widget</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="label_OnlineFriendsWidget">Friends online</label>
+			<label index="msg_no_friends_online">currently no friends online</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="label_OnlineFriendsWidget">Freunde online</label>
+			<label index="msg_no_friends_online">Keine Freunde online</label>
+		</languageKey>
+	</data>
+</T3locallang>

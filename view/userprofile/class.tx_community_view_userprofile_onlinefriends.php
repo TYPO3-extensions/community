@@ -22,6 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 
@@ -52,11 +53,22 @@ class tx_community_view_userprofile_OnlineFriends extends tx_community_view_Abst
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function render() {
+		$subpart = (count($this->userModel) > 0) ? 'online_friends_list' : 'online_friends_error';
+		
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
 			$this->templateFile,
-			'online_friends_list'
+			$subpart
+		);
+
+		$template->addViewHelper(
+			'lll',
+			'tx_community_viewhelper_Lll',
+			array(
+				'languageFile' => $GLOBALS['PATH_community'] . 'lang/locallang_userprofile_onlinefriends.xml',
+				'llKey'        => $this->languageKey
+			)
 		);
 
 		$template->addViewHelper(
@@ -70,7 +82,7 @@ class tx_community_view_userprofile_OnlineFriends extends tx_community_view_Abst
 		);
 
 		$template->addLoop('online_friends', 'user', $this->userModel);
-
+		
 		return $template->render();
 	}
 }
