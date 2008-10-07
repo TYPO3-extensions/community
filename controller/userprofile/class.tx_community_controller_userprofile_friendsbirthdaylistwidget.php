@@ -60,7 +60,7 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 		$friends = array_slice($friends, 0, $widgetTypoScriptConfiguration['maxNumberOfItemsShown']);
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_FriendsBirthdayList');
-		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['friendsBirthdayList.']['templateFile']);
+		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.'][$this->name . '.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
 		$view->setUserModel($friends);
 
