@@ -192,6 +192,16 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	}
 
 	/**
+	 * sets the requested user
+	 *
+	 * @param	tx_community_model_User	The user that should be the requested user
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function setRequestedUser(tx_community_model_User $user) {
+		$this->requestedUser = $user;
+	}
+
+	/**
 	 * returns the user that is looking at a page (if available), if no user is logged in null is returned
 	 *
 	 * @return tx_community_model_User|null
