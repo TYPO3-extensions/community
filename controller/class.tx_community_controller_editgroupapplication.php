@@ -108,9 +108,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$view->setImage($cObj->cObjGetSingle($this->configuration['applications.']['editGroup.']['previewImage'], $imgConf));
 
-		// make actions
+			// make actions
 		$actions = $this->configuration['applications.']['editGroup.']['memberlist.']['actions.'];
-#debug($actions);
+
 		$adminActions = array();
 		$tmpMemberActions = array();
 		$otherActions = array();
