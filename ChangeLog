@@ -1,3 +1,8 @@
+2008-10-07 Ingo Renner  <ingo@typo3.org>
+
+	* added a method to the user gateway to find a user's online friends
+	* added caching of already retrieved users to the user gateway
+
 2008-10-06 Ingo Renner  <ingo@typo3.org>
 
 	* changed the name of the general sttings branch in TS ffrom common to general

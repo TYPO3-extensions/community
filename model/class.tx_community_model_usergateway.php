@@ -27,18 +27,20 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_user.p
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_account.php');
 
 /**
- * gateway too retrieve users
+ * gateway to retrieve users from the database
  *
- * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
  * @subpackage community
  */
 class tx_community_model_UserGateway {
 
 	static protected $feUsersEnableFields = null;
+	static protected $foundUsers = array();
 
 	/**
 	 * constructor for class tx_community_model_UserGateway
+	 *
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function __construct() {
 		if (is_null(self::$feUsersEnableFields)) {
@@ -57,23 +59,26 @@ class tx_community_model_UserGateway {
 	 *
 	 * @param integer The user's uid
 	 * @return	tx_community_model_User
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function findById($uid) {
 		$user = null;
 
-		$userRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'*',
-			'fe_users',
-			'uid = ' . (int) $uid
-		); // TODO restrict to certain part of the tree
-		$userRow = $userRow[0];
+		if (isset(self::$foundUsers[$uid])) {
+			$user = self::$foundUsers[$uid];
+		} else {
+			$userRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'*',
+				'fe_users',
+				'uid = ' . (int) $uid
+			); // TODO restrict to certain part of the tree, enablefields
+			$userRow = $userRow[0];
 
-			// TODO first check whether we got exactly one result
-		if (is_array($userRow)) {
-			$user = $this->createUserFromRow($userRow);
+				// TODO first check whether we got exactly one result
+			if (is_array($userRow)) {
+				$user = $this->createUserFromRow($userRow);
+			}
 		}
-
-			// TODO cache the users to save queries
 
 		return $user;
 	}
@@ -94,13 +99,11 @@ class tx_community_model_UserGateway {
 			'*',
 			'fe_users',
 			'uid IN (' . $cleanUidList . ')'
-		); // TODO restrict to certain part of the tree
+		); // TODO restrict to certain part of the tree, enablefields
 
 		foreach($userRows as $userRow) {
 			$users[] = $this->createUserFromRow($userRow);
 		}
-
-			// TODO cache the users to save queries
 
 		return $users;
 	}
@@ -125,26 +128,19 @@ class tx_community_model_UserGateway {
 		);
 
 		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			$connectedUsers[] = $this->createUserAccountFromRow($userRow);
+			$connectedUsers[] = $this->createUserFromRow($userRow);
 		}
 
 		return $connectedUsers;
 	}
 
 	/**
-	 * find users by custom criteria
-	 * for example: $criteria = array(
-	 * 	'lastname'	=> 'Meyer',
-	 * 	'firstname'	=> 'Franz',
-	 * 	'roles'		=> array(new tx_community_acl_Role(1), new tx_community_acl_Role(2))
-	 * );
+	 * finds users by a custom where clause
 	 *
-	 * @param array $criteria
+	 * @param	string	where clause
+	 * @return	array	An array of tx_community_model_User objects
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function findByCriteria(array $criteria) {
-			// TODO use TCA information
-	}
-
 	public function findByWhereClause($whereClause) {
 		$foundUsers = array();
 
@@ -163,10 +159,11 @@ class tx_community_model_UserGateway {
 	}
 
 	/**
-	 * find users friends
+	 * finds a user's friends
 	 *
-	 * @param tx_community_model_User $user
-	 * @return	array of tx_community_model_User
+	 * @param	tx_community_model_User	The user to find the friends for, optional, if not set or set to null the currently logged in user will be taken
+	 * @return	array	The user's friends as an array of tx_community_model_User objects
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function findFriends($user = null) {
 		$friends = array();
@@ -184,20 +181,61 @@ class tx_community_model_UserGateway {
 		);
 
 		if (is_array($userRows)) {
+			$friendUidList = array();
 			foreach($userRows as $userRow) {
-				$friends[] = $this->findById($userRow['friend']);
+				$friendUidList[] = $userRow['friend'];
 			}
+			$friends = $this->findByIdList(implode(',', $friendUidList));
 		}
 
 		return $friends;
 	}
 
 	/**
+	 * finds friends of a user that are currently online. The timespan of what
+	 * counts as "online" can be adjusted.
+	 *
+	 * @param	tx_community_model_User	The user to find the online friends for, optional, if not set or set to null the currently logged in user will be taken
+	 * @param	integer	sets the timeout for a user being counted as online in seconds, defaults to 3600
+	 * @return	array	An array of tx_community_model_User objects representing the online friends
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function findOnlineFriends($user = null, $onlineTimeout = 3600) {
+		$onlineFriends = array();
+
+		if (is_null($user)) {
+			$user = $this->findCurrentlyLoggedInUser();
+		}
+
+		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'DISTINCT f1.friend',
+			'tx_community_friend as f1 JOIN tx_community_friend AS f2'
+			. ' ON f1.feuser = f2.friend
+				AND f1.friend = f2.feuser
+				AND f1.feuser = ' . $user->getUid()
+				. 'JOIN fe_sessions AS fses ON fses.ses_userid = f1.friend
+					AND fses.ses_tstamp >= ' . $_SERVER['REQUEST_TIME'] - $onlineTimeout,
+			''
+		);
+
+		if (is_array($userRows)) {
+			$onlineFriendUidList = array();
+			foreach($userRows as $userRow) {
+				$onlineFriendUidList[] = $userRow['friend'];
+			}
+			$onlineFriends = $this->findByIdList(implode(',', $onlineFriendUidList));
+		}
+
+
+		return $onlineFriends;
+	}
+
+	/**
 	 * finds the currently logged in user
 	 *
 	 * @return	tx_community_model_User
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-
 	public function findCurrentlyLoggedInUser() {
 		$loggedInUser = null;
 
@@ -211,25 +249,39 @@ class tx_community_model_UserGateway {
 		return $loggedInUser;
 	}
 
+	/**
+	 * creates a tx_community_model_User object from a database record
+	 *
+	 * @param	array	the database record as an array
+	 * @return	tx_community_model_User
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	protected function createUserFromRow(array $row) {
+		$user = null;
 		$userClass = t3lib_div::makeInstanceClassName('tx_community_model_User');
 
-		$user = new $userClass($row['uid']);
-		/* @var $user tx_community_model_User */
-		$user->setPid($row['pid']);
-		$user->setSex($row['tx_community_sex']);
-		$user->setBirthday($row['tx_community_birthday']);
-		$user->setImage($row['image']);
-		$user->setNickname($row['tx_community_nickname']);
-		$user->setActivities($row['tx_community_activities']);
-		$user->setInterests($row['tx_community_interests']);
-		$user->setFavoriteMusic($row['tx_community_favoritemusic']);
-		$user->setFavoriteTvShows($row['tx_community_favoritetvshows']);
-		$user->setFavoriteMovies($row['tx_community_favoritemovies']);
-		$user->setFavoriteBooks($row['tx_community_favoritebooks']);
-		$user->setAboutMe($row['tx_community_aboutme']);
+		if (isset(self::$foundUsers[$row['uid']])) {
+			$user = self::$foundUsers[$row['uid']];
+		} else {
+			$user = new $userClass($row['uid']);
+			/* @var $user tx_community_model_User */
+			$user->setPid($row['pid']);
+			$user->setSex($row['tx_community_sex']);
+			$user->setBirthday($row['tx_community_birthday']);
+			$user->setImage($row['image']);
+			$user->setNickname($row['tx_community_nickname']);
+			$user->setActivities($row['tx_community_activities']);
+			$user->setInterests($row['tx_community_interests']);
+			$user->setFavoriteMusic($row['tx_community_favoritemusic']);
+			$user->setFavoriteTvShows($row['tx_community_favoritetvshows']);
+			$user->setFavoriteMovies($row['tx_community_favoritemovies']);
+			$user->setFavoriteBooks($row['tx_community_favoritebooks']);
+			$user->setAboutMe($row['tx_community_aboutme']);
 
-		$user->setAccount($this->createUserAccountFromRow($row));
+			$user->setAccount($this->createUserAccountFromRow($row));
+
+			self::$foundUsers[$row['uid']] = $user;
+		}
 
 		return $user;
 	}
@@ -239,6 +291,7 @@ class tx_community_model_UserGateway {
 	 *
 	 * @param array A row of user data
 	 * @return	tx_community_model_Account	A user account object
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	protected function createUserAccountFromRow(array $row) {
 		$account = t3lib_div::makeInstance('tx_community_model_Account');
