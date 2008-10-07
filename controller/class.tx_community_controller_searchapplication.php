@@ -78,7 +78,6 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 				$groupFields[$groupFieldName] = $searchApplicationConfiguration['searchFields.'][$groupFieldName . '.'];
 			}
 
-
 			$formModel[] = array(
 				'label' => $searchFieldGroupConfiguration['label'],
 				'fields' => $groupFields
@@ -130,7 +129,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
 
 		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication(
-			'UserList',
+			'userList',
 			$this->data,
 			$this->configuration
 		);
