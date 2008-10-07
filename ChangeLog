@@ -11,6 +11,7 @@
 	* fixed the interfaces for additional user/group profile actions, added documentation
 	* implemented a method in the application manager to get an instance of a specific widget of an application
 	* introduced a method in the abstract application controller to set the requested user
+	* added a WIDGET: viewhelper that can execute - guess what - a widget
 
 2008-10-06 Ingo Renner  <ingo@typo3.org>
 

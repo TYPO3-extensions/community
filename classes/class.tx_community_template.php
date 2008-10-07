@@ -209,13 +209,44 @@ class tx_community_Template {
 		);
 	}
 
+	/**
+	 * processes marker in a loop that start with LOOP:, this is useful
+	 * especially for calling view helper with the current iteration's value
+	 * as a parameter
+	 *
+	 * @param unknown_type $content
+	 * @param unknown_type $loopName
+	 * @param array $markers
+	 * @param unknown_type $currentIterationValue
+	 * @return unknown
+	 */
 	protected function processInLoopMarkers($content, $loopName, array $markers, $currentIterationValue) {
-//debug(array(
-//	'content' => $content,
-//	'loop name' => $loopName,
-//	'markers' => $markers,
-//	'current value' => $currentIterationValue
-//), 'processInLoopMarkers');
+
+		foreach ($markers as $marker) {
+			list($helperName, $helperArguments) = explode(':', $marker);
+
+			$helperName      = strtolower($helperName);
+			$helperArguments = explode('|', $helperArguments);
+
+				// checking whether any of the helper arguments should be
+				// replaced by the current iteration's value
+			if (isset($this->loops[$loopName])) {
+				foreach ($helperArguments as $i => $helperArgument) {
+					if (strtoupper($this->loops[$loopName]['marker']) == strtoupper($helperArgument)) {
+						$helperArguments[$i] = $currentIterationValue;
+					}
+				}
+			}
+
+			if (array_key_exists($helperName, $this->helpers)) {
+				$markerContent = $this->helpers[$helperName]->execute($helperArguments);
+			} else {
+					// TODO turn this into an exception
+				$markerContent = 'no matching view helper found for marker "' . $marker . '"';
+			}
+
+			$content = str_replace('###LOOP:' . $marker . '###', $markerContent, $content);
+		}
 
 		return $content;
 	}

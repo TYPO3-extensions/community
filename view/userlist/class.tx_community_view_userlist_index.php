@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_widget.php');
 
 /**
  * The user list default view
@@ -47,6 +47,11 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 			'user_list'
 		);
 		/* @var $template tx_community_Template */
+
+		$template->addViewHelper(
+			'widget',
+			'tx_community_viewhelper_Widget'
+		);
 
 		$template->addLoop('users', 'user', $this->userModel);
 
