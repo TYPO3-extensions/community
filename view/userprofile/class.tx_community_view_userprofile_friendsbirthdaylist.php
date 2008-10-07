@@ -49,20 +49,9 @@ class tx_community_view_userprofile_FriendsBirthdayList extends tx_community_vie
 			'friends_birthday_list'
 		);
 
-		$template->addViewHelper(
-			'date',
-			'tx_community_viewhelper_Date'
-		);
-
-		$template->addViewHelper(
-			'ts',
-			'tx_community_viewhelper_Ts'
-		);
-
-		$template->addViewHelper(
-			'link',
-			'tx_community_viewhelper_Link'
-		);
+		$template->addViewHelper('date', 'tx_community_viewhelper_Date');
+		$template->addViewHelper('ts', 'tx_community_viewhelper_Ts');
+		$template->addViewHelper('link', 'tx_community_viewhelper_Link');
 
 		$template->addLoop('friends', 'user', $this->userModel);
 
