@@ -176,6 +176,17 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 		$profileActions[]['link'] = $this->getJoinLeaveGroupProfileAction();
 		$profileActions[]['link'] = $this->getEditGroupProfileAction();
 
+		// hook
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['getGroupProfileActions'])) {
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['getGroupProfileActions'] as $classReference) {
+				$hookObject = & t3lib_div::getUserObj($classReference);
+				if ($hookObject instanceof tx_community_GroupProfileActionsProvider) {
+					$hookObject->getGroupProfileActions($profileActions, $this);
+				}
+				
+			}
+		}
+		
 		return $profileActions;
 	}
 

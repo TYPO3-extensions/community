@@ -271,7 +271,18 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 			$profileActions[]['link'] = $this->getEditRelationshipProfileAction();
 			$profileActions[]['link'] = $this->getRemoveAsFriendProfileAction();
 		}
-
+		
+		// hook
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['getUserProfileActions'])) {
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['getUserProfileActions'] as $classReference) {
+				$hookObject = & t3lib_div::getUserObj($classReference);
+				if ($hookObject instanceof tx_community_UserProfileActionsProvider) {
+					$hookObject->getUserProfileActions($profileActions, $this);
+				}
+				
+			}
+		}
+		
 		return $profileActions;
 	}
 

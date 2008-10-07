@@ -1,6 +1,7 @@
 2008-10-07 Frank Naegler  <typo3@naegler.net>
 
 	* localize onlineFriendsWidget and added error message, if no friend is online
+	* added interfaces and hooks for the ProfileActions-Widgets
 
 2008-10-07 Ingo Renner  <ingo@typo3.org>
 

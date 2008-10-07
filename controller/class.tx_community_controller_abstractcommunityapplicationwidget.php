@@ -70,6 +70,19 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	}
 
 	/**
+	 * returns the communityApplication
+	 *
+	 * @return tx_community_controller_AbstractCommunityApplication
+	 */
+	public function getCommunityApplication() {
+		return $this->communityApplication;
+	}
+	
+	public function getConfiguration() {
+		return $this->configuration;
+	}
+
+	/**
 	 * central excution method for the widget, acts as a dispatcher for the
 	 * different actions
 	 *
