@@ -41,7 +41,7 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 		parent::__construct();
 
 		$this->name     = 'myGroups';
-		$this->label    = 'MyGroupsWidget';
+		$this->label    = 'MyGroupsWidget'; // @TODO localize the label
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';

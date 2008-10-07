@@ -40,7 +40,7 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 		parent::__construct();
 
 		$this->name      = 'image';
-		$this->label     = 'ImageWidget';
+		$this->label     = 'ImageWidget'; // @TODO localize the label
 		$this->cssClass  = '';
 		$this->draggable = true;
 		$this->removable = true;
