@@ -59,6 +59,12 @@ plugin.tx_community {
 				myGroups {
 					templateFile = EXT:community/resources/templates/userprofile/mygroupswidget.htm
 				}
+
+				onlineFriends {
+					templateFile = EXT:community/resources/templates/userprofile/onlinefriendswidget.htm
+
+					onlineTimeOut = 3600
+				}
 			}
 		}
 

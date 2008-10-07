@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Template for the online friends widget</title>
+</head>
+<body>
+
+<!-- ###ONLINE_FRIENDS_LIST### begin -->
+
+<ul>
+	<!-- ###LOOP:ONLINE_FRIENDS### begin -->
+	<!-- ###LOOP_CONTENT### -->
+	<li>
+		###LINK:###USER.NICKNAME###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.UID######
+	</li>
+	<!-- ###LOOP_CONTENT### -->
+	<!-- ###LOOP:ONLINE_FRIENDS### end -->
+</ul>
+
+<!-- ###ONLINE_FRIENDS_LIST###end -->
+
+</body>
+</html>

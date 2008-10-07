@@ -2,6 +2,7 @@
 
 	* added a method to the user gateway to find a user's online friends
 	* added caching of already retrieved users to the user gateway
+	* added a "who of my friends is online" widget
 
 2008-10-06 Ingo Renner  <ingo@typo3.org>
 

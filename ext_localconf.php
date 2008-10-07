@@ -72,6 +72,15 @@ $TX_COMMUNITY = array(
 						'index'
 					),
 					'defaultAction' => 'index'
+				),
+				'onlineFriends' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_onlinefriendswidget.php:tx_community_controller_userprofile_OnlineFriendsWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_onlineFriends',
+					'accessControl' => false,
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
 				)
 			)
 		),
