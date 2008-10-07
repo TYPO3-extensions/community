@@ -53,8 +53,11 @@ class tx_community_view_userprofile_OnlineFriends extends tx_community_view_Abst
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function render() {
-		$subpart = (count($this->userModel) > 0) ? 'online_friends_list' : 'online_friends_error';
-		
+		$subpart = 'online_friends_list';
+		if (count($this->userModel) == 0) {
+			$subpart = 'online_friends_list_error';
+		}
+
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
@@ -82,7 +85,7 @@ class tx_community_view_userprofile_OnlineFriends extends tx_community_view_Abst
 		);
 
 		$template->addLoop('online_friends', 'user', $this->userModel);
-		
+
 		return $template->render();
 	}
 }
