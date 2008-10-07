@@ -95,8 +95,27 @@ class tx_community_ApplicationManager {
 		return $GLOBALS['TX_COMMUNITY']['applications'][$applicationName];
 	}
 
-	public function getWidget($widgetName) {
-		// TODO really needed? IR: Yes, I think we could use this to request an instance of a widget at some point
+	/**
+	 * gets a widget of an application, the returned widget is initialized and
+	 * ready to use
+	 *
+	 * @param	string	the name of the application the widget belongs to
+	 * @param	string	the widget's name
+	 * @return	tx_community_controller_AbstractCommunityApplicationWidget	the requested widget
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getWidget($applicationName, $widgetName) {
+		$application = $this->getApplication($applicationName);
+
+		if (!array_key_exists($widgetName, $this->applications[$applicationName]['widgets'])) {
+			// TODO throw an "application not found exception"
+		}
+
+		$widget = t3lib_div::getUserObj($this->applications[$applicationName]['widgets'][$widgetName]['classReference']);
+		$widget->initialize($application->getData(), $application->getConfiguration());
+		$widget->setCommunityApplication($application);
+
+		return $widget;
 	}
 
 	/**
@@ -141,9 +160,9 @@ class tx_community_ApplicationManager {
 		return $widgetsConfigurations;
 	}
 
-	public function getWidgetsByApplication($application) {
+	public function getWidgetsByApplication($applicationName) {
 		$widgets              = array();
-		$widgetConfigurations = $this->getWidgetConfigurationsByApplicationName($application);
+		$widgetConfigurations = $this->getWidgetConfigurationsByApplicationName($applicationName);
 
 		foreach ($widgetConfigurations as $widgetName => $widgetConfiguration) {
 			$widgets[$widgetName] = t3lib_div::getUserObj($widgetConfiguration['classReference']);

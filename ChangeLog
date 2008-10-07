@@ -8,6 +8,8 @@
 	* added a method to the user gateway to find a user's online friends
 	* added caching of already retrieved users to the user gateway
 	* added a "who of my friends is online" widget
+	* fixed the interfaces for additional user/group profile actions, added documentation
+	* implemented a method in the application manager to get an instance of a specific widget of an application
 
 2008-10-06 Ingo Renner  <ingo@typo3.org>
 

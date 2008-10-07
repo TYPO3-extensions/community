@@ -147,6 +147,25 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $this->name;
 	}
 
+	/**
+	 * returns the applications data
+	 *
+	 * @return	array	the application's data
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getData() {
+		return $this->data;
+	}
+
+	/**
+	 * returns the applications configuration
+	 *
+	 * @return	array	the application's configuration
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function getConfiguration() {
+		return $this->configuration;
+	}
 
 	/**
 	 * returns the user that shall be displayed
