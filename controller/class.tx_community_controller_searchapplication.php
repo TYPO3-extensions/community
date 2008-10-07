@@ -93,8 +93,6 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$searchConfiguration = $this->configuration['applications.']['search.'];
 		$whereClauses        = array();
 
-#debug($communityRequest, 'community request');
-
 		foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
 			if (!empty($submittedParameterValue)
 				&& array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
@@ -135,7 +133,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		);
 		$userList->setUserListModel($foundUsers);
 
-		return $userList->execute() . ', search application, search action';
+		return $userList->execute();
 	}
 
 	protected function filterInput($content, array $filterConfiguration = array()) {

@@ -55,7 +55,7 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 
 		$template->addLoop('users', 'user', $this->userModel);
 
-		return $template->render() . ', user list index view';
+		return $template->render();
 	}
 }
 

@@ -64,7 +64,7 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 
 		$view->setUserModel($this->userListModel);
 
-		return $view->render() . ', user list';
+		return $view->render();
 	}
 
 	public function setUserListModel(array $userListModel) {
