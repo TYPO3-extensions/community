@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,19 +27,21 @@
 
 
 /**
- * GroupProfileActionsProvider interface for the MVC pattern
+ * GroupProfileActionsProvider interface for the group profile actions widget
  *
- * @author	Frank Nägler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
 interface tx_community_GroupProfileActionsProvider {
+
 	/**
-	 * execute method
+	 * gets a modified array of action links for the group profile actions widget
 	 *
-	 * @param	array	array of arguments
+	 * @param	array	an array of the original profile actions
+	 * @param	tx_community_controller_groupprofile_ProfileActionsWidget	the parent group profile actions widget
+	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
-	public function getGroupProfileActions(array &$profileActions, tx_community_controller_groupprofile_ProfileActionsWidget $profileActionsWidget);
+	public function getGroupProfileActions(array $profileActions, tx_community_controller_groupprofile_ProfileActionsWidget $profileActionsWidget);
 }
 
 ?>

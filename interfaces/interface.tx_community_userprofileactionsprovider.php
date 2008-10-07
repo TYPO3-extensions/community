@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,14 +27,21 @@
 
 
 /**
- * UserProfileActionsProvider interface for the MVC pattern
+ * UserProfileActionsProvider interface for the user profile actions widget
  *
- * @author	Frank Nägler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
 interface tx_community_UserProfileActionsProvider {
-	public function getUserProfileActions(array &$profileActions, tx_community_controller_userprofile_ProfileActionsWidget $profileActionsWidget);
+
+	/**
+	 * gets a modified array of action links for the user profile actions widget
+	 *
+	 * @param	array	an array of the original profile actions
+	 * @param	tx_community_controller_userprofile_ProfileActionsWidget	the parent user profile actions widget
+	 * @author	Frank Naegler <typo3@naegler.net>
+	 */
+	public function getUserProfileActions(array $profileActions, tx_community_controller_userprofile_ProfileActionsWidget $profileActionsWidget);
 }
 
 ?>
