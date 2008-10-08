@@ -13,8 +13,8 @@
 <dl>
 	<!-- ###LOOP:MEMBERS### begin -->
 	<!-- ###LOOP_CONTENT### -->
-	<dd>###LINK:###WIDGET:userProfile.image|###MEMBER###|thumbnail###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###MEMBER.uid######</dd>
-	<dt>###LINK:###MEMBER.nickname###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###MEMBER.uid######</dt>
+	<dd>###LINK:###LOOP:WIDGET:userProfile.image|USER|thumbnail###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.uid######</dd>
+	<dt>###LINK:###USER.NICKNAME###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.UID######</dt>
 	<!-- ###LOOP_CONTENT### -->
 	<!-- ###LOOP:MEMBERS### end -->
 </dl>
