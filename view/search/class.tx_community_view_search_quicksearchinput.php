@@ -33,20 +33,10 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
  */
 class tx_community_view_search_QuickSearchInput extends tx_community_view_AbstractView {
 
-	protected $profileActions;
 	protected $formAction;
-	protected $inputFieldProperties;
-
-	public function setProfileActionsModel(array $profileActions) {
-		$this->profileActions = $profileActions;
-	}
 
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;
-	}
-
-	public function setInputFieldProperties($inputFieldProperties) {
-		$this->inputFieldProperties = $inputFieldProperties;
 	}
 
 	public function render() {
@@ -67,7 +57,6 @@ class tx_community_view_search_QuickSearchInput extends tx_community_view_Abstra
 		);
 
 		$template->addVariable('form', array('action' => $this->formAction));
-		$template->addVariable('input_field', $this->inputFieldProperties);
 
 		return $template->render();
 	}
