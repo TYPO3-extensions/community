@@ -7,6 +7,7 @@
 	* the widget view helper can now hand over an arbitrary number of arguments to a widget
 	* added custom size image actions o the user and group profile image widgets
 	* fixed handling of user images, if the user has no image, a default image is used now
+	* set default images for the group and user profile image widgets
 
 2008-10-07 Frank Naegler  <typo3@naegler.net>
 

@@ -35,23 +35,24 @@ plugin.tx_community {
 		userProfile {
 			widgets {
 				image {
+					defaultImage = EXT:community/resources/icons/default_user.png
 
 					profileImage = IMAGE
 					profileImage {
-						file = EXT:community/resources/icons/default_user.png
+						file < plugin.tx_community.applications.userProfile.widgets.image.defaultImage
 						file.maxW = 150
 						file.maxH = 200
 					}
 
 					thumbnail = IMAGE
 					thumbnail {
-						file = EXT:community/resources/icons/default_user.png
+						file < plugin.tx_community.applications.userProfile.widgets.image.defaultImage
 						file.maxW = 50
 					}
 
 					squaredThumbnail = IMAGE
 					squaredThumbnail {
-						file = EXT:community/resources/icons/default_user.png
+						file < plugin.tx_community.applications.userProfile.widgets.image.defaultImage
 							// TODO add cropping
 						file.maxW = 75
 						file.maxH = 75
@@ -87,20 +88,24 @@ plugin.tx_community {
 		groupProfile {
 			widgets {
 				image {
+					defaultImage = EXT:community/resources/icons/default_group.png
 
 					groupImage = IMAGE
 					groupImage {
+						file < plugin.tx_community.applications.groupProfile.widgets.image.defaultImage
 						file.maxW = 150
 						file.maxH = 200
 					}
 
 					thumbnail = IMAGE
 					thumbnail {
+						file < plugin.tx_community.applications.groupProfile.widgets.image.defaultImage
 						file.maxW = 50
 					}
 
 					squaredThumbnail = IMAGE
 					squaredThumbnail {
+						file < plugin.tx_community.applications.groupProfile.widgets.image.defaultImage
 							// TODO add cropping
 						file.maxW = 75
 						file.maxH = 75
@@ -117,15 +122,6 @@ plugin.tx_community {
 
 				memberList {
 					templateFile = EXT:community/resources/templates/groupprofile/memberlistwidget.htm
-					userImage = IMAGE
-					userImage {
-						// will be overwriten if an user image is available
-						file = EXT:community/resources/icons/default_user.png
-						file {
-							maxW = 50
-							maxH = 50
-						}
-					}
 				}
 			}
 		}
