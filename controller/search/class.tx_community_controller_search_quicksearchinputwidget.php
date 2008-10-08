@@ -153,10 +153,6 @@ class tx_community_controller_search_QuickSearchInputWidget implements tx_commun
 		);
 
 		$view->setFormAction($formAction);
-		$view->setInputFieldProperties(array(
-			'name' => 'tx_community[profileSearch][name]',
-			'id'   => 'tx_community-profileSearch-' . $this->getName()
-		));
 
 		return $view->render();
 	}
