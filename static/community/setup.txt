@@ -50,8 +50,8 @@ plugin.tx_community {
 					squaredThumbnail = IMAGE
 					squaredThumbnail {
 							// TODO add cropping
-						file.maxW = 50
-						file.maxH = 50
+						file.maxW = 75
+						file.maxH = 75
 					}
 				}
 
@@ -94,6 +94,13 @@ plugin.tx_community {
 					thumbnail = IMAGE
 					thumbnail {
 						file.maxW = 50
+					}
+
+					squaredThumbnail = IMAGE
+					squaredThumbnail {
+							// TODO add cropping
+						file.maxW = 75
+						file.maxH = 75
 					}
 				}
 

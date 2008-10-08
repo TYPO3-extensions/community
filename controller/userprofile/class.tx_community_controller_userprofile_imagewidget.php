@@ -90,6 +90,29 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 
 		return $view->render();
 	}
+
+	/**
+	 * renders a custom sized user image
+	 *
+	 * @param array $arguments
+	 * @return	string	the thumbnail image as HTML tag
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function customImageAction(array $arguments) {
+		$requestedUser = $this->communityApplication->getRequestedUser();
+		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
+
+		$profileImageConfiguration = array(
+			$widgetTypoScriptConfiguration[$arguments[0]],
+			$widgetTypoScriptConfiguration[$arguments[0] . '.']
+		);
+		$profileImageConfiguration[1]['file'] = $requestedUser->getImage();
+
+		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
+		$view->setImageConfiguration($profileImageConfiguration);
+
+		return $view->render();
+	}
 }
 
 

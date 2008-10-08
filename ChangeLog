@@ -4,6 +4,8 @@
 	* added a method in the template engine so that view helpers get variables handed over to them if needed
 	* added a thumbnail action to the group profile's image widget
 	* added a thumbnail action to the user profile's image widget
+	* the widget view helper can now hand over an arbitrary number of arguments to a widget
+	* added custom size image actions o the user and group profile image widgets
 
 2008-10-07 Frank Naegler  <typo3@naegler.net>
 

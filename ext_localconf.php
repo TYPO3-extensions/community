@@ -26,7 +26,8 @@ $TX_COMMUNITY = array(
 					),
 					'actions' => array(
 						'index',
-						'thumbnail'
+						'thumbnail',
+						'customImage'
 					),
 					'defaultAction' => 'index'
 				),
@@ -96,7 +97,8 @@ $TX_COMMUNITY = array(
 					'accessControl' => false,
 					'actions' => array(
 						'index',
-						'thumbnail'
+						'thumbnail',
+						'customImage'
 					),
 					'defaultAction' => 'index'
 				),

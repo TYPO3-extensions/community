@@ -67,7 +67,12 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 		}
 		$widgetAction = $widgetAction . 'Action';
 
-		return $widget->$widgetAction();
+		$actionArguments = array_slice($arguments, 3);
+		if (!is_array($actionArguments)) {
+			$actionArguments = array();
+		}
+
+		return $widget->$widgetAction($actionArguments);
 	}
 }
 
