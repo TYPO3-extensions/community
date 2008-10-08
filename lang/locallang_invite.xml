@@ -9,7 +9,7 @@
 			<label index="invite_name">Name</label>
 			<label index="invite_email">Email</label>
 			<label index="invite_formSubmitInvite">Invite!</label>
-			<label index="invite_message_error">We're sorry, but we really need a name and an email to send you invitation.</label>
+			<label index="invite_message_error">We're sorry, but we really need a name and an email to send your invitation.</label>
 			<label index="invite_message_success">Thanks for recommending us to your friend, an invitation is on the way.</label>
 			<label index="invite_email_subject">Invitation to ###COMMUNITY_NAME### from ###USER.combinedName###</label>
 			<label index="invite_email_body">Hello ###NAME###
