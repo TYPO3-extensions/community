@@ -61,7 +61,11 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 			$widgetTypoScriptConfiguration['profileImage'],
 			$widgetTypoScriptConfiguration['profileImage.']
 		);
-		$profileImageConfiguration[1]['file'] = $requestedUser->getImage();
+
+		$userImage = $requestedUser->getImage();
+		if(!empty($userImage)) {
+			$profileImageConfiguration[1]['file'] = $userImage;
+		}
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
 		$view->setImageConfiguration($profileImageConfiguration);
@@ -83,7 +87,11 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 			$widgetTypoScriptConfiguration['thumbnail'],
 			$widgetTypoScriptConfiguration['thumbnail.']
 		);
-		$profileImageConfiguration[1]['file'] = $requestedUser->getImage();
+
+		$userImage = $requestedUser->getImage();
+		if(!empty($userImage)) {
+			$profileImageConfiguration[1]['file'] = $userImage;
+		}
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
 		$view->setImageConfiguration($profileImageConfiguration);
@@ -106,7 +114,11 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 			$widgetTypoScriptConfiguration[$arguments[0]],
 			$widgetTypoScriptConfiguration[$arguments[0] . '.']
 		);
-		$profileImageConfiguration[1]['file'] = $requestedUser->getImage();
+
+		$userImage = $requestedUser->getImage();
+		if(!empty($userImage)) {
+			$profileImageConfiguration[1]['file'] = $userImage;
+		}
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_ContentObjectImage');
 		$view->setImageConfiguration($profileImageConfiguration);

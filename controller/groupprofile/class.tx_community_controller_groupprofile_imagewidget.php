@@ -54,7 +54,11 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 			$widgetTypoScriptConfiguration['groupImage'],
 			$widgetTypoScriptConfiguration['groupImage.']
 		);
-		$groupImageConfiguration[1]['file'] = $requestedGroup->getImage();
+
+		$groupImage = $requestedGroup->getImage();
+		if(!empty($groupImage)) {
+			$groupImageConfiguration[1]['file'] = $groupImage;
+		}
 
 		$view = t3lib_div::makeInstance('tx_community_view_groupprofile_ContentObjectImage');
 		$view->setImageConfiguration($groupImageConfiguration);
@@ -76,7 +80,11 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 			$widgetTypoScriptConfiguration['thumbnail'],
 			$widgetTypoScriptConfiguration['thumbnail.']
 		);
-		$groupImageConfiguration[1]['file'] = $requestedGroup->getImage();
+
+		$groupImage = $requestedGroup->getImage();
+		if(!empty($groupImage)) {
+			$groupImageConfiguration[1]['file'] = $groupImage;
+		}
 
 		$view = t3lib_div::makeInstance('tx_community_view_groupprofile_ContentObjectImage');
 		$view->setImageConfiguration($groupImageConfiguration);
@@ -99,7 +107,11 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 			$widgetTypoScriptConfiguration[$arguments[0]],
 			$widgetTypoScriptConfiguration[$arguments[0] . '.']
 		);
-		$groupImageConfiguration[1]['file'] = $requestedGroup->getImage();
+
+		$groupImage = $requestedGroup->getImage();
+		if(!empty($groupImage)) {
+			$groupImageConfiguration[1]['file'] = $groupImage;
+		}
 
 		$view = t3lib_div::makeInstance('tx_community_view_groupprofile_ContentObjectImage');
 		$view->setImageConfiguration($groupImageConfiguration);
