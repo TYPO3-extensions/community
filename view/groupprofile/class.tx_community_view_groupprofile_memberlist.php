@@ -25,6 +25,7 @@
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_widget.php');
 
 /**
  * member list widget view
@@ -68,7 +69,9 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 				'llKey'        => $this->languageKey
 			)
 		);
-
+		
+		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
+		
 		$template->addViewHelper(
 			'ts',
 			'tx_community_viewhelper_Ts'
@@ -82,14 +85,8 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 		$template->addVariable('group', $this->groupModel);
 
 		$members = $this->groupModel->getMembers();
-		foreach ($members as $member) {
-			$imgConf = $this->configuration['applications.']['groupProfile.']['widgets.']['memberList.']['userImage.'];
-			$imgConf['file'] = (strlen($member->getImage()) > 0) ? $member->getImage() : $imgConf['file'];
-			$cObj = t3lib_div::makeInstance('tslib_cObj');
-			$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
-			$member->setHTMLImage($genImage);
-		}
-		$template->addLoop('members', 'member', $members);
+		
+		$template->addLoop('members', 'user', $members);
 
 		return $template->render();
 	}

@@ -45,11 +45,13 @@ plugin.tx_community {
 
 					thumbnail = IMAGE
 					thumbnail {
+						file = EXT:community/resources/icons/default_user.png
 						file.maxW = 50
 					}
 
 					squaredThumbnail = IMAGE
 					squaredThumbnail {
+						file = EXT:community/resources/icons/default_user.png
 							// TODO add cropping
 						file.maxW = 75
 						file.maxH = 75
