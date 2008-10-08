@@ -1,3 +1,7 @@
+2008-10-07 Ingo Renner  <ingo@typo3.org>
+
+	* changed the widget view helper to require the real names of application and widget
+
 2008-10-07 Frank Naegler  <typo3@naegler.net>
 
 	* localize onlineFriendsWidget and added error message, if no friend is online

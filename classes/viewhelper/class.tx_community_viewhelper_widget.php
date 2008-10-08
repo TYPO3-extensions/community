@@ -44,14 +44,12 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 	 * execute method of this view helper, retrieves an instance of the
 	 * requested widget, sets parameters and eventually executes it
 	 *
-	 * @param	array	array of arguments, [0] must be the application name in uppercase letters, words separated by underscore followed by a dot and then followed by the widget name in uppercase, words separated by underscore. example: USER_PROFILE.PROFILE_ACTIONS; [1] is optional, if set it must be a tx_community_model_User object; [2] optional, a specific action to be executed by the widget
+	 * @param	array	array of arguments, [0] must be the application name followed by a dot and then followed by the widget name. example: userProfile.profileActions; [1] is optional, if set it must be a tx_community_model_User object; [2] optional, a specific action to be executed by the widget
 	 * @return	string	the widget's output
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function execute(array $arguments = array()) {
 		list($applicationName, $widgetName) = explode('.', $arguments[0]);
-		$applicationName = $this->lcfirst($this->camelize(strtolower($applicationName)));
-		$widgetName      = $this->lcfirst($this->camelize(strtolower($widgetName)));
 
 		$widget = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidget($applicationName, $widgetName);
 		/* @var $widget tx_community_controller_AbstractCommunityApplicationWidget */
@@ -70,35 +68,6 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 		$widgetAction = $widgetAction . 'Action';
 
 		return $widget->$widgetAction();
-	}
-
-	/**
-	 * Returns given word as CamelCased
-	 *
-	 * Converts a word like "send_email" to "SendEmail". It
-	 * will remove non alphanumeric characters from the word, so
-	 * "who's online" will be converted to "WhoSOnline"
-	 *
-	 * @param	string	Word to convert to camel case
-	 * @return	string	UpperCamelCasedWord
-	 * @author	Ingo Renner <ingo@typo3.org>
-	 */
-	protected function camelize($word)
-	{
-		return str_replace(' ', '', ucwords(preg_replace('![^A-Z^a-z^0-9]+!', ' ', $word)));
-	}
-
-	/**
-	 * counter function to ucfirst (only available in PHP > 5.3)
-	 *
-	 * @param	string	the string to turn its first character into lower case
-	 * @return	string	the string with its first character in lower case
-	 * @author	Ingo Renner <ingo@typo3.org>
-	 */
-	protected function lcfirst($string) {
-		$string[0] = strtolower($string[0]);
-
-		return $string;
 	}
 }
 
