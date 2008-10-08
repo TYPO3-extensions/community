@@ -38,6 +38,7 @@ plugin.tx_community {
 
 					profileImage = IMAGE
 					profileImage {
+						file = EXT:community/resources/icons/default_user.png
 						file.maxW = 150
 						file.maxH = 200
 					}
