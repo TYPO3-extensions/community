@@ -2,6 +2,7 @@
 
 	* changed the widget view helper to require the real names of application and widget
 	* added a method in the template engine so that view helpers get variables handed over to them if needed
+	* added a thumbnail action to the group profile's image widget
 
 2008-10-07 Frank Naegler  <typo3@naegler.net>
 
