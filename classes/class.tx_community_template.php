@@ -148,26 +148,48 @@ class tx_community_Template {
 			);
 		}
 
-			// process helpers, need to be the last objects processing the template
+			// process view helpers, they need to be the last objects processing the template
+		$this->workOnSubpart = $this->processViewHelpers($this->workOnSubpart);
+
+		return $this->workOnSubpart;
+	}
+
+	/**
+	 * processes view helper, hands variables over if needed
+	 *
+	 * @param	string	the content to process by view helpers
+	 * @return	string	the view helper processed content
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function processViewHelpers($content) {
 		foreach ($this->helpers as $helperKey => $helper) {
 			$helperKey     = strtoupper($helperKey);
-			$helperMarkers = $this->getHelperMarkers($helperKey, $this->workOnSubpart);
+			$helperMarkers = $this->getHelperMarkers($helperKey, $content);
 
 			foreach ($helperMarkers as $marker) {
-				$arguments = explode('|', $marker);
-					// TODO check whether on of the parameters is a Helper itself, if so resolve it before handing it of to the actual helper
-				$content   = $helper->execute($arguments);
+				$helperArguments = explode('|', $marker);
+					// TODO check whether on of the parameters is a Helper itself, if so resolve it before handing it of to the actual helper, this way the order in which viewhelpers get added to the template do not matter anymore
 
-				$this->workOnSubpart = t3lib_parsehtml::substituteMarker(
-					$this->workOnSubpart,
+					// checking whether any of the helper arguments should be
+					// replaced by a variable available to the template
+				foreach ($helperArguments as $i => $helperArgument) {
+					$lowercaseHelperArgument = strtolower($helperArgument);
+					if (array_key_exists($lowercaseHelperArgument, $this->variables)) {
+						$helperArguments[$i] = $this->variables[$lowercaseHelperArgument];
+					}
+				}
+
+				$viewHelperContent = $helper->execute($helperArguments);
+
+				$content = t3lib_parsehtml::substituteMarker(
+					$content,
 					'###' . $helperKey . ':' . $marker . '###',
-					$content
+					$viewHelperContent
 				);
 			}
 		}
 
-
-		return $this->workOnSubpart;
+		return $content;
 	}
 
 	protected function renderLoop($loopName) {
@@ -347,7 +369,13 @@ class tx_community_Template {
 	 * @param	mixed	variable value
 	 */
 	public function addVariable($key, $value) {
-		$this->variables[$key] = $value;
+		$key = strtolower($key);
+
+		if (array_key_exists($key, $this->variables)) {
+				// TODO throw an exception
+		} else {
+			$this->variables[$key] = $value;
+		}
 	}
 
 	public function addLoop($loopName, $markerName, array $variables) {
