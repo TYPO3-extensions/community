@@ -9,6 +9,7 @@ plugin.tx_community {
 
 		userProfile = 0
 		userEdit = 0
+		userRegistration = 0
 
 		relationshipEdit = 0
 
@@ -39,6 +40,18 @@ plugin.tx_community {
 					profileImage {
 						file.maxW = 150
 						file.maxH = 200
+					}
+
+					thumbnail = IMAGE
+					thumbnail {
+						file.maxW = 50
+					}
+
+					squaredThumbnail = IMAGE
+					squaredThumbnail {
+							// TODO add cropping
+						file.maxW = 50
+						file.maxH = 50
 					}
 				}
 
@@ -76,6 +89,11 @@ plugin.tx_community {
 					groupImage {
 						file.maxW = 150
 						file.maxH = 200
+					}
+
+					thumbnail = IMAGE
+					thumbnail {
+						file.maxW = 50
 					}
 				}
 
@@ -227,6 +245,10 @@ plugin.tx_community {
 
 		privacy {
 			templateFile = EXT:community/resources/templates/privacy/index.htm
+		}
+
+		invite {
+			templateFile = EXT:community/resources/templates/invite/index.htm
 		}
 
 		createGroup {

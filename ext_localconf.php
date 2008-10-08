@@ -94,7 +94,8 @@ $TX_COMMUNITY = array(
 					'actions' => array(),
 					'accessControl' => false,
 					'actions' => array(
-						'index'
+						'index',
+						'thumbnail'
 					),
 					'defaultAction' => 'index'
 				),
@@ -200,6 +201,16 @@ $TX_COMMUNITY = array(
 			'actions' => array(
 				'index',
 				'savePermissions'
+			),
+			'defaultAction' => 'index'
+		),
+		'invite' => array(
+			'classReference' => 'EXT:community/controller/class.tx_community_controller_inviteapplication.php:tx_community_controller_InviteApplication',
+			'label' => 'LLL:EXT:community/lang/locallang_applications.xml:invite',
+			'accessControl' => false,
+			'actions' => array(
+				'index',
+				'sendInvitation'
 			),
 			'defaultAction' => 'index'
 		)

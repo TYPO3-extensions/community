@@ -61,6 +61,28 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 
 		return $view->render();
 	}
+
+	/**
+	 * renders a thumbnail version of the group's image
+	 *
+	 * @return	string	the thumbnail image as HTML tag
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function thumbnailAction() {
+		$requestedGroup = $this->communityApplication->getRequestedGroup();
+		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
+
+		$groupImageConfiguration = array(
+			$widgetTypoScriptConfiguration['thumbnail'],
+			$widgetTypoScriptConfiguration['thumbnail.']
+		);
+		$groupImageConfiguration[1]['file'] = $requestedGroup->getImage();
+
+		$view = t3lib_div::makeInstance('tx_community_view_groupprofile_ContentObjectImage');
+		$view->setImageConfiguration($groupImageConfiguration);
+
+		return $view->render();
+	}
 }
 
 
