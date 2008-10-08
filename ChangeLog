@@ -1,4 +1,4 @@
-2008-10-07 Ingo Renner  <ingo@typo3.org>
+2008-10-08 Ingo Renner  <ingo@typo3.org>
 
 	* changed the widget view helper to require the real names of application and widget
 	* added a method in the template engine so that view helpers get variables handed over to them if needed
