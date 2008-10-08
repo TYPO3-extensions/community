@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Template for the invite application</title>
+</head>
+<body>
+
+<!-- ###INVITE### begin -->
+
+<form action="###FORM.ACTION###" method="post" >
+
+	<label for="tx_community-invite-nameInput">###LLL:invite_name###</label>
+	<input type="text" name="tx_community[invite][name]" id="tx_community-invite-nameInput" value="" />
+
+	<br />
+
+	<label for="tx_community-invite-emailInput">###LLL:invite_email###</label>
+	<input type="text" name="tx_community[invite][email]" id="tx_community-invite-emailInput" value="" />
+
+	<br />
+
+	<input type="hidden" name="tx_community[inviteAction]" value="sendInvitation" />
+	<input type="submit" value="###LLL:invite_formSubmitInvite###" />
+
+</form>
+
+<!-- ###INVITE### end -->
+
+
+
+<!-- ###INVITE_MESSAGE### begin -->
+
+	###MESSAGE###
+
+<!-- ###INVITE_MESSAGE### end -->
+
+</body>
+</html>

@@ -1,5 +1,4 @@
 
-
 plugin.tx_community {
 
 	pages {
@@ -28,6 +27,8 @@ plugin.tx_community {
 	}
 
 	general {
+		communityName = My Community
+
 		dateFormat.date = d.m.Y
 	}
 

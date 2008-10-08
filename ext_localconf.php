@@ -213,7 +213,9 @@ $TX_COMMUNITY = array(
 			'accessControl' => false,
 			'actions' => array(
 				'index',
-				'sendInvitation'
+				'sendInvitation',
+				'errorMessage',
+				'successMessage'
 			),
 			'defaultAction' => 'index'
 		)
