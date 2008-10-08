@@ -25,7 +25,8 @@ $TX_COMMUNITY = array(
 //						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_addComment'
 					),
 					'actions' => array(
-						'index'
+						'index',
+						'thumbnail'
 					),
 					'defaultAction' => 'index'
 				),
