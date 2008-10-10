@@ -58,7 +58,7 @@
 		).css({
 			position: 'relative',
 			display: 'block',
-			marginLeft: -175+'px',
+			marginLeft: -205+'px',
 			opacity: 0
 		});
 		
