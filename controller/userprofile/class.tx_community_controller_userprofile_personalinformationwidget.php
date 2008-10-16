@@ -51,8 +51,8 @@ class tx_community_controller_userprofile_PersonalInformationWidget extends tx_c
 		$this->label    = $this->localizationManager->getLL('label_PersonalInformationWidget');
 		$this->cssClass = '';
 
-		$this->draggable = true;
-		$this->removable = true;
+		$this->draggable = false;
+		$this->removable = false;
 		$this->position  = 2;
 	}
 
