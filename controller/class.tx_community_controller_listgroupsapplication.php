@@ -86,7 +86,12 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 
 		switch ($this->configuration['applications.']['listGroups.']['listType']) {
 			case 'usersGroups':
-				$groups = $this->groupGateway->findGroupsByUser($this->getRequestedUser());
+				$user = $this->getRequestedUser();
+				if (!is_null($user)) {
+					$groups = $this->groupGateway->findGroupsByUser($this->getRequestedUser());
+				} else {
+					$groups = array();
+				}
 			break;
 			case 'allGroups':
 			default:
