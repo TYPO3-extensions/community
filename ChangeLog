@@ -4,7 +4,7 @@
 	* added implements tx_community_acl_AclResource to tx_community_controller_AbstractCommunityApplication and its needed methods 
 	* added listType to the listGroups application
 	* added ZodiacSign ViewHelper
-	* added getCrdate() to User model
+	* added getCrdate() and setCrdate to User model and gateway
 	* added getCity() to User model
 	* added Age ViewHelper
 	* added new param to Link View Helper for custom ATagParams

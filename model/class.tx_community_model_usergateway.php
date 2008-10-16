@@ -266,6 +266,7 @@ class tx_community_model_UserGateway {
 			$user = new $userClass($row['uid']);
 			/* @var $user tx_community_model_User */
 			$user->setPid($row['pid']);
+			$user->setCrdate($row['crdate']);
 			$user->setSex($row['tx_community_sex']);
 			$user->setBirthday($row['tx_community_birthday']);
 			$user->setImage($row['image']);

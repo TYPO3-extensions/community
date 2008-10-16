@@ -150,6 +150,10 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 		return $this->uid;
 	}
 
+	public function setCrdate($date) {
+		$this->crdate = $date;
+	}
+
 	public function getCrdate() {
 		return $this->crdate;
 	}
