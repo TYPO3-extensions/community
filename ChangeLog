@@ -4,6 +4,7 @@
 	* added implements tx_community_acl_AclResource to tx_community_controller_AbstractCommunityApplication and its needed methods 
 	* added listType to the listGroups application
 	* added ZodiacSign ViewHelper
+	* added getCrdate() to User model
 
 2008-10-08 Ingo Renner  <ingo@typo3.org>
 
