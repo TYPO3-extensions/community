@@ -65,7 +65,8 @@ class tx_community_viewhelper_Link implements tx_community_ViewHelper {
 			$arguments[0],
 			array(
 				'parameter' => $arguments[1],
-				'additionalParams' => $additionalParameters
+				'additionalParams' => $additionalParameters,
+				'ATagParams' => $arguments[3]
 			)
 		);
 		return $link;
