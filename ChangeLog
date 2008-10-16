@@ -6,6 +6,7 @@
 	* added ZodiacSign ViewHelper
 	* added getCrdate() to User model
 	* added getCity() to User model
+	* added Age ViewHelper
 
 2008-10-08 Ingo Renner  <ingo@typo3.org>
 

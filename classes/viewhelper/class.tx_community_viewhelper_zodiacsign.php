@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Ingo Renner <ingo@typo3.org>
+ *  (c) 2008 Frank Nägler <typo3@naegler.net>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,7 +26,7 @@
 /**
  * viewhelper class to format unix timestamps as date
  *
- * @author	Ingo Renner <ingo@typo3.org>
+ * @author	Frank Nägler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -94,8 +94,8 @@ class tx_community_viewhelper_ZodiacSign implements tx_community_ViewHelper {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_date.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_date.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_zodiacsign.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/classes/viewhelper/class.tx_community_viewhelper_zodiacsign.php']);
 }
 
 ?>
