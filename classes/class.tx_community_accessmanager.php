@@ -102,7 +102,9 @@ class tx_community_AccessManager {
 	 * @param tx_community_acl_AclResource the resource to protect
 	 */
 	public function addResource(tx_community_acl_AclResource $resource) {
-		$this->acl->add($resource);
+		if (!$this->acl->has($resource)) {
+			$this->acl->add($resource);
+		}
 	}
 
 	public function isAllowed(tx_community_acl_AclResource $resource, tx_community_model_User $requestingUser = null, $action = self::ACTION_READ) {

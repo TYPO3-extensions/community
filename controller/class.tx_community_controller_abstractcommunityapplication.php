@@ -31,7 +31,7 @@
  * @package TYPO3
  * @subpackage community
  */
-abstract class tx_community_controller_AbstractCommunityApplication extends tslib_pibase {
+abstract class tx_community_controller_AbstractCommunityApplication extends tslib_pibase implements tx_community_acl_AclResource {
 
 	public $prefixId;
 	public $scriptRelPath;
@@ -41,6 +41,7 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	protected $configuration;
 	protected $data;
 	protected $name;
+	protected $accessMode = 'read';
 
 	protected $requestedUser  = null; // the user someone is viewing
 	protected $requestingUser = null; // the currently logged in user
@@ -244,6 +245,20 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		return $applicationConfiguration['widgets.'][$widgetName . '.'];
 	}
 
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		$requestedUser = $this->getRequestedUser();
+
+		$resourceId = $this->name
+			. '_' . $this->accessMode
+			. '_' . $requestedUser->getUid();
+		return $resourceId;
+	}
+	
 	/**
 	 * gets the user gateway
 	 *
