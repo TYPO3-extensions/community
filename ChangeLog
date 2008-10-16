@@ -3,6 +3,7 @@
 	* added check if resource is added before add it twice in tx_community_AccessManager->addResource()
 	* added implements tx_community_acl_AclResource to tx_community_controller_AbstractCommunityApplication and its needed methods 
 	* added listType to the listGroups application
+	* added ZodiacSign ViewHelper
 
 2008-10-08 Ingo Renner  <ingo@typo3.org>
 

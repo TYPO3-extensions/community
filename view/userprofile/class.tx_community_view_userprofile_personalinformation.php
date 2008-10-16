@@ -24,6 +24,8 @@
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_widget.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_date.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_zodiacsign.php');
 
 /**
  * personal information widget view
@@ -64,6 +66,10 @@ class tx_community_view_userprofile_PersonalInformation extends tx_community_vie
 		
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
 
+		$template->addViewHelper('date','tx_community_viewhelper_Date');
+		
+		$template->addViewHelper('zodiacsign','tx_community_viewhelper_ZodiacSign');
+		
 		$template->addVariable('user', $this->userModel);
 
 		return $template->render();
