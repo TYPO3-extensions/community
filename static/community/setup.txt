@@ -273,6 +273,7 @@ plugin.tx_community {
 				}
 			}
 			templateFile = EXT:community/resources/templates/listgroups/index.htm
+			listType	 = allGroups
 		}
 
 		editGroup {

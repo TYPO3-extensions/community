@@ -84,7 +84,16 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
-		$groups = $this->groupGateway->getAllGroups();
+		switch ($this->configuration['applications.']['listGroups.']['listType']) {
+			case 'usersGroups':
+				$groups = $this->groupGateway->findGroupsByUser($this->getRequestedUser());
+			break;
+			case 'allGroups':
+			default:
+				$groups = $this->groupGateway->getAllGroups();
+			break;	
+		}
+		
 		foreach ($groups as $group) {
 			$imgConf = $this->configuration['applications.']['listGroups.']['groupImage.'];
 			$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
