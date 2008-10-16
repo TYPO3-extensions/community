@@ -238,6 +238,8 @@ t3lib_extMgm::addPlugin(
 	'list_type'
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mm_forum']['forum']['linkToUserProfile_postLinkGen'][] = 'EXT:community/hooks/class.tx_community_hooks_mmforum.php:&tx_community_hooks_mmforum';
+
 if (TYPO3_MODE == 'BE') {
 		// application manager for displaying applications and widgets in flexform
 	include_once($PATH_community . 'classes/class.tx_community_applicationmanager.php');
