@@ -69,7 +69,7 @@ class tx_community_view_userprofile_PersonalInformation extends tx_community_vie
 
 		$template->addViewHelper('date','tx_community_viewhelper_Date');
 		
-		$template->addViewHelper('date','tx_community_viewhelper_Age');
+		$template->addViewHelper('age','tx_community_viewhelper_Age');
 		
 		$template->addViewHelper('zodiacsign','tx_community_viewhelper_ZodiacSign');
 		
