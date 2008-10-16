@@ -8,6 +8,7 @@
 	* added getCity() to User model
 	* added Age ViewHelper
 	* added new param to Link View Helper for custom ATagParams
+	* localize label of UserProfileActionWidget
 
 2008-10-08 Ingo Renner  <ingo@typo3.org>
 
