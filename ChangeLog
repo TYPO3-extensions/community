@@ -1,6 +1,7 @@
 2008-10-17 Frank Naegler  <typo3@naegler.net>
 
 	* added check of restricted groups (grouptype = 4) in listgroups application
+	* added getGrouptype() to the groupProfile model
 
 2008-10-16 Frank Naegler  <typo3@naegler.net>
 

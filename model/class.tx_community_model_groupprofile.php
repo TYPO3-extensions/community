@@ -52,6 +52,9 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 	 * @var tx_community_model_User
 	 */
 	protected $loggedinUser;
+	/**
+	 * @var tx_community_model_Group
+	 */
 	protected $group;
 	protected $uid = 0;
 	protected $request;
@@ -95,6 +98,10 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 	
 	public function isEditable() {
 		return $this->editable;
+	}
+	
+	public function getGrouptype() {
+		return $this->group->getGrouptype();
 	}
 }
 
