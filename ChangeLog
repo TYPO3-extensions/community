@@ -3,6 +3,7 @@
 	* added check of restricted groups (grouptype = 4) in listgroups application
 	* added getGrouptype() to the groupProfile model
 	* added hook connector for mm_forum to change the link to the user profile, require mm_forum 1.7
+	* change addAsFriendAction of tx_community_controller_userprofile_ProfileActionsWidget to makes it possible to overwrite the roleId by request parameter, this is needed to add different links for more then one role.
 
 2008-10-16 Frank Naegler  <typo3@naegler.net>
 

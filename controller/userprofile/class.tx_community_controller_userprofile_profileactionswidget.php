@@ -189,10 +189,15 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	}
 
 	public function addAsFriendAction() {
-
-		$friendAdded = $this->addRelationship(
-			$this->configuration['accessManagement.']['addAsFriendDefaultRoleId']
-		);
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+		
+		$roleId	= $this->configuration['accessManagement.']['addAsFriendDefaultRoleId'];
+		
+		if ($requestRoleId = intval($communityRequest['roleId'])) {
+			$roleId = $requestRoleId;
+		}
+		
+		$friendAdded = $this->addRelationship($roleId);
 
 		if ($friendAdded) {
 				// do a redirect to the profile page, no output
