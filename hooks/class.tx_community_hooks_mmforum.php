@@ -34,7 +34,7 @@ class tx_community_hooks_mmforum {
 	public function userProfileLink($user, $link, tslib_pibase $pObj) {
 		
 		$profileUid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['pages.']['userProfile'];
-		return $pObj->pi_linkToPage($user['tx_community_nickname'], $profileUid, '', array(
+		return $pObj->pi_getPageLink($profileUid, '', array(
 			'tx_community' => array(
 				'user'	=> $user['uid']
 			)
