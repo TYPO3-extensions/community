@@ -99,14 +99,18 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			break;	
 		}
 		
+		$listGroupsArray = array();
 		foreach ($groups as $group) {
-			$imgConf = $this->configuration['applications.']['listGroups.']['groupImage.'];
-			$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
-			$cObj = t3lib_div::makeInstance('tslib_cObj');
-			$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
-			$group->setHTMLImage($genImage);
+			if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
+				$imgConf = $this->configuration['applications.']['listGroups.']['groupImage.'];
+				$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
+				$cObj = t3lib_div::makeInstance('tslib_cObj');
+				$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
+				$group->setHTMLImage($genImage);
+				$listGroupsArray[] = $group;
+			}
 		}
-		$view->setGroups($groups);
+		$view->setGroups($listGroupsArray);
 
 		$groupsDetailLink = $this->pi_getPageLink(
 			$this->configuration['pages.']['groupProfile'],
