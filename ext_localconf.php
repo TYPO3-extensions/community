@@ -232,4 +232,7 @@ t3lib_extMgm::addUserTSConfig('options.saveDocNew.tx_community_acl_role = 1');
 t3lib_extMgm::addUserTSConfig('options.saveDocNew.tx_community_acl_rule = 1');
 t3lib_extMgm::addUserTSConfig('options.saveDocNew.tx_community_friend = 1');
 
+	// adding hook connector for mm_forum
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mm_forum']['forum']['profileLink_postLinkGen'][] = 'EXT:community/hooks/class.tx_community_hooks_mmforum.php:&tx_community_hooks_mmforum';
+
 ?>
