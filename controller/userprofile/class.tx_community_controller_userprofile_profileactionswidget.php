@@ -173,7 +173,24 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
 			$success = true;
 		}
-
+		
+		// @TODO: if $success send message to user with a hint to confirm the request
+		//        if it is a confirmation, send a message to the first requesting user
+		//        use community_messages, here is an example:
+		/*
+			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? 'true' : 'false';
+			if ($isLoaded === 'true') {
+				$userGateway = new tx_community_model_UserGateway();
+				$user = $userGateway->findCurrentlyLoggedInUser();
+				if ($user !== null) {
+					$llManager = tx_community_LocalizationManager::getInstance('EXT:community_pinboard/lang/locallang_widget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communitypinboard.']);
+					$subject = $llManager->getLL('systemmessage_subject');
+					$bodytext = $llManager->getLL('systemmessage_bodytext');
+					$recipients = array($user);
+					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
+				}
+			}
+		*/
 		return $success;
 	}
 
@@ -185,6 +202,23 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				. ' AND role = ' . $roleId
 		);
 
+		// @TODO: if $success send message to user with a hint that the relationship was canceled
+		//        use community_messages, here is an example:
+		/*
+			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? 'true' : 'false';
+			if ($isLoaded === 'true') {
+				$userGateway = new tx_community_model_UserGateway();
+				$user = $userGateway->findCurrentlyLoggedInUser();
+				if ($user !== null) {
+					$llManager = tx_community_LocalizationManager::getInstance('EXT:community_pinboard/lang/locallang_widget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communitypinboard.']);
+					$subject = $llManager->getLL('systemmessage_subject');
+					$bodytext = $llManager->getLL('systemmessage_bodytext');
+					$recipients = array($user);
+					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
+				}
+			}
+		*/
+				
 		// TODO check for errors, throw exceptions, add pid to where clause
 	}
 
