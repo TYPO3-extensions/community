@@ -140,7 +140,9 @@ class tx_community_AccessManager {
 					break;
 				}
 			}
-			
+
+			// TODO check whether we need this
+
 				// check if access is allowed to all community members
 			$communityMemberRoleId = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['accessManagement.']['communityMemberRoleId'];
 			if ($communityMemberRoleId) {
@@ -157,6 +159,9 @@ class tx_community_AccessManager {
 					}
 				}
 			}
+
+			// end check
+
 		} else {
 			// some other resource, not a user
 		}
@@ -232,7 +237,7 @@ class tx_community_AccessManager {
 		return $rules;
 	}
 
-	
+
 	// @TODO: @Frank: Check implementation
 	public function isFriendOfCurrentlyLoggedInUser(tx_community_model_User $user) {
 		$isFriend = false;
@@ -250,10 +255,10 @@ class tx_community_AccessManager {
 				$isFriend = true;
 			}
 		}
-		
+
 		return $isFriend;
 	}
-	
+
 	public function addRule(array $rule) {
 		if ($rule['access_mode'] == 1) {
 				// allow
