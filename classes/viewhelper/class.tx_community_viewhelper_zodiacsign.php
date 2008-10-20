@@ -52,7 +52,8 @@ class tx_community_viewhelper_ZodiacSign implements tx_community_ViewHelper {
 	protected function getZodiacSign($date) {
 		$day	= intval(strftime('%e' ,$date));
 		$month	= intval(strftime('%m' ,$date));
-		// @TODO: localize strings
+
+			// @TODO: localize strings
 		if ($day > 20 && $month == 3 || $day < 21 && $month == 4) {
 			$zodiacSign = "Widder";
 		}
