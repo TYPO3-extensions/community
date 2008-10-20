@@ -1,6 +1,7 @@
 2008-10-20 Ingo Renner  <ingo@typo3.org>
 
 	* changed method getResourceId in the abstract community application controller, the check for a null user is not necessary as there's always a user
+	* added a missing setter for the user's city property
 
 2008-10-20 Frank Naegler  <typo3@naegler.net>
 

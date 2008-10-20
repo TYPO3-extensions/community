@@ -138,6 +138,10 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 		return $this->account;
 	}
 
+	public function setPid($pageId) {
+		$this->pid = (int) $pageId;
+	}
+
 	public function getPid() {
 		return $this->pid;
 	}
@@ -158,12 +162,12 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 		return $this->crdate;
 	}
 
-	public function getCity() {
-		return $this->city;
+	public function setCity($city) {
+		$this->city = $city;
 	}
 
-	public function setPid($pageId) {
-		$this->pid = (int) $pageId;
+	public function getCity() {
+		return $this->city;
 	}
 
 	public function setSex($sex) {

@@ -269,6 +269,7 @@ class tx_community_model_UserGateway {
 			$user->setCrdate($row['crdate']);
 			$user->setSex($row['tx_community_sex']);
 			$user->setBirthday($row['tx_community_birthday']);
+			$user->setCity($row['city']);
 			$user->setImage($row['image']);
 			$user->setNickname($row['tx_community_nickname']);
 			$user->setActivities($row['tx_community_activities']);
