@@ -251,17 +251,16 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	 * @return string
 	 */
 	public function getResourceId() {
-		$resourceId = '';
-		
+		$resourceId    = '';
 		$requestedUser = $this->getRequestedUser();
-		if (!is_null($requestedUser)) {
-			$resourceId = $this->name
-				. '_' . $this->accessMode
-				. '_' . $requestedUser->getUid();
-		}		
+
+		$resourceId = $this->name
+			. '_' . $this->accessMode
+			. '_' . $requestedUser->getUid();
+
 		return $resourceId;
 	}
-	
+
 	/**
 	 * gets the user gateway
 	 *

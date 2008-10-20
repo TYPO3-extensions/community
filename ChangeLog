@@ -1,3 +1,7 @@
+2008-10-20 Ingo Renner  <ingo@typo3.org>
+
+	* changed method getResourceId in the abstract community application controller, the check for a null user is not necessary as there's always a user
+
 2008-10-20 Frank Naegler  <typo3@naegler.net>
 
 	* added functionaltiy to the AccessManager for the role "all community members"
@@ -12,7 +16,7 @@
 2008-10-16 Frank Naegler  <typo3@naegler.net>
 
 	* added check if resource is added before add it twice in tx_community_AccessManager->addResource()
-	* added implements tx_community_acl_AclResource to tx_community_controller_AbstractCommunityApplication and its needed methods 
+	* added implements tx_community_acl_AclResource to tx_community_controller_AbstractCommunityApplication and its needed methods
 	* added listType to the listGroups application
 	* added ZodiacSign ViewHelper
 	* added getCrdate() and setCrdate to User model and gateway
