@@ -31,14 +31,20 @@
  * @subpackage community
  */
 class tx_community_hooks_mmforum {
-	public function userProfileLink($user, $link, tslib_pibase $pObj) {
-		
-		$profileUid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['pages.']['userProfile'];
-		return $pObj->pi_getPageLink($profileUid, '', array(
-			'tx_community' => array(
-				'user'	=> $user['uid']
+
+
+	public function userProfileLink($user, $link, tslib_pibase $parentObject) {
+		$profilePageId = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['pages.']['userProfile'];
+
+		return $parentObject->pi_getPageLink(
+			$profilePageId,
+			'',
+			array(
+				'tx_community' => array(
+					'user'	=> $user['uid']
+				)
 			)
-		));
+		);
 	}
 }
 
