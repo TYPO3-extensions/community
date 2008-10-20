@@ -21,9 +21,14 @@ plugin.tx_community {
 	}
 
 	accessManagement {
+		# uid of the role, which should be used as default role
 		addAsFriendDefaultRoleId = 0
 
+		# uid of the role for all people. also not community members
 		anonymousRoleId = 0
+		
+		# uid of the role for all community members
+		communityMemberRoleId = 0
 	}
 
 	general {

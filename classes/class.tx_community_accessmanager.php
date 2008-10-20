@@ -140,7 +140,23 @@ class tx_community_AccessManager {
 					break;
 				}
 			}
-
+			
+				// check if access is allowed to all community members
+			$communityMemberRoleId = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['accessManagement.']['communityMemberRoleId'];
+			if ($communityMemberRoleId) {
+				$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'tx_community_acl_role.name',
+					'tx_community_acl_role',
+					'uid = ' . $communityMemberRoleId . $pageSelect->enableFields('tx_community_acl_role')
+				);
+				if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
+					$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+					if($this->acl->isAllowed($data['name'], $resource)) {
+						$allowed = true;
+					}
+				}
+			}
 		} else {
 			// some other resource, not a user
 		}

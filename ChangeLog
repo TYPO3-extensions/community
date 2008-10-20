@@ -1,3 +1,7 @@
+2008-10-20 Frank Naegler  <typo3@naegler.net>
+
+	* added functionaltiy to the AccessManager for the role "all community members"
+
 2008-10-17 Frank Naegler  <typo3@naegler.net>
 
 	* added check of restricted groups (grouptype = 4) in listgroups application
