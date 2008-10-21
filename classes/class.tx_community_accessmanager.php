@@ -238,7 +238,6 @@ class tx_community_AccessManager {
 	}
 
 
-	// @TODO: @Frank: Check implementation
 	public function isFriendOfCurrentlyLoggedInUser(tx_community_model_User $user) {
 		$isFriend = false;
 		$loggedinUser = $this->userGateway->findCurrentlyLoggedInUser();
@@ -249,7 +248,7 @@ class tx_community_AccessManager {
 			$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 				'friend',	// FIXME friend role name must not be hardcoded!
 				'tx_community_friend',
-				'feuser = ' . $user->getUid() . ' AND friend = ' . $user->getUid()	// FIXME friend role name must not be hardcoded!
+				'feuser = ' . $loggedinUser->getUid() . ' AND friend = ' . $user->getUid()
 			);
 			if (is_array($userRows) && count($userRows)) {
 				$isFriend = true;
