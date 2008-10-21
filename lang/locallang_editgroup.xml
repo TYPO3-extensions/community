@@ -55,6 +55,23 @@
 
 			<!-- Tab: Invite members -->
 			<label index="editgroup_invite_search">Search for Members</label>
+			
+			<!-- AJAX: Messages -->
+			<label index="msg_saved">saved</label>
+			<label index="msg_not_saved">not saved</label>
+			<label index="msg_uploaded">upload successfull</label>
+			<label index="msg_error_while_save">error while saving</label>
+			<label index="msg_error_cant_upload">error while uploading file</label>
+			<label index="msg_not_admin">sorry, you are not the admin of this group</label>
+			<label index="msg_no_member_of_group">this is not a member of the group</label>
+			<label index="msg_unknown_user">unknown user</label>
+			<label index="msg_users_invited">users invited</label>
+			<label index="msg_is_not_friend">this is not a friend</label>
+			<label index="msg_noajax_action">no ajax action given</label>
+
+			<!-- Invite Message -->
+			<label index="invite_subject">invite for group</label>
+			<label index="invite_bodytext"><![CDATA[invite for group.<br/> <a href="%s">accept invitation</a>]]></label>
 		</languageKey>
 	</data>
 </T3locallang>

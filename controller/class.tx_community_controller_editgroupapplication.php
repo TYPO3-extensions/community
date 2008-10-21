@@ -25,6 +25,7 @@
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_groupprofileapplication.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_view_editgroup_index.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * Edit Group Application Controller
@@ -37,7 +38,11 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 
 	protected $messageAPILoaded = false;
 	protected $accessManager    = null;
-
+	/**
+	 * @var tx_community_LocalizationManager
+	 */
+	protected $llManager;
+	
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
 	 */
@@ -55,6 +60,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 
 		$this->accessManager = tx_community_AccessManager::getInstance();
 		$this->getRequestedGroup();
+
+		$llMangerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
+		$this->llManager = call_user_func(array($llMangerClass, 'getInstance'), 'EXT:community/lang/locallang_editgroup.xml',	$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
 	}
 
 	/**
@@ -150,7 +158,6 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 
 		// TODO refactor this method
 	public function saveDataAction() {
-		// @TODO: localize all messages
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
@@ -164,9 +171,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		switch ($ajaxAction) {
 			case 'saveGeneral':
 				if ($this->saveGeneral()) {
-					$result = "{'status': 'success', 'msg': 'saved'}";
+					$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 				} else {
-					$result = "{'status': 'error', 'msg': 'not saved'}";
+					$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_saved')}'}";
 				}
 			break;
 			case 'saveImage':
@@ -187,15 +194,15 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							$cObj = t3lib_div::makeInstance('tslib_cObj');
 							$genImage = $cObj->cObjGetSingle('IMG_RESOURCE', $imgConf);
 							list($width,$height) = getimagesize($genImage);
-							$result = "{'status': 'success', 'msg': 'image uploaded', 'newImage': '{$genImage}', 'newWidth': '{$width}', 'newHeight': '{$height}'}";
+							$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_uploaded')}', 'newImage': '{$genImage}', 'newWidth': '{$width}', 'newHeight': '{$height}'}";
 						} else {
-							$result = "{'status': 'error', 'msg': 'error while save'}";
+							$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_error_while_save')}'}";
 						}
 					} else {
-						$result = "{'status': 'error', 'msg': 'can't upload file'}";
+						$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_error_cant_upload')}'}";
 					}
 				} else {
-					$result = "{'status': 'error', 'msg': 'not admin'}";
+					$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_admin')}'}";
 				}
 			break;
 			case 'changeMemberStatus':
@@ -207,9 +214,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								$group->addAdmin($newAdmin);
 								$group->removeAdmin($user);
 								if ($group->save()) {
-									$result = "{'status': 'success', 'msg': 'saved'}";
+									$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 								} else {
-									$result = "{'status': 'error', 'msg': 'not saved'}";
+									$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_saved')}'}";
 								}
 							}
 						break;
@@ -217,9 +224,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							$newMember = $userGateway->findById($communityRequest['memberUid']);
 							if ($newMember instanceof tx_community_model_User) {
 								if ($group->confirmMember($newMember)) {
-									$result = "{'status': 'success', 'msg': 'saved'}";
+									$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 								} else {
-									$result = "{'status': 'error', 'msg': 'not saved'}";
+									$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_saved')}'}";
 								}
 							}
 						break;
@@ -227,9 +234,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							$newMember = $userGateway->findById($communityRequest['memberUid']);
 							if ($newMember instanceof tx_community_model_User) {
 								if ($group->rejectMember($newMember)) {
-									$result = "{'status': 'success', 'msg': 'saved'}";
+									$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 								} else {
-									$result = "{'status': 'error', 'msg': 'not saved'}";
+									$result = "{'status': 'error', 'msg': 'not {$this->llManager->getLL('msg_not_saved')}'}";
 								}
 							}
 						break;
@@ -239,18 +246,18 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								if ($group->isMember($member)) {
 									$group->removeMember($member);
 									if ($group->save()) {
-										$result = "{'status': 'success', 'msg': 'saved'}";
+										$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 									} else {
-										$result = "{'status': 'error', 'msg': 'not saved'}";
+										$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_saved')}'}";
 									}
 								} else {
-									$result = "{'status': 'error', 'msg': 'not a memeber of this group'}";
+									$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_no_member_of_group')}'}";
 								}
 							}
 						break;
 					}
 				} else {
-					$result = "{'status': 'error', 'msg': 'not admin'}";
+					$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_admin')}'}";
 				}
 			break;
 			case 'inviteMember':
@@ -268,15 +275,15 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							$inviteUser = $this->userGateway->findById($uid);
 							if (is_null($inviteUser)) {
 								$status = 'error';
-								$message = 'unknown user';
+								$message = $this->llManager->getLL('msg_unknown_user');
 								break;
 							}
 							if ($this->accessManager->isFriendOfCurrentlyLoggedInUser($inviteUser)) {
 								$recipients[] = $inviteUser;
-								$message = 'users invited';
+								$message = $this->llManager->getLL('msg_users_invited');
 							} else {
 								$status = 'error';
-								$message = 'is not a friend';
+								$message = $this->llManager->getLL('msg_is_not_friend');
 								break;
 							}
 						}
@@ -291,11 +298,8 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 									)
 								)
 							);
-							$subject = 'invite for group';
-							$bodytext = "
-								Einladung zur Gruppe.<br/>
-								<a href=\"{$inviteUrl}\">Einladung annehmen</a>
-							";
+							$subject = $this->llManager->getLL('invite_subject');
+							$bodytext = sprintf($this->llManager->getLL('invite_bodytext'), $inviteUrl);
 							if ($this->messageAPILoaded) {
 								tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 							}
@@ -324,7 +328,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				}
 			break;
 			default:
-				$result = "{'status': 'error', 'msg': 'no ajax action'}";
+				$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_noajax_action')}'}";
 			break;
 		}
 		echo $result;
