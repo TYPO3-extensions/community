@@ -8,5 +8,8 @@
 		<languageKey index="default" type="array">
 			<label index="label_FriendsBirthdayListWidget">Next birthdays</label>
 		</languageKey>
+		<languageKey index="default" type="array">
+			<label index="label_FriendsBirthdayListWidget">Nächsten Geburtstage</label>
+		</languageKey>
 	</data>
 </T3locallang>

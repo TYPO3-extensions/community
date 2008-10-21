@@ -60,5 +60,60 @@
 			<label index="tx_community_group.members">Members</label>
 			<label index="tx_community_group.pendingMembers">Pending Members</label>
 		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="tt_content.list_type_communityApplication">Community Application</label>
+			<label index="tt_content.list_type_editGroup">Community Edit group</label>
+			<label index="fe_users.tx_community_sex.I.0">Männlich</label>
+			<label index="fe_users.tx_community_sex.I.1">Weiblich</label>
+			<label index="fe_users.tx_community_sex">Geschlecht</label>
+			<label index="fe_users.tx_community_nickname">Nickname</label>
+			<label index="fe_users.tx_community_firstname">Vorname</label>
+			<label index="fe_users.tx_community_middlename">Middle Name</label>
+			<label index="fe_users.tx_community_lastname">Nachname</label>
+			<label index="fe_users.tx_community_mobilephone">Mobile Phone</label>
+			<label index="fe_users.tx_community_birthday">Birthday</label>
+			<label index="fe_users.tx_community_activities">Activities</label>
+			<label index="fe_users.tx_community_interests">Interests</label>
+			<label index="fe_users.tx_community_favoritemusic">Favorite Music</label>
+			<label index="fe_users.tx_community_favoritetvshows">Favorite TV Shows</label>
+			<label index="fe_users.tx_community_favoritemovies">Favorite Movies</label>
+			<label index="fe_users.tx_community_favoritebooks">Favorite Books</label>
+			<label index="fe_users.tx_community_aboutme">About Me</label>
+			<label index="fe_users.tx_community_instantmessager">Instant Messager</label>
+			<label index="fe_groups.tx_community_admins">Admins</label>
+			<label index="fe_groups.tx_community_tmpmembers">Unconfirmed Members</label>
+			<label index="fe_groups.tx_community_members">Members</label>
+			<label index="fe_groups.tx_community_public">Public group?</label>
+			<label index="fe_groups.tx_community_image">Image</label>
+			<label index="tx_community_acl_role">ACL Role</label>
+			<label index="tx_community_acl_role.name">Name</label>
+			<label index="tx_community_acl_role.is_public">Public Role</label>
+			<label index="tx_community_acl_role.is_friend_role">Is a friend role</label>
+			<label index="tx_community_acl_rule">ACL Rule</label>
+			<label index="tx_community_acl_rule.name">Name</label>
+			<label index="tx_community_acl_rule.resource">Resource</label>
+			<label index="tx_community_acl_rule.role">Role</label>
+			<label index="tx_community_acl_rule.access_mode">Access Mode</label>
+			<label index="tx_community_acl_rule.access_mode.I.0">deny</label>
+			<label index="tx_community_acl_rule.access_mode.I.1">allow</label>
+			<label index="tx_community_friend">Friend Connection</label>
+			<label index="tx_community_friend.feuser">FE User</label>
+			<label index="tx_community_friend.friend">Friend FE User</label>
+			<label index="tx_community_friend.role">Role</label>
+			<label index="tx_community_friend.status">Status</label>
+			<label index="tx_community_group">Group</label>
+			<label index="tx_community_group.name">Name</label>
+			<label index="tx_community_group.groupType.I.0">Open</label>
+			<label index="tx_community_group.groupType.I.1">Members Only</label>
+			<label index="tx_community_group.groupType.I.2">Private</label>
+			<label index="tx_community_group.groupType.I.3">Secret</label>
+			<label index="tx_community_group.groupType">Type</label>
+			<label index="tx_community_group.description">Description</label>
+			<label index="tx_community_group.image">Image</label>
+			<label index="tx_community_group.creator">Creator</label>
+			<label index="tx_community_group.admins">Admins</label>
+			<label index="tx_community_group.members">Members</label>
+			<label index="tx_community_group.pendingMembers">Pending Members</label>
+		</languageKey>
 	</data>
 </T3locallang>

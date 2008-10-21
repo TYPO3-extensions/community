@@ -86,7 +86,8 @@
 		container.mousemove(function(e){
 			input.css({
 				top: e.pageY-container.offset().top+'px',
-				left: e.pageX-container.offset().left+'px'
+				left: e.pageX-container.offset().left+'px',
+				cursor: 'pointer'
 			});
 		});
 		

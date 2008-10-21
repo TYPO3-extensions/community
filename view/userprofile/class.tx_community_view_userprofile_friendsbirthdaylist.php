@@ -26,6 +26,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 
+
 /**
  * View class to render the friends birthday list widget
  *
