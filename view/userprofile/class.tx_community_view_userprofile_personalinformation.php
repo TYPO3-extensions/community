@@ -29,6 +29,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_age.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_getcobj.php');
 
 /**
  * personal information widget view
@@ -68,6 +69,8 @@ class tx_community_view_userprofile_PersonalInformation extends tx_community_vie
 		);
 		
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
+
+		$template->addViewHelper('cobj','tx_community_viewhelper_GetCObj');
 
 		$template->addViewHelper('date','tx_community_viewhelper_Date');
 		

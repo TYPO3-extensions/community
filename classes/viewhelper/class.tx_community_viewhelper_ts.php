@@ -62,7 +62,7 @@ class tx_community_viewhelper_Ts implements tx_community_ViewHelper {
 				$pathBranch = $pathBranch[$pathExploded[$i] . '.'];
 			} elseif(empty($pathExploded[$i])) {
 					// It ends with a dot. We return the rest of the array
-				$value = $array;
+				$value = $pathBranch;
 			} else {
 					// It endes without a dot. We return the value.
 				$value = $pathBranch[$pathExploded[$i]];
