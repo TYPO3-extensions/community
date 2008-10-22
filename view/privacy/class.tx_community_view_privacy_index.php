@@ -90,7 +90,7 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 			);
 			/* @var $template tx_community_Template */
 
-			$template->addVariable('setting_group', array('name' => $applicationName));
+			$template->addVariable('setting_group', array('name' => $GLOBALS['TSFE']->sL($applicationAccessSettings['label'])));
 			$template->addSubpart(
 				'settings',
 				$this->renderApplicationSettings($applicationName)
