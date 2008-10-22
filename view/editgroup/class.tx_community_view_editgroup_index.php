@@ -228,6 +228,11 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 			$this->templateFile,
 			'invite_member'
 		);
+		$template->addVariable('form', array(
+			'action' => $this->formAction,
+			'group_uid'	=> $this->group->getUid()
+		));
+
 		/* @var $template tx_community_Template */
 
 		return $template->render();
