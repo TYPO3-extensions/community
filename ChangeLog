@@ -1,5 +1,9 @@
 2008-10-21 Frank Naegler  <typo3@naegler.net>
 
+	* refactoring of tx_community_viewhelper_GetCObj
+
+2008-10-21 Frank Naegler  <typo3@naegler.net>
+
 	* bugfix TS-Viewhelper, it has returned no array data
 	* added new ViewHelper to generate any TS object by calling cObjGetSingle()
 	* revert changes of method getResourceId in the abstract community application controller, because the check for a null user is necessary as there's not always a user. for example on the groupProfile application 

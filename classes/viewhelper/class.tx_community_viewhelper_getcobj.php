@@ -51,6 +51,14 @@ class tx_community_viewhelper_GetCObj implements tx_community_ViewHelper {
 	public function execute(array $arguments = array()) {
 		$TSPath = $arguments[0];
 		
+		$first		= $this->getDataFromTSPath($TSPath);
+		$second		= $this->getDataFromTSPath($TSPath.'.');
+		
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		return $cObj->cObjGetSingle($first, $second);
+	}
+	
+	protected function getDataFromTSPath($TSPath) {
 		$pathExploded = explode('.', trim($TSPath));
 		$depth        = count($pathExploded);
 		$pathBranch   = $GLOBALS['TSFE']->tmpl->setup;
@@ -61,32 +69,14 @@ class tx_community_viewhelper_GetCObj implements tx_community_ViewHelper {
 				$pathBranch = $pathBranch[$pathExploded[$i] . '.'];
 			} elseif(empty($pathExploded[$i])) {
 					// It ends with a dot. We return the rest of the array
-				$first = $pathBranch;
+				$result = $pathBranch;
 			} else {
 					// It endes without a dot. We return the value.
-				$first = $pathBranch[$pathExploded[$i]];
+				$result= $pathBranch[$pathExploded[$i]];
 			}
 		}
 		
-		$pathExploded = explode('.', trim($TSPath.'.'));
-		$depth        = count($pathExploded);
-		$pathBranch   = $GLOBALS['TSFE']->tmpl->setup;
-		$second       = '';
-
-		for($i = 0; $i < $depth; $i++) {
-			if ($i < ($depth -1 )) {
-				$pathBranch = $pathBranch[$pathExploded[$i] . '.'];
-			} elseif(empty($pathExploded[$i])) {
-					// It ends with a dot. We return the rest of the array
-				$second = $pathBranch;
-			} else {
-					// It endes without a dot. We return the value.
-				$second = $pathBranch[$pathExploded[$i]];
-			}
-		}
-		
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
-		return $cObj->cObjGetSingle($first, $second);
+		return $result;
 	}
 }
 
