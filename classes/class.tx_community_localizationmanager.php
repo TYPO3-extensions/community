@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Frank Nägler <typo3@naegler.net>
+ *  (c) 2008 Frank Naegler <typo3@naegler.net>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,7 +26,7 @@
 /**
  * A manager to manage localizations
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -34,71 +34,96 @@ class tx_community_LocalizationManager {
 	/**
 	 * @var tx_community_LocalizationManager
 	 */
-	private static $instances = array();
+	static private $instances              = array();
 
-	protected $llFile;							// the LL-File
-	protected $LLkey = 'default';				// Pointer to the language to use.
-	protected $altLLkey = '';					// Pointer to alternative fall-back language to use.
+	protected $configuration               = array();
+	protected $localLanguageFile;                        // the LL-File
+	protected $localLanguageKey            = 'default';  // Pointer to the language to use.
+	protected $alternativeLocalLanguageKey = '';         // Pointer to alternative fall-back language to use.
 
-	protected $LOCAL_LANG = array();			// Local Language content
-	protected $LOCAL_LANG_charset = array();	// Local Language content charset for individual labels (overriding)
+	protected $localLanguageLabels         = array();    // Local Language content
+	protected $localLanguageLabelsCharset  = array();    // Local Language content charset for individual labels (overriding)
 
-	protected $LLtestPrefix = '';				// You can set this during development to some value that makes it easy for you to spot all labels that ARe delivered by the getLL function.
-	protected $LLtestPrefixAlt = '';			// Save as LLtestPrefix, but additional prefix for the alternative value in getLL() function calls
+	protected $localLanguageTestPrefix            = '';  // You can set this during development to some value that makes it easy for you to spot all labels that ARe delivered by the getLL function.
+	protected $alternativeLocalLanguageTestPrefix = '';  // Save as LLtestPrefix, but additional prefix for the alternative value in getLL() function calls
 
 	/**
 	 * constructor for class tx_community_LocalizationManager
 	 */
-	protected function __construct($llFile, $TS) {
-		$this->llFile = $llFile;
-		$this->conf   = $TS;
+	protected function __construct($localLanguageFile, array $configuration) {
+		$this->localLanguageFile = $localLanguageFile;
+		$this->configuration     = $configuration;
+
 		if ($GLOBALS['TSFE']->config['config']['language']) {
-			$this->LLkey = $GLOBALS['TSFE']->config['config']['language'];
+			$this->localLanguageKey = $GLOBALS['TSFE']->config['config']['language'];
+
 			if ($GLOBALS['TSFE']->config['config']['language_alt']) {
-				$this->altLLkey = $GLOBALS['TSFE']->config['config']['language_alt'];
+				$this->alternativeLocalLanguageKey = $GLOBALS['TSFE']->config['config']['language_alt'];
 			}
 		}
 
 		$this->loadLL();
 	}
 
-	private function __clone() {
-	}
+	private function __clone() {}
 
 	/**
 	 * returns a LocalizationManager instance
 	 *
-	 * @param string $llFile
-	 * @param array $TS
-	 * @return tx_community_LocalizationManager
+	 * @param	string	local language file path
+	 * @param	array	TypoScript configuration
+	 * @return	tx_community_LocalizationManager	instance of the localization manager for the given LLL file
 	 */
-	public static function getInstance($llFile, $TS) {
-		if (!isset(self::$instances[$llFile])) {
-			self::$instances[$llFile] = new tx_community_LocalizationManager($llFile, $TS);
+	public static function getInstance($localLanguageFile, array $configuration) {
+		if (!isset(self::$instances[$localLanguageFile])) {
+			self::$instances[$localLanguageFile] = new tx_community_LocalizationManager($localLanguageFile, $configuration);
 		}
-		return self::$instances[$llFile];
+
+		return self::$instances[$localLanguageFile];
 	}
 
+	/**
+	 * loads the labels from a local language file
+	 *
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 * @author	Frank Naegler <typo3@naegler.net>
+	 */
 	protected function loadLL() {
-		$this->LOCAL_LANG = t3lib_div::readLLfile($this->llFile, $this->LLkey, $GLOBALS['TSFE']->renderCharset);
-		if ($this->altLLkey) {
-			$tempLOCAL_LANG = t3lib_div::readLLfile($this->llFile, $this->altLLkey);
-			$this->LOCAL_LANG = array_merge(is_array($this->LOCAL_LANG) ? $this->LOCAL_LANG : array(), $tempLOCAL_LANG);
+		$this->localLanguageLabels = t3lib_div::readLLfile(
+			$this->localLanguageFile,
+			$this->localLanguageKey,
+			$GLOBALS['TSFE']->renderCharset
+		);
+
+		if ($this->alternativeLocalLanguageKey) {
+			$tempLocalLangueLabels = t3lib_div::readLLfile(
+				$this->localLanguageFile,
+				$this->alternativeLocalLanguageKey
+			);
+
+			$this->localLanguageLabels = array_merge(
+				is_array($this->localLanguageLabels) ?
+					$this->localLanguageLabels :
+					array(),
+				$tempLocalLangueLabels
+			);
 		}
 
-		// Overlaying labels from TypoScript (including fictitious language keys for non-system languages!):
-		if (is_array($this->conf['_LOCAL_LANG.'])) {
-			reset($this->conf['_LOCAL_LANG.']);
-			while(list($k,$lA)=each($this->conf['_LOCAL_LANG.'])) {
-				if (is_array($lA)) {
-					$k = substr($k,0,-1);
-					foreach($lA as $llK => $llV) {
-						if (!is_array($llV)) {
-							$this->LOCAL_LANG[$k][$llK] = $llV;
-							// For labels coming from the TypoScript (database) the charset is assumed
-							// to be "forceCharset" and if that is not set, assumed to be that of the
-							// individual system languages
-							$this->LOCAL_LANG_charset[$k][$llK] = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ? $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : $GLOBALS['TSFE']->csConvObj->charSetArray[$k];
+			// Overlaying labels from TypoScript (including fictitious language keys for non-system languages!):
+		if (is_array($this->configuration['_LOCAL_LANG.'])) {
+
+			foreach ($this->configuration['_LOCAL_LANG.'] as $language => $overideLabels) {
+				if (is_array($overideLabels)) {
+					foreach ($overideLabels as $labelKey => $overideLabel) {
+						if (!is_array($overideLabel)) {
+							$this->localLanguageLabels[$language][$labelKey] = $overideLabel;
+
+								// For labels coming from the TypoScript (database) the charset is assumed
+								// to be "forceCharset" and if that is not set, assumed to be that of the
+								// individual system languages
+							$this->localLanguageLabelsCharset[$language][$labelKey] = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+								$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] :
+								$GLOBALS['TSFE']->csConvObj->charSetArray[$language];
 						}
 					}
 				}
@@ -106,20 +131,27 @@ class tx_community_LocalizationManager {
 		}
 	}
 
-	public function getLL($key, $alt='', $hsc = false) {
-		// The "from" charset of csConv() is only set for strings from TypoScript via _LOCAL_LANG
-		if (isset($this->LOCAL_LANG[$this->LLkey][$key])) {
-			$word = $GLOBALS['TSFE']->csConv($this->LOCAL_LANG[$this->LLkey][$key], $this->LOCAL_LANG_charset[$this->LLkey][$key]);
-		} elseif ($this->altLLkey && isset($this->LOCAL_LANG[$this->altLLkey][$key])) {
-			$word = $GLOBALS['TSFE']->csConv($this->LOCAL_LANG[$this->altLLkey][$key], $this->LOCAL_LANG_charset[$this->altLLkey][$key]);
-		} elseif (isset($this->LOCAL_LANG['default'][$key])) {
-			// No charset conversion because default is english and thereby ASCII
-			$word = $this->LOCAL_LANG['default'][$key];
+	public function getLL($labelKey, $alternativeLabel = '', $hsc = false) {
+			// The "from" charset of csConv() is only set for strings from TypoScript via _LOCAL_LANG
+		if (isset($this->localLanguageLabels[$this->localLanguageKey][$labelKey])) {
+			$word = $GLOBALS['TSFE']->csConv(
+				$this->localLanguageLabels[$this->localLanguageKey][$labelKey],
+				$this->localLanguageLabelsCharset[$this->localLanguageKey][$labelKey]
+			);
+		} elseif ($this->alternativeLocalLanguageKey && isset($this->localLanguageLabels[$this->alternativeLocalLanguageKey][$labelKey])) {
+			$word = $GLOBALS['TSFE']->csConv(
+				$this->localLanguageLabels[$this->alternativeLocalLanguageKey][$labelKey],
+				$this->localLanguageLabelsCharset[$this->alternativeLocalLanguageKey][$labelKey]
+			);
+		} elseif (isset($this->localLanguageLabels['default'][$labelKey])) {
+				// No charset conversion because default is english and thereby ASCII
+			$word = $this->localLanguageLabels['default'][$labelKey];
 		} else {
-			$word = $this->LLtestPrefixAlt.$alt;
+			$word = $this->alternativeLocalLanguageTestPrefix . $alternativeLabel;
 		}
 
-		$output = $this->LLtestPrefix.$word;
+		$output = $this->localLanguageTestPrefix . $word;
+
 		if ($hsc) {
 			$output = htmlspecialchars($output);
 		}
