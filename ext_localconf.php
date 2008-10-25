@@ -82,7 +82,31 @@ $TX_COMMUNITY = array(
 						'index'
 					),
 					'defaultAction' => 'index'
+				),
+/*
+				'wall' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_wallwidget.php:tx_community_controller_userprofile_WallWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_wallStream',
+					'accessControl' => array(
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_wallWidget_read'
+					),
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
+				),
+				'activityStream' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_activitystreamwidget.php:tx_community_controller_userprofile_ActivityStreamWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_activityStream',
+					'accessControl' => array(
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_activityStreamWidget_read'
+					),
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
 				)
+*/
 			)
 		),
 		'groupProfile' => array(
@@ -217,7 +241,12 @@ $TX_COMMUNITY = array(
 				'successMessage'
 			),
 			'defaultAction' => 'index'
+		),
+/*
+		'inbox' => array(
+			// the message center stuff
 		)
+*/
 	),
 	'tableFieldMaps' => array(
 		'fe_users' => array(
