@@ -37,7 +37,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	public function __construct() {
 		parent::__construct();
 		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_profileactions.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+
 		$this->name     	= 'profileActions';
 		$this->label    	= $this->localizationManager->getLL('label_ProfileActionWidget');
 		$this->draggable	= false;
@@ -173,7 +173,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
 			$success = true;
 		}
-		
+
 		// @TODO: if $success send message to user with a hint to confirm the request
 		//        if it is a confirmation, send a message to the first requesting user
 		//        use community_messages, here is an example:
@@ -218,19 +218,19 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				}
 			}
 		*/
-				
+
 		// TODO check for errors, throw exceptions, add pid to where clause
 	}
 
 	public function addAsFriendAction() {
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-		
+
 		$roleId	= $this->configuration['accessManagement.']['addAsFriendDefaultRoleId'];
-		
+
 		if ($requestRoleId = intval($communityRequest['roleId'])) {
 			$roleId = $requestRoleId;
 		}
-		
+
 		$friendAdded = $this->addRelationship($roleId);
 
 		if ($friendAdded) {
@@ -348,6 +348,12 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				$localizationManager->getLL('action_isFriendWith'),
 				$requestedUser->getAccount()->getFirstName()
 			);
+		} else if($this->isFriendshipRequestSend($requestingUser, $requestedUser)) {
+				// a friendship request has been sent already, but is not approved yet
+			$content = sprintf(
+				$localizationManager->getLL('action_friendshipRequestSent'),
+				$requestedUser->getAccount()->getFirstName()
+			);
 		} else {
 				// the users are not friends yet, create a link
 			$linkText = sprintf(
@@ -432,11 +438,12 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	 * This is done by checking whether a record in tx_community_friend exists
 	 * as a relation between both.
 	 *
-	 * @param tx_community_model_User the requested user
-	 * @param tx_community_model_User the requesting user, who needs to be checked whether he is a friend
+	 * @param tx_community_model_User the requesting user
+	 * @param tx_community_model_User the requested user, who needs to be checked whether he is a friend
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	protected function isFriend(tx_community_model_User $user, tx_community_model_User $friend) {
-			// TODO this schould at some time be moved to a more appropriate place like a FriendshipManager or so
+			// TODO this schould at some point be moved to a more appropriate place like a FriendshipManager or so
 			// TODO: Question: I think this should be a method of the user object: isInRelationTo($user, $role) ?
 		$isFriend = false;
 
@@ -450,12 +457,49 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		);
 
 		$friendConnectionCount = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 
 		if ($friendConnectionCount > 0) {
 			$isFriend = true;
 		}
 
 		return $isFriend;
+	}
+
+	/**
+	 * checks whether a one-way relation between two users is present. This
+	 * happens when a user sent a friendship request, but that request has
+	 * not been confirmed by the to be friend yet
+	 *
+	 * @param tx_community_model_User the requesting user
+	 * @param tx_community_model_User the requested user, who needs to be checked whether there's a friend request already
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function isFriendshipRequestSend(tx_community_model_User $user, tx_community_model_User $friend) {
+			// TODO maybe we can merge these two queries into one
+
+			// TODO use page id restrctions, do not hardcode enablefields
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			'tx_community_friend',
+			'feuser = ' . $user->getUid()
+				. ' AND friend = ' . $friend->getUid()
+				. ' AND hidden = 0'
+		);
+		$userToFriendRelationExists = (boolean) $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			'tx_community_friend',
+			'feuser = ' . $friend->getUid()
+				. ' AND friend = ' . $user->getUid()
+				. ' AND hidden = 0'
+		);
+		$friendToUserRelationExists = (boolean) $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+
+		return ($userToFriendRelationExists && !$friendToUserRelationExists);
 	}
 
 	/**

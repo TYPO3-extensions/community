@@ -12,17 +12,19 @@
 			<label index="action_removeAsFriend">Remove %s as a Friend</label>
 			<label index="action_editRelationship">Edit Relationship</label>
 			<label index="action_isFriendWith">You're Friends with %s</label>
+			<label index="action_friendshipRequestSent">Waiting for %s to confirm your friendship request</label>
 			<label index="relationship_edit">Edit your relationship to</label>
 			<label index="relationship_formSave">Save</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="label_ProfileActionWidget">Das kannst du tun</label>
+			<label index="label_ProfileActionWidget">Profilaktionen</label>
 			<label index="action_thisIsYou">Das bist du</label>
 			<label index="action_addAsFriend">%s als Freund hinzufügen</label>
 			<label index="action_removeAsFriend">%s als Freund entfernen</label>
-			<label index="action_editRelationship">Bearbeite Verbindung</label>
-			<label index="action_isFriendWith">Deine Freunde mit %s</label>
-			<label index="relationship_edit">Bearbeite deine Verbindung zu</label>
+			<label index="action_editRelationship">Beziehung bearbeiten</label>
+			<label index="action_isFriendWith">Du bist mit %s befreundet</label>
+			<label index="action_friendshipRequestSent">Warte auf %s deine Anfrage zu bestätigen</label>
+			<label index="relationship_edit">Bearbeite deine Beziehung zu</label>
 			<label index="relationship_formSave">Speichern</label>
 		</languageKey>
 	</data>
