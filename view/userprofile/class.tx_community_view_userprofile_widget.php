@@ -24,6 +24,10 @@
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_widget.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_date.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_getcobj.php');
 
 /**
  * personal information widget view
@@ -64,6 +68,14 @@ class tx_community_view_userprofile_Widget extends tx_community_view_AbstractVie
 		
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
 
+		$template->addViewHelper('cobj','tx_community_viewhelper_GetCObj');
+
+		$template->addViewHelper('date','tx_community_viewhelper_Date');
+		
+		$template->addViewHelper('ts','tx_community_viewhelper_Ts');
+		
+		$template->addViewHelper('link','tx_community_viewhelper_Link');
+		
 		$template->addVariable('user', $this->userModel);
 
 		return $template->render();
