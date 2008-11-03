@@ -1,0 +1,5 @@
+
+plugin.tx_community.images {
+	defaultUser		= EXT:community/resources/icons/default_user.png
+	defaultGroup	= EXT:community/resources/icons/default_group.png
+}

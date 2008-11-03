@@ -41,7 +41,7 @@ plugin.tx_community {
 		userProfile {
 			widgets {
 				image {
-					defaultImage = EXT:community/resources/icons/default_user.png
+					defaultImage = {$plugin.tx_community.images.defaultUser}
 
 					profileImage = IMAGE
 					profileImage {
@@ -98,7 +98,7 @@ plugin.tx_community {
 		groupProfile {
 			widgets {
 				image {
-					defaultImage = EXT:community/resources/icons/default_group.png
+					defaultImage = {$plugin.tx_community.images.defaultGroup}
 
 					groupImage = IMAGE
 					groupImage {
@@ -275,7 +275,7 @@ plugin.tx_community {
 			groupImage = IMAGE
 			groupImage {
 				// will be overwriten if an user image is available
-				file = EXT:community/resources/icons/default_group.png
+				file = {$plugin.tx_community.images.defaultGroup}
 				file {
 					maxW = 120
 					maxH = 160
@@ -287,7 +287,7 @@ plugin.tx_community {
 
 		editGroup {
 			templateFile = EXT:community/resources/templates/editgroup/index.htm
-			defaultIcon = EXT:community/resources/icons/default_group.png
+			defaultIcon = {$plugin.tx_community.images.defaultGroup}
 			uploadPath = uploads/tx_community/
 			previewImage = IMAGE
 			previewImage {
