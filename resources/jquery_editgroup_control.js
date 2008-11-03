@@ -288,7 +288,7 @@ $(document).ready(function(){
 			'tx_community[ajaxAction]': 'inviteMember',
 			'tx_community[do]': 'search',
 			'tx_community[group]': _GROUP_ID
-		},
+		}
 	});
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').result(function(event, data, formatted) {
 		var hidden = $('#inviteUids');
