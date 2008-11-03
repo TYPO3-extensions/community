@@ -16,6 +16,7 @@
 			<label index="userProfile_friendsBirthdayList">Friends Birthday List</label>
 			<label index="userProfile_myGroups">My Groups</label>
 			<label index="userProfile_onlineFriends">Online Friends</label>
+			<label index="userProfile_widgetWidget">Widgets-Widget</label>
 			<label index="groupProfile">Group Profile</label>
 			<label index="groupProfile_image">Image</label>
 			<label index="groupProfile_information">Information</label>

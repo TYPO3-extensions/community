@@ -30,6 +30,15 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index'
 				),
+				'widgetWidget' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_widgetwidget.php:tx_community_controller_userprofile_WidgetWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_widgetWidget',
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index',
+					'accessControl' => false,
+				),
 				'personalInformation' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_personalinformationwidget.php:tx_community_controller_userprofile_PersonalInformationWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_personalInformation',

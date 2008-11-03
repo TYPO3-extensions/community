@@ -1,3 +1,7 @@
+2008-11-03 Frank Naegler  <typo3@naegler.net>
+
+	* adding a widgets-widget, with this widget you can collect some other widgets by the widget view helper. we need this for a widget, which shows ever the profile actions, but the image and personal information only, if the user has access to read them. 
+
 2008-10-28 Ingo Renner  <ingo@typo3.org>
 
 	* added a check for existing friendship requests to the profile actions widget

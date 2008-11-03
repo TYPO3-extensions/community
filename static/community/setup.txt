@@ -65,6 +65,10 @@ plugin.tx_community {
 					}
 				}
 
+				widgetWidget {
+					templateFile = EXT:community/resources/templates/userprofile/widgetwidget.htm
+				}
+
 				personalInformation {
 					templateFile = EXT:community/resources/templates/userprofile/personalinformationwidget.htm
 				}
