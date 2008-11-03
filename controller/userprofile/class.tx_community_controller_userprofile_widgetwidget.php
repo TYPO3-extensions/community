@@ -51,7 +51,7 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 		$this->label    = $this->localizationManager->getLL('label_WidgetWidget');
 		$this->cssClass = '';
 
-		$this->draggable = true;
+		$this->draggable = false;
 		$this->removable = false;
 		$this->position  = 1;
 	}
