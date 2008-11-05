@@ -51,7 +51,8 @@ class tx_community_viewhelper_Date implements tx_community_ViewHelper {
 	}
 
 	public function execute(array $arguments = array()) {
-		return $this->contentObject->stdWrap($arguments[0], $this->dateFormat);
+		$dateFormat = ($arguments[1]) ? $arguments[1] : $this->dateFormat; 
+		return $this->contentObject->stdWrap($arguments[0], $dateFormat);
 	}
 }
 
