@@ -48,13 +48,13 @@ class tx_community_viewhelper_Date implements tx_community_ViewHelper {
 			$this->dateFormat = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['general.']['dateFormat.'];
 			$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
 		}
+	}
+
+	public function execute(array $arguments = array()) {
 		if (count($arguments) > 1) {
 			$this->dateFormat = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['general.']['dateFormat.'];
 			$this->dateFormat['date'] = $arguments[1];
 		}
-	}
-
-	public function execute(array $arguments = array()) {
 		return $this->contentObject->stdWrap($arguments[0], $this->dateFormat);
 	}
 }
