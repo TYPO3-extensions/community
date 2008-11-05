@@ -32,7 +32,7 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_WidgetWidget extends tx_community_controller_AbstractCommunityApplicationWidget implements tx_community_acl_AclResource {
+class tx_community_controller_userprofile_WidgetWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
 	/**
 	 * @var tx_community_LocalizationManager
 	 */
@@ -54,22 +54,6 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 		$this->draggable = false;
 		$this->removable = false;
 		$this->position  = 1;
-	}
-
-	/**
-	 * Returns the string identifier of the Resource
-	 *
-	 * @return string
-	 */
-	public function getResourceId() {
-		$requestedUser = $this->communityApplication->getRequestedUser();
-
-		$resourceId = $this->communityApplication->getName()
-			. '_' . $this->name
-			. '_' . $this->accessMode
-			. '_' . $requestedUser->getUid();
-
-		return $resourceId;
 	}
 
 	/**
