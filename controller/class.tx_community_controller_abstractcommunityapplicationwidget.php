@@ -77,7 +77,7 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	public function getCommunityApplication() {
 		return $this->communityApplication;
 	}
-	
+
 	public function getConfiguration() {
 		return $this->configuration;
 	}
@@ -90,7 +90,7 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	 */
 	public function execute() {
 		$content = '';
-		$communityRequest = t3lib_div::GParrayMerged('tx_community');;
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
 
 		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
