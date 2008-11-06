@@ -2,7 +2,7 @@
 
 	* fixed bug #1770: adding label for the settings groups in the privacy apps
 	* fixed bug #1776: LLL-Viewhelper: values can't be overwritten by TypoScript
-	* fixed bug ##1750: edit relationship does'nt work correctly
+	* fixed bug #1750: edit relationship does'nt work correctly
 
 2008-11-05 Frank Naegler  <typo3@naegler.net>
 
