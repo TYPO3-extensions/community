@@ -126,6 +126,7 @@ class tx_community_LocalizationManager {
 		if (is_array($this->configuration['_LOCAL_LANG.'])) {
 
 			foreach ($this->configuration['_LOCAL_LANG.'] as $language => $overideLabels) {
+				$language = substr($language, 0, -1);
 				if (is_array($overideLabels)) {
 					foreach ($overideLabels as $labelKey => $overideLabel) {
 						if (!is_array($overideLabel)) {

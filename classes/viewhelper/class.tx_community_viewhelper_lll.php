@@ -80,7 +80,8 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 		if (is_array($configuration['_LOCAL_LANG.'])) {
 
 			foreach ($configuration['_LOCAL_LANG.'] as $language => $overideLabels) {
-
+				$language = substr($language, 0, -1);
+				
 				$languageCharset = $GLOBALS['TSFE']->csConvObj->charSetArray[$language];
 				if (!empty($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'])) {
 					$languageCharset = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
