@@ -1,6 +1,7 @@
 2008-11-06 Ingo Renner  <ingo@typo3.org>
 
 	* fixed bug #1770: adding label for the settings groups in the privacy apps
+	* fixed bug #1776: LLL-Viewhelper: values can't be overwritten by TypoScript
 
 2008-11-05 Frank Naegler  <typo3@naegler.net>
 

@@ -51,19 +51,13 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 		$this->languageFile = $arguments['languageFile'];
 		$this->llKey        = $arguments['llKey'];
 
-		$this->localLang[$arguments['languageFile']] = t3lib_div::readLLfile(
-			$arguments['languageFile'],
-			$arguments['llKey'],
-			$GLOBALS['TSFE']->renderCharset
-		);
+		$this->loadLL();
 	}
 
 	public function execute(array $arguments = array()) {
 		$label = '';
 
-			// TODO add a way to resolve variables in labels
-
-		if (!strncmp($arguments[0], 'EXT', 3)) {
+		if (t3lib_div::isFirstPartOfStr($arguments[0], 'EXT')) {
 				// a full path reference...
 			$label = $this->resolveFullPathLabel($arguments[0]);
 		} else {
@@ -71,6 +65,36 @@ class tx_community_viewhelper_Lll implements tx_community_ViewHelper {
 		}
 
 		return $label;
+	}
+
+	protected function loadLL() {
+		$configuration = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.'];
+
+		$this->localLang[$this->languageFile] = t3lib_div::readLLfile(
+			$this->languageFile,
+			$this->llKey,
+			$GLOBALS['TSFE']->renderCharset
+		);
+
+			// Overlaying labels from TypoScript (including fictitious language keys for non-system languages!):
+		if (is_array($configuration['_LOCAL_LANG.'])) {
+
+			foreach ($configuration['_LOCAL_LANG.'] as $language => $overideLabels) {
+
+				$languageCharset = $GLOBALS['TSFE']->csConvObj->charSetArray[$language];
+				if (!empty($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'])) {
+					$languageCharset = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
+				}
+
+				if (is_array($overideLabels)) {
+					foreach ($overideLabels as $labelKey => $overideLabel) {
+						if (!is_array($overideLabel)) {
+							$this->localLang[$this->languageFile][$language][$labelKey] = $GLOBALS['TSFE']->csConv($overideLabel, $languageCharset);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	protected function resolveFullPathLabel($path) {
