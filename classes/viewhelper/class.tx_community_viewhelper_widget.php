@@ -50,6 +50,7 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 	 */
 	public function execute(array $arguments = array()) {
 		list($applicationName, $widgetName) = explode('.', $arguments[0]);
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
 		$widget = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidget($applicationName, $widgetName);
 		/* @var $widget tx_community_controller_AbstractCommunityApplicationWidget */
@@ -59,11 +60,16 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 		}
 
 		$widgetAction = '';
-		if (empty($arguments[2])) {
+		$availableWidgetActions = $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'][$widgetName]['actions'];
+		if(!empty($communityRequest[$widgetName . 'Action']) && in_array($communityRequest[$widgetName . 'Action'], $availableWidgetActions)) {
+				// action is overwritten by GET or POST request
+			$widgetAction = $communityRequest[$widgetName . 'Action'];
+		} elseif (!empty($arguments[2]) && in_array($arguments[2], $availableWidgetActions)) {
+				// action is specified in the template
+			$widgetAction = $arguments[2];
+		} else {
 				// no specific action requested, call the default action
 			$widgetAction = $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'][$widgetName]['defaultAction'];
-		} else {
-			$widgetAction = $arguments[2];
 		}
 		$widgetAction = $widgetAction . 'Action';
 
