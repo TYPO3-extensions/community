@@ -31,21 +31,34 @@
  * @subpackage community
  */
 class tx_community_LocalizationManager {
+
 	/**
 	 * @var tx_community_LocalizationManager
 	 */
 	static private $instances              = array();
 
 	protected $configuration               = array();
-	protected $localLanguageFile;                        // the LL-File
-	protected $localLanguageKey            = 'default';  // Pointer to the language to use.
-	protected $alternativeLocalLanguageKey = '';         // Pointer to alternative fall-back language to use.
 
-	protected $localLanguageLabels         = array();    // Local Language content
-	protected $localLanguageLabelsCharset  = array();    // Local Language content charset for individual labels (overriding)
+		// the LL-File
+	protected $localLanguageFile;
 
-	protected $localLanguageTestPrefix            = '';  // You can set this during development to some value that makes it easy for you to spot all labels that ARe delivered by the getLL function.
-	protected $alternativeLocalLanguageTestPrefix = '';  // Save as LLtestPrefix, but additional prefix for the alternative value in getLL() function calls
+		// Pointer to the language to use.
+	protected $localLanguageKey            = 'default';
+
+		// Pointer to alternative fall-back language to use.
+	protected $alternativeLocalLanguageKey = '';
+
+		// Local Language content
+	protected $localLanguageLabels         = array();
+
+		// Local Language content charset for individual labels (overriding)
+	protected $localLanguageLabelsCharset  = array();
+
+		// You can set this during development to some value that makes it easy for you to spot all labels that ARe delivered by the getLL function.
+	protected $localLanguageTestPrefix            = '';
+
+		// Save as LLtestPrefix, but additional prefix for the alternative value in getLL() function calls
+	protected $alternativeLocalLanguageTestPrefix = '';
 
 	/**
 	 * constructor for class tx_community_LocalizationManager
