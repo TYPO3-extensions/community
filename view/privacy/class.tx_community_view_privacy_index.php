@@ -82,6 +82,11 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 		$settingGroups = '';
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 
+		$localizationManager = tx_community_LocalizationManager::getInstance(
+			'EXT:community/lang/locallang_applications.xml',
+			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
+		);
+
 		foreach($this->accessControlModel as $applicationName => $applicationAccessSettings) {
 			$template = new $templateClass(
 				t3lib_div::makeInstance('tslib_cObj'),
@@ -90,7 +95,12 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 			);
 			/* @var $template tx_community_Template */
 
-			$template->addVariable('setting_group', array('name' => $applicationName));
+			$template->addVariable(
+				'setting_group',
+				array(
+					'name' => $localizationManager->getLL($applicationName)
+				)
+			);
 			$template->addSubpart(
 				'settings',
 				$this->renderApplicationSettings($applicationName)
