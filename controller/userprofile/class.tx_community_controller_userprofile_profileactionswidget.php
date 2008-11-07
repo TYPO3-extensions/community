@@ -346,19 +346,19 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				// the users are already friends
 			$content = sprintf(
 				$localizationManager->getLL('action_isFriendWith'),
-				$requestedUser->getAccount()->getNickname()
+				$requestedUser->getNickname()
 			);
 		} else if($this->isFriendshipRequestSend($requestingUser, $requestedUser)) {
 				// a friendship request has been sent already, but is not approved yet
 			$content = sprintf(
 				$localizationManager->getLL('action_friendshipRequestSent'),
-				$requestedUser->getAccount()->getNickname()
+				$requestedUser->getNickname()
 			);
 		} else {
 				// the users are not friends yet, create a link
 			$linkText = sprintf(
 				$localizationManager->getLL('action_addAsFriend'),
-				$requestedUser->getAccount()->getNickname()
+				$requestedUser->getNickname()
 			);
 
 			$content = $this->communityApplication->pi_linkTP(
