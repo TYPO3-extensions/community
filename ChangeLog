@@ -1,3 +1,7 @@
+2008-11-07 Frank Naegler  <typo3@naegler.net>
+
+	* change getFirstname to getNickname in the profileActionWidget, maybe this should be set by config later.
+
 2008-11-06 Ingo Renner  <ingo@typo3.org>
 
 	* fixed bug #1770: adding label for the settings groups in the privacy apps
