@@ -1,6 +1,8 @@
 2008-11-09 Frank Naegler  <typo3@naegler.net>
 
 	* added date view helper to the userList view
+	* added subpart switch for empty result list to the userList view
+	* added result counter as variable to the userList view
 
 2008-11-07 Frank Naegler  <typo3@naegler.net>
 

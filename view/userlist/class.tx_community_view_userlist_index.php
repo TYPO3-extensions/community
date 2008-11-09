@@ -43,11 +43,15 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 	}
 
 	public function render() {
+		$resultCounter = count($this->userModel);
+		
+		$subpart = ($resultCounter > 0) ? 'user_list' : 'no_results';
+		
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
 			$this->templateFile,
-			'user_list'
+			$subpart
 		);
 		/* @var $template tx_community_Template */
 
@@ -57,7 +61,10 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
 		
 		$template->addLoop('users', 'user', $this->userModel);
-
+		$template->addVariable('result', array(
+			'counter'	=> $resultCounter
+		));
+		
 		return $template->render();
 	}
 }
