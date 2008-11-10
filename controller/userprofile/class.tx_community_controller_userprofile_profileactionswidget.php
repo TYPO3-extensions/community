@@ -360,10 +360,9 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				$localizationManager->getLL('action_addAsFriend'),
 				$requestedUser->getNickname()
 			);
-			$targetUid = $this->configuration['pages.']['userProfile'];
 			$content = $this->communityApplication->pi_linkToPage(
 				$linkText,
-				$targetUid,
+				$this->configuration['pages.']['userProfile'],
 				'',
 				array(
 					'tx_community' => array(
@@ -394,8 +393,10 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 			$requestedUser->getAccount()->getFirstName()
 		);
 
-		$content = $this->communityApplication->pi_linkTP(
+		$content = $this->communityApplication->pi_linkToPage(
 			$linkText,
+			$this->configuration['pages.']['userProfile'],
+			'',
 			array(
 				'tx_community' => array(
 					'user' => $requestedUser->getUid(),
@@ -420,16 +421,16 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		$requestedUser = $this->communityApplication->getRequestedUser();
 		$linkText = $localizationManager->getLL('action_editRelationship');
 
-		$content = $this->communityApplication->pi_linkTP(
+		$content = $this->communityApplication->pi_linkToPage(
 			$linkText,
+			$this->configuration['pages.']['relationshipEdit'],
+			'',
 			array(
 				'tx_community' => array(
 					'user' => $requestedUser->getUid(),
 					$this->name . 'Action' => 'editRelationship'
 				)
-			),
-			false,
-			$this->configuration['pages.']['relationshipEdit']
+			)
 		);
 
 		return $content;
