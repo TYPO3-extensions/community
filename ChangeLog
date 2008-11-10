@@ -2,6 +2,7 @@
 
 	* change pi_linkTP to pi_linkToPage in the profile actions, all request should go the userProfile
 	* added cObj viewhelper to userlist
+	* added TypoScript for using the search application by TypoScript
 	
 2008-11-09 Frank Naegler  <typo3@naegler.net>
 

@@ -351,6 +351,12 @@ plugin.tx_community {
 			includeLibs = EXT:community/controller/class.tx_community_controller_editgroupapplication.php
 			userFunc = tx_community_controller_EditGroupApplication->execute
 		}
+
+		search = USER_INT
+		search {
+			includeLibs = EXT:community/controller/class.tx_community_controller_searchapplication.php
+			userFunc = tx_community_controller_SearchApplication->execute
+		}
 	}
 }
 
