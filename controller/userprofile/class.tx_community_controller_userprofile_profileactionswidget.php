@@ -360,9 +360,11 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				$localizationManager->getLL('action_addAsFriend'),
 				$requestedUser->getNickname()
 			);
-
-			$content = $this->communityApplication->pi_linkTP(
+			$targetUid = $this->configuration['pages.']['userProfile'];
+			$content = $this->communityApplication->pi_linkToPage(
 				$linkText,
+				$targetUid,
+				'',
 				array(
 					'tx_community' => array(
 						'user' => $requestedUser->getUid(),
