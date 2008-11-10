@@ -51,7 +51,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 		$this->localizationManager = call_user_func(
 			array($localizationManagerClass, 'getInstance'),
 			$GLOBALS['PATH_community'] . 'lang/locallang_groupprofile_profileactions.xml',
-			array()
+			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
 		);
 
 		$this->name            = 'profileActions';
