@@ -26,6 +26,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_date.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_getcobj.php');
 
 /**
  * The user list default view
@@ -59,6 +60,7 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		$template->addViewHelper('link', 'tx_community_viewhelper_Link');
 		$template->addViewHelper('date','tx_community_viewhelper_Date');
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
+		$template->addViewHelper('cobj','tx_community_viewhelper_GetCObj');
 		
 		$template->addLoop('users', 'user', $this->userModel);
 		$template->addVariable('result', array(
