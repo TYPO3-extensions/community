@@ -37,7 +37,7 @@ $(document).ready(function(){
 			showMessage('wait', _PLEASE_WAIT);
 		},
 		onComplete: function(response) {
-			console.log(response);
+			// console.log(response);
 			response = eval('('+response+')');
 			$('#tx-community-group-image').attr('src', response.newImage);
 			$('#tx-community-group-image').attr('width', response.newWidth);
@@ -292,7 +292,7 @@ $(document).ready(function(){
 	});
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').result(function(event, data, formatted) {
 		var hidden = $('#inviteUids');
-		console.log(hidden);
+		// console.log(hidden);
 		hidden.val( (hidden.val() ? hidden.val() + ";" : hidden.val()) + data[1]);
 	});
 
