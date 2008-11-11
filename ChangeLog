@@ -1,3 +1,7 @@
+2008-11-11 Frank Naegler  <typo3@naegler.net>
+
+	* added css class names to the userProfile.profileActionsWidget 
+
 2008-11-10 Frank Naegler  <typo3@naegler.net>
 
 	* change pi_linkTP to pi_linkToPage in the profile actions, all request should go the userProfile

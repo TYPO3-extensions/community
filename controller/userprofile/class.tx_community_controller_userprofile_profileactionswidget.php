@@ -304,12 +304,12 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		$accessManager      = call_user_func(array($accessManagerClass, 'getInstance'));
 
 		if ($accessManager->isLoggedIn()) {
-			$profileActions[]['link'] = $this->getAddAsFriendProfileAction();
+			$profileActions[] = array('link' => $this->getAddAsFriendProfileAction(), 'class' => 'addAsFriend');
 		}
 
 		if ($this->isFriend($requestingUser, $requestedUser)) {
-			$profileActions[]['link'] = $this->getEditRelationshipProfileAction();
-			$profileActions[]['link'] = $this->getRemoveAsFriendProfileAction();
+			$profileActions[] = array('link' => $this->getEditRelationshipProfileAction(), 'class' => 'editRelationship');
+			$profileActions[] = array('link' => $this->getRemoveAsFriendProfileAction(), 'class' => 'removeAsFriend');
 		}
 
 			// hook
