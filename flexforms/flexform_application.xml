@@ -24,6 +24,7 @@
 								</items>
 								<itemsProcFunc>tx_community_ApplicationManager->getFlexformApplicationList</itemsProcFunc>
 							</config>
+							<onChange>reload</onChange>
 						</TCEforms>
 					</application>
 					<widget>

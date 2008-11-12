@@ -1,12 +1,16 @@
+2008-11-11 Ingo Renner  <ingo@typo3.org>
+
+	* added reloading to the flexform
+
 2008-11-11 Frank Naegler  <typo3@naegler.net>
 
-	* added css class names to the userProfile.profileActionsWidget 
+	* added css class names to the userProfile.profileActionsWidget
 
 2008-11-10 Frank Naegler  <typo3@naegler.net>
 
 	* change pi_linkTP to pi_linkToPage in the profile actions, all request should go the userProfile
 	* added cObj viewhelper to userlist
-	
+
 2008-11-09 Frank Naegler  <typo3@naegler.net>
 
 	* added date view helper to the userList view
