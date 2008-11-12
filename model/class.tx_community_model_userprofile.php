@@ -60,6 +60,18 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 			$this->uid		= $this->loggedinUser->getUid();
 		}
 		$this->uid			= (isset($this->request['user'])) ? intval($this->request['user']) : $this->uid;
+
+			// hook to overwrite the uid
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['tx_community_model_UserProfile']['getProfileUid'])) {
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['tx_community_model_UserProfile']['getProfileUid'] as $classReference) {
+				$hookObject = & t3lib_div::getUserObj($classReference);
+				if ($hookObject instanceof tx_community_UserProfileProvider) {
+					$this->uid = $hookObject->getProfileUid($this->uid, $this);
+				}
+			}
+		}
+		
+		
 		
 		if ($this->uid == 0) {
 			throw new tx_community_exception_NoProfileId();
