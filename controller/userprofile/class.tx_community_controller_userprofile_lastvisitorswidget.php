@@ -78,7 +78,6 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 		unset($lastVisitorsUidArray);
 
 		$lastVisitors = $this->communityApplication->getUserGateway()->findByIdList($lastVisitorsUidList);
-debug($lastVisitorsUidList);
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_LastVisitors');
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.'][$this->name . '.']['templateFile']);
