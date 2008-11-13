@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Template for the online friends widget</title>
+</head>
+<body>
+
+<!-- ###LAST_VISITORS### begin -->
+<ul>
+	<!-- ###LOOP:VISITORS### begin -->
+	<!-- ###LOOP_CONTENT### -->
+	<li>
+		###LINK:###USER.NICKNAME###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.UID######
+	</li>
+	<!-- ###LOOP_CONTENT### -->
+	<!-- ###LOOP:VISITORS### end -->
+</ul>
+
+<!-- ###LAST_VISITORS### end -->
+
+<!-- ###LAST_VISITORS_ERROR### begin -->
+###LLL:msg_no_visitors_yet###
+<!-- ###LAST_VISITORS_ERROR###end -->
+
+</body>
+</html>

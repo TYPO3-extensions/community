@@ -76,13 +76,14 @@ CREATE TABLE tx_community_friend (
 	crdate int(11) DEFAULT '0' NOT NULL,
 	cruser_id int(11) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	feuser text,
-	friend text,
-	role text,
+	feuser int(11) DEFAULT '0' NOT NULL,
+	friend int(11) DEFAULT '0' NOT NULL,
+	role int(11) DEFAULT '0' NOT NULL,
 	status varchar(50) DEFAULT '' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY feuser_friend (feuser,friend)
 );
 
 
@@ -129,7 +130,6 @@ CREATE TABLE tx_community_group_admins_mm (
 
 
 
-
 #
 # Table structure for table 'tx_community_group_members_mm'
 #
@@ -146,7 +146,6 @@ CREATE TABLE tx_community_group_members_mm (
 
 
 
-
 #
 # Table structure for table 'tx_community_group_pendingmembers_mm'
 #
@@ -160,6 +159,21 @@ CREATE TABLE tx_community_group_pendingmembers_mm (
 
 	KEY uid_local (uid_local),
 	KEY uid_foreign (uid_foreign)
+);
+
+
+
+#
+# Table structure for table 'tx_community_profile_visits_log'
+#
+CREATE TABLE tx_community_profile_visits_log (
+	feuser int(11) DEFAULT '0' NOT NULL,
+	sequence_id tinyint(3) unsigned DEFAULT '0' NOT NULL,
+	last_update datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+	visitor int(11) DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (feuser,sequence_id),
+	KEY feuser_last_update (feuser,last_update)
 );
 
 

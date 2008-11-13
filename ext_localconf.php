@@ -92,6 +92,15 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index'
 				),
+				'lastVisitors' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_lastvisitorswidget.php:tx_community_controller_userprofile_LastVisitorsWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_lastVisitors',
+					'accessControl' => false,
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
+				)
 /*
 				'wall' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_wallwidget.php:tx_community_controller_userprofile_WallWidget',
