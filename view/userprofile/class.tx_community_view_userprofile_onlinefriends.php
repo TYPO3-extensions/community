@@ -53,16 +53,11 @@ class tx_community_view_userprofile_OnlineFriends extends tx_community_view_Abst
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function render() {
-		$subpart = 'online_friends_list';
-		if (count($this->userModel) == 0) {
-			$subpart = 'online_friends_list_error';
-		}
-
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
 			$this->templateFile,
-			$subpart
+			count($this->userModel) ? 'online_friends_list' : 'online_friends_list_error'
 		);
 
 		$template->addViewHelper(
