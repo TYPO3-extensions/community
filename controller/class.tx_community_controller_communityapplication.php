@@ -34,7 +34,7 @@ require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_control
 require_once($GLOBALS['PATH_community'] . 'view/class.tx_community_view_abstractview.php');
 
 /**
- * central application controller for the community extension
+ * central application controller for the community extension, this is the "plugin"
  *
  * @author	Ingo Renner <ingo@typo3.org>
  * @package TYPO3
