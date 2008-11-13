@@ -47,7 +47,7 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 			// set default access mode
 		$this->accessMode = 'read';
 
-		$this->name     = 'widgetWidget';
+		$this->name     = 'widget';
 		$this->label    = $this->localizationManager->getLL('label_WidgetWidget');
 		$this->cssClass = '';
 
@@ -70,7 +70,7 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_Widget');
 		$view->setUserModel($requestedUser);
-		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['widgetWidget.']['templateFile']);
+		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['widget.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
 
 		$content = $view->render();

@@ -30,9 +30,9 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index'
 				),
-				'widgetWidget' => array(
+				'widget' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_widgetwidget.php:tx_community_controller_userprofile_WidgetWidget',
-					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_widgetWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_widget',
 					'actions' => array(
 						'index'
 					),
