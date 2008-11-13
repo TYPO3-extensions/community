@@ -40,6 +40,8 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_LastVisitorsWidget
+	 *
+	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -57,6 +59,15 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 		$this->cssClass = '';
 	}
 
+	/**
+	 * the default action for this widget, renders a list of the last visitors
+	 * and if the requesting user is not the same as the requested user a visit
+	 * is logged in a round-robbin database
+	 *
+	 * @return	string		the widget's output as HTML
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 * @see http://techblog.tilllate.com/2008/06/22/round-robin-data-storage-in-mysql/
+	 */
 	public function indexAction() {
 		$content = '';
 		$requestedUser  = $this->communityApplication->getRequestedUser();
@@ -93,6 +104,13 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 		return $content;
 	}
 
+	/**
+	 * logs a visit to the currently requested user's profile
+	 *
+	 * @param	tx_community_model_User	the requesed user
+	 * @param	tx_community_model_User	the requesting user
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
 	protected function logVisit(tx_community_model_User $requestedUser, tx_community_model_User $requestingUser) {
 		$nextSequenceId = $this->getNextSequenceId($requestedUser);
 
@@ -105,14 +123,21 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 		);
 	}
 
-	protected function getNextSequenceId(tx_community_model_User $feuser) {
+	/**
+	 * gets the sequence id for the next log entry for the currently shown user
+	 * profile
+	 *
+	 * @param	tx_community_model_User	the requesed user
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	protected function getNextSequenceId(tx_community_model_User $requestedUser) {
 		$nextSequenceId = 0;
 
 			// TODO add support for the configuration option to set the amount of logged visitors
 		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'(sequence_id + 1) % 5 as next_sequence_id',
 			'tx_community_profile_visits_log',
-			'feuser = ' . $feuser->getUid(),
+			'feuser = ' . $requestedUser->getUid(),
 			'',
 			'last_update DESC',
 			1
