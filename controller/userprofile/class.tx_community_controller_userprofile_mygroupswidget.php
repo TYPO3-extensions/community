@@ -39,8 +39,8 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_mygroupswidget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
-		
+		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_mygroups.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
+
 		$this->name     = 'myGroups';
 		$this->label    = $this->localizationManager->getLL('label_MyGroupsWidget');
 		$this->draggable = true;
