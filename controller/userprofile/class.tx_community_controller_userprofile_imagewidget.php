@@ -39,7 +39,7 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 	protected $localizationManager;
 
 	/**
-	 * constructor for class tx_community_controller_userprofile_Imagewidget
+	 * constructor for class tx_community_controller_userprofile_ImageWidget
 	 */
 	public function __construct() {
 		parent::__construct();
