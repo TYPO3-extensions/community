@@ -2,7 +2,7 @@
 <T3locallang>
 	<meta type="array">
 		<type>module</type>
-		<description>Language labels for the user profile's profile actions widget</description>
+		<description>Language labels for the user profile's image widget</description>
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
