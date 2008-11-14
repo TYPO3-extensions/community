@@ -65,7 +65,7 @@ plugin.tx_community {
 					}
 				}
 
-				widgetWidget {
+				widget {
 					templateFile = EXT:community/resources/templates/userprofile/widgetwidget.htm
 				}
 
@@ -283,8 +283,8 @@ plugin.tx_community {
 				// will be overwriten if an user image is available
 				file = {$plugin.tx_community.images.defaultGroup}
 				file {
-					maxW = 120
-					maxH = 160
+					maxW = 100
+					maxH = 100
 				}
 			}
 			templateFile = EXT:community/resources/templates/listgroups/index.htm
