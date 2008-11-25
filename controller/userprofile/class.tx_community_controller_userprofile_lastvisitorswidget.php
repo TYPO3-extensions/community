@@ -71,7 +71,6 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 	public function indexAction() {
 		$content = '';
 		$requestedUser  = $this->communityApplication->getRequestedUser();
-		$requestingUser = $this->communityApplication->getRequestingUser();
 
 		$lastVisitorsRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'visitor',
@@ -97,57 +96,7 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 
 		$content = $view->render();
 
-		if ($requestedUser != $requestingUser) {
-			$this->logVisit($requestedUser, $requestingUser);
-		}
-
 		return $content;
-	}
-
-	/**
-	 * logs a visit to the currently requested user's profile
-	 *
-	 * @param	tx_community_model_User	the requesed user
-	 * @param	tx_community_model_User	the requesting user
-	 * @author	Ingo Renner <ingo@typo3.org>
-	 */
-	protected function logVisit(tx_community_model_User $requestedUser, tx_community_model_User $requestingUser) {
-		$nextSequenceId = $this->getNextSequenceId($requestedUser);
-
-			// TODO try to add a execREPLACEquery to t3lib_db
-			// TODO add a ON DUPLICATE KEY option to t3lib_db
-		$GLOBALS['TYPO3_DB']->sql_query(
-			'INSERT INTO tx_community_profile_visits_log (feuser, sequence_id, last_update, visitor)
-			VALUES (' . $requestedUser->getUid() . ', ' . $nextSequenceId . ', NOW(), ' . $requestingUser->getUid() . ')
-			ON DUPLICATE KEY UPDATE last_update = NOW(), visitor = ' . $requestingUser->getUid()
-		);
-	}
-
-	/**
-	 * gets the sequence id for the next log entry for the currently shown user
-	 * profile
-	 *
-	 * @param	tx_community_model_User	the requesed user
-	 * @author	Ingo Renner <ingo@typo3.org>
-	 */
-	protected function getNextSequenceId(tx_community_model_User $requestedUser) {
-		$nextSequenceId = 0;
-
-			// TODO add support for the configuration option to set the amount of logged visitors
-		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'(sequence_id + 1) % 5 as next_sequence_id',
-			'tx_community_profile_visits_log',
-			'feuser = ' . $requestedUser->getUid(),
-			'',
-			'last_update DESC',
-			1
-		);
-
-		if (!empty($row)) {
-			$nextSequenceId = $row[0]['next_sequence_id'];
-		}
-
-		return $nextSequenceId;
 	}
 }
 

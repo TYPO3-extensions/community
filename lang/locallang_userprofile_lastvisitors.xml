@@ -6,6 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="label_LastVisitorsLoggerWidget">Last profile visitors logger</label>
 			<label index="label_LastVisitorsWidget">Last profile visitors</label>
 			<label index="msg_no_visitors_yet">No visitors yet</label>
 		</languageKey>

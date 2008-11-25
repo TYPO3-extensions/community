@@ -1,7 +1,11 @@
+2008-11-25 Ingo Renner  <ingo@typo3.org>
+
+	* moved the logging part of the last visitors widget into an own widget
+
 2008-11-14 Frank Naegler  <typo3@naegler.net>
 
 	* added check of results in userGateway
-	
+
 2008-11-12 Ingo Renner  <ingo@typo3.org>
 
 	* fixed naming of the widget widget
