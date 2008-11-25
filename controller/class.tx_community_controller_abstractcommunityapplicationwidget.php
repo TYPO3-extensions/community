@@ -79,7 +79,7 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	}
 
 	public function getConfiguration() {
-		return $this->configuration;
+		return $this->configuration['applications.'][$this->getCommunityApplication()->getName() . '.']['widgets.'][$this->name . '.'];
 	}
 
 	/**

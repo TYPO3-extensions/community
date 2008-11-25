@@ -73,7 +73,7 @@ class tx_community_controller_userprofile_LastVisitorsLoggerWidget extends tx_co
 		$requestedUser  = $this->communityApplication->getRequestedUser();
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
-		if ($requestedUser != $requestingUser) {
+		if ($requestedUser != $requestingUser && $requestingUser->getUid() != 0) {
 			$nextSequenceId = $this->getNextSequenceId($requestedUser);
 
 				// TODO try to add a execREPLACEquery to t3lib_db
@@ -97,10 +97,11 @@ class tx_community_controller_userprofile_LastVisitorsLoggerWidget extends tx_co
 	 */
 	protected function getNextSequenceId(tx_community_model_User $requestedUser) {
 		$nextSequenceId = 0;
+		$configuration = $this->getConfiguration();
+		$numberOfLastVisitorsToLog = $configuration['numberOfLastVisitorsToLog'];
 
-			// TODO add support for the configuration option to set the amount of logged visitors
 		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'(sequence_id + 1) % 5 as next_sequence_id',
+			'(sequence_id + 1) % ' . $numberOfLastVisitorsToLog . ' as next_sequence_id',
 			'tx_community_profile_visits_log',
 			'feuser = ' . $requestedUser->getUid(),
 			'',

@@ -1,6 +1,8 @@
 2008-11-25 Ingo Renner  <ingo@typo3.org>
 
 	* moved the logging part of the last visitors widget into an own widget
+	* added support for the numberOfLastVisitorsToLog configuration option in the user profile visitor logger
+	* stopped the user profile visitors logger from logging visits from anonymous users
 
 2008-11-14 Frank Naegler  <typo3@naegler.net>
 
