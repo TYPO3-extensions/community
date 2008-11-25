@@ -1,3 +1,7 @@
+2008-11-14 Frank Naegler  <typo3@naegler.net>
+
+	* added check of results in userGateway
+	
 2008-11-12 Ingo Renner  <ingo@typo3.org>
 
 	* fixed naming of the widget widget

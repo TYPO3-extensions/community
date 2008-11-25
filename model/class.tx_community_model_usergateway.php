@@ -151,8 +151,10 @@ class tx_community_model_UserGateway {
 				. self::$feUsersEnableFields
 		);
 
-		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			$foundUsers[] = $this->createUserFromRow($userRow);
+		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
+			while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				$foundUsers[] = $this->createUserFromRow($userRow);
+			}
 		}
 
 		return $foundUsers;
