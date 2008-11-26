@@ -73,7 +73,7 @@ class tx_community_controller_userprofile_LastVisitorsLoggerWidget extends tx_co
 		$requestedUser  = $this->communityApplication->getRequestedUser();
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
-		if ($requestedUser != $requestingUser && $requestingUser->getUid() != 0) {
+		if ($requestedUser != $requestingUser && !$requestingUser->isAnonymous()) {
 			$nextSequenceId = $this->getNextSequenceId($requestedUser);
 
 				// TODO try to add a execREPLACEquery to t3lib_db
