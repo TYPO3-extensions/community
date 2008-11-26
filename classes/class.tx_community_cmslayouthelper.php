@@ -37,15 +37,15 @@ class tx_community_CmsLayoutHelper {
 	 * Returns information about which application and which widget is selected
 	 *
 	 * @param	array		Parameters coming from the hook
-	 * @param	tx_cms_layout		Reference to the calling object
+	 * @param	tx_cms_layout		Reference to the calling tx_cms_layout object
 	 * @return	string		Information about pi1 plugin
 	 */
 	public function getExtensionSummary(array $parameters, &$pageModule) {
 		$content = '';
-		$data = t3lib_div::xml2array($parameters['row']['pi_flexform']);
+		$data    = t3lib_div::xml2array($parameters['row']['pi_flexform']);
 
 		$application = $data['data']['sDEF']['lDEF']['application']['vDEF'];
-		$widget = $data['data']['sDEF']['lDEF']['widget']['vDEF'];
+		$widget      = $data['data']['sDEF']['lDEF']['widget']['vDEF'];
 
 		$applicationLabel = $GLOBALS['LANG']->sL($GLOBALS['TX_COMMUNITY']['applications'][$application]['label']);
 
