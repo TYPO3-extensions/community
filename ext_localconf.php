@@ -290,4 +290,7 @@ t3lib_extMgm::addUserTSConfig('options.saveDocNew.tx_community_friend = 1');
 	// adding hook connector for mm_forum
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mm_forum']['forum']['profileLink_postLinkGen'][] = 'EXT:community/hooks/class.tx_community_hooks_mmforum.php:&tx_community_hooks_mmforum';
 
+	// Page module content element information/preview hook
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['community_CommunityApplication'][] = 'EXT:community/classes/class.tx_community_cmslayouthelper.php:tx_community_CmsLayoutHelper->getExtensionSummary';
+
 ?>

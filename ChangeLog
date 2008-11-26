@@ -3,6 +3,8 @@
 	* moved the logging part of the last visitors widget into an own widget
 	* added support for the numberOfLastVisitorsToLog configuration option in the user profile visitor logger
 	* stopped the user profile visitors logger from logging visits from anonymous users
+	* changed the abstract community application widget's getConfiguration() method to return the widget's configuration instead of the whole community configuration
+	* added a helper to show information about a plugin in the backend's page module
 
 2008-11-14 Frank Naegler  <typo3@naegler.net>
 
