@@ -369,8 +369,5 @@ page.includeJS {
 
 	// adding the application controllers
 tt_content.list.20.community_CommunityApplication = < plugin.tx_community.controller.communityApplication
-tt_content.list.20.community_UserProfile = < plugin.tx_community.controller.userProfile
-tt_content.list.20.community_GroupProfile = < plugin.tx_community.controller.groupProfile
-tt_content.list.20.community_EditGroup = < plugin.tx_community.controller.editGroup
 
 
