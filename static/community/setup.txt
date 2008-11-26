@@ -65,6 +65,10 @@ plugin.tx_community {
 					}
 				}
 
+				statusMessage {
+					templateFile = EXT:community/resources/templates/userprofile/statusmessagewidget.htm
+				}
+
 				widget {
 					templateFile = EXT:community/resources/templates/userprofile/widgetwidget.htm
 				}

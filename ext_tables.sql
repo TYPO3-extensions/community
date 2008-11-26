@@ -2,6 +2,7 @@
 # Table structure for table 'fe_users'
 #
 CREATE TABLE fe_users (
+	tx_community_statusmessage tinytext,
 	tx_community_sex char(1) DEFAULT '' NOT NULL,
 	tx_community_nickname tinytext,
 	tx_community_firstname tinytext,

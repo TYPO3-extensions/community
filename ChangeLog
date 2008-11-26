@@ -5,6 +5,7 @@
 	* stopped the user profile visitors logger from logging visits from anonymous users
 	* changed the abstract community application widget's getConfiguration() method to return the widget's configuration instead of the whole community configuration
 	* added a helper to show information about a plugin in the backend's page module
+	* added a widget to show a user's status message
 
 2008-11-14 Frank Naegler  <typo3@naegler.net>
 

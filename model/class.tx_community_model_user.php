@@ -48,6 +48,8 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	protected $account;
 	protected $nickName;
 
+	protected $statusMessage;
+
 	protected $sex;
 	protected $birthday;
 
@@ -160,6 +162,14 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 
 	public function getCrdate() {
 		return $this->crdate;
+	}
+
+	public function setStatusMessage($statusMessage) {
+		$this->statusMessage = $statusMessage;
+	}
+
+	public function getStatusMessage() {
+		return $this->statusMessage;
 	}
 
 	public function setCity($city) {

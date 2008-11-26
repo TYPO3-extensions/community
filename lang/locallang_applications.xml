@@ -11,6 +11,7 @@
 			<label index="flexform_widget">Widget</label>
 			<label index="userProfile">User Profile</label>
 			<label index="userProfile_image">Image</label>
+			<label index="userProfile_statusMessage">Status Message</label>
 			<label index="userProfile_personalInformation">Personal Information</label>
 			<label index="userProfile_profileActions">Profile Actions</label>
 			<label index="userProfile_friendsBirthdayList">Friends Birthday List</label>

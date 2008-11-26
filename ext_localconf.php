@@ -20,13 +20,22 @@ $TX_COMMUNITY = array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_imagewidget.php:tx_community_controller_userprofile_ImageWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_image',
 					'accessControl' => array(
-						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_read',
-//						'addComment' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_addComment'
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_imageWidget_read'
 					),
 					'actions' => array(
 						'index',
 						'thumbnail',
 						'customImage'
+					),
+					'defaultAction' => 'index'
+				),
+				'statusMessage' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_statusmessagewidget.php:tx_community_controller_userprofile_StatusMessageWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_statusMessage',
+					'accessControl' => false,
+					'actions' => array(
+						'index',
+						'updateStatusMessage'
 					),
 					'defaultAction' => 'index'
 				),
