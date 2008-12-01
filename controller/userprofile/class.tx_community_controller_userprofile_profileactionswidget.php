@@ -183,9 +183,8 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				$userGateway = new tx_community_model_UserGateway();
 				$user = $userGateway->findCurrentlyLoggedInUser();
 				if ($user !== null) {
-					$llManager = tx_community_LocalizationManager::getInstance('EXT:community_pinboard/lang/locallang_widget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communitypinboard.']);
-					$subject = $llManager->getLL('systemmessage_subject');
-					$bodytext = $llManager->getLL('systemmessage_bodytext');
+					$subject = $this->localizationManager->getLL('systemmessage_subject');
+					$bodytext = $this->localizationManager->getLL('systemmessage_bodytext');
 					$recipients = array($user);
 					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 				}
@@ -210,9 +209,8 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				$userGateway = new tx_community_model_UserGateway();
 				$user = $userGateway->findCurrentlyLoggedInUser();
 				if ($user !== null) {
-					$llManager = tx_community_LocalizationManager::getInstance('EXT:community_pinboard/lang/locallang_widget.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communitypinboard.']);
-					$subject = $llManager->getLL('systemmessage_subject');
-					$bodytext = $llManager->getLL('systemmessage_bodytext');
+					$subject = $this->localizationManager->getLL('systemmessage_subject');
+					$bodytext = $this->localizationManager->getLL('systemmessage_bodytext');
 					$recipients = array($user);
 					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 				}
@@ -329,35 +327,28 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	protected function getAddAsFriendProfileAction() {
 		$content = '';
 
-		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$localizationManager      = call_user_func(
-			array($localizationManagerClass, 'getInstance'),
-			$GLOBALS['PATH_community'] . 'lang/locallang_userprofile_profileactions.xml',
-			array()
-		);
-
 		$requestedUser  = $this->communityApplication->getRequestedUser();
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
 		if ($requestedUser == $requestingUser) {
 				// viewing the own profile
-			$content = $localizationManager->getLL('action_thisIsYou');
+			$content = $this->localizationManager->getLL('action_thisIsYou');
 		} else if ($this->isFriend($requestingUser, $requestedUser)) {
 				// the users are already friends
 			$content = sprintf(
-				$localizationManager->getLL('action_isFriendWith'),
+				$this->localizationManager->getLL('action_isFriendWith'),
 				$requestedUser->getNickname()
 			);
 		} else if($this->isFriendshipRequestSend($requestingUser, $requestedUser)) {
 				// a friendship request has been sent already, but is not approved yet
 			$content = sprintf(
-				$localizationManager->getLL('action_friendshipRequestSent'),
+				$this->localizationManager->getLL('action_friendshipRequestSent'),
 				$requestedUser->getNickname()
 			);
 		} else {
 				// the users are not friends yet, create a link
 			$linkText = sprintf(
-				$localizationManager->getLL('action_addAsFriend'),
+				$this->localizationManager->getLL('action_addAsFriend'),
 				$requestedUser->getNickname()
 			);
 			$content = $this->communityApplication->pi_linkToPage(
@@ -379,17 +370,10 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	protected function getRemoveAsFriendProfileAction() {
 		$content = '';
 
-		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$localizationManager      = call_user_func(
-			array($localizationManagerClass, 'getInstance'),
-			$GLOBALS['PATH_community'] . 'lang/locallang_userprofile_profileactions.xml',
-			array()
-		);
-
 		$requestedUser = $this->communityApplication->getRequestedUser();
 
 		$linkText = sprintf(
-			$localizationManager->getLL('action_removeAsFriend'),
+			$this->localizationManager->getLL('action_removeAsFriend'),
 			$requestedUser->getAccount()->getFirstName()
 		);
 
@@ -411,15 +395,8 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	protected function getEditRelationshipProfileAction() {
 		$content = '';
 
-		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$localizationManager      = call_user_func(
-			array($localizationManagerClass, 'getInstance'),
-			$GLOBALS['PATH_community'] . 'lang/locallang_userprofile_profileactions.xml',
-			array()
-		);
-
 		$requestedUser = $this->communityApplication->getRequestedUser();
-		$linkText = $localizationManager->getLL('action_editRelationship');
+		$linkText = $this->localizationManager->getLL('action_editRelationship');
 
 		$content = $this->communityApplication->pi_linkToPage(
 			$linkText,

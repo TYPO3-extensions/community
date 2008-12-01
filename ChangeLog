@@ -1,3 +1,7 @@
+2008-12-01 Frank Naegler  <typo3@naegler.net>
+
+	* refactoring of tx_community_controller_userprofile_ProfileActionsWidget: use the class instance of localizationManager instead initialize it in every method
+
 
 2008-11-25 Ingo Renner  <ingo@typo3.org>
 
