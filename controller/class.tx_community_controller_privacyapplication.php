@@ -124,6 +124,8 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 			$this->removeRule($resource, $role);
 		}
 
+			// @TODO: I think this is only a temporary solution, please change this.
+			//        We need here a success or error message for the user in the frontend.
 			// when finished, redirect back to the privacy settings index action
 		$privacySettingsPageUrl = $this->pi_getPageLink(
 			$GLOBALS['TSFE']->id
