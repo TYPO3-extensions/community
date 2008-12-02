@@ -121,7 +121,10 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 				$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
 			}
 		}
-		$whereClause = implode(' AND ', $whereClauses);
+		$whereClause = '';
+		if (count($whereClauses) > 0) {
+			$whereClause = implode(' AND ', $whereClauses);
+		}
 
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
