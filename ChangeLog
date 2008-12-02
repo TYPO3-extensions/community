@@ -1,6 +1,7 @@
 2008-12-02 Frank Naegler  <typo3@naegler.net>
 
 	* bugfix for empty request in tx_community_controller_SearchApplication->searchAction
+	* check of existing where clause in tx_community_model_UserGateway->findByWhereClause to prepend SQL errors
 
 2008-12-01 Frank Naegler  <typo3@naegler.net>
 

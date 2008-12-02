@@ -144,10 +144,11 @@ class tx_community_model_UserGateway {
 	public function findByWhereClause($whereClause) {
 		$foundUsers = array();
 
+		$whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'DISTINCT fe_users.*',
 			'fe_users',
-			'(' . $whereClause . ')'
+			$whereClause
 				. self::$feUsersEnableFields
 		);
 
