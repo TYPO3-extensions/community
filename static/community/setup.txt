@@ -91,6 +91,10 @@ plugin.tx_community {
 					templateFile = EXT:community/resources/templates/userprofile/mygroupswidget.htm
 				}
 
+				myFriends {
+					templateFile = EXT:community/resources/templates/userprofile/myfriendswidget.htm
+				}
+
 				onlineFriends {
 					templateFile = EXT:community/resources/templates/userprofile/onlinefriendswidget.htm
 

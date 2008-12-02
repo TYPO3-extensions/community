@@ -92,6 +92,17 @@ $TX_COMMUNITY = array(
 					),
 					'defaultAction' => 'index'
 				),
+				'myFriends' => array(
+					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_myfriendswidget.php:tx_community_controller_userprofile_MyFriendsWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_myFriends',
+					'accessControl' => array(
+						'read' => 'LLL:EXT:community/lang/locallang_privacy.xml:privacy_userProfile_myFriendsWidget_read'
+					),
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
+				),
 				'onlineFriends' => array(
 					'classReference' => 'EXT:community/controller/userprofile/class.tx_community_controller_userprofile_onlinefriendswidget.php:tx_community_controller_userprofile_OnlineFriendsWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:userProfile_onlineFriends',

@@ -16,6 +16,7 @@
 			<label index="userProfile_profileActions">Profile Actions</label>
 			<label index="userProfile_friendsBirthdayList">Friends Birthday List</label>
 			<label index="userProfile_myGroups">My Groups</label>
+			<label index="userProfile_myFriends">My Friends</label>
 			<label index="userProfile_onlineFriends">Online Friends</label>
 			<label index="userProfile_lastVisitors">Last Profile Visitors (Viewer)</label>
 			<label index="userProfile_lastVisitorsLogger">Last Profile Visitors (Logger)</label>
