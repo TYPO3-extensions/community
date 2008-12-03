@@ -136,7 +136,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		);
 		$view->setGroupDetailLink($groupsDetailLink);
 
-		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $this->configuration['applications.']['listGroups.']['pageBrowser.']);
+		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig);
 	
 		$view->setPageBrowser($pageBrowser);
 		
