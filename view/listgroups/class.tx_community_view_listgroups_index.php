@@ -47,9 +47,14 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 	 */
 	protected $llManager;
 	protected $groupLink;
+	protected $pageBrowser;
 
 	public function setGroups($groups) {
 		$this->groups = $groups;
+	}
+	
+	public function setPageBrowser($pageBrowser) {
+		$this->pageBrowser = $pageBrowser;
 	}
 
 	public function setGroupDetailLink($link) {
@@ -86,7 +91,8 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 			'link',
 			'tx_community_viewhelper_Link'
 		);
-
+		
+		$template->addVariable('pageBrowser', $this->pageBrowser);
 		$template->addLoop('groups', 'group', $this->groups);
 
 		return $template->render();

@@ -33,6 +33,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'0' => 'felogin',
+			'pagebrowse' => '',
 		),
 		'conflicts' => array(
 		),

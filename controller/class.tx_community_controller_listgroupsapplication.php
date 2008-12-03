@@ -110,7 +110,18 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 				$listGroupsArray[] = $group;
 			}
 		}
-		$view->setGroups($listGroupsArray);
+		
+		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		$pageBrowserConfig['numberOfPages'] = ceil(count($listGroupsArray) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1; 
+		
+		$tmp = array();
+		for ($i=$firstGroup-1; $i<$firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
+			if (!is_null($listGroupsArray[$i])) {
+				$tmp[] = $listGroupsArray[$i];
+			}
+		}
+		$view->setGroups($tmp);
 
 		$groupsDetailLink = $this->pi_getPageLink(
 			$this->configuration['pages.']['groupProfile'],
@@ -123,6 +134,12 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		);
 		$view->setGroupDetailLink($groupsDetailLink);
 
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		$cObj->start(array(), '');
+		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $this->configuration['applications.']['listGroups.']['pageBrowser.']);
+	
+		$view->setPageBrowser($pageBrowser);
+		
 		return $view->render();
 	}
 }
