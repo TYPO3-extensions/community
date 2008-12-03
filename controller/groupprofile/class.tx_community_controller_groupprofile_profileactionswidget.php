@@ -188,7 +188,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 		}
 		
 		foreach ($profileActions as $profileAction) {
-			if (strlen($profileAction) == 0) {
+			if (strlen($profileAction['link']) == 0) {
 				unset($profileAction);
 			}
 		}
