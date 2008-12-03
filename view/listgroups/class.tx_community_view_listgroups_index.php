@@ -92,7 +92,7 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 			'tx_community_viewhelper_Link'
 		);
 		
-		$template->addVariable('pageBrowser', $this->pageBrowser);
+		$template->addVariable('pagebrowser', $this->pageBrowser);
 		$template->addLoop('groups', 'group', $this->groups);
 
 		return $template->render();
