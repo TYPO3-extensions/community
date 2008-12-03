@@ -173,8 +173,12 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 			// TODO make this extensible at some point
 		$profileActions = array();
 
-		$profileActions[]['link'] = $this->getJoinLeaveGroupProfileAction();
-		$profileActions[]['link'] = $this->getEditGroupProfileAction();
+		if ($link = $this->getJoinLeaveGroupProfileAction()) {
+			$profileActions[]['link'] = $link;
+		}
+		if ($link = $this->getEditGroupProfileAction()) {
+			$profileActions[]['link'] = $link;
+		}
 
 			// hook
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['getGroupProfileActions'])) {
@@ -184,12 +188,6 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 					$profileActions = $hookObject->getGroupProfileActions($profileActions, $this);
 				}
 
-			}
-		}
-		
-		foreach ($profileActions as $profileAction) {
-			if (strlen($profileAction['link']) == 0) {
-				unset($profileAction);
 			}
 		}
 
