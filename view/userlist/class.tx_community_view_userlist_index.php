@@ -43,10 +43,6 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		$this->userModel = $userModel;
 	}
 
-	public function setPageBrowser($pageBrowser) {
-		$this->pageBrowser = $pageBrowser;
-	}
-
 	public function render() {
 		$resultCounter = count($this->userModel);
 		
@@ -65,8 +61,6 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		$template->addViewHelper('date','tx_community_viewhelper_Date');
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
 		$template->addViewHelper('cobj','tx_community_viewhelper_GetCObj');
-		
-		$template->addMarker('pagebrowser', $this->pageBrowser);
 		
 		$template->addLoop('users', 'user', $this->userModel);
 		$template->addVariable('result', array(
