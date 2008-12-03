@@ -62,8 +62,22 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 		$view->setTemplateFile($this->configuration['applications.']['userList.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
-		$view->setUserModel($this->userListModel);
+		$pageBrowserConfig = $this->configuration['applications.']['userList.']['pageBrowser.'];
+		$pageBrowserConfig['numberOfPages'] = ceil(count($this->userListModel) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$firstUser = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1; 
+		
+		$tmp = array();
+		for ($i=$firstUser-1; $i<$firstUser+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
+			if (!is_null($this->userListModel[$i])) {
+				$tmp[] = $this->userListModel[$i];
+			}
+		}
+		$view->setUserModel($tmp);
 
+		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['userList.']['pageBrowser'], $pageBrowserConfig);
+		
+		$view->setPageBrowser($pageBrowser);
+		
 		return $view->render();
 	}
 
