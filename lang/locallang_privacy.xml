@@ -22,7 +22,8 @@
 			<label index="privacy_userProfile_imageWidget_read">Wer darf Dein Profilbild sehen?</label>
 			<label index="privacy_userProfile_imageWidget_addComment">Wer darf Dir einen Kommentar auf deinem Profil hinterlassen?</label>
 			<label index="privacy_userProfile_personalInformationWidget_read">Wer darf Deine Persönlichen Daten sehen?</label>
-			<label index="privacy_userProfile_myGroupsWidget_read">Wer darf Deine Gruppen sehen?</label>
+			<label index="privacy_userProfile_myGroupsWidget_read">Wer darf Deine Banden sehen?</label>
+			<label index="privacy_userProfile_myFriendsWidget_read">Wer darf deine Freundesliste sehen?</label>
 		</languageKey>
 	</data>
 </T3locallang>
