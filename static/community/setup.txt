@@ -312,7 +312,7 @@ plugin.tx_community {
 			pageBrowser < plugin.tx_pagebrowse_pi1
 			pageBrowser {
 				pageParameterName = tx_communitymessages|page
-				numberOfEntriesPerPage = 10
+				numberOfEntriesPerPage = 8
 				disableCacheHash = 1
 				_LOCAL_LANG.de {
 					text_first = &laquo;Erste Seite
