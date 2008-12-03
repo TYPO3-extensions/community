@@ -74,6 +74,7 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 		}
 		$view->setUserModel($tmp);
 
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['userList.']['pageBrowser'], $pageBrowserConfig);
 		
 		$view->setPageBrowser($pageBrowser);
