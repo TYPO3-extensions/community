@@ -55,6 +55,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$this->name = 'listGroups';
 
 		$this->groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		$this->request 		= t3lib_div::GParrayMerged('tx_community');
 	}
 
 	public function execute() {
@@ -83,7 +84,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		/* @var $view tx_community_view_listGroups_Index */
 		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
-
+		
 		switch ($this->configuration['applications.']['listGroups.']['listType']) {
 			case 'usersGroups':
 				$user = $this->getRequestedUser();
@@ -99,12 +100,13 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			break;	
 		}
 		
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		
 		$listGroupsArray = array();
 		foreach ($groups as $group) {
 			if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
 				$imgConf = $this->configuration['applications.']['listGroups.']['groupImage.'];
 				$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
-				$cObj = t3lib_div::makeInstance('tslib_cObj');
 				$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
 				$group->setHTMLImage($genImage);
 				$listGroupsArray[] = $group;
@@ -134,8 +136,6 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		);
 		$view->setGroupDetailLink($groupsDetailLink);
 
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
-		$cObj->start(array(), '');
 		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $this->configuration['applications.']['listGroups.']['pageBrowser.']);
 	
 		$view->setPageBrowser($pageBrowser);
