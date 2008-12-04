@@ -299,7 +299,6 @@ $(document).ready(function(){
 	
 	$('#INVITE_MEMBER .doInviteLink').click(function(e) {
 		e.stopPropagation();
-		return false;
 		var hidden = $('#inviteUids');
 		$.post(
 			_FORM_ACTION,
@@ -314,5 +313,6 @@ $(document).ready(function(){
 				showMessage(response.status, response.msg, 5000);
 			}
 		);
+		return false;
 	});
 });
