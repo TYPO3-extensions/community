@@ -23,6 +23,8 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_lll.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
 require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_usergateway.php');
 
 
@@ -96,7 +98,9 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 				'llKey'        => $this->languageKey
 			)
 		);
-
+		$template->addViewHelper('ts','tx_community_viewhelper_Ts');
+		$template->addViewHelper('link','tx_community_viewhelper_Link');
+		
 		$template->addSubpart('general_settings', $this->renderGeneralSettings());
 		$template->addSubpart('image_settings', $this->renderImageSettings());
 		$template->addSubpart('member_settings', $this->renderMemberSettings());
