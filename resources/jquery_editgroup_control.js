@@ -299,6 +299,7 @@ $(document).ready(function(){
 	
 	$('#INVITE_MEMBER .doInviteLink').click(function(e) {
 		e.stopPropagation();
+		return false;
 		var hidden = $('#inviteUids');
 		$.post(
 			_FORM_ACTION,
