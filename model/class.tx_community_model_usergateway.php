@@ -208,13 +208,17 @@ class tx_community_model_UserGateway {
 		}
 
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'DISTINCT f1.feuser',
-			'tx_community_friend AS f1 JOIN tx_community_friend AS f2'
-			. ' ON f1.feuser <> f2.friend
-				AND f1.friend = ' . $user->getUid(),
+			'DISTINCT feuser',
+			'tx_community_friend WHERE friend = ' . $user->getUid() . ' 
+				AND feuser NOT IN (
+					SELECT friend
+					FROM tx_community_friend
+					WHERE feuser = ' . $user->getUid() . '
+				)
+			',
 			''
-		);		
-
+		);
+		
 		if (is_array($userRows)) {
 			$friendUidList = array();
 			foreach($userRows as $userRow) {
