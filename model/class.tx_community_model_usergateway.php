@@ -207,6 +207,7 @@ class tx_community_model_UserGateway {
 			$user = $this->findCurrentlyLoggedInUser();
 		}
 
+			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'DISTINCT feuser',
 			'tx_community_friend WHERE friend = ' . $user->getUid() . ' 
