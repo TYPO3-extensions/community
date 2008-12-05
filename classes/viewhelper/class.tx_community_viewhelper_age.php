@@ -57,8 +57,9 @@ class tx_community_viewhelper_Age implements tx_community_ViewHelper {
 		$year_diff  = $year - date("Y", $date);
 		$month_diff = $month - date("m", $date);
 		$day_diff   = $day - date("d", $date);
-		if ($day_diff < 0 || $month_diff < 0)
-		$year_diff--;
+		if ($month_diff < 0 || ($day_diff < 0 && $month_diff == 0)) {
+			$year_diff--;
+		}
 		return $year_diff;
 	}
 }
