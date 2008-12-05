@@ -193,6 +193,38 @@ class tx_community_model_UserGateway {
 
 		return $friends;
 	}
+	
+	/**
+	 * finds a user's open friend request
+	 *
+	 * @param	tx_community_model_User	The user to find the friends for, optional, if not set or set to null the currently logged in user will be taken
+	 * @return	array	The user's unconfirmed friends requests as an array of tx_community_model_User objects
+	 * @author	Frank Nägler <typo3@naegler.net>
+	 */
+	public function findUnconfirmedFriends($user = null) {
+		$friends = array();
+		if (is_null($user)) {
+			$user = $this->findCurrentlyLoggedInUser();
+		}
+
+		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'count( f1.friend )',
+			'tx_community_friend as f1 JOIN tx_community_friend AS f2'
+			. ' ON f1.feuser <> f2.friend
+				AND f1.friend = ' . $user->getUid(),
+			''
+		);		
+
+		if (is_array($userRows)) {
+			$friendUidList = array();
+			foreach($userRows as $userRow) {
+				$friendUidList[] = $userRow['friend'];
+			}
+			$friends = $this->findByIdList(implode(',', $friendUidList));
+		}
+
+		return $friends;
+	}
 
 	/**
 	 * finds friends of a user that are currently online. The timespan of what
