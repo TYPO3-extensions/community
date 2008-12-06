@@ -15,6 +15,7 @@ plugin.tx_community {
 		groupList = 0
 		groupProfile = 0
 		groupEdit = 0
+		groupEdit.locationHash =
 
 		searchAdvanced = 0
 		searchResults = 0
