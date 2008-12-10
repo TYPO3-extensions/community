@@ -49,6 +49,8 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 
 		$this->name     = 'widget';
 		$this->label    = $this->localizationManager->getLL('label_WidgetWidget');
+		$requestedUser  = $this->communityApplication->getRequestedUser();
+		$this->label	= str_replace('###NICKNAME###', $requestedUser->getNickname(), $this->label);		
 		$this->cssClass = '';
 
 		$this->draggable = false;
@@ -68,8 +70,6 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 		$requestedUser  = $this->communityApplication->getRequestedUser();
 		$requestingUser = $this->communityApplication->getRequestingUser();
 
-		$this->label	= str_replace('###NICKNAME###', $requestedUser->getNickname(), $this->label);
-		
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_Widget');
 		$view->setUserModel($requestedUser);
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['widget.']['templateFile']);
