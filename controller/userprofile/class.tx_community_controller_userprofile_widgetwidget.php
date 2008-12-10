@@ -49,8 +49,7 @@ class tx_community_controller_userprofile_WidgetWidget extends tx_community_cont
 
 		$this->name     = 'widget';
 		$this->label    = $this->localizationManager->getLL('label_WidgetWidget');
-		$requestedUser  = $this->communityApplication->getRequestedUser();
-		$this->label	= str_replace('###NICKNAME###', $requestedUser->getNickname(), $this->label);		
+		
 		$this->cssClass = '';
 
 		$this->draggable = false;
