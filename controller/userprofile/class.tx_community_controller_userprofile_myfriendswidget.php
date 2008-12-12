@@ -32,7 +32,7 @@ require_once($GLOBALS['PATH_community'] . 'view/userprofile/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_controller_AbstractCommunityApplicationWidget {
+class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_controller_AbstractCommunityApplicationWidget implements tx_community_acl_AclResource {
 
 	/**
 	 * constructor for class tx_community_controller_userprofile_MyFriendsWidget
@@ -71,8 +71,24 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 
 		return $view->render();
 	}
-}
 
+
+	/**
+	 * Returns the string identifier of the Resource
+	 *
+	 * @return string
+	 */
+	public function getResourceId() {
+		$requestedUser = $this->communityApplication->getRequestedUser();
+
+		$resourceId = $this->communityApplication->getName()
+			. '_' . $this->name
+			. '_' . $this->accessMode
+			. '_' . $requestedUser->getUid();
+
+		return $resourceId;
+	}
+}
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/userprofile/class.tx_community_controller_userprofile_myfriendswidget.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/community/controller/userprofile/class.tx_community_controller_userprofile_myfriendswidget.php']);

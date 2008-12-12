@@ -1,3 +1,7 @@
+2008-12-12 Frank Naegler  <typo3@naegler.net>
+
+	* adding ACL support for MyFriends-Widget and MyGroups-Widget 
+
 2008-12-06 Frank Naegler  <typo3@naegler.net>
 
 	* adding support for location hash in redirect to editGroup
