@@ -14,6 +14,7 @@
 			<label index="privacy_userProfile_personalInformationWidget_read">Decide who can see your personal information.</label>
 			<label index="privacy_userProfile_myGroupsWidget_read">Decide who can see your group memberships.</label>
 			<label index="privacy_userProfile_myFriendsWidget_read">Decide who can see your friends lists.</label>
+			<label index="privacy_hint_saved">data saved</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="privacy_editSettings">Bearbeite Sichtbarkeitseinstellungen</label>
@@ -24,6 +25,7 @@
 			<label index="privacy_userProfile_personalInformationWidget_read">Wer darf Deine Persönlichen Daten sehen?</label>
 			<label index="privacy_userProfile_myGroupsWidget_read">Wer darf Deine Banden sehen?</label>
 			<label index="privacy_userProfile_myFriendsWidget_read">Wer darf Deine Freundesliste sehen?</label>
+			<label index="privacy_hint_saved">Einstellungen wurden gespeichert</label>
 		</languageKey>
 	</data>
 </T3locallang>

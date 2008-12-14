@@ -1,3 +1,7 @@
+2008-12-14 Frank Naegler  <typo3@naegler.net>
+
+	* adding hint after saving in the Privacy application. 
+
 2008-12-12 Frank Naegler  <typo3@naegler.net>
 
 	* adding ACL support for MyFriends-Widget, MyGroups-Widget and LastVisitors-Widget 

@@ -37,7 +37,8 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 	protected $accessControlModel;
 	protected $allowedRules;
 	protected $formAction;
-
+	protected $dataSaved = false;
+	
 	public function setRoles(array $roles) {
 		$this->roles = $roles;
 	}
@@ -52,6 +53,10 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 
 	public function setFormAction($formAction) {
 		$this->formAction = $formAction;
+	}
+	
+	public function setIsSaved($dataSaved) {
+		$this->dataSaved = $dataSaved;
 	}
 
 	public function render() {
@@ -72,6 +77,11 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 			)
 		);
 
+		if ($this->dataSaved) {
+			$template->addMarker('hint_saved', $this->renderDataSavedHint());	
+		} else {
+			$template->addMarker('hint_saved', '');	
+		}
 		$template->addSubpart('setting_groups', $this->renderSettingGroups());
 		$template->addVariable('form', array('action' => $this->formAction));
 
@@ -138,6 +148,16 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 		}
 
 		return $applicationSettings;
+	}
+	
+	protected function renderDataSavedHint() {
+		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
+		$template = new $templateClass(
+			t3lib_div::makeInstance('tslib_cObj'),
+			$this->templateFile,
+			'hint_datasaved'
+		);
+		return $template->render();
 	}
 
 	protected function renderSettingOptions($applicationName, $controlName) {

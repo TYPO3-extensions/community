@@ -34,7 +34,8 @@ require_once($GLOBALS['PATH_community'] . 'view/privacy/class.tx_community_view_
  * @subpackage community
  */
 class tx_community_controller_PrivacyApplication extends tx_community_controller_AbstractCommunityApplication {
-
+	protected $dataSaved = false;
+	
 	/**
 	 * constructor for class tx_community_controller_PrivacyApplication
 	 */
@@ -70,6 +71,7 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 		$view->setRoles($publicRoles);
 		$view->setAllowedRules($allowedRules);
 		$view->setFormAction($formAction);
+		$view->setIsSaved($this->dataSaved);
 
 		return $view->render();
 	}
@@ -124,16 +126,8 @@ class tx_community_controller_PrivacyApplication extends tx_community_controller
 			$this->removeRule($resource, $role);
 		}
 
-			// @TODO: I think this is only a temporary solution, please change this.
-			//        We need here a success or error message for the user in the frontend.
-			// when finished, redirect back to the privacy settings index action
-		$privacySettingsPageUrl = $this->pi_getPageLink(
-			$GLOBALS['TSFE']->id
-		);
-
-		Header('HTTP/1.1 303 See Other');
-		Header('Location: ' . t3lib_div::locationHeaderUrl($privacySettingsPageUrl));
-		exit;
+		$this->dataSaved = true;
+		return $this->indexAction();
 	}
 
 	protected function getAccessControlModel() {
