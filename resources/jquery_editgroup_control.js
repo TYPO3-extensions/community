@@ -293,7 +293,7 @@ $(document).ready(function(){
 			data = eval('('+data+')');
 			if (data.status == 'success') {
 				var parsed = [];
-				var rows = data.data.split("\n");
+				var rows = data.data; //.split("\n");
 				for (var i=0; i < rows.length; i++) {
 					var row = $.trim(rows[i]);
 					if (row) {
