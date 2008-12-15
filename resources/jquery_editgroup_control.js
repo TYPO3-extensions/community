@@ -308,7 +308,7 @@ $(document).ready(function(){
 				clearMessage();
 				return parsed;
 			} else {
-				showMessage('error', 'Keine Freunde gefunden');
+				showMessage('error', 'Keine Freunde gefunden', 5000);
 				return '';
 			}
 		}
