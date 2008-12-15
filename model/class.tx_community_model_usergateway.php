@@ -119,7 +119,7 @@ class tx_community_model_UserGateway {
 		$connectedUsers = array();
 			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 			// the old query find also unconfirmed user
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 /*
 			'DISTINCT u.*',
 			'fe_users AS u, tx_community_friend AS fc', // fc = friend connection
@@ -140,12 +140,22 @@ class tx_community_model_UserGateway {
 			',
 			''
 		);
+		if (is_array($userRows)) {
+			$friendUidList = array();
+			foreach($userRows as $userRow) {
+				$friendUidList[] = $userRow['friend'];
+			}
+			$connectedUsers = $this->findByIdList(implode(',', $friendUidList));
+		}
 
+		return $connectedUsers;
+/*		
 		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$connectedUsers[] = $this->createUserFromRow($userRow);
 		}
 
 		return $connectedUsers;
+*/
 	}
 
 	/**
