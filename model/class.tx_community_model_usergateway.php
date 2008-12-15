@@ -117,14 +117,28 @@ class tx_community_model_UserGateway {
 	 */
 	public function findConnectedUsersByRole(tx_community_model_User $user, $roleId) {
 		$connectedUsers = array();
-			// @FIXME: this query finds also unconfirmed friend connections
+			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
+			// the old query find also unconfirmed user
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+/*
 			'DISTINCT u.*',
 			'fe_users AS u, tx_community_friend AS fc', // fc = friend connection
 			'fc.feuser = ' . $user->getUid()
 				. ' AND fc.role = ' . $roleId
 				. ' AND fc.hidden = 0'
 				. ' AND u.uid = fc.friend'
+*/
+			'DISTINCT friend',
+			'tx_community_friend WHERE feuser = ' . $user->getUid() . ' 
+				AND friend IN (
+					SELECT feuser
+					FROM tx_community_friend
+					WHERE friend = ' . $user->getUid() . '
+					AND tole = ' . $roleId .'
+				)
+				AND role = ' . $roleId .'
+			',
+			''
 		);
 
 		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
