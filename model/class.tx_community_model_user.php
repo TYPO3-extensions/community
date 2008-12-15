@@ -222,7 +222,11 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	 */
 	public function getImage() {
 		if (!empty($this->image)) {
-			return 'uploads/pics/' . $this->image;
+			$imgPath = 'uploads/pics/' . $this->image;
+			if (file_exists($imgPath)) {
+				return $imgPath;
+			}
+			return '';
 		} else {
 			return '';
 		}
