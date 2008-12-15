@@ -134,7 +134,7 @@ class tx_community_model_UserGateway {
 					SELECT feuser
 					FROM tx_community_friend
 					WHERE friend = ' . $user->getUid() . '
-					AND tole = ' . $roleId .'
+					AND role = ' . $roleId .'
 				)
 				AND role = ' . $roleId .'
 			',
