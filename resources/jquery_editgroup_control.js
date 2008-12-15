@@ -306,10 +306,11 @@ $(document).ready(function(){
 					}
 				}
 				clearMessage();
+				return parsed;
 			} else {
 				showMessage('error', 'Keine Freunde gefunden');
+				return '';
 			}
-			return parsed;
 		}
 	}).showMessage('wait', 'Suche läuft');;
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').result(function(event, data, formatted) {
