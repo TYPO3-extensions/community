@@ -288,8 +288,30 @@ $(document).ready(function(){
 			'tx_community[ajaxAction]': 'inviteMember',
 			'tx_community[do]': 'search',
 			'tx_community[group]': _GROUP_ID
+		},
+		parse: function(data) {
+			data = eval('('+data+')');
+			if (data.status == 'success') {
+				var parsed = [];
+				var rows = data.data.split("\n");
+				for (var i=0; i < rows.length; i++) {
+					var row = $.trim(rows[i]);
+					if (row) {
+						row = row.split("|");
+						parsed[parsed.length] = {
+							data: row,
+							value: row[0],
+							result: options.formatResult && options.formatResult(row, row[0]) || row[0]
+						};
+					}
+				}
+				clearMessage();
+			} else {
+				showMessage('error', 'Keine Freunde gefunden');
+			}
+			return parsed;
 		}
-	});
+	}).showMessage('wait', 'Suche läuft');;
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').result(function(event, data, formatted) {
 		var hidden = $('#inviteUids');
 		// console.log(hidden);

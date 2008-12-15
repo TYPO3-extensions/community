@@ -319,9 +319,17 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							}
 						}
 						if (count($returnData)) {
-							echo implode("\n", $returnData) . "\n";
+							$result = array(
+								'status' => 'success',
+								'data' => $returnData
+							);
+							//echo implode("\n", $returnData) . "\n";
+							echo json_encode($result);
 						} else {
-							echo '';
+							$result = array(
+								'status' => 'noresults'
+							);
+							echo json_encode($result);
 						}
 						die();
 					break;
