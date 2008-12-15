@@ -20,11 +20,11 @@
 			<label index="privacy_editSettings">Bearbeite Sichtbarkeitseinstellungen</label>
 			<label index="privacy_formSave">Speichern</label>
 			<label index="privacy_userProfile_read">Wer darf Deine Seite sehen?</label>
-			<label index="privacy_userProfile_imageWidget_read">Wer darf Dein Profilbild sehen?</label>
+			<label index="privacy_userProfile_imageWidget_read">Wer darf dein Bild sehen?</label>
 			<label index="privacy_userProfile_imageWidget_addComment">Wer darf Dir einen Kommentar auf deinem Profil hinterlassen?</label>
-			<label index="privacy_userProfile_personalInformationWidget_read">Wer darf Deine Persönlichen Daten sehen?</label>
-			<label index="privacy_userProfile_myGroupsWidget_read">Wer darf Deine Banden sehen?</label>
-			<label index="privacy_userProfile_myFriendsWidget_read">Wer darf Deine Freundesliste sehen?</label>
+			<label index="privacy_userProfile_personalInformationWidget_read"><![CDATA[Wer darf deinen &quot;&Uuml;ber mich&quot; Kasten sehen?]]></label>
+			<label index="privacy_userProfile_myGroupsWidget_read">Wer darf deine Banden sehen?</label>
+			<label index="privacy_userProfile_myFriendsWidget_read">Wer darf deine Freundeslisten sehen?</label>
 			<label index="privacy_hint_saved">Einstellungen wurden gespeichert</label>
 		</languageKey>
 	</data>
