@@ -35,11 +35,11 @@
 			<label index="information_personalInformation">Personal Info</label>
 			<label index="information_activities">Activities</label>
 			<label index="information_interests">Interests</label>
-			<label index="information_favoriteMusic">Favorite Music</label>
-			<label index="information_favoriteShows">Favorite TV Shows</label>
-			<label index="information_favoriteMovies">Favorite Movies</label>
-			<label index="information_favoriteBooks">Favorite Books</label>
-			<label index="information_aboutMe">About Me</label>
+			<label index="information_favoriteMusic">Lieblingsmusik</label>
+			<label index="information_favoriteShows">Lienlings TV Sendung</label>
+			<label index="information_favoriteMovies">Lieblings Filme</label>
+			<label index="information_favoriteBooks">Lieblings Bücher</label>
+			<label index="information_aboutMe"><![CDATA[&Uuml;ber mich]]></label>
 			<label index="information_startdate">Dabei seit</label>
 			<label index="information_city">Wohnort</label>
 			<label index="information_date_of_birth">Geburtstag</label>
