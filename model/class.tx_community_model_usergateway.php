@@ -117,7 +117,7 @@ class tx_community_model_UserGateway {
 	 */
 	public function findConnectedUsersByRole(tx_community_model_User $user, $roleId) {
 		$connectedUsers = array();
-
+			// @FIXME: this query finds also unconfirmed friend connections
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'DISTINCT u.*',
 			'fe_users AS u, tx_community_friend AS fc', // fc = friend connection
