@@ -1,3 +1,7 @@
+2008-12-15 Frank Naegler  <typo3@naegler.net>
+
+	* change some SQL in userGateway, to fix correct matching friend relations 
+
 2008-12-14 Frank Naegler  <typo3@naegler.net>
 
 	* adding hint after saving in the Privacy application. 
