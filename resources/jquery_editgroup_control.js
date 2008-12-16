@@ -277,12 +277,14 @@ $(document).ready(function(){
 		return row[0].replace(/(<.+?>)/gi, '');
 	}
 
-	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').keyUp(function(e) {
-		showMessage('wait', 'Suche läuft');
+	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').keyup(function(e) {
+		if ($('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').val()) {
+			showMessage('wait', _PLEASE_WAIT);
+		}
 	});
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').autocomplete(_FORM_ACTION, {
 		width: 300,
-		autoFill: true,
+		/* autoFill: true, */
 		multiple: true,
 		/* matchContains: true, */
 		formatItem: formatItem,
@@ -304,11 +306,11 @@ $(document).ready(function(){
 						parsed[parsed.length] = {
 							data: row,
 							value: row[0],
-							result: options.formatResult && options.formatResult(row, row[0]) || row[0]
+							result: row[0]
 						};
 					}
 				}
-				clearMessage();
+				showMessage('success', 'Bitte w&auml;hle einen Freund aus.');
 				return parsed;
 			} else {
 				showMessage('error', 'Keine Freunde gefunden', 5000);
