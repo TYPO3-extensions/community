@@ -277,6 +277,9 @@ $(document).ready(function(){
 		return row[0].replace(/(<.+?>)/gi, '');
 	}
 
+	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').keyUp(function(e) {
+		showMessage('wait', 'Suche läuft');
+	});
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').autocomplete(_FORM_ACTION, {
 		width: 300,
 		autoFill: true,
@@ -312,7 +315,7 @@ $(document).ready(function(){
 				return '';
 			}
 		}
-	}).showMessage('wait', 'Suche läuft');;
+	});
 	$('#INVITE_MEMBER input[@name="tx_community[invite_search]"]').result(function(event, data, formatted) {
 		var hidden = $('#inviteUids');
 		// console.log(hidden);
