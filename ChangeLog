@@ -1,3 +1,7 @@
+2008-12-17 Frank Naegler  <typo3@naegler.net>
+
+	* add id to the settings in the privacy view 
+
 2008-12-16 Ingo Renner  <ingo@typo3.org>
 
 	* fixed a bug were the LLL view helper would retrieve an overwrite label from TS, but would not use it correctly

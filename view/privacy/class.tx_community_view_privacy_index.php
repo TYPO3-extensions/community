@@ -124,6 +124,7 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 		$applicationSettings = '';
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 
+		$counter = 0;
 		foreach ($this->accessControlModel[$applicationName] as $resourceActionControl => $label) {
 			$template = new $templateClass(
 				t3lib_div::makeInstance('tslib_cObj'),
@@ -132,7 +133,10 @@ class tx_community_view_privacy_Index extends tx_community_view_AbstractView {
 			);
 			/* @var $template tx_community_Template */
 
-			$template->addVariable('setting', array('description' => $label));
+			$template->addVariable('setting', array(
+				'description' => $label,
+				'id' => $counter++
+			));
 			$template->addSubpart(
 				'setting_options',
 				$this->renderSettingOptions(
