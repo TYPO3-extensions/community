@@ -38,6 +38,11 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
+	
+	/**
+	 * @var tx_community_controller_EditGroupApplication
+	 */
+	protected $communityApplication;
 
 	/**
 	 * constructor for the group profile actions widget
@@ -221,7 +226,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 				)
 			);
 
-			if ($requestedGroup->isAdmin($requestingUser)) {
+			if ($requestedGroup->isAdmin($requestingUser) && $requestedGroup->getNumberOfMembers() > 1) {
 				$content = $this->localizationManager->getLL('action_isAdminOfGroup');
 			}
 		} else {
