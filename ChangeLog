@@ -1,14 +1,18 @@
+2008-12-16 Ingo Renner  <ingo@typo3.org>
+
+	* fixed a bug were the LLL view helper would retrieve an overwrite label from TS, but would not use it correctly
+
 2008-12-15 Frank Naegler  <typo3@naegler.net>
 
-	* change some SQL in userGateway, to fix correct matching friend relations 
+	* change some SQL in userGateway, to fix correct matching friend relations
 
 2008-12-14 Frank Naegler  <typo3@naegler.net>
 
-	* adding hint after saving in the Privacy application. 
+	* adding hint after saving in the Privacy application.
 
 2008-12-12 Frank Naegler  <typo3@naegler.net>
 
-	* adding ACL support for MyFriends-Widget, MyGroups-Widget and LastVisitors-Widget 
+	* adding ACL support for MyFriends-Widget, MyGroups-Widget and LastVisitors-Widget
 
 2008-12-06 Frank Naegler  <typo3@naegler.net>
 
