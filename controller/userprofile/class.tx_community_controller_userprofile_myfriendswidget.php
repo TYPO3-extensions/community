@@ -42,6 +42,7 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 		$this->localizationManager = tx_community_LocalizationManager::getInstance('EXT:community/lang/locallang_userprofile_myfriends.xml', $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']);
 
 		$this->name     = 'myFriends';
+		$this->accessMode = 'read';
 		$this->label    = $this->localizationManager->getLL('label_MyFriendsWidget');
 		$this->draggable = true;
 		$this->removable = true;

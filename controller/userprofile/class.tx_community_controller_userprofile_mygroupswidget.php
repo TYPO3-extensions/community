@@ -43,6 +43,7 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 
 		$this->name     = 'myGroups';
 		$this->label    = $this->localizationManager->getLL('label_MyGroupsWidget');
+		$this->accessMode = 'read';
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';
