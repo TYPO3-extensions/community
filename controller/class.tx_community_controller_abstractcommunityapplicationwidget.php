@@ -47,6 +47,8 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	protected $name     = null;
 	protected $label    = null;
 	protected $cssClass = null;
+	protected $accessMode = 'read';
+	
 
 	protected $draggable;
 	protected $removable;
