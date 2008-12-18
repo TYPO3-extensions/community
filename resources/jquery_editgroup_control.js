@@ -314,7 +314,7 @@ $(document).ready(function(){
 				return parsed;
 			} else {
 				showMessage('error', 'Keine Freunde gefunden', 5000);
-				return '';
+				return [];
 			}
 		}
 	});
