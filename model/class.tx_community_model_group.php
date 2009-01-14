@@ -150,7 +150,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 
 				// works only after we have a uid
 			$this->processAdmins();
-			$this->processMembers();
+			$this->processMembers(false);
 			$this->processPendingMembers();
 			$this->processInvitedMembers();
 			$this->sendMessages();
@@ -388,9 +388,11 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * adds a member to the group, doesn't get affective until save() is called
 	 *
 	 * @param	tx_community_model_User	the user to add as a member for this group
+	 * @param	boolean add user also to privat groups directly
+	 * @todo	think about forceAddUser
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function addMember(tx_community_model_User $user) {
+	public function addMember(tx_community_model_User $user,$forceAddUser = false) {
 		$groupType = $this->getGroupType();
 
 		if (!$this->isMember($user)) {
@@ -405,7 +407,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 						// for private and secret groups the user needs to be approved,
 						// approvals are granted after request or by invitation for private groups
 						// secret groups are invitation only
-					if ($this->isPendingMember($user) && $this->hasUserBeenApproved($user)) {
+					if ($this->isPendingMember($user) && $this->hasUserBeenApproved($user) || $forceAddUser) {
 						$this->addedMembers[] = $user;
 						$this->removedPendingMembers[] = $user;
 					}
@@ -709,7 +711,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * @return	void
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	protected function processMembers() {
+	protected function processMembers($sendMail = true) {
 		foreach ($this->addedMembers as $addedMember) {
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
 				'tx_community_group_members_mm',
@@ -721,11 +723,13 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			$this->data['members']++;
 
 				// TODO add the messages to the message queue instead of actually sending them here
-			$this->sendMessageToAdmins(
-				$this->localizationManager->getLL('subject_memberHasJoined'),
-				$this->localizationManager->getLL('body_memberHasJoined'),
-				$addedMember
-			);
+			if($sendMail){		
+				$this->sendMessageToAdmins(
+	    				$this->localizationManager->getLL('subject_memberHasJoined'),
+					$this->localizationManager->getLL('body_memberHasJoined'),
+					$addedMember
+				);
+			}
 		}
 
 		$removedMemberList = array();

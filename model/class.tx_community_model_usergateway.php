@@ -83,6 +83,33 @@ class tx_community_model_UserGateway {
 		return $user;
 	}
 
+
+	/**
+	 * find a user by its nickname
+	 *
+	 * @param integer The user's uid
+	 * @return	tx_community_model_User
+	 * @author	Volker Graubaum <typo3@e-netconsulting.com>
+	 */
+	public function findByNickName($nickname) {
+		$user = null;
+
+		$userRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'*',
+			'fe_users',
+			'tx_community_nickname = \'' . $nickname.'\''
+		); // TODO restrict to certain part of the tree, enablefields
+		$userRow = $userRow[0];
+
+			// TODO first check whether we got exactly one result
+		if (is_array($userRow)) {
+			$user = $this->createUserFromRow($userRow);
+		}
+
+		return $user;
+	}
+
+
 	/**
 	 * finds multiple users by a list of user IDs (using only one query)
 	 *

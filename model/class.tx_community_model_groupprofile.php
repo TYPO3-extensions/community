@@ -84,7 +84,13 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 		$this->group		= $this->groupGateway->findRequestedGroup();
 		
 		if ($this->group === null) {
-			throw new tx_community_exception_UnknownProfile();
+		    # @ToDo ganz boese, muss sauber gemacht werden
+		    #    $targetURL = $this->communityApplication->pi_getPageLink(
+		    #            $this->configuration['pages.']['groupList']
+		    #    );
+		        Header('HTTP/1.1 303 See Other');
+		        Header('Location: ' . t3lib_div::locationHeaderUrl('/index.php?id=38'));
+		#		throw new tx_community_exception_UnknownProfile();
 		}
 		
 		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();

@@ -307,6 +307,17 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	public function setAboutMe($aboutMe) {
 		$this->aboutMe = $aboutMe;
 	}
+
+	//	@ToDo user interceptor methods
+	// set this one to deprecated before removing
+
+	public function getExtraField($field) {
+		return $this->$field;
+	}
+	
+	public function setExtraField($field,$value) {
+		$this->$field = $value;
+	}
 }
 
 

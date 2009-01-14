@@ -103,13 +103,15 @@ class tx_community_model_GroupGateway {
 	 * @return	array	array of tx_community_model_Group entries
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function findGroupsByUser(tx_community_model_User $user) {
+	public function findGroupsByUser(tx_community_model_User $user,$sorting = ' crdate desc') {
 		$groups = array();
 
 		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid_local',
-			'tx_community_group_members_mm',
-			'uid_foreign = ' . $user->getUid()
+			'tx_community_group_members_mm,tx_community_group',
+			'uid_local = uid and uid_foreign = ' . $user->getUid(),
+			'',
+			$sorting						
 		);
 
 		foreach ($groupRows as $groupRow) {
