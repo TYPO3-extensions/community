@@ -128,7 +128,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
-
+		
 			// now use the user list to present the result
 		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication(
 			'userList',

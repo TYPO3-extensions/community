@@ -104,10 +104,12 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 			$widgetName
 		);
 
+
 		$widget = t3lib_div::getUserObj($widgetConfiguration['classReference']);
 		/* @var $widget tx_community_CommunityApplicationWidget */
 		$widget->initialize($this->data, $this->configuration);
 		$widget->setCommunityApplication($this);
+
 
 		$content = $widget->execute();
 

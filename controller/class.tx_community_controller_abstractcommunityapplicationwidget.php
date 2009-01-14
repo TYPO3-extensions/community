@@ -93,8 +93,6 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	public function execute() {
 		$content = '';
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
-
-
 		$widgetConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidgetConfiguration(
 			$this->communityApplication->getName(),
 			$this->getName()

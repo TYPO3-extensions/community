@@ -115,14 +115,12 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	public function setRelationshipsAction() {
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$existingRelationships = $this->getRelationshipsToRequestedUser();
-
 		$setRelationships = array();
 		foreach ($communityRequest['relationship'] as $roleId => $activated) {
 			if ($activated) {
 				$setRelationships[] = $roleId;
 			}
 		}
-
 		$newRelationshipsToAdd = array_diff($setRelationships, $existingRelationships);
 		$oldRelationshipsToRemove = array_diff($existingRelationships, $setRelationships);
 
@@ -157,6 +155,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 	 */
 	protected function addRelationship($roleId) {
 		$success = false;
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			'tx_community_friend',

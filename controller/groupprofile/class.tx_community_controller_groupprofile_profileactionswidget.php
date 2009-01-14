@@ -225,10 +225,15 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 					)
 				)
 			);
-
+			if($requestedGroup->isAdmin($requestingUser)){
+			    $content = $this->communityApplication->cObj->addParams($content,array('id'=>'leaveGroupLinkAdmin'));
+			}else{
+			    $content = $this->communityApplication->cObj->addParams($content,array('id'=>'leaveGroupLink'));
+			}
 			if ($requestedGroup->isAdmin($requestingUser) && $requestedGroup->getNumberOfMembers() > 1) {
 				$content = $this->localizationManager->getLL('action_isAdminOfGroup');
 			}
+			
 		} else {
 			$content = $this->communityApplication->pi_linkTP(
 				 $this->localizationManager->getLL('action_joinGroup'),

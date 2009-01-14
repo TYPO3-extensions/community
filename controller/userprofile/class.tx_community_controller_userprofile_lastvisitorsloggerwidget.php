@@ -72,8 +72,7 @@ class tx_community_controller_userprofile_LastVisitorsLoggerWidget extends tx_co
 		$content        = '';
 		$requestedUser  = $this->communityApplication->getRequestedUser();
 		$requestingUser = $this->communityApplication->getRequestingUser();
-
-		if ($requestedUser != $requestingUser && !$requestingUser->isAnonymous()) {
+		if (!is_null($requestedUser) && !is_null($requestingUser) && $requestedUser != $requestingUser && !$requestingUser->isAnonymous()) {
 			$nextSequenceId = $this->getNextSequenceId($requestedUser);
 
 				// TODO try to add a execREPLACEquery to t3lib_db
@@ -98,7 +97,7 @@ class tx_community_controller_userprofile_LastVisitorsLoggerWidget extends tx_co
 	protected function getNextSequenceId(tx_community_model_User $requestedUser) {
 		$nextSequenceId = 0;
 		$configuration = $this->getConfiguration();
-		$numberOfLastVisitorsToLog = $configuration['numberOfLastVisitorsToLog'];
+		$numberOfLastVisitorsToLog = $configuration['numberOfLastVisitorsToLog'] ? $configuration['numberOfLastVisitorsToLog'] : 50 ;
 
 		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'(sequence_id + 1) % ' . $numberOfLastVisitorsToLog . ' as next_sequence_id',

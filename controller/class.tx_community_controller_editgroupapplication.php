@@ -176,6 +176,13 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_saved')}'}";
 				}
 			break;
+			case 'saveVideo':
+				if ($this->saveVideo()) {
+					$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
+				} else {
+					$result = "{'status': 'error', 'msg': '{$this->llManager->getLL('msg_not_saved')}'}";
+				}
+			break;
 			case 'saveImage':
 				if ($group->isAdmin($user)) {
 					$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
@@ -270,13 +277,22 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 						}
 
 						$status = 'success';
-						$uidsToInvite = t3lib_div::trimExplode(';', $communityRequest['inviteUids']);
-						foreach ($uidsToInvite as $uid) {
-							$inviteUser = $this->userGateway->findById($uid);
+						$valuesToInvite = t3lib_div::trimExplode(';', $communityRequest['inviteUids']);
+						if(count($uidsToInvite)<1){
+						    $valuesToInvite = t3lib_div::trimExplode(',', $communityRequest['invite_search']);
+						}
+						foreach ($valuesToInvite as $value) {
+						    if(!$value){
+							continue;
+						    }
+							$inviteUser = $this->userGateway->findById($value);
 							if (is_null($inviteUser)) {
-								$status = 'error';
-								$message = $this->llManager->getLL('msg_unknown_user');
-								break;
+								$inviteUser = $this->userGateway->findByNickName($value);
+								if (is_null($inviteUser)) {
+									$status = 'error';
+									$message = $this->llManager->getLL('msg_unknown_user');
+									break;
+								}
 							}
 							if ($this->accessManager->isFriendOfCurrentlyLoggedInUser($inviteUser)) {
 								$recipients[] = $inviteUser;
@@ -327,7 +343,8 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							echo json_encode($result);
 						} else {
 							$result = array(
-								'status' => 'noresults'
+								'status' => 'noresults',
+								'data' => '|'
 							);
 							echo json_encode($result);
 						}
@@ -343,7 +360,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		die();
 	}
 
-		// TODO refactor this method
+	// TODO refactor this method
 	protected function saveGeneral() {
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
@@ -367,6 +384,30 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 			return false;
 		}
 	}
+
+	// TODO refactor this method
+	protected function saveVideo() {
+		$communityRequest = t3lib_div::GParrayMerged('tx_community');
+		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		/**
+		 * @var tx_community_model_Group
+		 */
+		$group = $groupGateway->findRequestedGroup();
+		$user  = $userGateway->findCurrentlyLoggedInUser();
+
+		if ($group->isAdmin($user)) {
+			$group->setVideo($communityRequest['groupVideo']);
+			$group->setVideotype($communityRequest['groupVideotype']);
+			if ($group->save()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}	
 
 	/**
 	 * returns the Resource identifier
