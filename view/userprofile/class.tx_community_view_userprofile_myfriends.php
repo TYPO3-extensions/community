@@ -84,6 +84,7 @@ class tx_community_view_userprofile_MyFriends extends tx_community_view_Abstract
 				'tx_community_viewhelper_Link'
 			);
 			
+#			debug($template);
 			$template->addVariable('role', $role);
 			if (is_array($role['friends'])) {
 				$template->addLoop('friends', 'user', $role['friends']);

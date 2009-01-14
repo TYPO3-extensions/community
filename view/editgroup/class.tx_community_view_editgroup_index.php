@@ -105,6 +105,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 		$template->addSubpart('image_settings', $this->renderImageSettings());
 		$template->addSubpart('member_settings', $this->renderMemberSettings());
 		$template->addSubpart('invite_member', $this->renderInviteMember());
+		$template->addSubpart('video_settings', $this->renderVideoSettings());
 		$template->addVariable('form', array(
 			'action' => $this->formAction,
 			'group_uid'	=> $this->group->getUid()
@@ -112,7 +113,6 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 		$template->addVariable('msg', array(
 			'wait'				=> $this->llManager->getLL('msg_please_wait')
 		));
-
 		return $template->render();
 	}
 
@@ -137,6 +137,31 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 			'type_1'		=> (($this->group->getGrouptype() == 1) ? 'checked="checked" ' : ''),
 			'type_2'		=> (($this->group->getGrouptype() == 2) ? 'checked="checked" ' : ''),
 			'type_3'		=> (($this->group->getGrouptype() == 3) ? 'checked="checked" ' : '')
+		));
+
+		return $template->render();
+	}
+
+	protected function renderVideoSettings() {
+		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
+		$template = new $templateClass(
+			t3lib_div::makeInstance('tslib_cObj'),
+			$this->templateFile,
+			'video_settings'
+		);
+		/* @var $template tx_community_Template */
+
+		$template->addVariable('form', array(
+			'action' => $this->formAction,
+			'group_uid'	=> $this->group->getUid()
+		));
+
+		$template->addVariable('group', $this->group);
+
+		$template->addVariable('selected', array(
+			'videotype_youtube'		=> (($this->group->getVideotype() == 'youtube') ? 'selected="selected" ' : ''),
+			'videotype_sevenload'	=> (($this->group->getVideotype() == 'sevenload') ? 'selected="selected"' : ''),
+			'videotype_myvideo'		=> (($this->group->getVideotype() == 'myvideo') ? 'selected="selected"' : ''),
 		));
 
 		return $template->render();

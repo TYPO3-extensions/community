@@ -58,7 +58,6 @@ class tx_community_view_userprofile_PersonalInformation extends tx_community_vie
 			$this->templateFile,
 			'personal_information'
 		);
-
 		$template->addViewHelper(
 			'lll',
 			'tx_community_viewhelper_Lll',
