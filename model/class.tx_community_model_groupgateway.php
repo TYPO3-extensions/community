@@ -88,7 +88,7 @@ class tx_community_model_GroupGateway {
 			'tx_community_group',
 			'1=1',
 			'',
-			'crdate ASC'
+			'crdate DESC'
 		); // TODO restrict to certain part of the tree, use enableFields
 
 		foreach ($groupRows as $groupRow) {
