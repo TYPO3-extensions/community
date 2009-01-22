@@ -1,3 +1,8 @@
+2009-01-23 Frank Naegler  <typo3@naegler.net>
+
+	* add search function to the listGroupsApplication
+	* add findByWhereClause to the GroupGateway 
+
 2009-01-22 Frank Naegler  <typo3@naegler.net>
 
 	* add some new marker for invitation mails 

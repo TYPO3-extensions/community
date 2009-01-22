@@ -43,6 +43,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 	 * @var tx_community_model_GroupGateway
 	 */
 	protected $groupGateway;
+	protected $request;
 
 	/**
 	 * constructor for class tx_community_controller_ListGroupsApplication
@@ -64,8 +65,18 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
 			$this->getName()
 		);
+		
+		switch ($this->request['action']) {
+			case 'search':
+				$content = $this->searchAction();
+			break;
+			case 'index':
+			default:
+				$content = $this->indexAction();
+			break;
+		}
 
-		$content = $this->indexAction();
+		
 
 		return $content;
 	}
@@ -99,6 +110,59 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 				$groups = $this->groupGateway->getAllGroups();
 			break;	
 		}
+		
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		
+		$listGroupsArray = array();
+		foreach ($groups as $group) {
+			if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
+				$imgConf = $this->configuration['applications.']['listGroups.']['groupImage.'];
+				$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
+				$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
+				$group->setHTMLImage($genImage);
+				$listGroupsArray[] = $group;
+			}
+		}
+		
+		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		$pageBrowserConfig['numberOfPages'] = ceil(count($listGroupsArray) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1; 
+		
+		$tmp = array();
+		for ($i=$firstGroup-1; $i<$firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
+			if (!is_null($listGroupsArray[$i])) {
+				$tmp[] = $listGroupsArray[$i];
+			}
+		}
+		$view->setGroups($tmp);
+
+		$groupsDetailLink = $this->pi_getPageLink(
+			$this->configuration['pages.']['groupProfile'],
+			'',
+			array(
+				'tx_community' => array(
+					'group' => '%UID%'
+				)
+			)
+		);
+		$view->setGroupDetailLink($groupsDetailLink);
+
+		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig);
+	
+		$view->setPageBrowser($pageBrowser);
+		
+		return $view->render();
+	}
+	
+	protected function searchAction() {
+		$view = t3lib_div::makeInstance('tx_community_view_listGroups_Index');
+		/* @var $view tx_community_view_listGroups_Index */
+		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
+		$view->setLanguageKey($this->LLkey);
+		
+		$searchValue = $GLOBALS['TYPO3_DB']->quoteStr($this->request['quicksearch'], 'tx_community_group');
+		
+		$groups = $this->groupGateway->findByWhereClause("name like '%{$searchValue}%'");
 		
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		

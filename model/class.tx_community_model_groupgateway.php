@@ -97,6 +97,34 @@ class tx_community_model_GroupGateway {
 
 		return $groups;
 	}
+	
+	/**
+	 * finds groups by a custom where clause
+	 *
+	 * @param	string	where clause
+	 * @return	array	An array of tx_community_model_Group objects
+	 * @author	Frank Nägler <typo3@naegler.net>
+	 */
+	public function findByWhereClause($whereClause) {
+		$foundUsers = array();
+
+		$whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '1';
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'DISTINCT tx_community_group.*',
+			'tx_community_group',
+			$whereClause,
+			'',
+			'crdate DESC'
+		);
+
+		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
+			while ($groupRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				$groups[] = $this->createGroupFromRow($groupRow);
+			}
+		}
+
+		return $groups;
+	}
 
 	/**
 	 * finds all groups where the given user is member
