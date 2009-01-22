@@ -71,7 +71,7 @@
 
 			<!-- Invite Message -->
 			<label index="invite_subject">invite for group</label>
-			<label index="invite_bodytext"><![CDATA[invite for group.<br/> <a href="%s">accept invitation</a>]]></label>
+			<label index="invite_bodytext"><![CDATA[invite for group "###GROUP_NAME###".<br/> <a href="###ACCEPT_LINK###">accept invitation</a>]]></label>
 		</languageKey>
 	</data>
 </T3locallang>

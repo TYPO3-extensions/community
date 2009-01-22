@@ -315,7 +315,10 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								)
 							);
 							$subject = $this->llManager->getLL('invite_subject');
-							$bodytext = sprintf($this->llManager->getLL('invite_bodytext'), $inviteUrl);
+							$bodytext = $this->llManager->getLL('invite_bodytext');
+							$bodytext = str_replace('###ACCEPT_LINK###', $inviteUrl, $bodytext);
+							$bodytext = str_replace('###GROUP_NAME###', $requestedGroup->getName(), $bodytext);
+							
 							if ($this->messageAPILoaded) {
 								tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 							}
