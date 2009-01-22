@@ -82,11 +82,13 @@ class tx_community_model_GroupGateway {
 	public function getAllGroups() {
 		$groups = array();
 
-		// TODO: restrict to groupType, for example: type = 4 should not be returned by this function
+			// TODO: restrict to groupType, for example: type = 4 should not be returned by this function
 		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',
 			'tx_community_group',
-			'1=1'
+			'1=1',
+			'',
+			'crdate ASC'
 		); // TODO restrict to certain part of the tree, use enableFields
 
 		foreach ($groupRows as $groupRow) {
