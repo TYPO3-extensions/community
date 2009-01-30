@@ -311,7 +311,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								array(
 									'tx_community' => array(
 										'group' => $requestedGroup->getUid(),
-										'profileAction' => 'joinGroup',
+										'profileActionsAction' => 'joinGroup',
 										'inviteHash' => $inviteHash
 									)
 								)
