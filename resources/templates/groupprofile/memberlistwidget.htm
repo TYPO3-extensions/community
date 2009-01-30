@@ -11,6 +11,13 @@
 
 <h4>###LLL:information_memberList###</h4>
 <dl>
+	<!-- ###LOOP:ADMINS### begin -->
+	<!-- ###LOOP_CONTENT### -->
+	<dd>###LINK:###LOOP:WIDGET:userProfile.image|USER|thumbnail###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.uid######</dd>
+	<dt>###LINK:###USER.NICKNAME###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.UID######</dt>
+	<!-- ###LOOP_CONTENT### -->
+	<!-- ###LOOP:ADMINS### end -->
+
 	<!-- ###LOOP:MEMBERS### begin -->
 	<!-- ###LOOP_CONTENT### -->
 	<dd>###LINK:###LOOP:WIDGET:userProfile.image|USER|thumbnail###|###TS:plugin.tx_community.pages.userProfile###|tx_community[user]=###USER.uid######</dd>

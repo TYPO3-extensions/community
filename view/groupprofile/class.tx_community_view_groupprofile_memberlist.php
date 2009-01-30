@@ -84,10 +84,19 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 
 		$template->addVariable('group', $this->groupModel);
 
-		$members = $this->groupModel->getMembers();
+		$allMembers = $this->groupModel->getMembers();
 		
+		foreach ($allMembers as $member) {
+			if ($this->groupModel->isAdmin($member)) {
+				$admins[] = $member;
+			} else {
+				$members[] = $member;
+			}
+		}
+		
+		$template->addLoop('admins', 'user', $admins);
 		$template->addLoop('members', 'user', $members);
-
+		
 		return $template->render();
 	}
 }
