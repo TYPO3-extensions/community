@@ -99,7 +99,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 			
 			$checkHash = md5($requestedGroup->getUid() . $requestedGroup->getCrdate() . $requestingUser->getUid());
 			if ($checkHash == $inviteHash) {
-				$requestedGroup->addMember($requestingUser);
+				$requestedGroup->addMember($requestingUser, true);
 			} else {
 				switch ($groupType) {
 					case tx_community_model_Group::TYPE_OPEN:
