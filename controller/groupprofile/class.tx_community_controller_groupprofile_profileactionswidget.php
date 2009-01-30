@@ -93,18 +93,26 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 		if ($requestingUser->getUid() !== 0) {
 			$requestedGroup = $this->communityApplication->getRequestedGroup();
 			$groupType = $requestedGroup->getGroupType();
-
-			switch ($groupType) {
-				case tx_community_model_Group::TYPE_OPEN:
-				case tx_community_model_Group::TYPE_MEMBERS_ONLY:
-					$requestedGroup->addMember($requestingUser);
-					break;
-				case tx_community_model_Group::TYPE_PRIVATE:
-					$requestedGroup->addPendingMember($requestingUser);
-					break;
-				case tx_community_model_Group::TYPE_SECRET:
-						// do nothing, the user needs an invitation, can't invite himself
-					break;
+			
+			$communityRequest = t3lib_div::GParrayMerged('tx_community');
+			$inviteHash = $communityRequest['inviteHash'];
+			
+			$checkHash = md5($requestedGroup->getUid() . $requestedGroup->getCrdate() . $requestingUser->getUid());
+			if ($checkHash == $inviteHash) {
+				$requestedGroup->addMember($requestingUser);
+			} else {
+				switch ($groupType) {
+					case tx_community_model_Group::TYPE_OPEN:
+					case tx_community_model_Group::TYPE_MEMBERS_ONLY:
+						$requestedGroup->addMember($requestingUser);
+						break;
+					case tx_community_model_Group::TYPE_PRIVATE:
+						$requestedGroup->addPendingMember($requestingUser);
+						break;
+					case tx_community_model_Group::TYPE_SECRET:
+							// do nothing, the user needs an invitation, can't invite himself
+						break;
+				}
 			}
 
 			$requestedGroup->save();

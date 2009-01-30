@@ -304,13 +304,15 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							}
 						}
 						if ($status == 'success') {
+							$inviteHash = md5($requestedGroup->getUid() . $requestedGroup->getCrdate() . $inviteUser->getUid());
 							$inviteUrl = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$this->pi_getPageLink(
 								$this->configuration['pages.']['groupProfile'],
 								'',
 								array(
 									'tx_community' => array(
 										'group' => $requestedGroup->getUid(),
-										'profileAction' => 'joinGroup'
+										'profileAction' => 'joinGroup',
+										'inviteHash' => $inviteHash
 									)
 								)
 							);
