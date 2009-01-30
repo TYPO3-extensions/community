@@ -86,6 +86,8 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 
 		$allMembers = $this->groupModel->getMembers();
 		
+		$admins = array();
+		$members = array();
 		foreach ($allMembers as $member) {
 			if ($this->groupModel->isAdmin($member)) {
 				$admins[] = $member;
