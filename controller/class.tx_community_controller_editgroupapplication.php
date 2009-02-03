@@ -407,8 +407,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				if (t3lib_extMgm::isLoaded('community_flexiblelayout')) {
 					require_once(t3lib_extMgm::extPath('community_flexiblelayout').'classes/class.tx_communityflexiblelayout_layoutmanager.php');
 					
-					$registry = tx_community_Registry::getInstance('tx_communityflexiblelayout');
-					$conf = $registry->getConfiguration();
+					$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communityflexiblelayout.'];
 					
 					$profile = tx_community_ProfileFactory::createProfile($conf['profileType']);
 					
