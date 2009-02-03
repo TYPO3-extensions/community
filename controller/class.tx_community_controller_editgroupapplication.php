@@ -412,7 +412,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					$profile = tx_community_ProfileFactory::createProfile($conf['profileType']);
 					
 					$layoutManager = new tx_communityflexiblelayout_LayoutManager();
-					$layoutManager->putWidgetToClipboard($conf['communityID'], $conf['profileType'], $profile->getUid(), 'communityVideoWidget');
+					$layoutManager->putWidgetToClipboard($conf['communityID'], 'groupProfile', $profile->getUid(), 'communityVideoWidget');
 				}
 			}
 			$group->setVideo($communityRequest['groupVideo']);
