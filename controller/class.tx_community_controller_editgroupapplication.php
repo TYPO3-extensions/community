@@ -402,6 +402,9 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		$user  = $userGateway->findCurrentlyLoggedInUser();
 
 		if ($group->isAdmin($user)) {
+			if ($communityRequest['groupVideotype'] == '') {
+				$communityRequest['groupVideo'] = '';
+			}
 			$group->setVideo($communityRequest['groupVideo']);
 			$group->setVideotype($communityRequest['groupVideotype']);
 			if ($group->save()) {

@@ -159,6 +159,7 @@ class tx_community_view_editGroup_Index extends tx_community_view_AbstractView {
 		$template->addVariable('group', $this->group);
 
 		$template->addVariable('selected', array(
+			'videotype_novideo'		=> (($this->group->getVideotype() == '') ? 'selected="selected" ' : ''),
 			'videotype_youtube'		=> (($this->group->getVideotype() == 'youtube') ? 'selected="selected" ' : ''),
 			'videotype_sevenload'	=> (($this->group->getVideotype() == 'sevenload') ? 'selected="selected"' : ''),
 			'videotype_myvideo'		=> (($this->group->getVideotype() == 'myvideo') ? 'selected="selected"' : ''),
