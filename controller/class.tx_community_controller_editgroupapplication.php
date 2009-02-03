@@ -409,7 +409,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 					
 					$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communityflexiblelayout.']['controller.']['dashboard.'];
 					
-					$profile = tx_community_ProfileFactory::createProfile($conf['profileType']);
+					$profile = tx_community_ProfileFactory::createProfile('groupProfile');
 					
 					$layoutManager = new tx_communityflexiblelayout_LayoutManager();
 					$layoutManager->putWidgetToClipboard($conf['communityID'], 'groupProfile', $profile->getUid(), 'communityVideoWidget');
