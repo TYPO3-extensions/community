@@ -407,12 +407,12 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				if (t3lib_extMgm::isLoaded('community_flexiblelayout')) {
 					require_once(t3lib_extMgm::extPath('community_flexiblelayout').'classes/class.tx_communityflexiblelayout_layoutmanager.php');
 					
-					$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communityflexiblelayout.'];
+					$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communityflexiblelayout.']['controller.']['dashboard.'];
 					
 					$profile = tx_community_ProfileFactory::createProfile($conf['profileType']);
 					
 					$layoutManager = new tx_communityflexiblelayout_LayoutManager();
-					$layoutManager->putWidgetToClipboard($conf['communityID'], $conf['profileType'], $profile->getUid());
+					$layoutManager->putWidgetToClipboard($conf['communityID'], $conf['profileType'], $profile->getUid(), 'communityVideoWidget');
 				}
 			}
 			$group->setVideo($communityRequest['groupVideo']);
