@@ -1,3 +1,7 @@
+2009-02-03 Frank Nägler <typo3@naegler.net>
+	
+	* add $count = null, $firstEntry = null as arguments for tx_community_model_GroupGateway->getAllGroups to use limit in query
+
 2009-01-23 Frank Naegler  <typo3@naegler.net>
 
 	* add search function to the listGroupsApplication

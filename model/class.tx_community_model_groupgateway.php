@@ -76,11 +76,20 @@ class tx_community_model_GroupGateway {
 	/**
 	 * finds all groups
 	 *
+	 * @param 	int	$count count of results 
+	 * @param 	int	$firstEntry the first entry in result (first = 0)
 	 * @return	array	Array of tx_community_model_Group instances
 	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
-	public function getAllGroups() {
+	public function getAllGroups($count = null, $firstEntry = null) {
 		$groups = array();
+
+		$limit = '';
+		if ($firstEntry !== null && $count !== null) {
+			$limit = "{$firstEntry},{$count}";
+		} else if ($firstEntry === null && $count !== null) {
+			$limit = $count;
+		}
 
 			// TODO: restrict to groupType, for example: type = 4 should not be returned by this function
 		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -88,7 +97,8 @@ class tx_community_model_GroupGateway {
 			'tx_community_group',
 			'1=1',
 			'',
-			'crdate DESC'
+			'crdate DESC',
+			$limit
 		); // TODO restrict to certain part of the tree, use enableFields
 
 		foreach ($groupRows as $groupRow) {
