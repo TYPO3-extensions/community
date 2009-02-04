@@ -126,6 +126,17 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 			$whereClause = implode(' AND ', $whereClauses);
 		}
 
+			// look for a searchkey in request and get the searchparams from session.
+			// if no searchkey is found, create a new one and put into the session.
+			// we need this for smaller URLs in pageBrowser
+		if (!isset($communityRequest['searchkey'])) {
+			$GLOBALS['tx_community_searchkey'] = 'tx_community_searchkey_'.md5(time()); 
+			$GLOBALS['TSFE']->fe_user->setKey("ses", $GLOBALS['tx_community_searchkey'], $whereClause);
+		} else {
+			$GLOBALS['tx_community_searchkey'] = $communityRequest['searchkey'];
+			$whereClause = $GLOBALS['TSFE']->fe_user->getKey("ses", $GLOBALS['tx_community_searchkey']);
+		}
+		
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
 		
