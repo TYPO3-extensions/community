@@ -88,7 +88,6 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 	 */
 	public function joinGroupAction() {
 		$requestingUser = $this->communityApplication->getRequestingUser();
-
 			// TODO move this check into some central function
 		if ($requestingUser->getUid() !== 0) {
 			$requestedGroup = $this->communityApplication->getRequestedGroup();

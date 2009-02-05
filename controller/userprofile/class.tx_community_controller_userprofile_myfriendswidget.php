@@ -46,10 +46,15 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';
+		$this->request 		= t3lib_div::GParrayMerged('tx_community_myfriends');
 	}
 
 	public function indexAction() {
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+
+		$pageBrowserConfig = $this->configuration['applications.']['listUsers.']['pageBrowser.'];
+		
 		$roleData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid, name',
 			'tx_community_acl_role',
@@ -57,10 +62,14 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 		);
 		$friendsByRole = array();
 		foreach ($roleData as $role) {
+      $firstGroup = (isset($this->request['page_'.$role['uid']])) ? (intval($this->request['page_'.$role['uid']]+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
+			$pageBrowserConfig['numberOfPages'] = ceil($userGateway->findConnectedUsersByRoleCount($this->communityApplication->getRequestedUser(), $role['uid']) / max($pageBrowserConfig['numberOfEntriesPerPage'],1));
+			$pageBrowserConfig['pageParameterName'] = 'tx_community_myfriends|page_'.$role['uid'];
 			$friendsByRole[] = array(
 				'uid' => $role['uid'],
 				'name' => $role['name'],
-				'friends' => $userGateway->findConnectedUsersByRole($this->communityApplication->getRequestedUser(), $role['uid'])
+				'friends' => $userGateway->findConnectedUsersByRole($this->communityApplication->getRequestedUser(), $role['uid'], $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup),
+				'pagebrowser' => $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig),
 			);
 		}
 		

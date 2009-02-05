@@ -29,7 +29,7 @@ class tx_community_exception_UnknownProfile extends Exception {
 	}
 
 	function __toString() {
-		return "tx_community_exception_UnknownProfile at line {$this->getLine()} on {$this->getFile()} Message: {$this->getMessage()}";
+		return ''; # "tx_community_exception_UnknownProfile at line {$this->getLine()} on {$this->getFile()} Message: {$this->getMessage()}";
 	}
 }
 

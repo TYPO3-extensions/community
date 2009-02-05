@@ -150,7 +150,34 @@ plugin.tx_community {
 				}
 			}
 		}
-
+    listUsers {
+      pageBrowser < plugin.tx_pagebrowse_pi1
+			pageBrowser {
+				pageParameterName = tx_community_myfriends|page
+				numberOfEntriesPerPage = 1
+				disableCacheHash = 1
+				_LOCAL_LANG.de {
+					text_first = &laquo;
+					text_prev = &lsaquo;
+					text_next = &rsaquo;
+					text_last = &raquo;
+				}
+			}
+    }
+    searchUsers {
+      pageBrowser < plugin.tx_pagebrowse_pi1
+			pageBrowser {
+				pageParameterName = tx_community|page
+				numberOfEntriesPerPage = 5
+				disableCacheHash = 1
+				_LOCAL_LANG.de {
+					text_first = &laquo;
+					text_prev = &lsaquo;
+					text_next = &rsaquo;
+					text_last = &raquo;
+				}
+			}
+    }
 		search {
 
 			templateFile = EXT:community/resources/templates/search/index.htm
@@ -394,9 +421,9 @@ plugin.tx_community {
 }
 
 page.includeJS {
-	community_editgroup_form			= EXT:community/resources/jquery.form.js
+	community_editgroup_form		= EXT:community/resources/jquery.form.js
 	community_editgroup_autocomplete	= EXT:community/resources/jquery.autocomplete.js
-	community_editgroup_control			= EXT:community/resources/jquery_editgroup_control.js
+	community_editgroup_control		= EXT:community/resources/jquery_editgroup_control.js
 	community_editgroup_upload  		= EXT:community/resources/jquery.ocupload-1.1.1.js
 }
 

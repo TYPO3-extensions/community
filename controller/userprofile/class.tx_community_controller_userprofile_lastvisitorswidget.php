@@ -77,7 +77,8 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 			'tx_community_profile_visits_log',
 			'feuser = ' . $requestedUser->getUid(),
 			'',
-			'last_update DESC'
+			'last_update DESC',
+			'10'
 		);
 
 		$lastVisitorsUidArray = array();

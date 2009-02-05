@@ -36,10 +36,10 @@
 			<label index="information_activities">Activities</label>
 			<label index="information_interests">Interests</label>
 			<label index="information_favoriteMusic">Lieblingsmusik</label>
-			<label index="information_favoriteShows">Lienlings TV Sendung</label>
-			<label index="information_favoriteMovies">Lieblings Filme</label>
-			<label index="information_favoriteBooks">Lieblings Bücher</label>
-			<label index="information_aboutMe"><![CDATA[&Uuml;ber mich]]></label>
+			<label index="information_favoriteShows">Lienlingssendungen</label>
+			<label index="information_favoriteMovies">Lieblingsfilme</label>
+			<label index="information_favoriteBooks">Lieblingsbücher</label>
+			<label index="information_aboutMe"><![CDATA[Etwas &uuml;ber mich]]></label>
 			<label index="information_startdate">Dabei seit</label>
 			<label index="information_city">Wohnort</label>
 			<label index="information_date_of_birth">Geburtstag</label>
@@ -50,7 +50,7 @@
 			<label index="information_sex_m">männlich</label>			
 			<label index="information_my_data">Meine Daten</label>
 			<label index="information_my_startpage">Meine Startseite</label>
-			<label index="information_group_link">Meine Gruppen</label>
+			<label index="information_group_link">Meine Banden</label>
 			<label index="information_settings">Einstellungen</label>
 			<label index="information_messages">Nachrichten</label>
 		</languageKey>

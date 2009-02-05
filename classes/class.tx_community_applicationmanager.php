@@ -80,7 +80,6 @@ class tx_community_ApplicationManager {
 			$configuration,
 			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
 		);
-
 		$application = t3lib_div::getUserObj($this->applications[$applicationName]['classReference']);
 		$application->initialize($data, $configuration);
 

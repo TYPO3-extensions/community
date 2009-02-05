@@ -38,13 +38,23 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 
 	protected $userModel = array();
+	private $pageBrowser='';
+	private $userCount=0;
 
 	public function setUserModel(array $userModel) {
 		$this->userModel = $userModel;
 	}
+	
+	public function setUserCount($userCount) {
+		$this->userCount = $userCount;
+	}
+
+  public function setPageBrowser($pageBrowser) {
+    $this->pageBrowser=$pageBrowser;
+  }
 
 	public function render() {
-		$resultCounter = count($this->userModel);
+		$resultCounter = intval($this->userCount);
 		
 		$subpart = ($resultCounter > 0) ? 'user_list' : 'no_results';
 		
@@ -66,6 +76,7 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		$template->addVariable('result', array(
 			'counter'	=> $resultCounter
 		));
+		$template->addVariable('pagebrowser', array('pagebrowser'=>$this->pageBrowser));
 		
 		return $template->render();
 	}

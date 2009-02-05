@@ -44,6 +44,8 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 	 */
 	protected $groupGateway;
 	protected $request;
+	private $userCount=0;
+	
 
 	/**
 	 * constructor for class tx_community_controller_ListGroupsApplication
@@ -95,6 +97,10 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		/* @var $view tx_community_view_listGroups_Index */
 		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
+
+		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		$pageBrowserConfig['numberOfPages'] = ceil($this->groupGateway->getEntryCount() / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
 		
 		switch ($this->configuration['applications.']['listGroups.']['listType']) {
 			case 'usersGroups':
@@ -107,7 +113,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			break;
 			case 'allGroups':
 			default:
-				$groups = $this->groupGateway->getAllGroups();
+				$groups = $this->groupGateway->getAllGroups(true, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
 			break;	
 		}
 		
@@ -124,17 +130,19 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			}
 		}
 		
-		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
-		$pageBrowserConfig['numberOfPages'] = ceil(count($listGroupsArray) / $pageBrowserConfig['numberOfEntriesPerPage']);
-		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1; 
-		
-		$tmp = array();
+		/*$tmp = array();
 		for ($i=$firstGroup-1; $i<$firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
 			if (!is_null($listGroupsArray[$i])) {
 				$tmp[] = $listGroupsArray[$i];
 			}
+		}*/
+		//@TODO Check if this can happen at all. Might be no longer needed since we use the limited query.
+		foreach($listGroupsArray as $k=>$v) {
+			if(is_null($v)) {
+				unset($listGroupsArray[$k]);
+			}
 		}
-		$view->setGroups($tmp);
+		$view->setGroups($listGroupsArray);
 
 		$groupsDetailLink = $this->pi_getPageLink(
 			$this->configuration['pages.']['groupProfile'],
@@ -161,8 +169,14 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setLanguageKey($this->LLkey);
 		
 		$searchValue = $GLOBALS['TYPO3_DB']->quoteStr($this->request['quicksearch'], 'tx_community_group');
+		$whereClause = "name like '%{$searchValue}%'";
 		
-		$groups = $this->groupGateway->findByWhereClause("name like '%{$searchValue}%'");
+		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		$pageBrowserConfig['numberOfPages'] = ceil($this->groupGateway->getEntryCount($whereClause) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$pageBrowserConfig['extraQueryString'] = '&tx_community[action]=search&tx_community[quicksearch]=' . $searchValue;
+		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1;
+		
+		$groups = $this->groupGateway->findByWhereClause($whereClause, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
 		
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		
@@ -177,18 +191,20 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			}
 		}
 		
-		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
-		$pageBrowserConfig['numberOfPages'] = ceil(count($listGroupsArray) / $pageBrowserConfig['numberOfEntriesPerPage']);
-		$pageBrowserConfig['extraQueryString'] = '&tx_community[action]=search&tx_community[quicksearch]=' . $searchValue;
-		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1; 
-		
-		$tmp = array();
+		/*$tmp = array();
 		for ($i=$firstGroup-1; $i<$firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
 			if (!is_null($listGroupsArray[$i])) {
 				$tmp[] = $listGroupsArray[$i];
 			}
+		}*/
+		//@TODO Check if this can happen at all. Might be no longer needed since we use the limited query.
+		foreach($listGroupsArray as $k=>$v) {
+			if(is_null($v)) {
+				unset($listGroupsArray[$k]);
+			}
 		}
-		$view->setGroups($tmp);
+		
+		$view->setGroups($listGroupsArray);
 
 		$groupsDetailLink = $this->pi_getPageLink(
 			$this->configuration['pages.']['groupProfile'],
@@ -206,6 +222,10 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setPageBrowser($pageBrowser);
 		
 		return $view->render();
+	}
+	
+	public function setUserCount(array $userCount) {
+		$this->userCount = $userCount;
 	}
 }
 

@@ -35,7 +35,8 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 
 	protected $userListModel = array();
 	protected $templateFileReference;
-
+  private $pageBrowser;
+  private $userCount;
 	/**
 	 * constructor for class tx_community_controller_UserListApplication
 	 */
@@ -52,6 +53,10 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 		return $this->indexAction();
 	}
 
+  public function setPageBrowser($pageBrowser) {
+    $this->pageBrowser = $pageBrowser;
+  }
+
 	public function executeAction($actionName) {
 		// TODO implement a (this) method to call a specific action
 	}
@@ -63,7 +68,8 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 		$view->setLanguageKey($this->LLkey);
 
 		$view->setUserModel($this->userListModel);
-
+    $view->setUserCount($this->userCount);
+    $view->setPageBrowser($this->pageBrowser);
 		return $view->render();
 	}
 
@@ -73,6 +79,10 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 
 	public function setTemplateFile($templateFileReference) {
 		$this->templateFileReference = $templateFileReference;
+	}
+	
+	public function setUserCount($userCount) {
+		$this->userCount = $userCount;
 	}
 }
 

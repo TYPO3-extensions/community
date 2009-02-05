@@ -10,6 +10,7 @@
 			enctype: 'multipart/form-data',
 			action: '',
 			autoSubmit: true,
+			uploaderId: 'ajaxupload',
 			onSubmit: function() {},
 			onComplete: function() {},
 			onSelect: function() {},
@@ -24,7 +25,8 @@
 		var self = this;
 	
 		/** A unique id so we can find our elements later */
-		var id = new Date().getTime().toString().substr(8);
+		var id = new Date().getTime().toString().substr(8) + Math.random();
+		var id = options.uploaderId;
 		
 		/** Upload Iframe */
 		var iframe = $(

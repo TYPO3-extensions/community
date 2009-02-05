@@ -163,13 +163,12 @@ class tx_community_LocalizationManager {
 		} else {
 			$word = $this->alternativeLocalLanguageTestPrefix . $alternativeLabel;
 		}
-
+	
 		$output = $this->localLanguageTestPrefix . $word;
 
 		if ($hsc) {
 			$output = htmlspecialchars($output);
 		}
-
 		return $output;
 	}
 }

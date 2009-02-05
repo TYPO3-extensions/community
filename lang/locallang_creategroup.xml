@@ -6,15 +6,15 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="creategroup_createGroup">Create a new group</label>
-			<label index="creategroup_formSave">Create group</label>
-			<label index="creategroup_name">Name</label>
-			<label index="creategroup_description">Description</label>
-			<label index="creategroup_type">Type</label>
-			<label index="creategroup_type_open">Open: Membership is open and non-members can view content and participate.</label>
-			<label index="creategroup_type_membersOnly">Members Only: Membership is open and non-members can view content, but must join to participate.</label>
-			<label index="creategroup_type_private">Private: Membership is by invitation/approval only and only members can view content and participate.</label>
-			<label index="creategroup_type_secret">Secret: Membership is by invitation only, only members may participate, and the group is not listed in the group directory.</label>
+			<label index="creategroup_createGroup">Erstelle eine neue Bande</label>
+			<label index="creategroup_formSave">Bande gründen</label>
+			<label index="creategroup_name">Name deiner Bande</label>
+			<label index="creategroup_description">Was macht deine Bande aus?</label>
+			<label index="creategroup_type">Hier kannst du eine Regelung für die Mitgliedschaft in deiner Bande auswählen</label>
+			<label index="creategroup_type_open">Offene Bande: Jedes Huhn der Community kann die Inhalte deiner Bandensite lesen/bearbeiten und ohne deine Zustimmung Mitglied in deiner Bande werden.</label>
+			<label index="creategroup_type_membersOnly">Bande nur für Mitglieder: Jedes Huhn der Community kann ein Mitglied deiner Bande werden. Nur Mitglieder dürfen Inhalte bearbeiten. Die Inhalte der Bandensite können aber auch von Hühnern der Community gelesen werden, die kein Mitglied der Bande sind.</label>
+			<label index="creategroup_type_private">Private Bande: Nur eingeladene Hühner können ein Mitglied der Bande werden und nur sie können die Inhalte der Bandensite lesen und bearbeiten.</label>
+			<label index="creategroup_type_secret">Geheime Bande: Nur eingeladene Hühner können ein Mitglied der Bande werden. Nur die Mitglieder können Inhalte der Bandensite lesen und bearbeiten. Die Bande ist nicht im Bandenverzeichnis sichtbar.</label>
 			<label index="creategroup_errorMsg">Oops. An error occured while creating your group.</label>
 		</languageKey>
 	</data>

@@ -1,3 +1,8 @@
+2009-02-05 Michaek Knabe <mk@e-netconsulting.de>
+	
+	* added pagebrowser to "myfriends" and "searchapplication"
+	* changed the query for grouplist, so that it now is limited to the really needed groups
+
 2009-02-04 Frank Nägler <typo3@naegler.net>
 	
 	* add storeing of search parameters into session for search application 	

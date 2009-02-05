@@ -134,16 +134,48 @@ class tx_community_model_UserGateway {
 
 		return $users;
 	}
-
+  public function findConnectedUsersByRoleCount(tx_community_model_User $user, $roleId) {
+    $connectedUsers = array();
+		$limit = '';
+		if ($firstEntry !== null && $count !== null) {
+			$limit = "{$firstEntry},{$count}";
+		} else if ($firstEntry === null && $count !== null) {
+			$limit = $count;
+		}
+			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
+			// the old query find also unconfirmed user
+    $query = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'count(friend) AS count',
+			'tx_community_friend',
+			'feuser = ' . $user->getUid() . ' 
+				AND friend IN (
+					SELECT feuser
+					FROM tx_community_friend
+					WHERE friend = ' . $user->getUid() . '
+					AND role = ' . $roleId .'
+				)
+				AND role = ' . $roleId
+		);
+		$res =$GLOBALS['TYPO3_DB']->sql_fetch_assoc($query);
+		return $res['count'];
+}
 	/**
 	 * find users by its roles
 	 *
-	 * @param	tx_community_model_User	the user to find from which connections originate
-	 * @param	integer	A role id the connected users must have to be considered as a hit
-	 * @return	array of tx_community_model_User
+	 * @param	tx_community_model_User $user:	the user to find from which connections originate
+	 * @param	integer $roleId:	A role id the connected users must have to be considered as a hit
+	 * @param 	integer $count: The number of entries to fetch
+	 * @param 	integer $firstEntry: The entry to start from
+	 * @return	array An array of tx_community_model_User-instances
 	 */
-	public function findConnectedUsersByRole(tx_community_model_User $user, $roleId) {
+	public function findConnectedUsersByRole(tx_community_model_User $user, $roleId, $count=null, $firstEntry=null) {
 		$connectedUsers = array();
+		$limit = '';
+		if ($firstEntry !== null && $count !== null) {
+			$limit = "{$firstEntry},{$count}";
+		} else if ($firstEntry === null && $count !== null) {
+			$limit = $count;
+		}
 			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 			// the old query find also unconfirmed user
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -156,16 +188,19 @@ class tx_community_model_UserGateway {
 				. ' AND u.uid = fc.friend'
 */
 			'DISTINCT friend',
-			'tx_community_friend WHERE feuser = ' . $user->getUid() . ' 
+			'tx_community_friend',
+			'feuser = ' . $user->getUid() . ' 
 				AND friend IN (
 					SELECT feuser
 					FROM tx_community_friend
 					WHERE friend = ' . $user->getUid() . '
 					AND role = ' . $roleId .'
 				)
-				AND role = ' . $roleId .'
-			',
-			''
+				AND role = ' . $roleId,
+			//WHERE
+			'', //GROUP BY
+			'', //ORDER BY
+			$limit
 		);
 		if (is_array($userRows)) {
 			$friendUidList = array();
@@ -184,6 +219,18 @@ class tx_community_model_UserGateway {
 		return $connectedUsers;
 */
 	}
+	
+	public function getEntryCount($whereClause) {
+    $whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '1';
+		$query = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'count(*) as count',
+			'fe_users',
+			$whereClause
+				. self::$feUsersEnableFields
+		);
+		$res = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($query);
+		return $res['count'];
+  }
 
 	/**
 	 * finds users by a custom where clause
@@ -192,15 +239,25 @@ class tx_community_model_UserGateway {
 	 * @return	array	An array of tx_community_model_User objects
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function findByWhereClause($whereClause) {
+	public function findByWhereClause($whereClause, $count=null, $firstEntry=null) {
 		$foundUsers = array();
+
+    $limit = '';
+		if ($firstEntry !== null && $count !== null) {
+			$limit = "{$firstEntry},{$count}";
+		} else if ($firstEntry === null && $count !== null) {
+			$limit = $count;
+		}
 
 		$whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '1';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'DISTINCT fe_users.*',
 			'fe_users',
 			$whereClause
-				. self::$feUsersEnableFields
+				. self::$feUsersEnableFields,
+			'', //GROUP BY
+			'', //ORDER BY
+			$limit
 		);
 
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {

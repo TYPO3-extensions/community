@@ -50,6 +50,9 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 	 * @return unknown
 	 */
 	public function indexAction() {
+	  if (isset($communityRequest['searchkey'])) {
+	     return $this->searchAction();
+	  }
 		$view = t3lib_div::makeInstance('tx_community_view_search_Index');
 		/* @var $view tx_community_view_privacy_Index */
 		$view->setTemplateFile($this->configuration['applications.']['search.']['templateFile']);
@@ -92,40 +95,43 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$communityRequest    = t3lib_div::GParrayMerged('tx_community');
 		$searchConfiguration = $this->configuration['applications.']['search.'];
 		$whereClauses        = array();
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
-		foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
-			if (!empty($submittedParameterValue)
-				&& array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
-			) {
-				$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
-
-				$clauseParts = array();
-				$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
-				foreach ($searchInColumns as $columnName) {
-					if (!empty($searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode'])) {
-							// use a custom comparison
-						$clauseParts[] = $this->getWhereClause(
-							$columnName,
-							$filteredInput,
-							$searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode']
-						);
-					} else {
-							// use the default "equal" comparison
-						$clauseParts[] = $this->getWhereClause(
-							$columnName,
-							$filteredInput
-						);
-					}
-				}
-
-				$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
-			}
+		if (!isset($communityRequest['searchkey'])) {
+      foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
+  			if (!empty($submittedParameterValue)
+  				&& array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
+  			) {
+  				$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
+  
+  				$clauseParts = array();
+  				$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
+  				foreach ($searchInColumns as $columnName) {
+  					if (!empty($searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode'])) {
+  							// use a custom comparison
+  						$clauseParts[] = $this->getWhereClause(
+  							$columnName,
+  							$filteredInput,
+  							$searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode']
+  						);
+  					} else {
+  							// use the default "equal" comparison
+  						$clauseParts[] = $this->getWhereClause(
+  							$columnName,
+  							$filteredInput
+  						);
+  					}
+  				}
+  
+  				$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
+  			}
+  		}
+  		$whereClause = '';
+  		if (count($whereClauses) > 0) {
+  			$whereClause = implode(' AND ', $whereClauses);
+  		}
 		}
-		$whereClause = '';
-		if (count($whereClauses) > 0) {
-			$whereClause = implode(' AND ', $whereClauses);
-		}
-
+		
 			// look for a searchkey in request and get the searchparams from session.
 			// if no searchkey is found, create a new one and put into the session.
 			// we need this for smaller URLs in pageBrowser
@@ -136,9 +142,18 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 			$GLOBALS['tx_community_searchkey'] = $communityRequest['searchkey'];
 			$whereClause = $GLOBALS['TSFE']->fe_user->getKey("ses", $GLOBALS['tx_community_searchkey']);
 		}
-		
+
+		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
+    $userCount = $this->userGateway->getEntryCount($whereClause);
+    $pageBrowserConfig = $this->configuration['applications.']['searchUsers.']['pageBrowser.'];
+		$pageBrowserConfig['numberOfPages'] = ceil($userCount / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$pageBrowserConfig['extraQueryString'] = '&tx_community[searchkey]='.$GLOBALS['tx_community_searchkey']; 
+		$firstGroup = (isset($communityRequest['page'])) ? (intval($communityRequest['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
+
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
+		
+		$foundUsers  = $userGateway->findByWhereClause($whereClause, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
 		
 			// now use the user list to present the result
 		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication(
@@ -147,6 +162,8 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 			$this->configuration
 		);
 		$userList->setUserListModel($foundUsers);
+		$userList->setUserCount($userCount);
+		$userList->setPageBrowser($cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig));
 
 		return $userList->execute();
 	}

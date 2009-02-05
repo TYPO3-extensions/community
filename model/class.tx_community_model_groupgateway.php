@@ -81,7 +81,7 @@ class tx_community_model_GroupGateway {
 	 * @return	array	Array of tx_community_model_Group instances
 	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
-	public function getAllGroups($count = null, $firstEntry = null) {
+	public function getAllGroups($publicOnly=false, $count = null, $firstEntry = null) {
 		$groups = array();
 
 		$limit = '';
@@ -90,12 +90,10 @@ class tx_community_model_GroupGateway {
 		} else if ($firstEntry === null && $count !== null) {
 			$limit = $count;
 		}
-
-			// TODO: restrict to groupType, for example: type = 4 should not be returned by this function
-		$groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+    $groupRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',
 			'tx_community_group',
-			'1=1',
+			$publicOnly?'grouptype<'.tx_community_model_Group::TYPE_SECRET:'TRUE',
 			'',
 			'crdate DESC',
 			$limit
@@ -109,14 +107,37 @@ class tx_community_model_GroupGateway {
 	}
 	
 	/**
+	 * Returns the number of rows in the database
+	 *
+	 * @param string $where: An alternative where clause. Default is "TRUE" which means all rows.
+	 * @return int: The number of rows in the database
+	 * @author Michael Knabe <mk@e-netconsulting.de>
+	 */
+	public function getEntryCount($where = "TRUE", $publicOnly=false) {
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'COUNT(uid) AS count',
+			'tx_community_group',
+			$where.' AND '. $publicOnly?'grouptype<'.tx_community_model_Group::TYPE_SECRET:'TRUE'
+		);
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		return intval($row['count']);
+	}
+	
+	/**
 	 * finds groups by a custom where clause
 	 *
 	 * @param	string	where clause
 	 * @return	array	An array of tx_community_model_Group objects
 	 * @author	Frank Nägler <typo3@naegler.net>
 	 */
-	public function findByWhereClause($whereClause) {
-		$foundUsers = array();
+	public function findByWhereClause($whereClause, $count=null, $firstEntry=null) {
+		$groups = array();
+		$limit = '';
+		if ($firstEntry !== null && $count !== null) {
+			$limit = "{$firstEntry},{$count}";
+		} else if ($firstEntry === null && $count !== null) {
+			$limit = $count;
+		}
 
 		$whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '1';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -124,7 +145,8 @@ class tx_community_model_GroupGateway {
 			'tx_community_group',
 			$whereClause,
 			'',
-			'crdate DESC'
+			'crdate DESC',
+			$limit
 		);
 
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
