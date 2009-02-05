@@ -130,7 +130,9 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 							}
 						}
 					}
-					$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
+					if (count($clauseParts) > 0) {
+						$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
+					}
 				}
 			}
 			$whereClause = '';
