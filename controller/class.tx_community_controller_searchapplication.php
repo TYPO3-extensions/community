@@ -98,38 +98,38 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		if (!isset($communityRequest['searchkey'])) {
-      foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
-  			if (!empty($submittedParameterValue)
-  				&& array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
-  			) {
-  				$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
-  
-  				$clauseParts = array();
-  				$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
-  				foreach ($searchInColumns as $columnName) {
-  					if (!empty($searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode'])) {
-  							// use a custom comparison
-  						$clauseParts[] = $this->getWhereClause(
-  							$columnName,
-  							$filteredInput,
-  							$searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode']
-  						);
-  					} else {
-  							// use the default "equal" comparison
-  						$clauseParts[] = $this->getWhereClause(
-  							$columnName,
-  							$filteredInput
-  						);
-  					}
-  				}
-  
-  				$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
-  			}
-  		}
-  		$whereClause = '';
-  		if (count($whereClauses) > 0) {
-  			$whereClause = implode(' AND ', $whereClauses);
-  		}
+			foreach ($communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
+	  			if (
+	  				!empty($submittedParameterValue)
+	  				&&
+	  				array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
+	  			) {
+					$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
+					$clauseParts = array();
+					$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
+					foreach ($searchInColumns as $columnName) {
+						if (!empty($searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode'])) {
+								// use a custom comparison
+							$clauseParts[] = $this->getWhereClause(
+								$columnName,
+								$filteredInput,
+								$searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode']
+							);
+						} else {
+								// use the default "equal" comparison
+							$clauseParts[] = $this->getWhereClause(
+								$columnName,
+								$filteredInput
+							);
+						}
+					}
+					$whereClauses[] = '(' . implode(' OR ', $clauseParts) . ')';
+				}
+			}
+			$whereClause = '';
+			if (count($whereClauses) > 0) {
+				$whereClause = implode(' AND ', $whereClauses);
+			}
 		}
 		
 			// look for a searchkey in request and get the searchparams from session.
@@ -190,6 +190,10 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 
 	protected function getWhereClause($columnName, $value, $compareMode = 'equal') {
 		$clause = '';
+			// if we get an empty value, just return an empty string.
+		if (strlen($value) == 0) {
+			return $clause;
+		}
 
 		switch ($compareMode) {
 			case 'equal':

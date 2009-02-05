@@ -1,3 +1,7 @@
+2009-02-05 Frank Nägler <typo3@naegler.net>
+	
+	* search apllication controoler: added check in getWhereClause() => if we get an empty value, just return an empty string. else, this function returns a bad SQL where clause. 	
+
 2009-02-05 Michaek Knabe <mk@e-netconsulting.de>
 	
 	* added pagebrowser to "myfriends" and "searchapplication"
