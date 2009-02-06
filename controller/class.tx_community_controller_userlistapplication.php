@@ -75,6 +75,7 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 
 	public function setUserListModel(array $userListModel) {
 		$this->userListModel = $userListModel;
+		$this->setUserCount(count($this->userListModel)); 
 	}
 
 	public function setTemplateFile($templateFileReference) {

@@ -50,10 +50,8 @@ class tx_community_viewhelper_GetCObj implements tx_community_ViewHelper {
 	 */
 	public function execute(array $arguments = array()) {
 		$TSPath = $arguments[0];
-		
 		$first		= $this->getDataFromTSPath($TSPath);
 		$second		= $this->getDataFromTSPath($TSPath.'.');
-		
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		return $cObj->cObjGetSingle($first, $second);
 	}

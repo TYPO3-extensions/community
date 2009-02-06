@@ -172,7 +172,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$whereClause = "name like '%{$searchValue}%'";
 		
 		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
-		$pageBrowserConfig['numberOfPages'] = ceil($this->groupGateway->getEntryCount($whereClause) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$pageBrowserConfig['numberOfPages'] = ceil($this->groupGateway->getEntryCount($whereClause, true) / $pageBrowserConfig['numberOfEntriesPerPage']);
 		$pageBrowserConfig['extraQueryString'] = '&tx_community[action]=search&tx_community[quicksearch]=' . $searchValue;
 		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 1;
 		

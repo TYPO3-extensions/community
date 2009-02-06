@@ -117,7 +117,7 @@ class tx_community_model_GroupGateway {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'COUNT(uid) AS count',
 			'tx_community_group',
-			$where.' AND '. $publicOnly?'grouptype<'.tx_community_model_Group::TYPE_SECRET:'TRUE'
+			$where.' AND '. ($publicOnly?'grouptype<'.tx_community_model_Group::TYPE_SECRET:'TRUE')
 		);
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		return intval($row['count']);
