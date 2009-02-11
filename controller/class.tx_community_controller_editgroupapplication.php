@@ -339,6 +339,15 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								}
 							}
 						}
+						
+						$allMembers = $this->userGateway->findByWhereClause('tx_community_nickname = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($searchTerm, 'fe_users'));
+						if (count($allMembers)) {
+							foreach ($allMembers as $member) {
+								if (strpos(strtolower($member->getNickname()), strtolower($searchTerm)) !== false) {
+									$returnData[] = $member->getNickname().'|'.$member->getUid();
+								}
+							}
+						}
 						if (count($returnData)) {
 							$result = array(
 								'status' => 'success',
