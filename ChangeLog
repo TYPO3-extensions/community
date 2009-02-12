@@ -1,3 +1,8 @@
+2009-02-12 Frank Nägler <typo3@naegler.net>
+	
+	* added messages to the profileActions for new relations
+	* change removeRelationship method.
+
 2009-02-05 Frank Nägler <typo3@naegler.net>
 	
 	* search apllication controoler: added check in getWhereClause() => if we get an empty value, just return an empty string. else, this function returns a bad SQL where clause. 	

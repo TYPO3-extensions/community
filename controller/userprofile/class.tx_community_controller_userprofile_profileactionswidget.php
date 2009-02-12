@@ -176,19 +176,27 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		// @TODO: if $success send message to user with a hint to confirm the request
 		//        if it is a confirmation, send a message to the first requesting user
 		//        use community_messages, here is an example:
-		/*
+		if ($success) {
 			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? 'true' : 'false';
 			if ($isLoaded === 'true') {
 				$userGateway = new tx_community_model_UserGateway();
-				$user = $userGateway->findCurrentlyLoggedInUser();
+				$user = $this->communityApplication->getRequestingUser();
 				if ($user !== null) {
-					$subject = $this->localizationManager->getLL('systemmessage_subject');
-					$bodytext = $this->localizationManager->getLL('systemmessage_bodytext');
+					$subject = $this->localizationManager->getLL('systemmessage_new_relationship_subject');
+					$bodytext = $this->localizationManager->getLL('systemmessage_new_relationship_bodytext');
+					
+					$relationshipManagerUrl = $this->communityApplication->pi_getPageLink(
+						$this->configuration['pages.']['connectionManager']
+					);
+					
+					$bodytext = str_replace('###RELATIONSHIP_MANAGER_URL###', $relationshipManagerUrl, $bodytext);
+					$bodytext = str_replace('###NICKNAME###', $this->communityApplication->getRequestingUser()->getNickname(), $bodytext);
+					
 					$recipients = array($user);
 					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 				}
 			}
-		*/
+		}
 		return $success;
 	}
 
@@ -199,7 +207,13 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				. ' AND friend = ' . $this->communityApplication->getRequestedUser()->getUid()
 				. ' AND role = ' . $roleId
 		);
-
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_community_friend',
+			'friend = ' . $this->communityApplication->getRequestingUser()->getUid()
+				. ' AND feuser = ' . $this->communityApplication->getRequestedUser()->getUid()
+				. ' AND role = ' . $roleId
+		);
+		
 		// @TODO: if $success send message to user with a hint that the relationship was canceled
 		//        use community_messages, here is an example:
 		/*

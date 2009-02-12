@@ -15,6 +15,10 @@
 			<label index="action_friendshipRequestSent">Waiting for %s to confirm your friendship request</label>
 			<label index="relationship_edit">Edit your relationship to</label>
 			<label index="relationship_formSave">Save</label>
+			<label index="systemmessage_new_relationship_subject">new relationship request</label>
+			<label index="systemmessage_new_relationship_bodytext"><![CDATA[
+				you have a new realtionship request from ###NICKNAME###. <br/>
+				Visit <a href="###RELATIONSHIP_MANAGER_URL###">this page</a> to check and confirm or reject the new request.]]></label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="label_ProfileActionWidget">Profilaktionen</label>
@@ -26,6 +30,10 @@
 			<label index="action_friendshipRequestSent">Warte auf %s deine Anfrage zu bestätigen</label>
 			<label index="relationship_edit">Bearbeite deine Beziehung zu</label>
 			<label index="relationship_formSave">Speichern</label>
+			<label index="systemmessage_new_relationship_subject">Neue Freundschaftanfrage</label>
+			<label index="systemmessage_new_relationship_bodytext"><![CDATA[
+				Du hast eine Freundschaftsanfrage von ###NICKNAME### erhalten. <br/>
+				Gehe auf <a href="###RELATIONSHIP_MANAGER_URL###">diese Seite</a> um die neuen Anfragen zu prüfen und diese zu bestätigen oder abzulehen.]]></label>
 		</languageKey>
 	</data>
 </T3locallang>
