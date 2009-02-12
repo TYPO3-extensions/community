@@ -207,7 +207,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				) {
 					require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
 					$pointsAPI = new tx_communitypoints_api();
-					$pointsAPI->debit(1, 'Neue Freundschaft', 'add_friend');
+					$pointsAPI->deposit(1, 'Neue Freundschaft', 'add_friend');
 				}
 			}
 		}
@@ -232,10 +232,10 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		if ($isLoaded) {
 			require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
 			$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestingUser()->getUid());
-			$pointsAPI->deposit(1, 'Freundschaft beendet', 'remove_friend');
+			$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
 
 			$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestedUser()->getUid());
-			$pointsAPI->deposit(1, 'Freundschaft beendet', 'remove_friend');
+			$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
 		}
 		
 		// @TODO: if $success send message to user with a hint that the relationship was canceled
