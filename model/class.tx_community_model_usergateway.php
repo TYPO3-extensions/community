@@ -322,14 +322,10 @@ class tx_community_model_UserGateway {
 	 * @return	array	The user's unconfirmed friends requests as an array of tx_community_model_User objects
 	 * @author	Frank Nägler <typo3@naegler.net>
 	 */
-	public function findUnconfirmedFriends($user = null, $roleId = null) {
+	public function findUnconfirmedFriends($user = null) {
 		$friends = array();
 		if (is_null($user)) {
 			$user = $this->findCurrentlyLoggedInUser();
-		}
-		
-		if (is_null($roleId)) {
-			$roleId = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['accessManagement.']['addAsFriendDefaultRoleId'];
 		}
 
 			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
@@ -339,8 +335,7 @@ class tx_community_model_UserGateway {
 				AND feuser NOT IN (
 					SELECT friend
 					FROM tx_community_friend
-					WHERE role = ' . $roleId . '
-					AND	feuser = ' . $user->getUid() . '
+					WHERE feuser = ' . $user->getUid() . '
 				)
 			',
 			''
