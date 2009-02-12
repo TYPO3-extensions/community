@@ -53,12 +53,46 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 
 	public function indexAction() {
 		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
-		$friends = $this->communityApplication->getUserGateway()->findFriends(
+		/* $friends = $this->communityApplication->getUserGateway()->findFriends(
 			$this->communityApplication->getRequestedUser()
 		);
 
 		$friends = array_slice($friends, 0, $widgetTypoScriptConfiguration['maxNumberOfItemsShown']);
-
+		*/
+		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			"uid, EXTRACT(MONTH FROM FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) AS MXX, DAYOFMONTH(FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) AS DXX",
+			'fe_users',
+			"
+(
+	(
+		(
+			EXTRACT(MONTH FROM FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) = EXTRACT(MONTH FROM CURDATE())
+			AND
+			DAYOFMONTH(FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) >= DAYOFMONTH(CURDATE())
+		)
+		OR
+		(
+			EXTRACT(MONTH FROM SUBDATE(CURDATE(), INTERVAL 30 DAY)) > EXTRACT(MONTH FROM CURDATE())
+			AND
+			EXTRACT(MONTH FROM FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) = EXTRACT(MONTH FROM SUBDATE(CURDATE(), INTERVAL 30 DAY))
+			AND
+			DAYOFMONTH(FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) >= DAYOFMONTH(SUBDATE(CURDATE(), INTERVAL 30 DAY))
+		)
+	)	
+	AND
+	(
+		uid IN (
+			SELECT friend
+			FROM tx_community_friend
+			WHERE feuser = {$this->communityApplication->getRequestingUser()->getUid()}
+		)
+	)
+)			
+			",
+			'',
+			'MXX, DXX DESC'
+		);
+		
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_FriendsBirthdayList');
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.'][$this->name . '.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
