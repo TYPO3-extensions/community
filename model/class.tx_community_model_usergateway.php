@@ -322,20 +322,25 @@ class tx_community_model_UserGateway {
 	 * @return	array	The user's unconfirmed friends requests as an array of tx_community_model_User objects
 	 * @author	Frank Nägler <typo3@naegler.net>
 	 */
-	public function findUnconfirmedFriends($user = null) {
+	public function findUnconfirmedFriends($user = null, $roleId = null) {
 		$friends = array();
 		if (is_null($user)) {
 			$user = $this->findCurrentlyLoggedInUser();
 		}
+		
+		if (is_null($roleId)) {
+			$roleId = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']['accessManagement.']['addAsFriendDefaultRoleId'];
+		}
 
 			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'DISTINCT feuser',
+			'DISTINCT f1.feuser',
 			'tx_community_friend WHERE friend = ' . $user->getUid() . ' 
 				AND feuser NOT IN (
 					SELECT friend
 					FROM tx_community_friend
-					WHERE feuser = ' . $user->getUid() . '
+					WHERE role = ' . $roleId . '
+					AND	feuser = ' . $user->getUid() . '
 				)
 			',
 			''
