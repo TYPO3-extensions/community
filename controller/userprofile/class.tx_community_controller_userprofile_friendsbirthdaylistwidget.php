@@ -73,14 +73,12 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 			"IF (MMDD >= DATE_FORMAT(CURDATE(),'%m%d'),0,1), MMDD ASC"
 		);
 		
-		$idList = array();
+		$friends = array();
 		if (is_array($rows)) {
 			foreach ($rows as $row) {
-				$idList[] = $row['uid'];
+				$friends[] = $this->communityApplication->getUserGateway()->findById($row['uid']);
 			}
 		}
-		$friends = array();
-		$friends = $this->communityApplication->getUserGateway()->findByIdList(implode(',', $idList));
 		
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_FriendsBirthdayList');
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.'][$this->name . '.']['templateFile']);
