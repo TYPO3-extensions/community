@@ -230,16 +230,6 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				. ' AND role = ' . $roleId
 		);
 
-		$isLoaded = (t3lib_extMgm::isLoaded('community_points')) ? true : false;
-		if ($isLoaded) {
-			require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
-			$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestingUser()->getUid());
-			$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
-
-			$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestedUser()->getUid());
-			$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
-		}
-		
 		// @TODO: if $success send message to user with a hint that the relationship was canceled
 		//        use community_messages, here is an example:
 		/*
@@ -310,8 +300,17 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		);
 
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
+			$isLoaded = (t3lib_extMgm::isLoaded('community_points')) ? true : false;
+			if ($isLoaded) {
+				require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
+				$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestingUser()->getUid());
+				$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
+		
+				$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestedUser()->getUid());
+				$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
+			}
+			
 				// do a redirect to the profile page, no output
-
 			$profilePageUrl = $this->communityApplication->pi_getPageLink(
 				$this->configuration['pages.']['userProfile'],
 				'',
