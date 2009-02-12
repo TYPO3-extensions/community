@@ -334,7 +334,7 @@ class tx_community_model_UserGateway {
 
 			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'DISTINCT f1.feuser',
+			'DISTINCT feuser',
 			'tx_community_friend WHERE friend = ' . $user->getUid() . ' 
 				AND feuser NOT IN (
 					SELECT friend
