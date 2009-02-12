@@ -60,37 +60,17 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 		$friends = array_slice($friends, 0, $widgetTypoScriptConfiguration['maxNumberOfItemsShown']);
 		*/
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			"uid, EXTRACT(MONTH FROM FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) AS MXX, DAYOFMONTH(FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) AS DXX",
+			"uid, FROM_UNIXTIME(tx_community_birthday,'%m%d') as MMDD",
 			'fe_users',
 			"
-(
-	(
-		(
-			EXTRACT(MONTH FROM FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) = EXTRACT(MONTH FROM CURDATE())
-			AND
-			DAYOFMONTH(FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) >= DAYOFMONTH(CURDATE())
-		)
-		OR
-		(
-			EXTRACT(MONTH FROM SUBDATE(CURDATE(), INTERVAL 30 DAY)) > EXTRACT(MONTH FROM CURDATE())
-			AND
-			EXTRACT(MONTH FROM FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) = EXTRACT(MONTH FROM SUBDATE(CURDATE(), INTERVAL 30 DAY))
-			AND
-			DAYOFMONTH(FROM_UNIXTIME(tx_community_birthday, '%Y-%m-%d')) >= DAYOFMONTH(SUBDATE(CURDATE(), INTERVAL 30 DAY))
-		)
-	)	
-	AND
-	(
-		uid IN (
-			SELECT friend
-			FROM tx_community_friend
-			WHERE feuser = {$this->communityApplication->getRequestingUser()->getUid()}
-		)
-	)
-)			
+				uid IN (
+					SELECT friend
+					FROM tx_community_friend
+					WHERE feuser = {$this->communityApplication->getRequestingUser()->getUid()}
+				)
 			",
 			'',
-			'MXX, DXX DESC'
+			"IF (MMDD >= DATE_FORMAT(CURDATE(),'%m%d'),0,1), MMDD ASC"
 		);
 		
 		$idList = array();
