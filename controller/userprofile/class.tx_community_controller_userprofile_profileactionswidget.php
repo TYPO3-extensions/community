@@ -179,7 +179,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		if ($success) {
 			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? 'true' : 'false';
 			if ($isLoaded === 'true') {
-				$userGateway = new tx_community_model_UserGateway();
+				require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
 				$user = $this->communityApplication->getRequestingUser();
 				if ($user !== null) {
 					$subject = $this->localizationManager->getLL('systemmessage_new_relationship_subject');
