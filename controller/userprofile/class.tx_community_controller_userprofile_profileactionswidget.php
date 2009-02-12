@@ -177,8 +177,9 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		//        if it is a confirmation, send a message to the first requesting user
 		//        use community_messages, here is an example:
 		if ($success) {
-			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? 'true' : 'false';
-			if ($isLoaded === 'true') {
+			
+			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? true : false;
+			if ($isLoaded) {
 				require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
 				$user = $this->communityApplication->getRequestedUser();
 				if ($user !== null) {
@@ -194,6 +195,19 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 					
 					$recipients = array($user);
 					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
+				}
+			}
+			
+			$isLoaded = (t3lib_extMgm::isLoaded('community_points')) ? true : false;
+			if ($isLoaded) {
+				if (
+					$this->isFriend($this->communityApplication->getRequestingUser(), $this->communityApplication->getRequestedUser())
+					&&
+					$this->isFriend($this->communityApplication->getRequestedUser(), $this->communityApplication->getRequestingUser())
+				) {
+					require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
+					$pointsAPI = new tx_communitypoints_api();
+					$pointsAPI->debit(1, 'Neue Freundschaft', 'add_friend');
 				}
 			}
 		}
@@ -213,6 +227,16 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				. ' AND feuser = ' . $this->communityApplication->getRequestedUser()->getUid()
 				. ' AND role = ' . $roleId
 		);
+
+		$isLoaded = (t3lib_extMgm::isLoaded('community_points')) ? true : false;
+		if ($isLoaded) {
+			require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
+			$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestingUser()->getUid());
+			$pointsAPI->deposit(1, 'Freundschaft beendet', 'remove_friend');
+
+			$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestedUser()->getUid());
+			$pointsAPI->deposit(1, 'Freundschaft beendet', 'remove_friend');
+		}
 		
 		// @TODO: if $success send message to user with a hint that the relationship was canceled
 		//        use community_messages, here is an example:
