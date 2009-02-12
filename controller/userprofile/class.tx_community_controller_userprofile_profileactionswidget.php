@@ -206,7 +206,9 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 					$this->isFriend($this->communityApplication->getRequestedUser(), $this->communityApplication->getRequestingUser())
 				) {
 					require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
-					$pointsAPI = new tx_communitypoints_api();
+					$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestingUser());
+					$pointsAPI->deposit(1, 'Neue Freundschaft', 'add_friend');
+					$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestedUser());
 					$pointsAPI->deposit(1, 'Neue Freundschaft', 'add_friend');
 				}
 			}
