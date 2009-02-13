@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'interfaces/acl/interface.tx_community_acl_aclresource.php');
+require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
 /**
  * A community group
@@ -88,8 +89,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 
 		$localizationManagerClass = t3lib_div::makeInstanceClassName('tx_community_LocalizationManager');
-		$this->localizationManager = call_user_func(
-			array($localizationManagerClass, 'getInstance'),
+		$this->localizationManager = tx_community_LocalizationManager::getInstance(
 			'EXT:community/lang/locallang_group.xml',
 			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_community.']
 		);
