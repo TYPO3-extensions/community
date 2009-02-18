@@ -1,3 +1,7 @@
+2009-02-18 Frank Nägler <typo3@naegler.net>
+	
+	* added hook and interface to inviteApplication for additional markers in the invite email
+
 2009-02-12 Frank Nägler <typo3@naegler.net>
 	
 	* added messages to the profileActions for new relations

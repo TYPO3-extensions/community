@@ -93,33 +93,46 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 			$messageSubject = $localizationManager->getLL('invite_email_subject');
 			$messageBody    = $localizationManager->getLL('invite_email_body');
 
-			$messageSubject = str_replace(
-				array(
-					'###COMMUNITY_NAME###',
-					'###USER.combinedName###'
-				),
-				array(
-					$communityConfiguration['general.']['communityName'],
-					$requestingUser->getCombinedName()
-				),
-				$messageSubject
+			$subjectMarkers = array(
+				'###COMMUNITY_NAME###' 		=> $communityConfiguration['general.']['communityName'],
+				'###USER.combinedName###'	=> $requestingUser->getCombinedName()
+			);
+			
+			$bodytextMarkers = array(
+				'###NAME###'				=> $recipientName,
+				'###COMMUNITY_NAME###'		=> $communityConfiguration['general.']['communityName'],
+				'###USER.combinedName###'	=> $requestingUser->getCombinedName(),
+				'###REGISTRATION_LINK###'	=> t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->pi_getPageLink($communityConfiguration['pages.']['userRegistration'])
 			);
 
-			$messageBody = str_replace(
-				array(
-					'###NAME###',
-					'###COMMUNITY_NAME###',
-					'###USER.combinedName###',
-					'###REGISTRATION_LINK###'
-				),
-				array(
-					$recipientName,
-					$communityConfiguration['general.']['communityName'],
-					$requestingUser->getCombinedName(),
-					t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->pi_getPageLink($communityConfiguration['pages.']['userRegistration'])
-				),
-				$messageBody
-			);
+				// hook for additional subject markers
+			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['inviteApplication']['getSubjectMarkers'])) {
+				foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['inviteApplication']['getSubjectMarkers'] as $classReference) {
+					$hookObject = & t3lib_div::getUserObj($classReference);
+					if ($hookObject instanceof tx_community_InviteProvider) {
+						$subjectMarkers = $hookObject->getSubjectMarkers($subjectMarkers, $this);
+					}
+	
+				}
+			}
+			
+				// hook for additional bodytext markers
+			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['inviteApplication']['getBodytextMarkers'])) {
+				foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['inviteApplication']['getBodytextMarkers'] as $classReference) {
+					$hookObject = & t3lib_div::getUserObj($classReference);
+					if ($hookObject instanceof tx_community_InviteProvider) {
+						$bodytextMarkers = $hookObject->getBodytextMarkers($bodytextMarkers, $this);
+					}
+	
+				}
+			}
+			
+			foreach ($subjectMarkers as $search => $replace) {
+				$messageSubject = str_replace($search, $replace, $messageSubject);
+			}
+			foreach ($bodytextMarkers as $search => $replace) {
+				$messageBody = str_replace($search, $replace, $messageBody);
+			}
 
 			t3lib_div::plainMailEncoded(
 				$recipientEmail,
