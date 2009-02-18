@@ -41,7 +41,7 @@ interface tx_community_InviteProvider {
 	 * @param	tx_community_controller_InviteApplication	the parent invite application
 	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
-	public function getSubjectMarker(array $subjectMarker, tx_community_controller_InviteApplication $inviteApplication);
+	public function getSubjectMarkers(array $subjectMarker, tx_community_controller_InviteApplication $inviteApplication);
 
 	/**
 	 * gets a modified array of bodytext marker for the user invite mail
@@ -50,7 +50,7 @@ interface tx_community_InviteProvider {
 	 * @param	tx_community_controller_InviteApplication	the parent invite application
 	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
-	public function getBodytextMarker(array $bodytextMarker, tx_community_controller_InviteApplication $inviteApplication);
+	public function getBodytextMarkers(array $bodytextMarker, tx_community_controller_InviteApplication $inviteApplication);
 }
 
 ?>
