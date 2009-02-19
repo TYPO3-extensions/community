@@ -167,7 +167,8 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 		);
 
 		$view->setMessage($localizationManager->getLL('invite_message_error'));
-
+		$view->setMessageClass('error');
+		
 		return $view->render();
 	}
 
@@ -182,7 +183,8 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 		);
 
 		$view->setMessage($localizationManager->getLL('invite_message_success'));
-
+		$view->setMessageClass('success');
+		
 		return $view->render();
 	}
 }

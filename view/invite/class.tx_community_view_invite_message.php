@@ -33,9 +33,14 @@
 class tx_community_view_invite_Message extends tx_community_view_AbstractView {
 
 	protected $message;
+	protected $message_class;
 
 	public function setMessage($message) {
 		$this->message = $message;
+	}
+
+	public function setMessageClass($message_class) {
+		$this->message_class = $message_class;
 	}
 
 	public function render() {
@@ -47,6 +52,7 @@ class tx_community_view_invite_Message extends tx_community_view_AbstractView {
 		);
 
 		$template->addMarker('message', $this->message);
+		$template->addMarker('message_class', $this->message_class);
 
 		return $template->render();
 	}
