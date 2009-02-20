@@ -1,3 +1,7 @@
+2009-02-20 Frank Nägler <typo3@naegler.net>
+	
+	* added config for mail headers in invteApplication
+
 2009-02-19 Frank Nägler <typo3@naegler.net>
 	
 	* added new marker ###MESSAGE_CLASS### to tx_community_view_invite_Message

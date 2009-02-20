@@ -134,12 +134,16 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 				$messageBody = str_replace($search, $replace, $messageBody);
 			}
 
+			$headers = (isset($communityConfiguration['general.']['mailHeaders'])) ? $communityConfiguration['general.']['mailHeaders'] : '';
+			
 			t3lib_div::plainMailEncoded(
 				$recipientEmail,
 				$messageSubject,
-				$messageBody
+				$messageBody,
+				$headers
 			);
 
+			
 			$successMessageUrl = $this->pi_getPageLink(
 				$GLOBALS['TSFE']->id,
 				'',

@@ -36,6 +36,8 @@ plugin.tx_community {
 		communityName = My Community
 
 		dateFormat.date = d.m.Y
+		
+		mailHeaders =
 	}
 
 	applications {
