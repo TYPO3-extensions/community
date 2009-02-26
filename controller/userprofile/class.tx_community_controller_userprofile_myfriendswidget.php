@@ -55,13 +55,12 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 
 		$pageBrowserConfig = $this->configuration['applications.']['listUsers.']['pageBrowser.'];
 
-		if ($this->communityApplication->getName() == 'userProfile') {
-			$user = $this->communityApplication->getRequestedUser();
-		}
 		if ($this->communityApplication->getName() == 'StartPage') {
 			$user = $this->communityApplication->getRequestingUser();
+		} else {
+			$user = $this->communityApplication->getRequestedUser();
 		}
-				
+		
 		$roleData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid, name',
 			'tx_community_acl_role',
