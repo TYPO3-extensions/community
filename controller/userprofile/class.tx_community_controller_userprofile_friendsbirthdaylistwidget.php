@@ -59,6 +59,11 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 
 		$friends = array_slice($friends, 0, $widgetTypoScriptConfiguration['maxNumberOfItemsShown']);
 		*/
+		if ($this->getCommunityApplication()->getName() == 'StartPage') {
+			$user = $this->getCommunityApplication()->getRequestingUser();
+		} else {
+			$user = $this->getCommunityApplication()->getRequestedUser();
+		}
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			"uid, FROM_UNIXTIME(tx_community_birthday,'%m%d') as MMDD",
 			'fe_users',
@@ -66,7 +71,7 @@ class tx_community_controller_userprofile_FriendsBirthdayListWidget extends tx_c
 				uid IN (
 					SELECT friend
 					FROM tx_community_friend
-					WHERE feuser = {$this->communityApplication->getRequestingUser()->getUid()}
+					WHERE feuser = {$user->getUid()}
 				)
 			",
 			'',
