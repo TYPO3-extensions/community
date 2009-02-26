@@ -1,3 +1,7 @@
+2009-02-26 Frank Nägler <typo3@naegler.net>
+	
+	* added support for userProfile and startpage on myFriendsWidget
+
 2009-02-20 Frank Nägler <typo3@naegler.net>
 	
 	* added config for mail headers in invteApplication

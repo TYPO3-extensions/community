@@ -54,32 +54,40 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		$pageBrowserConfig = $this->configuration['applications.']['listUsers.']['pageBrowser.'];
-		
+
+		if ($this->communityApplication->getName() == 'userProfile') {
+			$user = $this->communityApplication->getRequestedUser();
+		}
+		if ($this->communityApplication->getName() == 'StartPage') {
+			$user = $this->communityApplication->getRequestingUser();
+		}
+				
 		$roleData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid, name',
 			'tx_community_acl_role',
 			'is_friend_role = 1 AND deleted = 0 AND hidden = 0' 
-		);
-		$friendsByRole = array();
-		foreach ($roleData as $role) {
-      $firstGroup = (isset($this->request['page_'.$role['uid']])) ? (intval($this->request['page_'.$role['uid']]+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
-			$pageBrowserConfig['numberOfPages'] = ceil($userGateway->findConnectedUsersByRoleCount($this->communityApplication->getRequestedUser(), $role['uid']) / max($pageBrowserConfig['numberOfEntriesPerPage'],1));
-			$pageBrowserConfig['pageParameterName'] = 'tx_community_myfriends|page_'.$role['uid'];
-			$friendsByRole[] = array(
+			);
+			$friendsByRole = array();
+			foreach ($roleData as $role) {
+				$firstGroup = (isset($this->request['page_'.$role['uid']])) ? (intval($this->request['page_'.$role['uid']]+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
+				$pageBrowserConfig['numberOfPages'] = ceil($userGateway->findConnectedUsersByRoleCount($user->getRequestedUser(), $role['uid']) / max($pageBrowserConfig['numberOfEntriesPerPage'],1));
+				$pageBrowserConfig['pageParameterName'] = 'tx_community_myfriends|page_'.$role['uid'];
+				$friendsByRole[] = array(
 				'uid' => $role['uid'],
 				'name' => $role['name'],
-				'friends' => $userGateway->findConnectedUsersByRole($this->communityApplication->getRequestedUser(), $role['uid'], $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup),
+				'friends' => $userGateway->findConnectedUsersByRole($user->getRequestedUser(), $role['uid'], $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup),
 				'pagebrowser' => $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig),
-			);
-		}
-		
-		$view = t3lib_div::makeInstance('tx_community_view_userprofile_Myfriends');
-		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['myFriends.']['templateFile']);
-		$view->setLanguageKey($this->communityApplication->LLkey);
-		$view->setFriendsModel($friendsByRole);
+				);
+			}
 
-		return $view->render();
+			$view = t3lib_div::makeInstance('tx_community_view_userprofile_Myfriends');
+			$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['myFriends.']['templateFile']);
+			$view->setLanguageKey($this->communityApplication->LLkey);
+			$view->setFriendsModel($friendsByRole);
+
+			return $view->render();
 	}
+
 
 
 	/**
@@ -91,9 +99,9 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 		$requestedUser = $this->communityApplication->getRequestedUser();
 
 		$resourceId = $this->communityApplication->getName()
-			. '_' . $this->name
-			. '_' . $this->accessMode
-			. '_' . $requestedUser->getUid();
+		. '_' . $this->name
+		. '_' . $this->accessMode
+		. '_' . $requestedUser->getUid();
 
 		return $resourceId;
 	}
