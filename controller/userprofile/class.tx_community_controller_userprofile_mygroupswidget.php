@@ -50,8 +50,15 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 
 	public function indexAction() {
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
+		
+		if ($this->getCommunityApplication()->getName() == 'StartPage') {
+			$user = $this->getCommunityApplication()->getRequestingUser();
+		} else {
+			$user = $this->getCommunityApplication()->getRequestedUser();
+		}
+		
 		$groups = $groupGateway->findGroupsByUser(
-			$this->communityApplication->getRequestedUser()
+			$user
 		);
 
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_MyGroups');
