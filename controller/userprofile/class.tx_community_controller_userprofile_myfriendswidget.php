@@ -70,12 +70,12 @@ class tx_community_controller_userprofile_MyFriendsWidget extends tx_community_c
 			$friendsByRole = array();
 			foreach ($roleData as $role) {
 				$firstGroup = (isset($this->request['page_'.$role['uid']])) ? (intval($this->request['page_'.$role['uid']]+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
-				$pageBrowserConfig['numberOfPages'] = ceil($userGateway->findConnectedUsersByRoleCount($user->getRequestedUser(), $role['uid']) / max($pageBrowserConfig['numberOfEntriesPerPage'],1));
+				$pageBrowserConfig['numberOfPages'] = ceil($userGateway->findConnectedUsersByRoleCount($user, $role['uid']) / max($pageBrowserConfig['numberOfEntriesPerPage'],1));
 				$pageBrowserConfig['pageParameterName'] = 'tx_community_myfriends|page_'.$role['uid'];
 				$friendsByRole[] = array(
 				'uid' => $role['uid'],
 				'name' => $role['name'],
-				'friends' => $userGateway->findConnectedUsersByRole($user->getRequestedUser(), $role['uid'], $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup),
+				'friends' => $userGateway->findConnectedUsersByRole($user, $role['uid'], $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup),
 				'pagebrowser' => $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig),
 				);
 			}
