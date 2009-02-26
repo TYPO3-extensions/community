@@ -167,6 +167,10 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	public function getCssClass() {
 		return $this->cssClass;
 	}
+	
+	public function setLabel($label) {
+		$this->label = $label;
+	}
 
 	abstract public function indexAction();
 }
