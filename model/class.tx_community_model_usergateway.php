@@ -47,10 +47,10 @@ class tx_community_model_UserGateway {
 			$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
 			self::$feUsersEnableFields = $pageSelect->enableFields(
 				'fe_users'
-			);
+				);
 
 				// free up some memory
-			unset($pageSelect);
+				unset($pageSelect);
 		}
 	}
 
@@ -74,7 +74,7 @@ class tx_community_model_UserGateway {
 			); // TODO restrict to certain part of the tree, enablefields
 			$userRow = $userRow[0];
 
-				// TODO first check whether we got exactly one result
+			// TODO first check whether we got exactly one result
 			if (is_array($userRow)) {
 				$user = $this->createUserFromRow($userRow);
 			}
@@ -98,15 +98,15 @@ class tx_community_model_UserGateway {
 			'*',
 			'fe_users',
 			'tx_community_nickname = \'' . $nickname.'\''
-		); // TODO restrict to certain part of the tree, enablefields
-		$userRow = $userRow[0];
+			); // TODO restrict to certain part of the tree, enablefields
+			$userRow = $userRow[0];
 
 			// TODO first check whether we got exactly one result
-		if (is_array($userRow)) {
-			$user = $this->createUserFromRow($userRow);
-		}
+			if (is_array($userRow)) {
+				$user = $this->createUserFromRow($userRow);
+			}
 
-		return $user;
+			return $user;
 	}
 
 
@@ -126,25 +126,26 @@ class tx_community_model_UserGateway {
 			'*',
 			'fe_users',
 			'uid IN (' . $cleanUidList . ')'
-		); // TODO restrict to certain part of the tree, enablefields
+			); // TODO restrict to certain part of the tree, enablefields
 
-		foreach($userRows as $userRow) {
-			$users[] = $this->createUserFromRow($userRow);
-		}
+			foreach($userRows as $userRow) {
+				$users[] = $this->createUserFromRow($userRow);
+			}
 
-		return $users;
+			return $users;
 	}
-  public function findConnectedUsersByRoleCount(tx_community_model_User $user, $roleId) {
-    $connectedUsers = array();
+
+	public function findConnectedUsersByRoleCount(tx_community_model_User $user, $roleId) {
+		$connectedUsers = array();
 		$limit = '';
 		if ($firstEntry !== null && $count !== null) {
 			$limit = "{$firstEntry},{$count}";
 		} else if ($firstEntry === null && $count !== null) {
 			$limit = $count;
 		}
-			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
-			// the old query find also unconfirmed user
-    $query = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
+		// the old query find also unconfirmed user
+		$query = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'count(friend) AS count',
 			'tx_community_friend',
 			'feuser = ' . $user->getUid() . ' 
@@ -158,7 +159,8 @@ class tx_community_model_UserGateway {
 		);
 		$res =$GLOBALS['TYPO3_DB']->sql_fetch_assoc($query);
 		return $res['count'];
-}
+	}
+
 	/**
 	 * find users by its roles
 	 *
@@ -176,17 +178,17 @@ class tx_community_model_UserGateway {
 		} else if ($firstEntry === null && $count !== null) {
 			$limit = $count;
 		}
-			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
-			// the old query find also unconfirmed user
+		// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
+		// the old query find also unconfirmed user
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-/*
+		/*
 			'DISTINCT u.*',
 			'fe_users AS u, tx_community_friend AS fc', // fc = friend connection
 			'fc.feuser = ' . $user->getUid()
-				. ' AND fc.role = ' . $roleId
-				. ' AND fc.hidden = 0'
-				. ' AND u.uid = fc.friend'
-*/
+			. ' AND fc.role = ' . $roleId
+			. ' AND fc.hidden = 0'
+			. ' AND u.uid = fc.friend'
+			*/
 			'DISTINCT friend',
 			'tx_community_friend',
 			'feuser = ' . $user->getUid() . ' 
@@ -197,10 +199,10 @@ class tx_community_model_UserGateway {
 					AND role = ' . $roleId .'
 				)
 				AND role = ' . $roleId,
-			//WHERE
+		//WHERE
 			'', //GROUP BY
 			'', //ORDER BY
-			$limit
+		$limit
 		);
 		if (is_array($userRows)) {
 			$friendUidList = array();
@@ -211,26 +213,26 @@ class tx_community_model_UserGateway {
 		}
 
 		return $connectedUsers;
-/*		
-		while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		/*
+		 while ($userRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			$connectedUsers[] = $this->createUserFromRow($userRow);
-		}
+			}
 
-		return $connectedUsers;
-*/
+			return $connectedUsers;
+			*/
 	}
-	
+
 	public function getEntryCount($whereClause) {
-    $whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '1';
+		$whereClause = strlen($whereClause) ? '(' . $whereClause . ')' : '1';
 		$query = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'count(*) as count',
 			'fe_users',
-			$whereClause
-				. self::$feUsersEnableFields
+		$whereClause
+		. self::$feUsersEnableFields
 		);
 		$res = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($query);
 		return $res['count'];
-  }
+	}
 
 	/**
 	 * finds users by a custom where clause
@@ -242,7 +244,7 @@ class tx_community_model_UserGateway {
 	public function findByWhereClause($whereClause, $count=null, $firstEntry=null) {
 		$foundUsers = array();
 
-    $limit = '';
+		$limit = '';
 		if ($firstEntry !== null && $count !== null) {
 			$limit = "{$firstEntry},{$count}";
 		} else if ($firstEntry === null && $count !== null) {
@@ -253,11 +255,11 @@ class tx_community_model_UserGateway {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'DISTINCT fe_users.*',
 			'fe_users',
-			$whereClause
-				. self::$feUsersEnableFields,
+		$whereClause
+		. self::$feUsersEnableFields,
 			'', //GROUP BY
 			'', //ORDER BY
-			$limit
+		$limit
 		);
 
 		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
@@ -282,17 +284,17 @@ class tx_community_model_UserGateway {
 			$user = $this->findCurrentlyLoggedInUser();
 		}
 
-			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
-			// the old query find also unconfirmed user
+		// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
+		// the old query find also unconfirmed user
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-/*
+		/*
 			'DISTINCT f1.friend',
 			'tx_community_friend as f1 JOIN tx_community_friend AS f2'
 			. ' ON f1.feuser = f2.friend
-				AND f1.friend = f2.feuser
-				AND f1.feuser = ' . $user->getUid(),
+			AND f1.friend = f2.feuser
+			AND f1.feuser = ' . $user->getUid(),
 			''
-*/
+			*/
 			'DISTINCT friend',
 			'tx_community_friend WHERE feuser = ' . $user->getUid() . ' 
 				AND friend IN (
@@ -302,19 +304,19 @@ class tx_community_model_UserGateway {
 				)
 			',
 			''
-		);
+			);
 
-		if (is_array($userRows)) {
-			$friendUidList = array();
-			foreach($userRows as $userRow) {
-				$friendUidList[] = $userRow['friend'];
+			if (is_array($userRows)) {
+				$friendUidList = array();
+				foreach($userRows as $userRow) {
+					$friendUidList[] = $userRow['friend'];
+				}
+				$friends = $this->findByIdList(implode(',', $friendUidList));
 			}
-			$friends = $this->findByIdList(implode(',', $friendUidList));
-		}
 
-		return $friends;
+			return $friends;
 	}
-	
+
 	/**
 	 * finds a user's open friend request
 	 *
@@ -328,7 +330,7 @@ class tx_community_model_UserGateway {
 			$user = $this->findCurrentlyLoggedInUser();
 		}
 
-			// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
+		// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'DISTINCT feuser',
 			'tx_community_friend WHERE friend = ' . $user->getUid() . ' 
@@ -339,17 +341,17 @@ class tx_community_model_UserGateway {
 				)
 			',
 			''
-		);
-		
-		if (is_array($userRows)) {
-			$friendUidList = array();
-			foreach($userRows as $userRow) {
-				$friendUidList[] = $userRow['feuser'];
-			}
-			$friends = $this->findByIdList(implode(',', $friendUidList));
-		}
+			);
 
-		return $friends;
+			if (is_array($userRows)) {
+				$friendUidList = array();
+				foreach($userRows as $userRow) {
+					$friendUidList[] = $userRow['feuser'];
+				}
+				$friends = $this->findByIdList(implode(',', $friendUidList));
+			}
+
+			return $friends;
 	}
 
 	/**
@@ -374,21 +376,21 @@ class tx_community_model_UserGateway {
 			. ' ON f1.feuser = f2.friend
 				AND f1.friend = f2.feuser
 				AND f1.feuser = ' . $user->getUid()
-				. ' JOIN fe_sessions AS fses ON fses.ses_userid = f1.friend
+			. ' JOIN fe_sessions AS fses ON fses.ses_userid = f1.friend
 					AND fses.ses_tstamp >= ' . ($_SERVER['REQUEST_TIME'] - $onlineTimeout),
 			''
-		);
+			);
 
-		if (is_array($userRows)) {
-			$onlineFriendUidList = array();
-			foreach($userRows as $userRow) {
-				$onlineFriendUidList[] = $userRow['friend'];
+			if (is_array($userRows)) {
+				$onlineFriendUidList = array();
+				foreach($userRows as $userRow) {
+					$onlineFriendUidList[] = $userRow['friend'];
+				}
+				$onlineFriends = $this->findByIdList(implode(',', $onlineFriendUidList));
 			}
-			$onlineFriends = $this->findByIdList(implode(',', $onlineFriendUidList));
-		}
 
 
-		return $onlineFriends;
+			return $onlineFriends;
 	}
 
 	/**
