@@ -149,8 +149,8 @@ plugin.tx_community {
 				}
 			}
 		}
-    listUsers {
-      pageBrowser < plugin.tx_pagebrowse_pi1
+		listUsers {
+			pageBrowser < plugin.tx_pagebrowse_pi1
 			pageBrowser {
 				pageParameterName = tx_community_myfriends|page
 				numberOfEntriesPerPage = 10
@@ -162,9 +162,9 @@ plugin.tx_community {
 					text_last = &raquo;
 				}
 			}
-    }
-    searchUsers {
-      pageBrowser < plugin.tx_pagebrowse_pi1
+		}
+		searchUsers {
+			pageBrowser < plugin.tx_pagebrowse_pi1
 			pageBrowser {
 				pageParameterName = tx_community|page
 				numberOfEntriesPerPage = 10
@@ -176,9 +176,8 @@ plugin.tx_community {
 					text_last = &raquo;
 				}
 			}
-    }
+		}
 		search {
-
 			templateFile = EXT:community/resources/templates/search/index.htm
 
 			widgets {
