@@ -2,41 +2,41 @@
 
 	* added square thumbnails
 
-2009-02-26 Frank Nägler <typo3@naegler.net>
+2009-02-26 Frank Naegler <typo3@naegler.net>
 
 	* added support for userProfile and startpage on myFriendsWidget
 
-2009-02-20 Frank Nägler <typo3@naegler.net>
+2009-02-20 Frank Naegler <typo3@naegler.net>
 
 	* added config for mail headers in invteApplication
 
-2009-02-19 Frank Nägler <typo3@naegler.net>
+2009-02-19 Frank Naegler <typo3@naegler.net>
 
 	* added new marker ###MESSAGE_CLASS### to tx_community_view_invite_Message
 
-2009-02-18 Frank Nägler <typo3@naegler.net>
+2009-02-18 Frank Naegler <typo3@naegler.net>
 
 	* added hook and interface to inviteApplication for additional markers in the invite email
 
-2009-02-12 Frank Nägler <typo3@naegler.net>
+2009-02-12 Frank Naegler <typo3@naegler.net>
 
 	* added messages to the profileActions for new relations
 	* change removeRelationship method.
 
-2009-02-05 Frank Nägler <typo3@naegler.net>
+2009-02-05 Frank Naegler <typo3@naegler.net>
 
 	* search apllication controoler: added check in getWhereClause() => if we get an empty value, just return an empty string. else, this function returns a bad SQL where clause.
 
-2009-02-05 Michaek Knabe <mk@e-netconsulting.de>
+2009-02-05 Michael Knabe <mk@e-netconsulting.de>
 
 	* added pagebrowser to "myfriends" and "searchapplication"
 	* changed the query for grouplist, so that it now is limited to the really needed groups
 
-2009-02-04 Frank Nägler <typo3@naegler.net>
+2009-02-04 Frank Naegler <typo3@naegler.net>
 
 	* add storeing of search parameters into session for search application
 
-2009-02-03 Frank Nägler <typo3@naegler.net>
+2009-02-03 Frank Naegler <typo3@naegler.net>
 
 	* add delete functionality for group videos
 	* add $count = null, $firstEntry = null as arguments for tx_community_model_GroupGateway->getAllGroups to use limit in query
