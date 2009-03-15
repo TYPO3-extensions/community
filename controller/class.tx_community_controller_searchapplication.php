@@ -40,7 +40,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		parent::__construct();
 
 		$this->communityRequest = t3lib_div::GParrayMerged('tx_community');
-		
+
 		$this->prefixId = 'tx_community_controller_SearchApplication';
 		$this->scriptRelPath = 'controller/class.tx_community_controller_searchapplication.php';
 		$this->name = 'search';
@@ -99,8 +99,9 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		if (!isset($this->communityRequest['searchkey'])) {
+debug($this->communityRequest['profileSearch']);
 			foreach ($this->communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
-	  			if (
+				if (
 	  				!empty($submittedParameterValue)
 	  				&&
 	  				array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
@@ -108,6 +109,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 					$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
 					$clauseParts = array();
 					$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
+
 					foreach ($searchInColumns as $columnName) {
 						if (!empty($searchConfiguration['searchFields.'][$submittedParameterName . '.']['compareMode'])) {
 								// use a custom comparison
@@ -135,17 +137,18 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 					}
 				}
 			}
+
 			$whereClause = '';
 			if (count($whereClauses) > 0) {
 				$whereClause = implode(' AND ', $whereClauses);
 			}
 		}
-		
+
 			// look for a searchkey in request and get the searchparams from session.
 			// if no searchkey is found, create a new one and put into the session.
 			// we need this for smaller URLs in pageBrowser
 		if (!isset($this->communityRequest['searchkey'])) {
-			$GLOBALS['tx_community_searchkey'] = 'tx_community_searchkey_'.md5(time()); 
+			$GLOBALS['tx_community_searchkey'] = 'tx_community_searchkey_'.md5(time());
 			$GLOBALS['TSFE']->fe_user->setKey("ses", $GLOBALS['tx_community_searchkey'], $whereClause);
 		} else {
 			$GLOBALS['tx_community_searchkey'] = $this->communityRequest['searchkey'];
@@ -156,14 +159,14 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$userCount = $this->userGateway->getEntryCount($whereClause);
 		$pageBrowserConfig = $this->configuration['applications.']['searchUsers.']['pageBrowser.'];
 		$pageBrowserConfig['numberOfPages'] = ceil($userCount / $pageBrowserConfig['numberOfEntriesPerPage']);
-		$pageBrowserConfig['extraQueryString'] = '&tx_community[searchkey]='.$GLOBALS['tx_community_searchkey']; 
+		$pageBrowserConfig['extraQueryString'] = '&tx_community[searchkey]='.$GLOBALS['tx_community_searchkey'];
 		$firstGroup = (isset($this->communityRequest['page'])) ? (intval($this->communityRequest['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
 
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
 		$foundUsers  = $userGateway->findByWhereClause($whereClause);
-		
+
 		$foundUsers  = $userGateway->findByWhereClause($whereClause, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
-		
+
 			// now use the user list to present the result
 		$userList = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplication(
 			'userList',
@@ -199,24 +202,22 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 
 	protected function getWhereClause($columnName, $value, $compareMode = 'equal') {
 		$clause = '';
-			// if we get an empty value, just return an empty string.
-		if (strlen($value) == 0) {
-			return $clause;
-		}
 
-		switch ($compareMode) {
-			case 'equal':
-				if (is_string($value)) {
-					$value = '\'' . $value . '\'';
-				}
+		if (strlen($value) > 0) {
+			switch ($compareMode) {
+				case 'equal':
+					if (is_string($value)) {
+						$value = '\'' . $value . '\'';
+					}
 
-				$clause = $columnName . ' = ' . $value;
-				break;
-			case 'like':
-				$clause = $columnName . ' LIKE \'%' . $value . '%\'';
-				break;
-			default:
-				// TODO throw an unknown column exception
+					$clause = $columnName . ' = ' . $value;
+					break;
+				case 'like':
+					$clause = $columnName . ' LIKE \'%' . $value . '%\'';
+					break;
+				default:
+					// TODO throw an unknown column exception
+			}
 		}
 
 		return $clause;
