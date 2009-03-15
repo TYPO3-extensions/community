@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_widget.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
 
 /**
@@ -58,12 +59,12 @@ class tx_community_view_userprofile_MyFriends extends tx_community_view_Abstract
 			'tx_community_viewhelper_Link'
 		);
 
-		
+
 		$template->addSubpart('roles', $this->renderRoles());
 
 		return $template->render();
 	}
-	
+
 	protected function renderRoles() {
 		$content = '';
 		foreach ($this->friendsModel as $role) {
@@ -73,17 +74,11 @@ class tx_community_view_userprofile_MyFriends extends tx_community_view_Abstract
 				$this->templateFile,
 				'roles'
 			);
-	
-			$template->addViewHelper(
-				'ts',
-				'tx_community_viewhelper_Ts'
-			);
-	
-			$template->addViewHelper(
-				'link',
-				'tx_community_viewhelper_Link'
-			);
-			
+
+			$template->addViewHelper('ts',    'tx_community_viewhelper_Ts');
+			$template->addViewHelper('widget', 'tx_community_viewhelper_Widget');
+			$template->addViewHelper('link',   'tx_community_viewhelper_Link');
+
 			$template->addVariable('role', $role);
 			if (is_array($role['friends'])) {
 				$template->addLoop('friends', 'user', $role['friends']);
@@ -91,7 +86,7 @@ class tx_community_view_userprofile_MyFriends extends tx_community_view_Abstract
 
 			$content .= $template->render();
 		}
-		
+
 		return $content;
 	}
 }
