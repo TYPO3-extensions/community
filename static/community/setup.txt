@@ -36,8 +36,6 @@ plugin.tx_community {
 		communityName = My Community
 
 		dateFormat.date = d.m.Y
-		
-		mailHeaders =
 	}
 
 	applications {
@@ -62,9 +60,8 @@ plugin.tx_community {
 					squaredThumbnail = IMAGE
 					squaredThumbnail {
 						file < plugin.tx_community.applications.userProfile.widgets.image.defaultImage
-							// TODO add cropping
-						file.maxW = 75
-						file.maxH = 75
+						file.width = 75c
+						file.height = 75c
 					}
 				}
 
