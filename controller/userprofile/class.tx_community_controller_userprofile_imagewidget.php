@@ -79,9 +79,14 @@ class tx_community_controller_userprofile_ImageWidget extends tx_community_contr
 	 * @return	string	the thumbnail image as HTML tag
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function thumbnailAction() {
+	public function thumbnailAction(array $arguments = array()) {
 		$requestedUser = $this->communityApplication->getRequestedUser();
 		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
+
+		if (!empty($arguments['userId']) && $arguments['userId'] > 0) {
+				// override requested user
+			$requestedUser = $this->communityApplication->getUserGateway()->findById($arguments['userId']);
+		}
 
 		$profileImageConfiguration = array(
 			$widgetTypoScriptConfiguration['thumbnail'],
