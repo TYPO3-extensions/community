@@ -214,6 +214,7 @@ class tx_community_Template {
 				'LOOP:',
 				false
 			);
+
 			$currentIterationContent = $this->processInLoopMarkers(
 				$currentIterationContent,
 				$loopName,
