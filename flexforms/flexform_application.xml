@@ -18,7 +18,7 @@
 								<type>select</type>
 								<items>
 									<numIndex index="0">
-										<numIndex index="0"></numIndex>
+										<numIndex index="0"> - </numIndex>
 										<numIndex index="1">0</numIndex>
 									</numIndex>
 								</items>
@@ -34,7 +34,7 @@
 								<type>select</type>
 								<items>
 									<numIndex index="0">
-										<numIndex index="0"></numIndex>
+										<numIndex index="0"> - </numIndex>
 										<numIndex index="1">0</numIndex>
 									</numIndex>
 								</items>
