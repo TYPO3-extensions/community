@@ -71,8 +71,9 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 				// no specific action requested, call the default action
 			$widgetAction = $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'][$widgetName]['defaultAction'];
 		}
-		$widgetAction = $widgetAction . 'Action';
 
+		$widgetAction = $widgetAction . 'Action';
+		
 		$actionArguments = array_slice($arguments, 3);
 		if (!is_array($actionArguments)) {
 			$actionArguments = array();
