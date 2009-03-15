@@ -34,8 +34,9 @@ require_once($GLOBALS['PATH_community'] . 'view/privacy/class.tx_community_view_
  * @subpackage community
  */
 class tx_community_controller_PrivacyApplication extends tx_community_controller_AbstractCommunityApplication {
+
 	protected $dataSaved = false;
-	
+
 	/**
 	 * constructor for class tx_community_controller_PrivacyApplication
 	 */
