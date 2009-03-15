@@ -55,9 +55,9 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 
 	public function render() {
 		$resultCounter = intval($this->userCount);
-		
+
 		$subpart = ($resultCounter > 0) ? 'user_list' : 'no_results';
-		
+
 		$templateClass = t3lib_div::makeInstanceClassName('tx_community_Template');
 		$template = new $templateClass(
 			t3lib_div::makeInstance('tslib_cObj'),
@@ -66,16 +66,17 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		);
 		/* @var $template tx_community_Template */
 
-		$template->addViewHelper('ts', 'tx_community_viewhelper_Ts');
-		$template->addViewHelper('link', 'tx_community_viewhelper_Link');
-		$template->addViewHelper('date','tx_community_viewhelper_Date');
-		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
-		$template->addViewHelper('cobj','tx_community_viewhelper_GetCObj');
-		
+		$template->addViewHelper('ts',     'tx_community_viewhelper_Ts');
+		$template->addViewHelper('link',   'tx_community_viewhelper_Link');
+		$template->addViewHelper('date',   'tx_community_viewhelper_Date');
+		$template->addViewHelper('widget', 'tx_community_viewhelper_Widget');
+		$template->addViewHelper('cobj',   'tx_community_viewhelper_GetCObj');
+
 		$template->addLoop('users', 'user', $this->userModel);
 		$template->addVariable('result', array(
 			'counter'	=> $resultCounter
 		));
+
 		$template->addVariable('pagebrowser', array('pagebrowser'=>$this->pageBrowser));
 		
 		return $template->render();
