@@ -57,7 +57,12 @@ class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractV
 			'link',
 			'tx_community_viewhelper_Link'
 		);
-
+		
+		$template->addViewHelper(
+			'cObj',
+			'tx_community_viewhelper_cObj'
+		);
+		
 		$template->addLoop('groups', 'group', $this->groupModel);
 
 		return $template->render();
