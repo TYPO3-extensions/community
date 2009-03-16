@@ -86,7 +86,7 @@ class tx_community_controller_groupprofile_BirthdayListWidget extends tx_communi
 		$view = t3lib_div::makeInstance('tx_community_view_groupprofile_BirthdayList');
 		$view->setTemplateFile($this->configuration['applications.']['groupProfile.']['widgets.'][$this->name . '.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
-		$view->setUserModel($friends);
+		$view->setUserModel($members);
 
 		return $view->render();
 	}
