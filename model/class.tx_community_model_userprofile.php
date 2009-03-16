@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -47,7 +47,7 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 	protected $uid = 0;
 	protected $request;
 	protected $editable = false;
-	
+
 	/**
 	 * constructor for class tx_community_model_UserProfile
 	 */
@@ -55,7 +55,7 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 		$this->userGateway	= new tx_community_model_UserGateway();
 		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();
 		$this->request		= t3lib_div::_GP('tx_community');
-		
+
 		if ($this->loggedinUser !== null) {
 			$this->uid		= $this->loggedinUser->getUid();
 		}
@@ -70,25 +70,25 @@ class tx_community_model_UserProfile extends tx_community_model_AbstractProfile 
 				}
 			}
 		}
-		
-		
-		
+
+
+
 		if ($this->uid == 0) {
 			throw new tx_community_exception_NoProfileId();
 		}
-		
+
 		if ($this->uid > 0) {
 			$user = $this->userGateway->findById($this->uid);
 			if (is_null($user)) {
 				throw new tx_community_exception_UnknownProfile();
 			}
 		}
-		
+
 		if ($this->loggedinUser !== null) {
 			$this->editable	= ($this->loggedinUser->getUid() == $this->uid) ? true : false;
 		}
 	}
-	
+
 	public function isEditable() {
 		return $this->editable;
 	}

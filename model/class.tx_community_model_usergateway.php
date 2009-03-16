@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Ingo Renner <ingo@typo3.org>
+ *  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -148,7 +148,7 @@ class tx_community_model_UserGateway {
 		$query = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'count(friend) AS count',
 			'tx_community_friend',
-			'feuser = ' . $user->getUid() . ' 
+			'feuser = ' . $user->getUid() . '
 				AND friend IN (
 					SELECT feuser
 					FROM tx_community_friend
@@ -191,7 +191,7 @@ class tx_community_model_UserGateway {
 			*/
 			'DISTINCT friend',
 			'tx_community_friend',
-			'feuser = ' . $user->getUid() . ' 
+			'feuser = ' . $user->getUid() . '
 				AND friend IN (
 					SELECT feuser
 					FROM tx_community_friend
@@ -296,7 +296,7 @@ class tx_community_model_UserGateway {
 			''
 			*/
 			'DISTINCT friend',
-			'tx_community_friend WHERE feuser = ' . $user->getUid() . ' 
+			'tx_community_friend WHERE feuser = ' . $user->getUid() . '
 				AND friend IN (
 					SELECT feuser
 					FROM tx_community_friend
@@ -322,7 +322,7 @@ class tx_community_model_UserGateway {
 	 *
 	 * @param	tx_community_model_User	The user to find the friends for, optional, if not set or set to null the currently logged in user will be taken
 	 * @return	array	The user's unconfirmed friends requests as an array of tx_community_model_User objects
-	 * @author	Frank Nägler <typo3@naegler.net>
+	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
 	public function findUnconfirmedFriends($user = null) {
 		$friends = array();
@@ -333,7 +333,7 @@ class tx_community_model_UserGateway {
 		// @TODO: maybe we must change this query, because the IN statement and subselect is not so fast
 		$userRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'DISTINCT feuser',
-			'tx_community_friend WHERE friend = ' . $user->getUid() . ' 
+			'tx_community_friend WHERE friend = ' . $user->getUid() . '
 				AND feuser NOT IN (
 					SELECT friend
 					FROM tx_community_friend

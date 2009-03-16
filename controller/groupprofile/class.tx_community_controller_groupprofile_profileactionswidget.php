@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,7 +38,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $localizationManager;
-	
+
 	/**
 	 * @var tx_community_controller_EditGroupApplication
 	 */
@@ -92,10 +92,10 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 		if ($requestingUser->getUid() !== 0) {
 			$requestedGroup = $this->communityApplication->getRequestedGroup();
 			$groupType = $requestedGroup->getGroupType();
-			
+
 			$communityRequest = t3lib_div::GParrayMerged('tx_community');
 			$inviteHash = $communityRequest['inviteHash'];
-			
+
 			$checkHash = md5($requestedGroup->getUid() . $requestedGroup->getCrdate() . $requestingUser->getUid());
 			if ($checkHash == $inviteHash) {
 				$requestedGroup->addMember($requestingUser, true);
@@ -240,7 +240,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 			if ($requestedGroup->isAdmin($requestingUser) && $requestedGroup->getNumberOfMembers() > 1) {
 				$content = $this->localizationManager->getLL('action_isAdminOfGroup');
 			}
-			
+
 		} else {
 			$content = $this->communityApplication->pi_linkTP(
 				 $this->localizationManager->getLL('action_joinGroup'),

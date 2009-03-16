@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -97,7 +97,7 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 				'###COMMUNITY_NAME###' 		=> $communityConfiguration['general.']['communityName'],
 				'###USER.combinedName###'	=> $requestingUser->getCombinedName()
 			);
-			
+
 			$bodytextMarkers = array(
 				'###NAME###'				=> $recipientName,
 				'###COMMUNITY_NAME###'		=> $communityConfiguration['general.']['communityName'],
@@ -112,10 +112,10 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 					if ($hookObject instanceof tx_community_InviteProvider) {
 						$subjectMarkers = $hookObject->getSubjectMarkers($subjectMarkers, $this);
 					}
-	
+
 				}
 			}
-			
+
 				// hook for additional bodytext markers
 			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['inviteApplication']['getBodytextMarkers'])) {
 				foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['inviteApplication']['getBodytextMarkers'] as $classReference) {
@@ -123,10 +123,10 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 					if ($hookObject instanceof tx_community_InviteProvider) {
 						$bodytextMarkers = $hookObject->getBodytextMarkers($bodytextMarkers, $this);
 					}
-	
+
 				}
 			}
-			
+
 			foreach ($subjectMarkers as $search => $replace) {
 				$messageSubject = str_replace($search, $replace, $messageSubject);
 			}
@@ -135,7 +135,7 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 			}
 
 			$headers = (isset($communityConfiguration['general.']['mailHeaders'])) ? $communityConfiguration['general.']['mailHeaders'] : '';
-			
+
 			t3lib_div::plainMailEncoded(
 				$recipientEmail,
 				$messageSubject,
@@ -143,7 +143,7 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 				$headers
 			);
 
-			
+
 			$successMessageUrl = $this->pi_getPageLink(
 				$GLOBALS['TSFE']->id,
 				'',
@@ -172,7 +172,7 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 
 		$view->setMessage($localizationManager->getLL('invite_message_error'));
 		$view->setMessageClass('error');
-		
+
 		return $view->render();
 	}
 
@@ -188,7 +188,7 @@ class tx_community_controller_InviteApplication extends tx_community_controller_
 
 		$view->setMessage($localizationManager->getLL('invite_message_success'));
 		$view->setMessageClass('success');
-		
+
 		return $view->render();
 	}
 }

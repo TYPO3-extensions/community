@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -44,7 +44,7 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 	public function setUserModel(array $userModel) {
 		$this->userModel = $userModel;
 	}
-	
+
 	public function setUserCount($userCount) {
 		$this->userCount = $userCount;
 	}
@@ -78,7 +78,7 @@ class tx_community_view_userlist_Index extends tx_community_view_AbstractView {
 		));
 
 		$template->addVariable('pagebrowser', array('pagebrowser'=>$this->pageBrowser));
-		
+
 		return $template->render();
 	}
 }

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -70,13 +70,13 @@ class tx_community_controller_userprofile_LastVisitorsWidget extends tx_communit
 	 */
 	public function indexAction() {
 		$content = '';
-		
+
 		if ($this->getCommunityApplication()->getName() == 'StartPage') {
 			$user  = $this->communityApplication->getRequestingUser();
 		} else {
 			$user  = $this->communityApplication->getRequestedUser();
 		}
-		
+
 
 		$lastVisitorsRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'visitor',

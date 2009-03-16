@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -66,21 +66,21 @@ class tx_community_view_userprofile_PersonalInformation extends tx_community_vie
 				'llKey'        => $this->languageKey
 			)
 		);
-		
+
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
 
 		$template->addViewHelper('cobj','tx_community_viewhelper_GetCObj');
 
 		$template->addViewHelper('date','tx_community_viewhelper_Date');
-		
+
 		$template->addViewHelper('age','tx_community_viewhelper_Age');
-		
+
 		$template->addViewHelper('zodiacsign','tx_community_viewhelper_ZodiacSign');
-		
+
 		$template->addViewHelper('ts','tx_community_viewhelper_Ts');
-		
+
 		$template->addViewHelper('link','tx_community_viewhelper_Link');
-		
+
 		$template->addVariable('user', $this->userModel);
 
 		return $template->render();

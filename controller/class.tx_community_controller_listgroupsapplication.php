@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@ require_once($GLOBALS['PATH_community'] . 'view/listgroups/class.tx_community_vi
 /**
  * Edit Group Application Controller
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -45,7 +45,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 	protected $groupGateway;
 	protected $request;
 	private $userCount=0;
-	
+
 
 	/**
 	 * constructor for class tx_community_controller_ListGroupsApplication
@@ -67,7 +67,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$applicationConfiguration = $GLOBALS['TX_COMMUNITY']['applicationManager']->getApplicationConfiguration(
 			$this->getName()
 		);
-		
+
 		switch ($this->request['action']) {
 			case 'search':
 				$content = $this->searchAction();
@@ -78,7 +78,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			break;
 		}
 
-		
+
 
 		return $content;
 	}
@@ -101,7 +101,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
 		$pageBrowserConfig['numberOfPages'] = ceil($this->groupGateway->getEntryCount() / $pageBrowserConfig['numberOfEntriesPerPage']);
 		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
-		
+
 		switch ($this->configuration['applications.']['listGroups.']['listType']) {
 			case 'usersGroups':
 				$user = $this->getRequestedUser();
@@ -114,11 +114,11 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			case 'allGroups':
 			default:
 				$groups = $this->groupGateway->getAllGroups(true, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
-			break;	
+			break;
 		}
-		
+
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
-		
+
 		$listGroupsArray = array();
 		foreach ($groups as $group) {
 			if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
@@ -129,7 +129,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 				$listGroupsArray[] = $group;
 			}
 		}
-		
+
 		/*$tmp = array();
 		for ($i=$firstGroup-1; $i<$firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
 			if (!is_null($listGroupsArray[$i])) {
@@ -156,30 +156,30 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setGroupDetailLink($groupsDetailLink);
 
 		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig);
-	
+
 		$view->setPageBrowser($pageBrowser);
-		
+
 		return $view->render();
 	}
-	
+
 	protected function searchAction() {
 		$view = t3lib_div::makeInstance('tx_community_view_listGroups_Index');
 		/* @var $view tx_community_view_listGroups_Index */
 		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
-		
+
 		$searchValue = $GLOBALS['TYPO3_DB']->quoteStr($this->request['quicksearch'], 'tx_community_group');
 		$whereClause = "name like '%{$searchValue}%'";
-		
+
 		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
 		$pageBrowserConfig['numberOfPages'] = ceil($this->groupGateway->getEntryCount($whereClause, true) / $pageBrowserConfig['numberOfEntriesPerPage']);
 		$pageBrowserConfig['extraQueryString'] = '&tx_community[action]=search&tx_community[quicksearch]=' . $searchValue;
 		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] + 1 : 0;
-		
+
 		$groups = $this->groupGateway->findByWhereClause($whereClause, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
-		
+
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
-		
+
 		$listGroupsArray = array();
 		foreach ($groups as $group) {
 			if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
@@ -190,7 +190,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 				$listGroupsArray[] = $group;
 			}
 		}
-		
+
 		/*$tmp = array();
 		for ($i=$firstGroup-1; $i<$firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']-1; $i++) {
 			if (!is_null($listGroupsArray[$i])) {
@@ -203,7 +203,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 				unset($listGroupsArray[$k]);
 			}
 		}
-		
+
 		$view->setGroups($listGroupsArray);
 
 		$groupsDetailLink = $this->pi_getPageLink(
@@ -218,12 +218,12 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setGroupDetailLink($groupsDetailLink);
 
 		$pageBrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig);
-	
+
 		$view->setPageBrowser($pageBrowser);
-		
+
 		return $view->render();
 	}
-	
+
 	public function setUserCount(array $userCount) {
 		$this->userCount = $userCount;
 	}

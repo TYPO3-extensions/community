@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -50,13 +50,13 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 
 	public function indexAction() {
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
-		
+
 		if ($this->getCommunityApplication()->getName() == 'StartPage') {
 			$user = $this->getCommunityApplication()->getRequestingUser();
 		} else {
 			$user = $this->getCommunityApplication()->getRequestedUser();
 		}
-		
+
 		$groups = $groupGateway->findGroupsByUser(
 			$user
 		);

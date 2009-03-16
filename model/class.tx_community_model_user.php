@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Ingo Renner <ingo@typo3.org>
+ *  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -314,7 +314,7 @@ class tx_community_model_User implements tx_community_acl_AclResource, tx_commun
 	public function getExtraField($field) {
 		return $this->$field;
 	}
-	
+
 	public function setExtraField($field,$value) {
 		$this->$field = $value;
 	}

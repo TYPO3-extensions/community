@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,7 +31,7 @@ require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_userga
 /**
  * index view for the edit group application
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -52,7 +52,7 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 	public function setGroups($groups) {
 		$this->groups = $groups;
 	}
-	
+
 	public function setPageBrowser($pageBrowser) {
 		$this->pageBrowser = $pageBrowser;
 	}
@@ -91,7 +91,7 @@ class tx_community_view_listGroups_Index extends tx_community_view_AbstractView 
 			'link',
 			'tx_community_viewhelper_Link'
 		);
-		
+
 		$template->addMarker('pagebrowser', $this->pageBrowser);
 		$template->addLoop('groups', 'group', $this->groups);
 

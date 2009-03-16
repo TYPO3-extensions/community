@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,7 +42,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 	 * @var tx_community_LocalizationManager
 	 */
 	protected $llManager;
-	
+
 	/**
 	 * constructor for class tx_community_controller_GroupProfileApplication
 	 */
@@ -320,7 +320,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							$bodytext = $this->llManager->getLL('invite_bodytext');
 							$bodytext = str_replace('###ACCEPT_LINK###', $inviteUrl, $bodytext);
 							$bodytext = str_replace('###GROUP_NAME###', $requestedGroup->getName(), $bodytext);
-							
+
 							if ($this->messageAPILoaded) {
 								tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 							}
@@ -339,7 +339,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 								}
 							}
 						}
-						
+
 						$allMembers = $this->userGateway->findByWhereClause('tx_community_nickname = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($searchTerm, 'fe_users'));
 						if (count($allMembers)) {
 							foreach ($allMembers as $member) {
@@ -415,11 +415,11 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 				$communityRequest['groupVideo'] = '';
 				if (t3lib_extMgm::isLoaded('community_flexiblelayout')) {
 					require_once(t3lib_extMgm::extPath('community_flexiblelayout').'classes/class.tx_communityflexiblelayout_layoutmanager.php');
-					
+
 					$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_communityflexiblelayout.']['controller.']['dashboard.'];
-					
+
 					$profile = tx_community_ProfileFactory::createProfile('groupProfile');
-					
+
 					$layoutManager = new tx_communityflexiblelayout_LayoutManager();
 					$layoutManager->putWidgetToClipboard($conf['communityID'], 'groupProfile', $profile->getUid(), 'communityVideoWidget');
 				}
@@ -434,7 +434,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 		} else {
 			return false;
 		}
-	}	
+	}
 
 	/**
 	 * returns the Resource identifier

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -88,7 +88,7 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 						)
 					)
 				);
-				
+
 				if ($this->configuration['pages.']['groupEdit.']['locationHash']) {
 					$editGroupUrl .= $this->configuration['pages.']['groupEdit.']['locationHash'];
 				}

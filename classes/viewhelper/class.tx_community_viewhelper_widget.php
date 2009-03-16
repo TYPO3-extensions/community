@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -73,7 +73,7 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 		}
 
 		$widgetAction = $widgetAction . 'Action';
-		
+
 		$actionArguments = array_slice($arguments, 3);
 		if (!is_array($actionArguments)) {
 			$actionArguments = array();

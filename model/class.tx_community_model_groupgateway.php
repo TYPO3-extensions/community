@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Frank Nägler <typo3@naegler.net>
+ *  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -76,7 +76,7 @@ class tx_community_model_GroupGateway {
 	/**
 	 * finds all groups
 	 *
-	 * @param 	int	$count count of results 
+	 * @param 	int	$count count of results
 	 * @param 	int	$firstEntry the first entry in result (first = 0)
 	 * @return	array	Array of tx_community_model_Group instances
 	 * @author	Frank Naegler <typo3@naegler.net>
@@ -105,7 +105,7 @@ class tx_community_model_GroupGateway {
 
 		return $groups;
 	}
-	
+
 	/**
 	 * Returns the number of rows in the database
 	 *
@@ -122,13 +122,13 @@ class tx_community_model_GroupGateway {
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		return intval($row['count']);
 	}
-	
+
 	/**
 	 * finds groups by a custom where clause
 	 *
 	 * @param	string	where clause
 	 * @return	array	An array of tx_community_model_Group objects
-	 * @author	Frank Nägler <typo3@naegler.net>
+	 * @author	Frank Naegler <typo3@naegler.net>
 	 */
 	public function findByWhereClause($whereClause, $count=null, $firstEntry=null) {
 		$groups = array();
@@ -173,7 +173,7 @@ class tx_community_model_GroupGateway {
 			'tx_community_group_members_mm,tx_community_group',
 			'uid_local = uid and uid_foreign = ' . $user->getUid(),
 			'',
-			$sorting						
+			$sorting
 		);
 
 		foreach ($groupRows as $groupRow) {

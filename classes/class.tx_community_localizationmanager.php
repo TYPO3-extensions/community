@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Frank Naegler <typo3@naegler.net>
+ *  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -163,7 +163,7 @@ class tx_community_LocalizationManager {
 		} else {
 			$word = $this->alternativeLocalLanguageTestPrefix . $alternativeLabel;
 		}
-	
+
 		$output = $this->localLanguageTestPrefix . $word;
 
 		if ($hsc) {

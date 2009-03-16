@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -177,7 +177,7 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 		//        if it is a confirmation, send a message to the first requesting user
 		//        use community_messages, here is an example:
 		if ($success) {
-			
+
 			$isLoaded = (t3lib_extMgm::isLoaded('community_messages')) ? true : false;
 			if ($isLoaded) {
 				require_once(t3lib_extMgm::extPath('community_messages').'classes/class.tx_communitymessages_api.php');
@@ -185,19 +185,19 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				if ($user !== null) {
 					$subject = $this->localizationManager->getLL('systemmessage_new_relationship_subject');
 					$bodytext = $this->localizationManager->getLL('systemmessage_new_relationship_bodytext');
-					
+
 					$relationshipManagerUrl = $this->communityApplication->pi_getPageLink(
 						$this->configuration['pages.']['connectionManager']
 					);
-					
+
 					$bodytext = str_replace('###RELATIONSHIP_MANAGER_URL###', $relationshipManagerUrl, $bodytext);
 					$bodytext = str_replace('###NICKNAME###', $this->communityApplication->getRequestingUser()->getNickname(), $bodytext);
-					
+
 					$recipients = array($user);
 					tx_communitymessages_API::sendSystemMessage($subject, $bodytext, $recipients);
 				}
 			}
-			
+
 			$isLoaded = (t3lib_extMgm::isLoaded('community_points')) ? true : false;
 			if ($isLoaded) {
 				if (
@@ -305,11 +305,11 @@ class tx_community_controller_userprofile_ProfileActionsWidget extends tx_commun
 				require_once(t3lib_extMgm::extPath('community_points').'lib/class.tx_communitypoints_api.php');
 				$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestingUser()->getUid());
 				$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
-		
+
 				$pointsAPI = new tx_communitypoints_api($this->communityApplication->getRequestedUser()->getUid());
 				$pointsAPI->debit(1, 'Freundschaft beendet', 'remove_friend');
 			}
-			
+
 				// do a redirect to the profile page, no output
 			$profilePageUrl = $this->communityApplication->pi_getPageLink(
 				$this->configuration['pages.']['userProfile'],

@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Frank Nägler <typo3@naegler.net>
+ *  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,7 +26,7 @@
 /**
  * viewhelper class to format unix timestamps as date
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -53,7 +53,7 @@ class tx_community_viewhelper_Age implements tx_community_ViewHelper {
 		$year  = date("Y");
 		$month = date("m");
 		$day   = date("d");
-		
+
 		$year_diff  = $year - date("Y", $date);
 		$month_diff = $month - date("m", $date);
 		$day_diff   = $day - date("d", $date);

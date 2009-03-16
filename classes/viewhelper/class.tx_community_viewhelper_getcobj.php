@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008 Frank Naegler <typo3@naegler.net>
+ *  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -55,7 +55,7 @@ class tx_community_viewhelper_GetCObj implements tx_community_ViewHelper {
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		return $cObj->cObjGetSingle($first, $second);
 	}
-	
+
 	protected function getDataFromTSPath($TSPath) {
 		$pathExploded = explode('.', trim($TSPath));
 		$depth        = count($pathExploded);
@@ -73,7 +73,7 @@ class tx_community_viewhelper_GetCObj implements tx_community_ViewHelper {
 				$result= $pathBranch[$pathExploded[$i]];
 			}
 		}
-		
+
 		return $result;
 	}
 }

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -48,7 +48,7 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	protected $label    = null;
 	protected $cssClass = null;
 	protected $accessMode = 'read';
-	
+
 
 	protected $draggable;
 	protected $removable;
@@ -167,7 +167,7 @@ abstract class tx_community_controller_AbstractCommunityApplicationWidget implem
 	public function getCssClass() {
 		return $this->cssClass;
 	}
-	
+
 	public function setLabel($label) {
 		$this->label = $label;
 	}

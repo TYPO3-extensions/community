@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -63,7 +63,7 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 	 * @var tx_communitylogger_Logger
 	 */
 	protected $logger;
-	
+
 	/**
 	 * constructor for class tx_community_model_GroupProfile
 	 */
@@ -82,7 +82,7 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 			throw new tx_community_exception_NoProfileId();
 		}
 		$this->group		= $this->groupGateway->findRequestedGroup();
-		
+
 		if ($this->group === null) {
 		    # @ToDo ganz boese, muss sauber gemacht werden
 		    #    $targetURL = $this->communityApplication->pi_getPageLink(
@@ -92,20 +92,20 @@ class tx_community_model_GroupProfile extends tx_community_model_AbstractProfile
 		        Header('Location: ' . t3lib_div::locationHeaderUrl('/index.php?id=38'));
 		#		throw new tx_community_exception_UnknownProfile();
 		}
-		
+
 		$this->loggedinUser	= $this->userGateway->findCurrentlyLoggedInUser();
-				
+
 		if ($this->loggedinUser !== null) {
 			if ($this->group->isAdmin($this->loggedinUser)) {
 				$this->editable = true;
 			}
 		}
 	}
-	
+
 	public function isEditable() {
 		return $this->editable;
 	}
-	
+
 	public function getGrouptype() {
 		return $this->group->getGrouptype();
 	}

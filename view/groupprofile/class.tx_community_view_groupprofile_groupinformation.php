@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 /**
  * group information widget view
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -63,7 +63,7 @@ class tx_community_view_groupprofile_GroupInformation extends tx_community_view_
 		);
 
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
-		
+
 		$template->addVariable('group', $this->groupModel);
 
 		return $template->render();

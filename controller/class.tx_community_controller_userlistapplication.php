@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Ingo Renner <ingo@typo3.org>
+*  (c) 2008-2009 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -75,13 +75,13 @@ class tx_community_controller_UserListApplication extends tx_community_controlle
 
 	public function setUserListModel(array $userListModel) {
 		$this->userListModel = $userListModel;
-		$this->setUserCount(count($this->userListModel)); 
+		$this->setUserCount(count($this->userListModel));
 	}
 
 	public function setTemplateFile($templateFileReference) {
 		$this->templateFileReference = $templateFileReference;
 	}
-	
+
 	public function setUserCount($userCount) {
 		$this->userCount = $userCount;
 	}

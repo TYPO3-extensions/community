@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008 Frank Nägler <typo3@naegler.net>
+*  (c) 2008-2009 Frank Naegler <typo3@naegler.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,7 +30,7 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 /**
  * member list widget view
  *
- * @author	Frank Nägler <typo3@naegler.net>
+ * @author	Frank Naegler <typo3@naegler.net>
  * @package TYPO3
  * @subpackage community
  */
@@ -69,9 +69,9 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 				'llKey'        => $this->languageKey
 			)
 		);
-		
+
 		$template->addViewHelper('widget','tx_community_viewhelper_Widget');
-		
+
 		$template->addViewHelper(
 			'ts',
 			'tx_community_viewhelper_Ts'
@@ -85,7 +85,7 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 		$template->addVariable('group', $this->groupModel);
 
 		$allMembers = $this->groupModel->getMembers();
-		
+
 		$admins = array();
 		$members = array();
 		foreach ($allMembers as $member) {
@@ -95,10 +95,10 @@ class tx_community_view_groupprofile_MemberList extends tx_community_view_Abstra
 				$members[] = $member;
 			}
 		}
-		
+
 		$template->addLoop('admins', 'user', $admins);
 		$template->addLoop('members', 'user', $members);
-		
+
 		return $template->render();
 	}
 }
