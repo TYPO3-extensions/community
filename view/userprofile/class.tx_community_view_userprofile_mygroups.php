@@ -62,7 +62,7 @@ class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractV
 		
 		$template->addViewHelper(
 			'cObj',
-			'tx_community_viewhelper_cObj'
+			'tx_community_viewhelper_GetCObj'
 		);
 		
 		$template->addViewHelper(
