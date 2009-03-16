@@ -1,6 +1,7 @@
 2008-12-16 Ingo Renner  <ingo@typo3.org>
 
 	* added square thumbnails
+	* added a check for empty searches
 
 2009-02-26 Frank Naegler <typo3@naegler.net>
 

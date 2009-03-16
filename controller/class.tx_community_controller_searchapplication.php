@@ -99,7 +99,6 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		if (!isset($this->communityRequest['searchkey'])) {
-debug($this->communityRequest['profileSearch']);
 			foreach ($this->communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
 				if (
 	  				!empty($submittedParameterValue)
@@ -153,6 +152,19 @@ debug($this->communityRequest['profileSearch']);
 		} else {
 			$GLOBALS['tx_community_searchkey'] = $this->communityRequest['searchkey'];
 			$whereClause = $GLOBALS['TSFE']->fe_user->getKey("ses", $GLOBALS['tx_community_searchkey']);
+		}
+
+		if (empty($whereClause)) {
+				// nothing to search for, do a redirect to the search form page
+
+			$profilePageUrl = $this->pi_getPageLink(
+				$GLOBALS['TSFE']->id
+			);
+
+				// TODO user t3lib_div::redirect when TYPO3 4.3 is released
+			Header('HTTP/1.1 303 See Other');
+			Header('Location: ' . t3lib_div::locationHeaderUrl($profilePageUrl));
+			exit;
 		}
 
 		$userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
