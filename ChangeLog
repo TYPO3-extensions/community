@@ -4,6 +4,7 @@
 	* added widget viewhelper to tx_community_view_userprofile_MyGroups
 	* added get and set methods for groups to tx_community_controller_AbstractCommunityApplication
 	* added group support to image widget
+	* added group widget: member birthdaylist
 	
 2008-12-16 Ingo Renner  <ingo@typo3.org>
 

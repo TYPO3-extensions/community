@@ -184,6 +184,15 @@ $TX_COMMUNITY = array(
 					'defaultAction' => 'index',
 					'accessControl' => false
 				),
+				'birthdayList' => array(
+					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_birthdaylistwidget.php:tx_community_controller_groupprofile_BirthdayListWidget',
+					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_birthdayList',
+					'accessControl' => false,
+					'actions' => array(
+						'index'
+					),
+					'defaultAction' => 'index'
+				),
 				'groupInformation' => array(
 					'classReference' => 'EXT:community/controller/groupprofile/class.tx_community_controller_groupprofile_groupinformationwidget.php:tx_community_controller_groupprofile_GroupInformationWidget',
 					'label' => 'LLL:EXT:community/lang/locallang_applications.xml:groupProfile_groupInformation',

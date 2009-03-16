@@ -136,6 +136,11 @@ plugin.tx_community {
 					}
 				}
 
+				birthdayList {
+					templateFile = EXT:community/resources/templates/groupprofile/birthdaylistwidget.htm
+					maxNumberOfItemsShown = 5
+				}
+
 				profileActions {
 					templateFile = EXT:community/resources/templates/groupprofile/profileactionswidget.htm
 				}
