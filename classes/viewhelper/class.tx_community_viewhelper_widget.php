@@ -58,7 +58,10 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 		if ($arguments[1] instanceof tx_community_model_User) {
 			$widget->getCommunityApplication()->setRequestedUser($arguments[1]);
 		}
-
+		if ($arguments[1] instanceof tx_community_model_Group) {
+			$widget->getCommunityApplication()->setRequestedGroup($arguments[1]);
+		}
+		
 		$widgetAction = '';
 		$availableWidgetActions = $GLOBALS['TX_COMMUNITY']['applications'][$applicationName]['widgets'][$widgetName]['actions'];
 		if(!empty($communityRequest[$widgetName . 'Action']) && in_array($communityRequest[$widgetName . 'Action'], $availableWidgetActions)) {

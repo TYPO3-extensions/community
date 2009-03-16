@@ -46,6 +46,8 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	protected $requestedUser  = null; // the user someone is viewing
 	protected $requestingUser = null; // the currently logged in user
 
+	protected $requestedGroup  = null; // the group someone is viewing
+	
 	/**
 	 * @var tx_community_model_UserGateway
 	 */
@@ -195,6 +197,31 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 	}
 
 	/**
+	 * returns the group that shall be displayed
+	 *
+	 * @return tx_community_model_Group
+	 */
+	public function getRequestedGroup() {
+		$requestedGroup = null;
+
+		if (is_null($this->requestedGroup)) {
+			$communityRequest = t3lib_div::GParrayMerged('tx_community');
+			$requestedGroup = $this->groupGateway->findById((int) $communityRequest['group']);
+
+			$this->requestedgroup = $requestedGroup;
+		} else {
+			$requestedGroup = $this->requestedGroup;
+		}
+
+		if (!($requestedGroup instanceof tx_community_model_Group)) {
+			// TODO throw a "group not found exception"
+		}
+
+		return $requestedGroup;
+	}
+	
+	
+	/**
 	 * sets the requested user
 	 *
 	 * @param	tx_community_model_User	The user that should be the requested user
@@ -204,6 +231,17 @@ abstract class tx_community_controller_AbstractCommunityApplication extends tsli
 		$this->requestedUser = $user;
 	}
 
+	/**
+	 * sets the requested group
+	 *
+	 * @param	tx_community_model_group	The group that should be the requested group
+	 * @author	Frank Nägler <typo3@naegler.net>
+	 */
+	public function setRequestedGroup(tx_community_model_Group $group) {
+		$this->requestedGroup = $group;
+	}
+	
+	
 	/**
 	 * returns the user that is looking at a page (if available), if no user is logged in null is returned
 	 *
