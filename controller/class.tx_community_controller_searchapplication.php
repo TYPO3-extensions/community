@@ -101,10 +101,10 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		if (!isset($this->communityRequest['searchkey'])) {
 			foreach ($this->communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
 				if (
-	  				!empty($submittedParameterValue)
-	  				&&
-	  				array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
-	  			) {
+					!empty($submittedParameterValue)
+					&&
+					array_key_exists($submittedParameterName . '.', $searchConfiguration['searchFields.'])
+				) {
 					$filteredInput = $this->filterInput($submittedParameterValue, $searchConfiguration['searchFields.'][$submittedParameterName . '.']);
 					$clauseParts = array();
 					$searchInColumns = t3lib_div::trimExplode(',', $searchConfiguration['searchFields.'][$submittedParameterName . '.']['searchIn']);
