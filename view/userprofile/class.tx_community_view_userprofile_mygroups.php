@@ -24,6 +24,8 @@
 
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_ts.php');
 require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_link.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_getcobj.php');
+require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community_viewhelper_widget.php');
 
 /**
  * Widget view to which groups a user is member of
@@ -61,6 +63,11 @@ class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractV
 		$template->addViewHelper(
 			'cObj',
 			'tx_community_viewhelper_cObj'
+		);
+		
+		$template->addViewHelper(
+			'widget',
+			'tx_community_viewhelper_Widget'
 		);
 		
 		$template->addLoop('groups', 'group', $this->groupModel);
