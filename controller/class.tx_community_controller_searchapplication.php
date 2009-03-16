@@ -52,6 +52,7 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 	 * @return unknown
 	 */
 	public function indexAction() {
+			// TODO add the search action to the page browser so that this if is not needed anymore
 		if (isset($this->communityRequest['searchkey'])) {
 			return $this->searchAction();
 		}
@@ -97,6 +98,9 @@ class tx_community_controller_SearchApplication extends tx_community_controller_
 		$searchConfiguration = $this->configuration['applications.']['search.'];
 		$whereClauses        = array();
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
+
+			// TODO move into new functions (buildWhereClause)
+			// TODO check the session for a whereclause then either use if exists or build
 
 		if (!isset($this->communityRequest['searchkey'])) {
 			foreach ($this->communityRequest['profileSearch'] as $submittedParameterName => $submittedParameterValue) {
