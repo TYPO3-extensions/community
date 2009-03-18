@@ -1,3 +1,9 @@
+2009-03-18 Frank Naegler <typo3@naegler.net>
+
+	* added interface tx_community_GroupProvider
+	* added hook calls to tx_community_model_Group: afterAddMember, afterRemoveMember
+	* added hook call to tx_community_controller_CreateGroupApplication: afterCreateGroup
+	
 2009-03-16 Frank Naegler <typo3@naegler.net>
 
 	* added cObj viewhelper to tx_community_view_userprofile_MyGroups

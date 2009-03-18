@@ -78,6 +78,17 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 			$groupUid = $group->save();
 
 			if ($groupUid) {
+					// hook
+				if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterCreateGroup'])) {
+					foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterCreateGroup'] as $classReference) {
+						$hookObject = & t3lib_div::getUserObj($classReference);
+						if ($hookObject instanceof tx_community_GroupProvider) {
+							$hookObject->afterCreateGroup($group, $this);
+						}
+				
+					}
+				}
+				
 					// success, redirect
 				$editGroupUrl = $this->pi_getPageLink(
 					$this->configuration['pages.']['groupEdit'],

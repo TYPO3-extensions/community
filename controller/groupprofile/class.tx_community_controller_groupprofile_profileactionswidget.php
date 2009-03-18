@@ -115,7 +115,7 @@ class tx_community_controller_groupprofile_ProfileActionsWidget extends tx_commu
 			}
 
 			$requestedGroup->save();
-
+			
 				// done, now redirect back to the group profile page
 			$profilePageUrl = $this->communityApplication->pi_getPageLink(
 				$this->configuration['pages.']['groupProfile'],

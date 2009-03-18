@@ -401,7 +401,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				case self::TYPE_MEMBERS_ONLY:
 						// for open and members only groups the user joins immediately
 					$this->addedMembers[] = $user;
-					break;
+				break;
 				case self::TYPE_PRIVATE:
 				case self::TYPE_SECRET:
 						// for private and secret groups the user needs to be approved,
@@ -411,7 +411,17 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 						$this->addedMembers[] = $user;
 						$this->removedPendingMembers[] = $user;
 					}
-					break;
+				break;
+			}
+		}
+			// hook
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterAddMember'])) {
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterAddMember'] as $classReference) {
+				$hookObject = & t3lib_div::getUserObj($classReference);
+				if ($hookObject instanceof tx_community_GroupProvider) {
+					$hookObject->afterAddMember($user, $this);
+				}
+		
 			}
 		}
 	}
@@ -433,6 +443,16 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 
 		if ($this->isAdmin($user)) {
 			$this->removedAdmins[] = $user;
+		}
+			// hook
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterRemoveMember'])) {
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterRemoveMember'] as $classReference) {
+				$hookObject = & t3lib_div::getUserObj($classReference);
+				if ($hookObject instanceof tx_community_GroupProvider) {
+					$hookObject->afterRemoveMember($user, $this);
+				}
+		
+			}
 		}
 	}
 
