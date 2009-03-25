@@ -52,6 +52,7 @@ class tx_community_viewhelper_Widget implements tx_community_ViewHelper {
 		list($applicationName, $widgetName) = explode('.', $arguments[0]);
 		$communityRequest = t3lib_div::GParrayMerged('tx_community');
 
+
 		$widget = $GLOBALS['TX_COMMUNITY']['applicationManager']->getWidget($applicationName, $widgetName);
 		/* @var $widget tx_community_controller_AbstractCommunityApplicationWidget */
 

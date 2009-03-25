@@ -103,10 +103,11 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 				if ($this->configuration['pages.']['groupEdit.']['locationHash']) {
 					$editGroupUrl .= $this->configuration['pages.']['groupEdit.']['locationHash'];
 				}
-
+/*
 				Header('HTTP/1.1 303 See Other');
 				Header('Location: ' . t3lib_div::locationHeaderUrl($editGroupUrl));
 				exit;
+*/
 			} else {
 				$view = t3lib_div::makeInstance('tx_community_view_creategroup_CreateGroupError');
 				/* @var $view tx_community_view_creategroup_CreateGroupError */

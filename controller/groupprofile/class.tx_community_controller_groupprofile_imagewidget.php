@@ -102,7 +102,6 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 	public function customImageAction(array $arguments) {
 		$requestedGroup = $this->communityApplication->getRequestedGroup();
 		$widgetTypoScriptConfiguration = $this->communityApplication->getWidgetTypoScriptConfiguration($this->name);
-
 		$groupImageConfiguration = array(
 			$widgetTypoScriptConfiguration[$arguments[0]],
 			$widgetTypoScriptConfiguration[$arguments[0] . '.']
@@ -113,6 +112,9 @@ class tx_community_controller_groupprofile_ImageWidget extends tx_community_cont
 			$groupImageConfiguration[1]['file'] = $groupImage;
 		}
 
+# debug($widgetTypoScriptConfiguration, 'namespace');
+# debug($arguments, 'arguements');
+# debug($groupImageConfiguration);
 		$view = t3lib_div::makeInstance('tx_community_view_groupprofile_ContentObjectImage');
 		$view->setImageConfiguration($groupImageConfiguration);
 

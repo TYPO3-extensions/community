@@ -41,7 +41,6 @@ class tx_community_view_userprofile_ContentObjectImage extends tx_community_view
 
 	public function render() {
 		$contentObject = t3lib_div::makeInstance('tslib_cObj');
-
 		$image = $contentObject->cObjGetSingle(
 			$this->imageConfiguration[0], // the content element type
 			$this->imageConfiguration[1]  // the content element configuration
