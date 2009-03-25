@@ -61,7 +61,7 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 		$groups = $groupGateway->findGroupsByUser(
 			$user
 		);
-
+		$listGroupsArray = array();
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_MyGroups');
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['myGroups.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
