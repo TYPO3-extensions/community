@@ -1,3 +1,7 @@
+2009-04-08 Frank Naegler <typo3@naegler.net>
+
+	* change process of removing admin on group model
+
 2009-03-18 Frank Naegler <typo3@naegler.net>
 
 	* added interface tx_community_GroupProvider
