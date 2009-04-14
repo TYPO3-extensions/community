@@ -46,12 +46,15 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 		$this->draggable = true;
 		$this->removable = true;
 		$this->cssClass = '';
+		$this->request 		= t3lib_div::GParrayMerged('tx_community_mygroups');
 	}
 
 	public function indexAction() {
 		$groupGateway = t3lib_div::makeInstance('tx_community_model_GroupGateway');
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
  
+		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		
 		if ($this->getCommunityApplication()->getName() == 'StartPage') {
 			$user = $this->getCommunityApplication()->getRequestingUser();
 		} else {
@@ -62,6 +65,11 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 			$user
 		);
 		$listGroupsArray = array();
+		$firstGroup = (isset($this->request['page_group'])) ? (intval($this->request['page_group']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
+		$pageBrowserConfig['numberOfPages'] = ceil(count($groups) / max($pageBrowserConfig['numberOfEntriesPerPage'],1));
+		$pageBrowserConfig['pageParameterName'] = 'tx_community_mygroups|page_group';
+		$pagebrowser = $cObj->cObjGetSingle($this->configuration['applications.']['listGroups.']['pageBrowser'], $pageBrowserConfig);
+		
 		$view = t3lib_div::makeInstance('tx_community_view_userprofile_MyGroups');
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['myGroups.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
@@ -78,6 +86,7 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 		$view->setGroupModel($listGroupsArray);
 
 
+		$view->setPageBrowser($pagebrowser);
 
 		return $view->render();
 	}

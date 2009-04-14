@@ -37,9 +37,14 @@ require_once($GLOBALS['PATH_community'] . 'classes/viewhelper/class.tx_community
 class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractView {
 
 	protected $groupModel;
+	protected $pageBrowser;
 
 	public function setGroupModel(array $groupModel) {
 		$this->groupModel = $groupModel;
+	}
+	
+	public function setPageBrowser($pageBrowser) {
+		$this->pageBrowser = $pageBrowser;
 	}
 
 	public function render() {
@@ -74,7 +79,8 @@ class tx_community_view_userprofile_MyGroups extends tx_community_view_AbstractV
 																															     
 		
 		$template->addLoop('groups', 'group', $this->groupModel);
-
+		$template->addVariable('pagebrowser', $this->pageBrowser);
+		
 		return $template->render();
 	}
 }
