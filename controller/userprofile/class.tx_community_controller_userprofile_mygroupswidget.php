@@ -74,7 +74,7 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 		$view->setTemplateFile($this->configuration['applications.']['userProfile.']['widgets.']['myGroups.']['templateFile']);
 		$view->setLanguageKey($this->communityApplication->LLkey);
 
-		for ($i=$firstGroup; $i<$pageBrowserConfig['numberOfEntriesPerPage']; $i++) {
+		for ($i=$firstGroup; $i<($firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']); $i++) {
 			$group = $groups[$i];
 	    	if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
 				$imgConf = $this->configuration['applications.']['userProfile.']['widgets.']['myGroups.']['groupImage.'];
