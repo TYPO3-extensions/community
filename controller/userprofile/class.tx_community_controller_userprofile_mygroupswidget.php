@@ -76,7 +76,7 @@ class tx_community_controller_userprofile_MyGroupsWidget extends tx_community_co
 
 		for ($i=$firstGroup; $i<($firstGroup+$pageBrowserConfig['numberOfEntriesPerPage']); $i++) {
 			$group = $groups[$i];
-	    	if ($group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
+	    	if (($group instanceof tx_community_model_Group) && $group->getGroupType() != tx_community_model_Group::TYPE_SECRET) {
 				$imgConf = $this->configuration['applications.']['userProfile.']['widgets.']['myGroups.']['groupImage.'];
 				$imgConf['file'] = (strlen($group->getImage()) > 0) ? $group->getImage() : $imgConf['file'];
 				$genImage = $cObj->cObjGetSingle('IMAGE', $imgConf);
