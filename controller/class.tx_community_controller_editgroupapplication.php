@@ -219,9 +219,8 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							$newAdmin = $userGateway->findById($communityRequest['memberUid']);
 							if ($newAdmin instanceof tx_community_model_User) {
 								$group->addAdmin($newAdmin);
-								$group->save();
-								
 								$group->removeAdmin($user);
+								
 								if ($group->save()) {
 									$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 								} else {
