@@ -98,6 +98,10 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
+		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
+		
+		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		
 		switch ($this->configuration['applications.']['listGroups.']['listType']) {
 			case 'usersGroups':
 				$user = $this->getRequestedUser();
@@ -113,10 +117,8 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			break;
 		}
 
-		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
 		$pageBrowserConfig['numberOfPages'] = ceil(count($groups) / $pageBrowserConfig['numberOfEntriesPerPage']);
-		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
-
+		
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		$listGroupsArray = array();
