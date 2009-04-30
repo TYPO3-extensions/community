@@ -119,7 +119,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			break;
 		}
 
-		$pageBrowserConfig['numberOfPages'] = ceil(count($groupCount) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$pageBrowserConfig['numberOfPages'] = ceil($groupCount / $pageBrowserConfig['numberOfEntriesPerPage']);
 		
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
