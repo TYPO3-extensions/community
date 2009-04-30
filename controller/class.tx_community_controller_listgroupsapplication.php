@@ -98,9 +98,8 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 		$view->setTemplateFile($this->configuration['applications.']['listGroups.']['templateFile']);
 		$view->setLanguageKey($this->LLkey);
 
-		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
-		
 		$pageBrowserConfig = $this->configuration['applications.']['listGroups.']['pageBrowser.'];
+		$firstGroup = (isset($this->request['page'])) ? (intval($this->request['page']+1)*$pageBrowserConfig['numberOfEntriesPerPage']) - $pageBrowserConfig['numberOfEntriesPerPage'] : 0;
 		
 		switch ($this->configuration['applications.']['listGroups.']['listType']) {
 			case 'usersGroups':
