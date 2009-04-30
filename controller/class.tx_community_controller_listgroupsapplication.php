@@ -107,6 +107,7 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 				$user = $this->getRequestedUser();
 				if (!is_null($user)) {
 					$groups = $this->groupGateway->findGroupsByUser($this->getRequestedUser());
+					$groupCount = count($groups);
 				} else {
 					$groups = array();
 				}
@@ -114,10 +115,11 @@ class tx_community_controller_ListGroupsApplication extends tx_community_control
 			case 'allGroups':
 			default:
 				$groups = $this->groupGateway->getAllGroups(true, $pageBrowserConfig['numberOfEntriesPerPage'], $firstGroup);
+				$groupCount = $this->groupGateway->getEntryCount('TRUE', true);
 			break;
 		}
 
-		$pageBrowserConfig['numberOfPages'] = ceil(count($groups) / $pageBrowserConfig['numberOfEntriesPerPage']);
+		$pageBrowserConfig['numberOfPages'] = ceil(count($groupCount) / $pageBrowserConfig['numberOfEntriesPerPage']);
 		
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 
