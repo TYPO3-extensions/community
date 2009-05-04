@@ -62,6 +62,7 @@ class tx_community_AccessManager {
 	 * constructor for class tx_community_AccessManager
 	 */
 	protected function __construct() {
+		$this->request = t3lib_div::GParrayMerged('tx_community');
 		$this->acl = t3lib_div::makeInstance('tx_community_acl_Acl');
 		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
 		$this->userGateway = t3lib_div::makeInstance('tx_community_model_UserGateway');
@@ -112,7 +113,7 @@ class tx_community_AccessManager {
 		if (is_null($requestingUser)) {
 			$requestingUser = $this->userGateway->findCurrentlyLoggedInUser();
 		}
-
+		
 			// get all rules for this resource
 		$rules = $this->getRulesByResource($resource);
 
@@ -158,6 +159,11 @@ class tx_community_AccessManager {
 						$allowed = true;
 					}
 				}
+			}
+			
+			// overwrite §allowed is requesitngUser == requestedUser
+			if ($uid = intval($this->request['user'])) {
+				$allowed = ($uid == $requestingUser->getUid()) ? true : $allowed; 
 			}
 
 			// end check

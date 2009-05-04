@@ -1,3 +1,7 @@
+2009-05-04 Frank Naegler <typo3@naegler.net>
+
+	* Bugfix: added check to ACL manager: if requestingUser == requestedUser
+
 2009-04-30 Frank Naegler <typo3@naegler.net>
 
 	* Bugfix: pageBrowser on listGroup
