@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_group.php');
+require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_groupprofileapplication.php');
 require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_index.php');
 require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_view_creategroup_creategrouperror.php');
 
@@ -33,7 +33,7 @@ require_once($GLOBALS['PATH_community'] . 'view/creategroup/class.tx_community_v
  * @package TYPO3
  * @subpackage community
  */
-class tx_community_controller_CreateGroupApplication extends tx_community_controller_AbstractCommunityApplication {
+class tx_community_controller_CreateGroupApplication extends tx_community_controller_GroupProfileApplication {
 
 	protected $group;
 
@@ -85,10 +85,10 @@ class tx_community_controller_CreateGroupApplication extends tx_community_contro
 						if ($hookObject instanceof tx_community_GroupProvider) {
 							$hookObject->afterCreateGroup($group, $this);
 						}
-				
+
 					}
 				}
-				
+
 					// success, redirect
 				$editGroupUrl = $this->pi_getPageLink(
 					$this->configuration['pages.']['groupEdit'],
