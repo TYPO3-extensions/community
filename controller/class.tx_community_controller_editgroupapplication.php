@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once($GLOBALS['PATH_community'] . 'controller/class.tx_community_controller_groupprofileapplication.php');
-require_once($GLOBALS['PATH_community'] . 'model/class.tx_community_model_groupgateway.php');
 require_once($GLOBALS['PATH_community'] . 'view/editgroup/class.tx_community_view_editgroup_index.php');
 require_once($GLOBALS['PATH_community'] . 'classes/class.tx_community_localizationmanager.php');
 
@@ -220,7 +219,7 @@ class tx_community_controller_EditGroupApplication extends tx_community_controll
 							if ($newAdmin instanceof tx_community_model_User) {
 								$group->addAdmin($newAdmin);
 								$group->removeAdmin($user);
-								
+
 								if ($group->save()) {
 									$result = "{'status': 'success', 'msg': '{$this->llManager->getLL('msg_saved')}'}";
 								} else {
