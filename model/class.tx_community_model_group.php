@@ -392,7 +392,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 	 * @todo	think about forceAddUser
 	 * @author	Ingo Renner <ingo@typo3.org>
 	 */
-	public function addMember(tx_community_model_User $user,$forceAddUser = false) {
+	public function addMember(tx_community_model_User $user, $forceAddUser = false) {
 		$groupType = $this->getGroupType();
 
 		if (!$this->isMember($user)) {
@@ -421,7 +421,31 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				if ($hookObject instanceof tx_community_GroupProvider) {
 					$hookObject->afterAddMember($user, $this);
 				}
-		
+
+			}
+		}
+	}
+
+	/**
+	 * Adds a pending member to the group, doesn't get affective until save()
+	 * is called.
+	 *
+	 * @param	tx_community_model_User	the user to add as a member for this group
+	 * @author	Ingo Renner <ingo@typo3.org>
+	 */
+	public function addPendingMember(tx_community_model_User $user) {
+		if (!$this->isPendingMember($user)) {
+			$this->addedPendingMembers[] = $user;
+		}
+
+			// hook
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterAddPendingMember'])) {
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_community']['afterAddPendingMember'] as $classReference) {
+				$hookObject = & t3lib_div::getUserObj($classReference);
+				if ($hookObject instanceof tx_community_GroupProvider) {
+					$hookObject->afterAddPendingMember($user, $this);
+				}
+
 			}
 		}
 	}
@@ -451,7 +475,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 				if ($hookObject instanceof tx_community_GroupProvider) {
 					$hookObject->afterRemoveMember($user, $this);
 				}
-		
+
 			}
 		}
 	}
@@ -788,7 +812,7 @@ class tx_community_model_Group implements tx_community_acl_AclResource {
 			$this->sendMessageToAdmins(
 				$this->localizationManager->getLL('subject_confirmationNeeded'),
 				$this->localizationManager->getLL('body_confirmationNeeded'),
-				$addedMember
+				$addedPendingMember
 			);
 		}
 

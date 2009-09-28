@@ -34,6 +34,7 @@
  */
 interface tx_community_GroupProvider {
 	public function afterAddMember(tx_community_model_User $user, tx_community_model_Group $group);
+	public function afterAddPendingMember(tx_community_model_User $user, tx_community_model_Group $group);
 	public function afterCreateGroup(tx_community_model_Group $group, tx_community_controller_CreateGroupApplication $createGroupApplication);
 	public function afterRemoveMember(tx_community_model_User $user, tx_community_model_Group $group);
 }

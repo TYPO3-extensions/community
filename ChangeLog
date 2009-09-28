@@ -1,3 +1,7 @@
+2009-09-28 Ingo Renner  <ingo@typo3.org>
+
+	* fixed issue #3225: call to undefined method when joining a private group
+
 2009-05-04 Frank Naegler <typo3@naegler.net>
 
 	* Bugfix: added check to ACL manager: if requestingUser == requestedUser
@@ -23,7 +27,7 @@
 	* added interface tx_community_GroupProvider
 	* added hook calls to tx_community_model_Group: afterAddMember, afterRemoveMember
 	* added hook call to tx_community_controller_CreateGroupApplication: afterCreateGroup
-	
+
 2009-03-16 Frank Naegler <typo3@naegler.net>
 
 	* added cObj viewhelper to tx_community_view_userprofile_MyGroups
@@ -31,7 +35,7 @@
 	* added get and set methods for groups to tx_community_controller_AbstractCommunityApplication
 	* added group support to image widget
 	* added group widget: member birthdaylist
-	
+
 2008-12-16 Ingo Renner  <ingo@typo3.org>
 
 	* added square thumbnails
