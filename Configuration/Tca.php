@@ -1,0 +1,331 @@
+<?php
+if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
+
+$TCA['tx_community_domain_model_group'] = array(
+	'ctrl' => $TCA['tx_community_domain_model_group']['ctrl'],
+	'interface' => array(
+		'showRecordFieldList' => 'name,grouptype,description,image,creator,admins,members,pending_members'
+	),
+	'types' => array(
+		'1' => array('showitem' => 'name,grouptype,description,image,creator,admins,members,pending_members')
+	),
+	'palettes' => array(
+		'1' => array('showitem' => '')
+	),
+	'columns' => array(
+		'sys_language_uid' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.language',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages',-1),
+					array('LLL:EXT:lang/locallang_general.php:LGL.default_value',0)
+				)
+			)
+		),
+		'l18n_parent' => array(
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.l18n_parent',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tx_community_domain_model_group',
+				'foreign_table_where' => 'AND tx_community_domain_model_group.uid=###REC_FIELD_l18n_parent### AND tx_community_domain_model_group.sys_language_uid IN (-1,0)',
+			)
+		),
+		'l18n_diffsource' => array(
+			'config'=>array(
+				'type'=>'passthrough')
+		),
+		't3ver_label' => array(
+			'displayCond' => 'FIELD:t3ver_label:REQ:true',
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
+			'config' => array(
+				'type'=>'none',
+				'cols' => 27
+			)
+		),
+		'hidden' => array(
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config'  => array(
+				'type' => 'check'
+			)
+		),
+		'name' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.name',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			)
+		),
+		'grouptype' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.grouptype',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'description' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.description',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			)
+		),
+		'image' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.image',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			)
+		),
+		'creator' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.creator',
+			'config'  => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_community_domain_model_user',
+				'minitems' => 0,
+				'maxitems' => 1,
+				'appearance' => array(
+					'collapse' => 0,
+					'newRecordLinkPosition' => 'bottom',
+				),
+			)
+		),
+		'admins' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.admins',
+			'config'  => array(
+				'type' => 'inline',
+				'foreign_table' => 'fe_user',
+				'MM' => 'tx_community_group_admins_user_mm',
+				'maxitems' => 99999
+			)
+		),
+		'members' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.members',
+			'config'  => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_community_domain_model_user',
+				'MM' => 'tx_community_group_members_user_mm',
+				'maxitems' => 99999
+			)
+		),
+		'pending_members' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.pending_members',
+			'config'  => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_community_domain_model_user',
+				'MM' => 'tx_community_group_pending_user_mm',
+				'maxitems' => 99999
+			)
+		),
+	),
+);
+
+
+$TCA['tx_community_domain_model_aclrole'] = array(
+	'ctrl' => $TCA['tx_community_domain_model_aclrole']['ctrl'],
+	'interface' => array(
+		'showRecordFieldList' => 'name,is_public,is_friend'
+	),
+	'types' => array(
+		'1' => array('showitem' => 'name,is_public,is_friend')
+	),
+	'palettes' => array(
+		'1' => array('showitem' => '')
+	),
+	'columns' => array(
+		'sys_language_uid' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.language',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages',-1),
+					array('LLL:EXT:lang/locallang_general.php:LGL.default_value',0)
+				)
+			)
+		),
+		'l18n_parent' => array(
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.l18n_parent',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tx_community_domain_model_aclrole',
+				'foreign_table_where' => 'AND tx_community_domain_model_aclrole.uid=###REC_FIELD_l18n_parent### AND tx_community_domain_model_aclrole.sys_language_uid IN (-1,0)',
+			)
+		),
+		'l18n_diffsource' => array(
+			'config'=>array(
+				'type'=>'passthrough')
+		),
+		't3ver_label' => array(
+			'displayCond' => 'FIELD:t3ver_label:REQ:true',
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
+			'config' => array(
+				'type'=>'none',
+				'cols' => 27
+			)
+		),
+		'hidden' => array(
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config'  => array(
+				'type' => 'check'
+			)
+		),
+		'name' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.name',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			)
+		),
+		'is_public' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.is_public',
+			'config'  => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+		'is_friend' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.is_friend',
+			'config'  => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+	),
+);
+
+$TCA['tx_community_domain_model_aclrule'] = array(
+	'ctrl' => $TCA['tx_community_domain_model_aclrule']['ctrl'],
+	'interface' => array(
+		'showRecordFieldList' => 'name,resource,access_mode,role'
+	),
+	'types' => array(
+		'1' => array('showitem' => 'name,resource,access_mode,role')
+	),
+	'palettes' => array(
+		'1' => array('showitem' => '')
+	),
+	'columns' => array(
+		'sys_language_uid' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.language',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages',-1),
+					array('LLL:EXT:lang/locallang_general.php:LGL.default_value',0)
+				)
+			)
+		),
+		'l18n_parent' => array(
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.l18n_parent',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tx_community_domain_model_aclrule',
+				'foreign_table_where' => 'AND tx_community_domain_model_aclrule.uid=###REC_FIELD_l18n_parent### AND tx_community_domain_model_aclrule.sys_language_uid IN (-1,0)',
+			)
+		),
+		'l18n_diffsource' => array(
+			'config'=>array(
+				'type'=>'passthrough')
+		),
+		't3ver_label' => array(
+			'displayCond' => 'FIELD:t3ver_label:REQ:true',
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
+			'config' => array(
+				'type'=>'none',
+				'cols' => 27
+			)
+		),
+		'hidden' => array(
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config'  => array(
+				'type' => 'check'
+			)
+		),
+		'name' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrule.name',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			)
+		),
+		'resource' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrule.resource',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			)
+		),
+		'access_mode' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrule.access_mode',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'role' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrule.role',
+			'config'  => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_community_domain_model_aclrole',
+				'minitems' => 0,
+				'maxitems' => 1,
+				'appearance' => array(
+					'collapse' => 0,
+					'newRecordLinkPosition' => 'bottom',
+				),
+			)
+		),
+	),
+);
+
+?>

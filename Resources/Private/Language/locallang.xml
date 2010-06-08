@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the Community extension in the FRONTEND</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_community_domain_model_group">A group</label>
+			<label index="tx_community_domain_model_group.name">name</label>
+			<label index="tx_community_domain_model_group.grouptype">The grouptype</label>
+			<label index="tx_community_domain_model_group.description">description</label>
+			<label index="tx_community_domain_model_group.image">the image of the group</label>
+			<label index="tx_community_domain_model_group.creator">creator</label>
+			<label index="tx_community_domain_model_group.admins">admins</label>
+			<label index="tx_community_domain_model_group.members">members</label>
+			<label index="tx_community_domain_model_group.pending_members">pendingMembers</label>
+			<label index="tx_community_domain_model_user">A user of the website</label>
+			<label index="tx_community_domain_model_user."></label>
+			<label index="tx_community_domain_model_aclrole">AclRole</label>
+			<label index="tx_community_domain_model_aclrole.name">name</label>
+			<label index="tx_community_domain_model_aclrole.is_public">isPublic</label>
+			<label index="tx_community_domain_model_aclrole.is_friend">isFriend</label>
+			<label index="tx_community_domain_model_aclrule">AclRule</label>
+			<label index="tx_community_domain_model_aclrule.name">name</label>
+			<label index="tx_community_domain_model_aclrule.resource">resource</label>
+			<label index="tx_community_domain_model_aclrule.access_mode">accessMode</label>
+			<label index="tx_community_domain_model_aclrule.role">role</label>
+			
+			<label index="flexform.action.title">Content</label>
+			<label index="flexform.action.action">What to display</label>
+			<label index="flexform.action.image">Profile Image</label>
+		</languageKey>
+	</data>
+</T3locallang>

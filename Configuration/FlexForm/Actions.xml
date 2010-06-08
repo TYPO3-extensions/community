@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <T3DataStructure>
+  <sheets>
+  <sDEF>
+     <ROOT>
+      <TCEforms>
+      <sheetTitle>LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.title</sheetTitle>
+      </TCEforms>
+      <type>array</type>
+      <el>
+      <switchableControllerActions>
+         <TCEforms>
+          <label>LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.action</label>
+          <config>
+          <type>select</type>
+          <items>
+            <numIndex index="0">
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.image</numIndex>
+               <numIndex index="1">User->image</numIndex>
+            </numIndex>
+            </items>
+          </config>
+         </TCEforms>
+      </switchableControllerActions>
+      </el>
+     </ROOT>
+  </sDEF>
+  </sheets>
+</T3DataStructure>

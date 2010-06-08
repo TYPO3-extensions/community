@@ -1,0 +1,33 @@
+plugin.tx_community.settings {
+}
+
+config.tx_extbase {
+	persistence.classes {
+		Tx_Community_Domain_Model_User {
+			mapping {
+				tableName = fe_users
+				userGroup.foreignClass = Tx_Extkbase_Domain_Model_FrontendUserGroup
+			}
+		}
+	}
+}
+
+plugin.tx_community._CSS_DEFAULT_STYLE (
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	.tx-community-pi1 table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.tx-community-pi1 table th {
+		font-weight:bold;
+	}
+
+	.tx-community-pi1 table td {
+		vertical-align:top;
+	}
+)
