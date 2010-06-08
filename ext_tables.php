@@ -9,9 +9,6 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Community');
 
-//$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY . '_pi1'] = 'pi_flexform';
-//t3lib_extMgm::addPiFlexFormValue($_EXTKEY . '_pi1', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
-
 
 t3lib_extMgm::addLLrefForTCAdescr('tx_community_domain_model_group','EXT:community/Resources/Private/Language/locallang_csh_tx_community_domain_model_group.xml');
 t3lib_extMgm::allowTableOnStandardPages('tx_community_domain_model_group');
@@ -85,8 +82,8 @@ $TCA['tx_community_domain_model_aclrule'] = array (
 
 // flexform to select the action
 $extensionName = t3lib_div::underscoredToUpperCamelCase($_EXTKEY);
-$pluginSignature = strtolower($extensionName) . '_pi1';       
+$pluginSignature = strtolower($extensionName) . '_pi1';
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY.'/Configuration/FlexForm/Actions.xml');    
+t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY.'/Configuration/FlexForm/Actions.xml');
 
 ?>

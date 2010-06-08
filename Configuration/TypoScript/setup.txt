@@ -1,4 +1,11 @@
 plugin.tx_community.settings {
+	profile {
+		image {
+			maxWidth = 300
+			maxHeight = 300
+			prefix = uploads/pics/
+		}
+	}
 }
 
 config.tx_extbase {
