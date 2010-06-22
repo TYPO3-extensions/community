@@ -28,6 +28,7 @@
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @author Pascal Jungblut <mail@pascalj.com>
  */
 class Tx_Community_Domain_Repository_GroupRepository extends Tx_Extbase_Persistence_Repository {
 }

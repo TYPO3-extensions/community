@@ -1,0 +1,9 @@
+<ul>
+	<f:if condition="{requestedUser.uid == requestingUser.uid}">
+	<li>
+		<f:link.action action="request" controller="Relation" arguments="{user : requestedUser}">
+			<f:translate key="profile.interaction.requestRelation"/>
+		</f:link.action>
+	</li>
+	</f:if>
+</ul>

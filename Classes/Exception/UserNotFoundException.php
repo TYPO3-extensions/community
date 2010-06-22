@@ -2,7 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c)  Pascal Jungblut
+*  (c) 2010 Pascal Jungblut <mail@pascalj.de>
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,25 +23,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Repository for Tx_Community_Domain_Model_User
- *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- * @author Pascal Jungblut <mail@pascalj.com>
- */
-class Tx_Community_Domain_Repository_UserRepository extends Tx_Extbase_Persistence_Repository {
-
-	/**
-	 * Find the current user
-	 *
-	 * @return Tx_Community_Domain_Model_User
-	 * @todo Error Checking!
-	 */
-	public function findCurrentUser() {
-		$uid = (integer) $GLOBALS["TSFE"]->fe_user->user['uid'];
-		return $this->findByUid($uid);
-	}
+class Tx_Community_Exception_UserNotFoundException extends Tx_Extbase_Exception {
 }
+
 ?>

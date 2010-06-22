@@ -1,0 +1,5 @@
+<div class="tx_community_relation_listsome">
+	<f:for each="{relations}" as="user">
+		<f:link.page additionalParams="{tx_community_pi1 : {user : user}}">{user.name}</f:link.page>
+	</f:for>
+</div>

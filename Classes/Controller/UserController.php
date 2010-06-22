@@ -30,27 +30,19 @@
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @author Pascal Jungblut <mail@pascalj.com>
  */
-
-/**
- * A community user. Should be mapped on fe_users
- *
- * @author pascaljungblut
- */
-class Tx_Community_Controller_UserController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_Community_Controller_UserController extends Tx_Community_Controller_BaseController {
 
 	/**
 	 * @var Tx_Community_Domain_Repository_UserRepository
 	 */
 	protected $userRepository;
 
-
 	/**
-	 * The current user
-	 *
-	 * @var Tx_Community_Domain_Model_User
+	 * @var Tx_Community_Domain_Repository_RelationRepository
 	 */
-	protected $user;
+	protected $relationRepository;
 
 	/**
 	 * Initializes the current action
@@ -59,10 +51,8 @@ class Tx_Community_Controller_UserController extends Tx_Extbase_MVC_Controller_A
 	 */
 	protected function initializeAction() {
 		$this->userRepository = t3lib_div::makeInstance('Tx_Community_Domain_Repository_UserRepository');
-		$this->user = $this->userRepository->findCurrentUser();
-
+		$this->relationRepository = t3lib_div::makeInstance('Tx_Community_Domain_Repository_RelationRepository');
 	}
-
 
 	/**
 	 * Get a profile image. We simply assign the user to the view and
@@ -70,8 +60,42 @@ class Tx_Community_Controller_UserController extends Tx_Extbase_MVC_Controller_A
 	 *
 	 */
 	public function imageAction() {
-		$this->view->assign('user', $this->user);
+		$this->view->assign('user', $this->getRequestedUser());
 	}
 
+
+	/**
+	 * Show the details like name, contact, homepage and so on.
+	 */
+	public function detailsAction() {
+		$this->view->assign('user', $this->getRequestedUser());
+	}
+
+	/**
+	 * Interactions on the userprofile. Like adding relations and initiating a message.
+	 */
+	public function interactionAction() {
+		$this->view->assign('requestedUser', $this->getRequestedUser());
+		$this->view->assign('requestingUser', $this->getRequestingUser());
+	}
+
+	/**
+	 * Edit the details of a user.
+	 *
+	 * @param Tx_Community_Domain_Model_User $user
+	 * @dontvalidate $user
+	 */
+	public function editAction(Tx_Community_Domain_Model_User $user) {
+		$this->view->assign('user', $this->getRequestingUser());
+	}
+
+	/**
+	 * Update the edited user.
+	 *
+	 * @param Tx_Community_Domain_Model_User $user
+	 */
+	public function updateAction(Tx_Community_Domain_Model_User $user) {
+		$this->userRepository->update($user);
+	}
 }
 ?>

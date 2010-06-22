@@ -29,7 +29,42 @@
 			
 			<label index="flexform.action.title">Content</label>
 			<label index="flexform.action.action">What to display</label>
-			<label index="flexform.action.image">Profile Image</label>
+			<label index="flexform.action.user.image">Profile Image</label>
+			<label index="flexform.action.user.details">Details</label>
+			<label index="flexform.action.user.edit">Edit details</label>
+			<label index="flexform.action.user.interaction">User menu</label>
+			<label index="flexform.action.relation.listSome">List Friends (short)</label>
+			
+			<label index="profile.details.title">Details</label>
+			<label index="profile.details.username">Username</label>
+			<label index="profile.details.firtsname">Firstname</label>
+			<label index="profile.details.lastname">Lastname</label>
+			<label index="profile.details.gender."></label>
+			<label index="profile.details.dateOfBirth">Birthday</label>
+			<label index="profile.details.politicalView">Political view</label>
+			<label index="profile.details.religiousView">Religious view</label>
+			<label index="profile.details.activities">Activities</label>
+			<label index="profile.details.interests">Interests</label>
+			<label index="profile.details.music">Music</label>
+			<label index="profile.details.movies">Movies</label>
+			<label index="profile.details.books">Books</label>
+			<label index="profile.details.quotes">Quotes</label>
+			<label index="profile.details.aboutMe">About me</label>
+			<label index="profile.details.address">Address</label>
+			<label index="profile.details.city">City</label>
+			<label index="profile.details.zip">Zip code</label>
+			<label index="profile.details.country">Country</label>
+			<label index="profile.details.www">Website</label>
+			<label index="profile.details.cellphone">Cellphone</label>
+			<label index="profile.details.phone">Phone</label>
+			<label index="profile.details.email">Email</label>
+			<label index="profile.details.gender">Gender</label>
+			<label index="profile.details.gender.female">female</label>
+			<label index="profile.details.gender.male">male</label>
+			
+			<label index="profile.interaction.requestRelation">Add as friend</label>
+			
+			<label index="relation.listSome.title">Friends</label>
 		</languageKey>
 	</data>
 </T3locallang>

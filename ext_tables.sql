@@ -101,6 +101,41 @@ CREATE TABLE tx_community_domain_model_aclrule (
 	KEY parent (pid)
 );
 
+CREATE TABLE tx_community_domain_model_relation (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	
+	
+	initiating_user int(11) unsigned DEFAULT '0',
+	requested_user int(11) unsigned DEFAULT '0',
+	initiating_role int(11) unsigned DEFAULT '0',
+	requested_role int(11) unsigned DEFAULT '0',
+	status int(11) unsigned DEFAULT '1',
+	initiation_time int(11) unsigned DEFAULT '0' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(30) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3_origuid int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l18n_parent int(11) DEFAULT '0' NOT NULL,
+	l18n_diffsource mediumblob NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);
+
 CREATE TABLE tx_community_group_user_mm (
 	uid int(10) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
@@ -157,4 +192,19 @@ CREATE TABLE tx_community_group_user_mm (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
+);
+
+CREATE TABLE fe_users (
+	political_view tinytext,
+	religious_view tinytext,
+	activities tinytext,
+	interests tinytext,
+	music tinytext,
+	movies tinytext,
+	books tinytext,
+	quotes tinytext,
+	date_of_birth int(10) unsigned NOT NULL,
+	about_me tinytext,
+	cellphone varchar(255) DEFAULT '' NOT NULL,
+	gender varchar(32) DEFAULT '' NOT NULL
 );

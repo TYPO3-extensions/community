@@ -15,8 +15,28 @@
           <type>select</type>
           <items>
             <numIndex index="0">
-               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.image</numIndex>
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.user.image</numIndex>
                <numIndex index="1">User->image</numIndex>
+            </numIndex>
+            <numIndex index="1">
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.user.details</numIndex>
+               <numIndex index="1">User->details</numIndex>
+            </numIndex>
+        <!--<numIndex index="2">
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.user.edit</numIndex>
+               <numIndex index="1">User->edit</numIndex>
+            </numIndex>-->
+            <numIndex index="3">
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.user.interaction</numIndex>
+               <numIndex index="1">User->interaction</numIndex>
+            </numIndex>
+        <!--   <numIndex index="4">
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.user.edit</numIndex>
+               <numIndex index="1">User->edit</numIndex>
+            </numIndex> -->
+            <numIndex index="5">
+               <numIndex index="0">LLL:EXT:community/Resources/Private/Language/locallang.xml:flexform.action.relation.listSome</numIndex>
+               <numIndex index="1">Relation->listSome</numIndex>
             </numIndex>
             </items>
           </config>
