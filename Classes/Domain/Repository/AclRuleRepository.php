@@ -2,7 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c)  Pascal Jungblut
+*  (c) 2010 Pascal Jungblut <mail@pascalj.de>
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,30 +24,40 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_Community_Domain_Model_User
+ * Repository for Tx_Community_Domain_Model_AclRule
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Repository_UserRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_Community_Domain_Repository_AclRuleRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**
-	 * Find the current user
+	 * Find the rules for a specific resource and role
 	 *
-	 * @return Tx_Community_Domain_Model_User
-	 * @todo Error Checking!
+	 * @param string $resource
+	 * @param Tx_Community_Domain_Model_AclRole $role
 	 */
-	public function findCurrentUser() {
-		$uid = (integer) $GLOBALS["TSFE"]->fe_user->user['uid'];
-		return $this->findByUid($uid);
-	}
-
-	public function searchByName($word) {
+	public function findForResource($resource, Tx_Community_Domain_Model_AclRole $role) {
 		$query = $this->createQuery();
 		return $query->matching(
-			$query->like('name', '%' . $word . '%')
+			$query->logicalAnd(
+				$query->equals('resource', $resource),
+				$query->equals('role', $role)
+			)
+		)->execute();
+	}
+
+	/**
+	 * Find all rules for an array of roles
+	 *
+	 * @param array $roles
+	 */
+	public function findByRoles(array $roles) {
+		$query = $this->createQuery();
+		return $query->matching(
+			$query->in('role', $roles)
 		)->execute();
 	}
 }

@@ -1,0 +1,15 @@
+<f:layout name="default"/>
+
+<f:section name="main">
+	<f:form action="assign" controller="AclRole" arguments="{user : requestedUser}">
+		<h3><f:translate key="role.assign.title"/></h3>
+		<dt>
+			<f:translate key="role.assign.role"/>
+		</dt>
+		<dl>			
+			<f:form.select name="role" options="{roles}" optionLabelField="name"/>
+		</dl>
+		<f:form.submit value="{f:translate(key:'role.assign.submit')}"/>
+	</f:form>
+	
+</f:section>

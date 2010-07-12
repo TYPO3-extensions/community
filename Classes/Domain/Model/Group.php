@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Pascal Jungblut <mail@pascal-jungblut.com>
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,58 +32,71 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEntity {
-	
+
+	/**
+	 * The group is public: anyone can join
+	 *
+	 * @var integer
+	 */
+	const GROUP_TYPE_PUBLIC = 1;
+
+	/**
+	 * The group is private: the user needs to be confirmed by the creator/admins to join
+	 *
+	 * @var integer
+	 */
+	const GROUP_TYPE_PRIVATE = 2;
+
 	/**
 	 * name
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $name;
-	
+
 	/**
 	 * The grouptype
 	 * @var integer
 	 */
 	protected $grouptype;
-	
+
 	/**
 	 * description
 	 * @var string
 	 */
 	protected $description;
-	
+
 	/**
 	 * the image of the group
 	 * @var string
 	 */
 	protected $image;
-	
+
 	/**
 	 * creator
 	 * @var Tx_Community_Domain_Model_User
 	 */
 	protected $creator;
-	
+
 	/**
 	 * admins
 	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Community_Domain_Model_User>
 	 */
 	protected $admins;
-	
+
 	/**
 	 * members
 	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Community_Domain_Model_User>
 	 */
 	protected $members;
-	
+
 	/**
 	 * pendingMembers
 	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Community_Domain_Model_User>
 	 */
-	protected $pending_members;
-	
-	
-	
+	protected $pendingMembers;
+
+
 	/**
 	 * Setter for name
 	 *
@@ -102,7 +115,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	/**
 	 * Setter for grouptype
 	 *
@@ -121,7 +134,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getGrouptype() {
 		return $this->grouptype;
 	}
-	
+
 	/**
 	 * Setter for description
 	 *
@@ -140,7 +153,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getDescription() {
 		return $this->description;
 	}
-	
+
 	/**
 	 * Setter for image
 	 *
@@ -159,7 +172,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getImage() {
 		return $this->image;
 	}
-	
+
 	/**
 	 * Setter for creator
 	 *
@@ -178,7 +191,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getCreator() {
 		return $this->creator;
 	}
-	
+
 	/**
 	 * Setter for admins
 	 *
@@ -197,7 +210,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getAdmins() {
 		return $this->admins;
 	}
-	
+
 	/**
 	 * Adds a User
 	 *
@@ -207,7 +220,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function addAdmin(Tx_Community_Domain_Model_User $admin) {
 		$this->admins->attach($admin);
 	}
-	
+
 	/**
 	 * Removes a User
 	 *
@@ -217,7 +230,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function removeAdmin(Tx_Community_Domain_Model_User $admin) {
 		$this->admins->detach($admin);
 	}
-	
+
 	/**
 	 * Setter for members
 	 *
@@ -236,7 +249,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getMembers() {
 		return $this->members;
 	}
-	
+
 	/**
 	 * Adds a User
 	 *
@@ -246,7 +259,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function addMember(Tx_Community_Domain_Model_User $member) {
 		$this->members->attach($member);
 	}
-	
+
 	/**
 	 * Removes a User
 	 *
@@ -256,7 +269,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function removeMember(Tx_Community_Domain_Model_User $member) {
 		$this->members->detach($member);
 	}
-	
+
 	/**
 	 * Setter for pendingMembers
 	 *
@@ -275,7 +288,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function getPendingMembers() {
 		return $this->pendingMembers;
 	}
-	
+
 	/**
 	 * Adds a User
 	 *
@@ -285,7 +298,7 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function addPendingMember(Tx_Community_Domain_Model_User $pendingMember) {
 		$this->pendingMembers->attach($pendingMember);
 	}
-	
+
 	/**
 	 * Removes a User
 	 *
@@ -295,6 +308,6 @@ class Tx_Community_Domain_Model_Group extends Tx_Extbase_DomainObject_AbstractEn
 	public function removePendingMember(Tx_Community_Domain_Model_User $pendingMember) {
 		$this->pendingMembers->detach($pendingMember);
 	}
-	
+
 }
 ?>

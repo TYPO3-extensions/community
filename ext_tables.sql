@@ -42,8 +42,8 @@ CREATE TABLE tx_community_domain_model_aclrole (
 	
 	
 	name tinytext,
-	is_public tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	is_friend tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	owner int(11) unsigned DEFAULT '0',
+	default_role int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE tx_community_group_user_mm (
 
 
 
-CREATE TABLE tx_community_group_user_mm (
+CREATE TABLE tx_community_group_members_user_mm (
 	uid int(10) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	
@@ -176,7 +176,25 @@ CREATE TABLE tx_community_group_user_mm (
 
 
 
-CREATE TABLE tx_community_group_user_mm (
+CREATE TABLE tx_community_group_admins_user_mm (
+	uid int(10) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	tablenames varchar(255) DEFAULT '' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	
+	tstamp int(10) unsigned NOT NULL,
+	crdate int(10) unsigned NOT NULL,
+	hidden tinyint(3) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);
+
+CREATE TABLE tx_community_group_pending_user_mm (
 	uid int(10) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	

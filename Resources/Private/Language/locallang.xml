@@ -29,11 +29,15 @@
 			
 			<label index="flexform.action.title">Content</label>
 			<label index="flexform.action.action">What to display</label>
+			<label index="flexform.action.user.action">Actions</label>
 			<label index="flexform.action.user.image">Profile Image</label>
 			<label index="flexform.action.user.details">Details</label>
 			<label index="flexform.action.user.edit">Edit details</label>
 			<label index="flexform.action.user.interaction">User menu</label>
 			<label index="flexform.action.relation.listSome">List Friends (short)</label>
+			<label index="flexform.action.relation.unconfirmed">Unconfirmed friends</label>
+			<label index="flexform.actionPage">Page where actions get performed</label>
+			<label index="flexform.profilePage">Page where the profile of users is displayed</label>
 			
 			<label index="profile.details.title">Details</label>
 			<label index="profile.details.username">Username</label>
@@ -61,10 +65,60 @@
 			<label index="profile.details.gender">Gender</label>
 			<label index="profile.details.gender.female">female</label>
 			<label index="profile.details.gender.male">male</label>
+			<label index="profile.details.edit.submit">Submit</label>
 			
 			<label index="profile.interaction.requestRelation">Add as friend</label>
+			<label index="profile.interaction.cancelRelation">Delete as a friend</label>
+			<label index="profile.interaction.search">Search users</label>
+			<label index="profile.interaction.user.edit">Edit profile</label>
+			<label index="profile.interaction.aclRole.list">List access roles</label>
+			<label index="profile.interaction.aclRole.assign">Assign a role</label>
+			<label index="profile.interaction.group.new">Found a group</label>
+			<label index="profile.interaction.group.list">List groups</label>
 			
 			<label index="relation.listSome.title">Friends</label>
+			<label index="relation.unconfirmed.confirm">confirm</label>
+			
+			<label index="role.new.title">New role</label>
+			<label index="role.new.name">Name</label>
+			<label index="role.new.submit">Submit</label>
+			
+			<label index="role.edit.title">Edit role</label>
+			<label index="role.edit.name">Name</label>
+			<label index="role.edit.submit">Update</label>
+			
+			<label index="role.list.title">Access roles</label>
+			<label index="role.list.new">Create a new role</label>
+			
+			<label index="role.access.title">Access options</label>
+			<label index="role.access.profile">Profile in general</label>
+			<label index="role.access.profile.image">Profile image</label>
+			<label index="role.access.profile.details">Details</label>
+			
+			<label index="role.assign.title">Assign a role</label>
+			<label index="role.assign.role">Role</label>
+			<label index="role.assign.submit">Assign</label>
+			
+			<label index="group.new.title">Found a group</label>
+			<label index="group.new.name">Groupname</label>
+			<label index="group.new.description">Description</label>
+			<label index="group.new.image">Image</label>
+			<label index="group.new.type">Type</label>
+			<label index="group.new.submit">Create</label>
+			
+			<label index="group.list.title">Groups</label>
+			<label index="group.list.name">Groupname</label>
+			<label index="group.list.members">Members</label>
+			
+			<label index="group.show.title">Group: %1s</label>
+			<label index="group.show.name">Name</label>
+			<label index="group.show.description">Description</label>
+			<label index="group.show.members">Members</label>
+			
+			<label index="group.type.1">Public group</label>
+			<label index="group.type.2">Private group</label>
+			
+			<label index="search.submit">Search</label>
 		</languageKey>
 	</data>
 </T3locallang>

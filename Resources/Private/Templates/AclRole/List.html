@@ -1,0 +1,11 @@
+<f:layout name="default"/>
+
+<f:section name="main">
+	<h3><f:translate key="role.list.title"/></h3>
+	<ul>
+	<f:for each="{roles}" as="role">
+		<li><f:link.action action="edit" controller="AclRole" arguments="{role : role}">{role.name}</f:link.action></li>
+	</f:for>
+	</ul>
+	<f:link.action action="new" controller="AclRole"><f:translate key="role.list.new"/></f:link.action>
+</f:section>

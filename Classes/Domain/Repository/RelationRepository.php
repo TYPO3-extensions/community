@@ -33,6 +33,12 @@
  */
 class Tx_Community_Domain_Repository_RelationRepository extends Tx_Extbase_Persistence_Repository {
 
+	/**
+	 * Find relations for a certain user.
+	 *
+	 * @param Tx_Community_Domain_Model_User $user
+	 * @param unknown_type $limit
+	 */
 	public function findRelationsForUser(Tx_Community_Domain_Model_User $user, $limit = 8) {
 		$query = $this->createQuery();
 		return $query->matching(
@@ -51,18 +57,33 @@ class Tx_Community_Domain_Repository_RelationRepository extends Tx_Extbase_Persi
 	 *
 	 * @param Tx_Community_Domain_Model_User $requestedUser
 	 * @param Tx_Community_Domain_Model_User $requestingUser
+	 * @return array
 	 * @throws Tx_Community_Exception_UnexpectedException
 	 */
-	public function findRelationBetweenUsers(Tx_Community_Domain_Model_User $requestedUser, Tx_Community_Domain_Model_User $requestingUser) {
+	public function findRelationBetweenUsers(
+		Tx_Community_Domain_Model_User $requestedUser,
+		Tx_Community_Domain_Model_User $requestingUser,
+		$status = NULL
+	) {
 		$query = $this->createQuery();
+		if ($status !== NULL) {
+			$statusQuery = $query->equals('status', $status);
+		} else {
+			$statusQuery = $query->logicalNot($query->equals('status', 0));
+		}
 		$relations =  $query->matching(
 			$query->logicalAnd(
-				$query->equals('initiatingUser', $requestedUser),
-				$query->equals('requestedUser', $requestingUser)
-			),
-			$query->logicalAnd(
-				$query->equals('initiatingUser', $requestingUser),
-				$query->equals('requestedUser', $requestedUser)
+				$query->logicalOr(
+					$query->logicalAnd(
+						$query->equals('initiatingUser', $requestedUser),
+						$query->equals('requestedUser', $requestingUser)
+					),
+					$query->logicalAnd(
+						$query->equals('initiatingUser', $requestingUser),
+						$query->equals('requestedUser', $requestedUser)
+					)
+				),
+				$statusQuery
 			)
 		)->execute();
 		if (count($relations) > 1) {
@@ -74,6 +95,16 @@ class Tx_Community_Domain_Repository_RelationRepository extends Tx_Extbase_Persi
 		} else {
 			return NULL;
 		}
+	}
+
+	public function findUnconfirmedForUser(Tx_Community_Domain_Model_User $user) {
+		$query = $this->createQuery();
+		return $query->matching(
+			$query->logicalAnd(
+				$query->equals('requestedUser', $user),
+				$query->equals('status', Tx_Community_Domain_Model_Relation::RELATION_STATUS_NEW)
+			)
+		)->execute();
 	}
 }
 ?>

@@ -6,6 +6,60 @@ plugin.tx_community.settings {
 			prefix = uploads/pics/
 		}
 	}
+	roles {
+		default {
+			1 {
+				name = Anonymous users (not logged in)
+				id = 1
+				rules {
+					1 {
+						name = profile
+						access = deny
+					}
+				}
+			}
+			2 {
+				name = Anyone
+				id = 2
+				rules {
+					1 {
+						name = profile
+						access = deny
+					}
+					2 {
+						name = profile.image
+						access = allow
+					}
+				}
+			}
+			3 {
+				name = Friends
+				id = 3
+				rules {
+					1 {
+						name = profile
+						access = allow
+					}
+				}
+			}
+		}
+	}
+	rules {
+		default {
+			1 {
+				name = profile
+				access = deny
+			}
+			2 {
+				name = profile.image
+				access = deny
+			}
+			3 {
+				name = profile.details
+				access = deny
+			}	
+		}
+	}
 }
 
 config.tx_extbase {
@@ -38,3 +92,34 @@ plugin.tx_community._CSS_DEFAULT_STYLE (
 		vertical-align:top;
 	}
 )
+
+# have to automate this reference for final patch
+tt_content.list.20.tx_community.controllerAndActionPresets =< plugin.tx_community.controllerAndActionPresets
+
+# Relation->request;Relation->cancel;Relation->confirm;Relation->reject;User->edit;User->search;User->update;AclRole->list
+
+plugin.tx_community.controllerAndActionPresets {
+	actions {
+		controller = AclRole
+		action = list
+		switchableControllerActions {
+			1 {
+				controller = Relation
+				actions = request,cancel,confirm,reject
+			}
+			2 {
+				controller = User
+				actions = edit,update
+			}
+			3 {
+				controller = AclRole
+				actions = list,new,create,update,edit,assign
+			}
+			4 {
+				controller = Group
+				actions = new,create,edit,update,delete,show,requestMembership,confirmMembership,list
+			}
+		}
+	}
+}
+

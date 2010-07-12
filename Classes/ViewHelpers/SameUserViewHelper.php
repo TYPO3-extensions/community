@@ -2,7 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c)  Pascal Jungblut
+*  (c) 2010 Pascal Jungblut <mail@pascalj.de>
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,31 +24,25 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_Community_Domain_Model_User
+ * Checks if the requestedUser and the requestingUser are the same.
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Repository_UserRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_Community_ViewHelpers_SameUserViewHelper extends Tx_Fluid_ViewHelpers_IfViewHelper {
 
 	/**
-	 * Find the current user
-	 *
-	 * @return Tx_Community_Domain_Model_User
-	 * @todo Error Checking!
+	 * @param Tx_Community_Domain_Model_User $requestingUser
+	 * @param Tx_Community_Domain_Model_User $requestedUser
 	 */
-	public function findCurrentUser() {
-		$uid = (integer) $GLOBALS["TSFE"]->fe_user->user['uid'];
-		return $this->findByUid($uid);
-	}
-
-	public function searchByName($word) {
-		$query = $this->createQuery();
-		return $query->matching(
-			$query->like('name', '%' . $word . '%')
-		)->execute();
+	public function render($requestingUser, $requestedUser) {
+		if ($requestingUser && ($requestedUser->getUid() == $requestingUser->getUid())) {
+			return $this->renderThenChild();
+		} else {
+			return $this->renderElseChild();
+		}
 	}
 }
 ?>

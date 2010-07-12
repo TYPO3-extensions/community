@@ -2,7 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c)  Pascal Jungblut
+*  (c) 2010 Pascal Jungblut <mail@pascalj.de>
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,31 +24,33 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_Community_Domain_Model_User
+ * Repository for Tx_Community_Domain_Model_AclRole
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Repository_UserRepository extends Tx_Extbase_Persistence_Repository {
-
-	/**
-	 * Find the current user
-	 *
-	 * @return Tx_Community_Domain_Model_User
-	 * @todo Error Checking!
-	 */
-	public function findCurrentUser() {
-		$uid = (integer) $GLOBALS["TSFE"]->fe_user->user['uid'];
-		return $this->findByUid($uid);
-	}
-
-	public function searchByName($word) {
+class Tx_Community_Domain_Repository_AclRoleRepository extends Tx_Extbase_Persistence_Repository {
+	public function findDefault(Tx_Community_Domain_Model_User $user, $code = NULL) {
 		$query = $this->createQuery();
-		return $query->matching(
-			$query->like('name', '%' . $word . '%')
-		)->execute();
+		if($code === NULL) {
+			return $query->matching(
+				$query->logicalAnd(
+					$query->logicalNot(
+						$query->equals('defaultRole', Tx_Community_Domain_Model_AclRole::NOT_DEFAULT_ROLE)
+					),
+					$query->equals('owner', $user)
+				)
+			)->execute();
+		} else {
+			return $query->matching(
+				$query->logicalAnd(
+					$query->equals('owner', $user),
+					$query->equals('defaultRole', $code)
+				)
+			)->execute();
+		}
 	}
 }
 ?>

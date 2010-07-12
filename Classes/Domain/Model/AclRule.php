@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Pascal Jungblut <mail@pascal-jungblut.com>
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,35 +32,35 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_Community_Domain_Model_AclRule extends Tx_Extbase_DomainObject_AbstractEntity {
-	
+
 	/**
 	 * name
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $name;
-	
+
 	/**
 	 * resource
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $resource;
-	
+
 	/**
 	 * accessMode
 	 * @var integer
 	 */
-	protected $access_mode;
-	
+	protected $accessMode;
+
 	/**
 	 * role
 	 * @var Tx_Community_Domain_Model_AclRole
 	 */
 	protected $role;
-	
-	
-	
+
+
+
 	/**
 	 * Setter for name
 	 *
@@ -79,7 +79,7 @@ class Tx_Community_Domain_Model_AclRule extends Tx_Extbase_DomainObject_Abstract
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	/**
 	 * Setter for resource
 	 *
@@ -98,7 +98,7 @@ class Tx_Community_Domain_Model_AclRule extends Tx_Extbase_DomainObject_Abstract
 	public function getResource() {
 		return $this->resource;
 	}
-	
+
 	/**
 	 * Setter for accessMode
 	 *
@@ -117,7 +117,7 @@ class Tx_Community_Domain_Model_AclRule extends Tx_Extbase_DomainObject_Abstract
 	public function getAccessMode() {
 		return $this->accessMode;
 	}
-	
+
 	/**
 	 * Setter for role
 	 *
@@ -136,6 +136,6 @@ class Tx_Community_Domain_Model_AclRule extends Tx_Extbase_DomainObject_Abstract
 	public function getRole() {
 		return $this->role;
 	}
-	
+
 }
 ?>

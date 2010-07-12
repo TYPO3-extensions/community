@@ -4,7 +4,7 @@
 *  Copyright notice
 *
 *  (c) 2010 Pascal Jungblut <mail@pascal-jungblut.com>
-*  			
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,29 +31,30 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Community_Domain_Model_AclRole extends Tx_Extbase_DomainObject_AbstractValueObject {
-	
+class Tx_Community_Domain_Model_AclRole extends Tx_Extbase_DomainObject_AbstractEntity {
+
+	/**
+	 * defaultRole property if this role is NOT a default
+	 *
+	 * @var
+	 */
+	const NOT_DEFAULT_ROLE = 0;
+
 	/**
 	 * name
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $name;
-	
+
 	/**
-	 * isPublic
-	 * @var boolean
+	 * the owner of the role (for faster searching)
+	 *
+	 * @var Tx_Community_Domain_Model_User
+	 * @lazy
 	 */
-	protected $is_public;
-	
-	/**
-	 * isFriend
-	 * @var boolean
-	 */
-	protected $is_friend;
-	
-	
-	
+	protected $owner;
+
 	/**
 	 * Setter for name
 	 *
@@ -72,62 +73,39 @@ class Tx_Community_Domain_Model_AclRole extends Tx_Extbase_DomainObject_Abstract
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	/**
-	 * Setter for isPublic
+	 * Set the owner
 	 *
-	 * @param boolean $isPublic isPublic
-	 * @return void
+	 * @param Tx_Community_Domain_Model_User $owner
 	 */
-	public function setIsPublic($isPublic) {
-		$this->isPublic = $isPublic;
+	public function setOwner(Tx_Community_Domain_Model_User $owner) {
+		$this->owner = $owner;
 	}
 
 	/**
-	 * Getter for isPublic
+	 * Get the owner
 	 *
-	 * @return boolean isPublic
+	 * @return Tx_Community_Domain_Model_User
 	 */
-	public function getIsPublic() {
-		return $this->isPublic;
-	}
-	
-	/**
-	 * Returns the boolean state of isPublic
-	 *
-	 * @return bool The state of isPublic
-	 */
-	public function isIsPublic() {
-		$this->getIsPublic();
-	}
-	
-	/**
-	 * Setter for isFriend
-	 *
-	 * @param boolean $isFriend isFriend
-	 * @return void
-	 */
-	public function setIsFriend($isFriend) {
-		$this->isFriend = $isFriend;
+	public function getOwner() {
+		return $this->owner;
 	}
 
 	/**
-	 * Getter for isFriend
+	 * Set the type of the default role (NOT_DEFAULT_ROLE for userconfigured roles)
 	 *
-	 * @return boolean isFriend
+	 * @param integer $role
 	 */
-	public function getIsFriend() {
-		return $this->isFriend;
+	public function setDefaultRole($role) {
+		$this->defaultRole = $role;
 	}
-	
+
 	/**
-	 * Returns the boolean state of isFriend
-	 *
-	 * @return bool The state of isFriend
+	 * Get the tye of the default role
 	 */
-	public function isIsFriend() {
-		$this->getIsFriend();
+	public function getDefaultRole() {
+		return $this->defaultRole;
 	}
-	
 }
 ?>

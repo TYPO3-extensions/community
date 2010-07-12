@@ -112,8 +112,9 @@ $TCA['tx_community_domain_model_group'] = array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.admins',
 			'config'  => array(
-				'type' => 'inline',
-				'foreign_table' => 'fe_user',
+				'type' => 'group',
+				'foreign_table' => 'fe_users',
+				'foreign_class' => 'Tx_Community_Domain_Model_User',
 				'MM' => 'tx_community_group_admins_user_mm',
 				'maxitems' => 99999
 			)
@@ -122,8 +123,9 @@ $TCA['tx_community_domain_model_group'] = array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.members',
 			'config'  => array(
-				'type' => 'inline',
-				'foreign_table' => 'tx_community_domain_model_user',
+				'type' => 'group',
+				'foreign_class' => 'Tx_Community_Domain_Model_User',
+				'foreign_table' => 'fe_users',
 				'MM' => 'tx_community_group_members_user_mm',
 				'maxitems' => 99999
 			)
@@ -132,8 +134,9 @@ $TCA['tx_community_domain_model_group'] = array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_group.pending_members',
 			'config'  => array(
-				'type' => 'inline',
-				'foreign_table' => 'tx_community_domain_model_user',
+				'type' => 'group',
+				'foreign_class' => 'Tx_Community_Domain_Model_User',
+				'foreign_table' => 'fe_users',
 				'MM' => 'tx_community_group_pending_user_mm',
 				'maxitems' => 99999
 			)
@@ -208,20 +211,23 @@ $TCA['tx_community_domain_model_aclrole'] = array(
 				'eval' => 'trim,required'
 			)
 		),
-		'is_public' => array(
+		'default_role' => array(
 			'exclude' => 0,
-			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.is_public',
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.default_role',
 			'config'  => array(
 				'type' => 'check',
 				'default' => 0
 			)
 		),
-		'is_friend' => array(
+		'owner' => array(
 			'exclude' => 0,
-			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.is_friend',
+			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrole.owner',
 			'config'  => array(
-				'type' => 'check',
-				'default' => 0
+				'type' => 'select',
+				'foreign_table' => 'fe_users',
+				'foreign_class' => 'Tx_Community_Domain_Model_User',
+				'minitems' => 1,
+				'maxitems' => 1,
 			)
 		),
 	),
@@ -306,9 +312,7 @@ $TCA['tx_community_domain_model_aclrule'] = array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_aclrule.access_mode',
 			'config'  => array(
-				'type' => 'input',
-				'size' => 4,
-				'eval' => 'int'
+				'type' => 'check',
 			)
 		),
 		'role' => array(
@@ -319,6 +323,7 @@ $TCA['tx_community_domain_model_aclrule'] = array(
 				'foreign_table' => 'tx_community_domain_model_aclrole',
 				'minitems' => 0,
 				'maxitems' => 1,
+				'size' => 1,
 				'appearance' => array(
 					'collapse' => 0,
 					'newRecordLinkPosition' => 'bottom',
@@ -419,7 +424,7 @@ $TCA['tx_community_domain_model_relation'] = array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:community/Resources/Private/Language/locallang_db.xml:tx_community_domain_model_relation.requested_user',
 			'config'  => array(
-				'type' => 'inline',
+				'type' => 'select',
 				'foreign_table' => 'tx_community_domain_model_role',
 				'foreign_class' => 'Tx_Community_Domain_Model_AclRole',
 				'maxitems' => 99999

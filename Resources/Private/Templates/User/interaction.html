@@ -1,9 +1,60 @@
-<ul>
-	<f:if condition="{requestedUser.uid == requestingUser.uid}">
-	<li>
-		<f:link.action action="request" controller="Relation" arguments="{user : requestedUser}">
-			<f:translate key="profile.interaction.requestRelation"/>
-		</f:link.action>
-	</li>
-	</f:if>
-</ul>
+{namespace com=Tx_Community_ViewHelpers} 
+<f:if condition="{requestingUser}">
+	<ul>
+
+		<com:sameUser requestingUser="{requestingUser}" requestedUser="{requestedUser}">
+			<f:then>
+				<li>
+					<f:link.action action="search" controller="User" pageUid="{settings.actionPage}">
+						<f:translate key="profile.interaction.search"/>
+					</f:link.action>
+				</li>
+				<li>
+					<f:link.action action="edit" controller="User" pageUid="{settings.actionPage}" arguments="{user : requestedUser}">
+						<f:translate key="profile.interaction.user.edit"/>
+					</f:link.action>
+				</li>
+				<li>
+					<f:link.action action="list" controller="AclRole" pageUid="{settings.actionPage}">
+						<f:translate key="profile.interaction.aclRole.list"/>
+					</f:link.action>
+				</li>
+				<li>
+					<f:link.action action="list" controller="Group" pageUid="{settings.actionPage}">
+						<f:translate key="profile.interaction.group.list"/>
+					</f:link.action>
+				</li>
+				<li>
+					<f:link.action action="new" controller="Group" pageUid="{settings.actionPage}">
+						<f:translate key="profile.interaction.group.new"/>
+					</f:link.action>
+				</li>
+			</f:then>
+			<f:else>
+				<f:if condition="{relation}">
+					<f:then>
+						<li>
+							<f:link.action action="cancel" controller="Relation" arguments="{relation : relation}" pageUid="{settings.actionPage}">
+								<f:translate key="profile.interaction.cancelRelation"/>
+							</f:link.action>
+						</li>
+						<li>
+							<f:link.action action="assign" controller="AclRole" pageUid="{settings.actionPage}" arguments="{user : requestedUser}">
+								<f:translate key="profile.interaction.aclRole.assign"/>
+							</f:link.action>
+						</li>
+					</f:then>
+					<f:else>
+						<li>
+							<f:link.action action="request" controller="Relation" arguments="{user : requestedUser}" pageUid="{settings.actionPage}">
+								<f:translate key="profile.interaction.requestRelation"/>
+							</f:link.action>
+						</li>
+					</f:else>
+				</f:if>
+			
+			</f:else>
+		</com:sameUser>
+	
+	</ul>
+</f:if>

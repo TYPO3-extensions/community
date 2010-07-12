@@ -50,8 +50,7 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 	 * @return void
 	 */
 	protected function initializeAction() {
-		$this->userRepository = t3lib_div::makeInstance('Tx_Community_Domain_Repository_UserRepository');
-		$this->relationRepository = t3lib_div::makeInstance('Tx_Community_Domain_Repository_RelationRepository');
+		parent::initializeAction();
 	}
 
 	/**
@@ -60,6 +59,15 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 	 *
 	 */
 	public function imageAction() {
+		if ($this->getRequestedUser() && $this->getRequestingUser()) {
+			$relation = Tx_Community_Helper_RepositoryHelper::getRepository('Relation')->findRelationBetweenUsers(
+
+				$this->getRequestedUser(),
+				$this->getRequestingUser()
+			);
+		}
+		var_dump($this->hasAccess('profile.foo', $relation));
+
 		$this->view->assign('user', $this->getRequestedUser());
 	}
 
@@ -77,6 +85,16 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 	public function interactionAction() {
 		$this->view->assign('requestedUser', $this->getRequestedUser());
 		$this->view->assign('requestingUser', $this->getRequestingUser());
+		if ($this->getRequestingUser()) {
+			$relation = $this->relationRepository->findRelationBetweenUsers(
+				$this->getRequestedUser(),
+				$this->getRequestingUser(),
+				Tx_Community_Domain_Model_Relation::RELATION_STATUS_CONFIRMED
+			);
+		} else {
+			$relation = NULL;
+		}
+		$this->view->assign('relation', $relation);
 	}
 
 	/**
@@ -85,8 +103,13 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 	 * @param Tx_Community_Domain_Model_User $user
 	 * @dontvalidate $user
 	 */
-	public function editAction(Tx_Community_Domain_Model_User $user) {
-		$this->view->assign('user', $this->getRequestingUser());
+	public function editAction(Tx_Community_Domain_Model_User $user = NULL) {
+		// we can implement the possibility to edit users in the FE for admins
+		if ($this->ownProfile()) {
+			$requestedUser = $user ? $user : $this->getRequestedUser();
+			$this->view->assign('user', $requestedUser);
+			$this->view->assign('requestingUser', $this->getRequestingUser());
+		}
 	}
 
 	/**
@@ -96,6 +119,27 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 	 */
 	public function updateAction(Tx_Community_Domain_Model_User $user) {
 		$this->userRepository->update($user);
+	}
+
+	/**
+	 * Search a user by name
+	 */
+	public function searchAction() {
+		if ($this->request->hasArgument('searchWord')) {
+			$word = $this->request->getArgument('searchWord');
+		}
+		$users = $this->userRepository->searchByName($word);
+		$this->view->assign('users', $users);
+	}
+
+	/**
+	 * Choose a role for a certain user
+	 *
+	 * @param Tx_Community_Domain_Model_User $user
+	 */
+	public function chooseRoleAction(Tx_Community_Domain_Model_User $user) {
+		$this->view->assign('user', $user);
+		$this->view->assign('roles', Tx_Community_Helper_RelationHelper::getRolesForUser($user));
 	}
 }
 ?>

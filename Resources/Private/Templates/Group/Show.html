@@ -1,0 +1,25 @@
+<f:layout name="default"/>
+
+<f:section name="main">
+	<h3><f:translate key="group.show.title" arguments="{name : group.name}"/></h3>
+	<dl>
+		<dt>
+			<f:translate key="group.show.name"/>
+		</dt>
+		<dd>
+			{group.name}
+		</dd>
+		<dt>
+			<f:translate key="group.show.description"/>
+		</dt>
+		<dd>
+			{group.description}
+		</dd>
+		<dt>
+			<f:translate key="group.show.members"/>
+		</dt>
+		<dd>
+			<f:count subject="{group.members}"/>
+		</dd>
+	</dl>
+</f:section>

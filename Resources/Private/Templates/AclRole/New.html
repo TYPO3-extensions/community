@@ -1,0 +1,18 @@
+<f:layout name="default"/>
+
+<f:section name="main">
+	<f:form action="create" controller="AclRole" name="role" object="{role}">
+		<h3><f:translate key="role.new.title"/></h3>
+		<dl>
+			<dt><f:translate key="role.new.name"/></dt>
+			<dd><f:form.textbox property="name"/></dd>
+			
+			<h4><f:translate key="role.new.access.title"/></h4>
+			<f:for each="{rules}" as="rule">
+				<dt><f:translate key="role.access.{rule.resource}"/></dt>
+				<dd><f:form.checkbox name="rules[{rule.resource}]" value="1" checked="{rule.accessMode} == 1"/></dd>
+			</f:for>
+		</dl>
+		<f:form.submit value="{f:translate(key:'role.new.submit')}"/>
+	</f:form>
+</f:section>

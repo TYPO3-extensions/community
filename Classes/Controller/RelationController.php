@@ -71,17 +71,18 @@ class Tx_Community_Controller_RelationController extends Tx_Community_Controller
 	 * @see Tx_Community_Domain_Model_Relation
 	 */
 	public function requestAction(Tx_Community_Domain_Model_User $user) {
-		$relations = $this->relationRepository->findRelationsBetweenUsers($user, $this->getRequestingUser());
-		if (count($relations) == 0) {
+		$relation = $this->relationRepository->findRelationBetweenUsers($user, $this->getRequestingUser());
+		if ($relation === NULL) {
 			$relation = new Tx_Community_Domain_Model_Relation();
 
 			// set the details for the relation
-			$relation->setInitiatingRole($this->getRequestingUser());
+			$relation->setInitiatingUser($this->getRequestingUser());
 			$relation->setRequestedUser($user);
+			$requestedRole = Tx_Community_Helper_AccessHelper::getFriendRole($user);
+			$requestingRole = Tx_Community_Helper_AccessHelper::getFriendRole($this->getRequestingUser());
 			$relation->setStatus(Tx_Community_Domain_Model_Relation::RELATION_STATUS_NEW);
 			$this->relationRepository->add($relation);
-		} elseif (count($relations) == 1) {
-			$relation = $relations[0];
+		} elseif ($relation instanceof Tx_Community_Domain_Model_Relation) {
 			if($relation->getStatus() == Tx_Community_Domain_Model_Relation::RELATION_STATUS_REJECTED) {
 				if($relation->getRequestedUser() == $user) {
 					$this->flashMessages->add($this->_('relation.request.allreadyRejected'));
@@ -92,6 +93,7 @@ class Tx_Community_Controller_RelationController extends Tx_Community_Controller
 					$requestedUser = $relation->getRequestedUser();
 					$relation->setRequestedUser($relation->getInitiatingUser());
 					$relation->setInitiatingUser($requestedUser);
+					$relation->setStatus(Tx_Community_Domain_Model_Relation::RELATION_STATUS_NEW);
 					$this->relationRepository->update($relation);
 				}
 			}
@@ -133,6 +135,19 @@ class Tx_Community_Controller_RelationController extends Tx_Community_Controller
 			}
 		} else {
 			throw new Tx_Community_Exception_UserNotFoundException('No one is logged in.');
+		}
+	}
+
+	/**
+	 * List all unconfirmed relations.
+	 */
+	public function unconfirmedAction() {
+		if ($this->ownProfile()) {
+			$this->view->assign('unconfirmedRelations', $this->relationRepository->findUnconfirmedForUser(
+				$this->getRequestingUser())
+			);
+		} else {
+			$this->view->assign('unconfirmedRelations', array());
 		}
 	}
 
@@ -179,8 +194,12 @@ class Tx_Community_Controller_RelationController extends Tx_Community_Controller
 	 */
 	protected function cancelRelation(Tx_Community_Domain_Model_Relation $relation) {
 		$relation->setStatus(Tx_Community_Domain_Model_Relation::RELATION_STATUS_CANCELLED);
-		$this->relationRepository->update($relation);
+		$this->relationRepository->remove($relation);
 		// TODO send mails on rejection
+	}
+
+	protected function setDefaultRole() {
+
 	}
 }
 ?>

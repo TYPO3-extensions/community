@@ -32,21 +32,107 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Controller_GroupController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_Community_Controller_GroupController extends Tx_Community_Controller_BaseController {
 
 	/**
-	 * @var Tx_Community_Domain_Repository_GroupRepository
-	 */
-	protected $groupRepository;
-
-	/**
-	 * Initializes the current action
+	 * Show the form to create a new grop
 	 *
-	 * @return void
+	 * @param Tx_Community_Domain_Model_Group $group
+	 * @dontverify $group
 	 */
-	protected function initializeAction() {
-		$this->groupRepository = t3lib_div::makeInstance('Tx_Community_Domain_Repository_GroupRepository');
+	public function newAction(Tx_Community_Domain_Model_Group $group = NULL) {
+		$this->view->assign('group', $group);
+		$this->view->assign('groupOwner', $this->getRequestingUser());
 	}
 
+	/**
+	 * Create a new group
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 */
+	public function createAction(Tx_Community_Domain_Model_Group $group) {
+		Tx_Community_Helper_RepositoryHelper::getRepository('Group')->add($group);
+		$this->view->assign('group', $group);
+	}
+
+	/**
+	 *  Display the form to edit a group
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 * @dontvalidate $group
+	 */
+	public function editAction(Tx_Community_Domain_Model_Group $group) {
+		$this->view->assign('group', $group);
+	}
+
+	/**
+	 * Update a group
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 */
+	public function updateAction(Tx_Community_Domain_Model_Group $group) {
+		Tx_Community_Helper_RepositoryHelper::getRepository('Group')->update($group);
+	}
+
+	/**
+	 * Delete an action if the creator confirms the deletion
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 */
+	public function deleteAction(Tx_Community_Domain_Model_Group $group) {
+		if($this->request->hasArgument('confirmedDelete') && ($this->getRequestingUser()->getUid() && $group->getCreator()->getUid())) {
+			Tx_Community_Helper_RepositoryHelper::getRepository('group')->remove($group);
+		} else {
+			$this->view->assign('group', $group);
+		}
+	}
+
+	/**
+	 * Show a certain group
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 */
+	public function showAction(Tx_Community_Domain_Model_Group $group) {
+		$this->view->assign('group', $group);
+	}
+
+	/**
+	 * Request a membership
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 */
+	public function requestMembershipAction(Tx_Community_Domain_Model_Group $group) {
+		if ($this->getRequestingUser() instanceof Tx_Community_Domain_Model_User) {
+			if ($group->getGrouptype() == Tx_Community_Domain_Model_Group::GROUP_TYPE_PRIVATE) {
+				Tx_Community_Helper_GroupHelper::addPendingMember($group, $this->getRequestingUser());
+			} elseif ($group->getGrouptype() == Tx_Community_Domain_Model_Group::GROUP_TYPE_PUBLIC) {
+				Tx_Community_Helper_GroupHelper::confirmMember($group, $this->getRequestingUser());
+			}
+		}
+	}
+
+	/**
+	 * Confirm a user's requested membership
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 * @param Tx_Community_Domain_Model_User $user
+	 */
+	public function confirmMembershipAction(
+		Tx_Community_Domain_Model_Group $group,
+		Tx_Community_Domain_Model_User $user
+	) {
+		if ($this->getRequestingUser() instanceof Tx_Community_Domain_Model_User) {
+			if (Tx_Community_Helper_GroupHelper::isAdmin($group, $this->getRequestingUser())) {
+				Tx_Community_Helper_GroupHelper::confirmMember($group, $user);
+			}
+		}
+	}
+
+	/**
+	 * Lists all groups
+	 */
+	public function listAction() {
+		$this->view->assign('groups', Tx_Community_Helper_RepositoryHelper::getRepository('Group')->findAll());
+	}
 }
 ?>
