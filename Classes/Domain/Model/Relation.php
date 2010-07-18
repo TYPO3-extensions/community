@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Model_Relation extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Community_Domain_Model_Relation extends Tx_Community_Domain_Model_Observer_AbstractObservableEntity {
 
 	/**
 	 * the relation has just been initiated

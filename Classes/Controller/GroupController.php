@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Controller_GroupController extends Tx_Community_Controller_BaseController {
+class Tx_Community_Controller_GroupController extends Tx_Community_Controller_BaseController implements Tx_Community_Controller_Cacheable_ControllerInterface {
 
 	/**
 	 * Show the form to create a new grop
@@ -51,6 +51,8 @@ class Tx_Community_Controller_GroupController extends Tx_Community_Controller_Ba
 	 * @param Tx_Community_Domain_Model_Group $group
 	 */
 	public function createAction(Tx_Community_Domain_Model_Group $group) {
+		$group->setCreator($this->getRequestingUser());
+
 		Tx_Community_Helper_RepositoryHelper::getRepository('Group')->add($group);
 		$this->view->assign('group', $group);
 	}
@@ -80,7 +82,7 @@ class Tx_Community_Controller_GroupController extends Tx_Community_Controller_Ba
 	 * @param Tx_Community_Domain_Model_Group $group
 	 */
 	public function deleteAction(Tx_Community_Domain_Model_Group $group) {
-		if($this->request->hasArgument('confirmedDelete') && ($this->getRequestingUser()->getUid() && $group->getCreator()->getUid())) {
+		if($this->request->hasArgument('confirmedDelete') && ($this->getRequestingUser()->getUid() == $group->getCreator()->getUid())) {
 			Tx_Community_Helper_RepositoryHelper::getRepository('group')->remove($group);
 		} else {
 			$this->view->assign('group', $group);
@@ -106,7 +108,9 @@ class Tx_Community_Controller_GroupController extends Tx_Community_Controller_Ba
 			if ($group->getGrouptype() == Tx_Community_Domain_Model_Group::GROUP_TYPE_PRIVATE) {
 				Tx_Community_Helper_GroupHelper::addPendingMember($group, $this->getRequestingUser());
 			} elseif ($group->getGrouptype() == Tx_Community_Domain_Model_Group::GROUP_TYPE_PUBLIC) {
-				Tx_Community_Helper_GroupHelper::confirmMember($group, $this->getRequestingUser());
+				if (!Tx_Community_Helper_GroupHelper::isAdmin($group, $this->getRequestingUser())) {
+					Tx_Community_Helper_GroupHelper::confirmMember($group, $this->getRequestingUser());
+				}
 			}
 		}
 	}
@@ -133,6 +137,72 @@ class Tx_Community_Controller_GroupController extends Tx_Community_Controller_Ba
 	 */
 	public function listAction() {
 		$this->view->assign('groups', Tx_Community_Helper_RepositoryHelper::getRepository('Group')->findAll());
+	}
+
+	/**
+	 * Make a user an admin of the group
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 * @param Tx_Community_Domain_Model_User $user
+	 */
+	public function adminAction(Tx_Community_Domain_Model_Group $group, Tx_Community_Domain_Model_User $user) {
+		if ($this->request->hasArgument('confirmAdmin') &&
+			$this->getRequestingUser() && (Tx_Community_Helper_GroupHelper::isAdmin($group, $this->getRequestingUser()))
+		) {
+			if (Tx_Community_Helper_GroupHelper::isMember($group, $user)) {
+				$group->removeMember($user);
+				$group->addAdmin($user);
+				Tx_Community_Helper_RepositoryHelper::getRepository('Group')->update($group);
+			}
+		} else {
+			$this->view->assign('group', $group);
+			$this->view->assign('user', $user);
+		}
+	}
+
+	/**
+	 * Remove the admin status from a user
+	 *
+	 * @param Tx_Community_Domain_Model_Group $group
+	 * @param Tx_Community_Domain_Model_User $user
+	 */
+	public function unAdminAction(Tx_Community_Domain_Model_Group $group, Tx_Community_Domain_Model_User $user) {
+		if ($this->request->hasArgument('confirmUnAdmin') &&
+			$this->getRequestingUser() && (Tx_Community_Helper_GroupHelper::isAdmin($group, $this->getRequestingUser()))
+		) {
+			if (Tx_Community_Helper_GroupHelper::isAdmin($group, $user)) {
+				$group->removeAdmin($user);
+				$group->addMember($user);
+				Tx_Community_Helper_RepositoryHelper::getRepository('Group')->update($group);
+			}
+		} else {
+			$this->view->assign('group', $group);
+			$this->view->assign('user', $user);
+		}
+	}
+
+
+	/**
+	 * Get an identifier
+	 *
+	 * @param $request
+	 */
+	public function getIdentifier($request) {
+		$requestSettings = array(
+			'controller' => $request->getControllerName(),
+			'action' => $request->getControllerActionName(),
+			'arguments' => $request->getArguments(),
+			'user' => $GLOBALS['TSFE']->fe_user->user[$GLOBALS['TSFE']->fe_user->userid_column]
+		);
+		return array($this->settings, $requestSettings);
+	}
+
+	/**
+	 * Get the tags for this request (caching)
+	 */
+	public function getTags() {
+		$repo = Tx_Community_Helper_RepositoryHelper::getRepository('Group');
+		return $repo->getTags();
 	}
 }
 ?>

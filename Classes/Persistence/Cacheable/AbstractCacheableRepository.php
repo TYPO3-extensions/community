@@ -24,37 +24,42 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_Community_Domain_Model_AclRole
+ * A cachable repository. Meaning that can return the tags that were used.
+ *
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Repository_AclRoleRepository extends Tx_Community_Persistence_Cacheable_AbstractCacheableRepository {
-	public function findDefault(Tx_Community_Domain_Model_User $user, $code = NULL) {
-		$query = $this->createQuery();
-		if($code === NULL) {
-			return $query->matching(
-				$query->logicalAnd(
-					$query->logicalNot(
-						$query->equals('defaultRole', Tx_Community_Domain_Model_AclRole::NOT_DEFAULT_ROLE)
-					),
-					$query->equals('owner', $user)
-				)
-			)->execute();
-		} else {
-			return $query->matching(
-				$query->logicalAnd(
-					$query->equals('owner', $user),
-					$query->equals('defaultRole', $code)
-				)
-			)->execute();
-		}
+abstract class Tx_Community_Persistence_Cacheable_AbstractCacheableRepository extends Tx_Extbase_Persistence_Repository {
+
+	/**
+	 * The tags that were used fetched
+	 *
+	 * @var array
+	 */
+	static protected $tags = array();
+
+	/**
+	 * Get the tags for cache dropping
+	 */
+	public function getTags() {
+		return self::$tags;
 	}
 
-	public function update($object) {
-		parent::update($object);
+	public function __construct() {
+		parent::__construct();
+		$this->queryFactory = t3lib_div::makeInstance('Tx_Community_Persistence_Cacheable_TaggingQueryFactory');
+		$this->queryFactory->injectRepository($this);
+	}
+
+	public function addTag($tag) {
+		self::$tags[] = $tag;
+	}
+
+	public function createQuery() {
+		return $this->queryFactory->create($this->objectType);
 	}
 }
 ?>

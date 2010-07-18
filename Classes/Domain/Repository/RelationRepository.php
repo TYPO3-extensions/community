@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Repository_RelationRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_Community_Domain_Repository_RelationRepository extends Tx_Community_Persistence_Cacheable_AbstractCacheableRepository {
 
 	/**
 	 * Find relations for a certain user.

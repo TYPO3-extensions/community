@@ -2,7 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c)  Pascal Jungblut
+*  (c) 2010 Pascal Jungblut <mail@pascalj.de>
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,19 +23,24 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Repository for Tx_Community_Domain_Model_Group
- *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- * @author Pascal Jungblut <mail@pascalj.com>
- */
-class Tx_Community_Domain_Repository_GroupRepository
-	extends Tx_Community_Persistence_Cacheable_AbstractCacheableRepository {
+class Tx_Community_Domain_Model_Observer_CacheObserver implements Tx_Community_Domain_Model_Observer_ObserverInterface {
 
-		public function getTags() {
-			return self::$tags;
-		}
+	/**
+	 * Update an observable object
+	 *
+	 * @param Tx_Community_Domain_Model_Observer_ObservableInterface $observable
+	 */
+	public function update(Tx_Community_Domain_Model_Observer_ObservableInterface $observable) {
+		$cachingService = new Tx_Community_Service_Cache_CacheService();
+		$cachingService->dropTagsForEntity($observable);
+		$observable->detach($this);
+	}
+
+	/**
+	 * Simply returns the class name. Used to remove the current observer from an object
+	 */
+	public function __toString() {
+		return get_class($this);
+	}
 }
 ?>

@@ -80,13 +80,8 @@ class Tx_Community_Helper_GroupHelper {
 			return true;
 		}
 
-		foreach ($group->getAdmins() as $admin) {
-			if ($userId == $admin->getUid()) {
-				return true;
-			}
-		}
 
-		return false;
+		return $group->getAdmins()->contains($user);
 	}
 
 	/**
@@ -99,14 +94,8 @@ class Tx_Community_Helper_GroupHelper {
 		Tx_Community_Domain_Model_Group $group,
 		Tx_Community_Domain_Model_User $user
 	) {
-		$userId = $user->getUid();
-		foreach ($group->getMembers() as $member) {
-			if ($userId == $member->getUid()) {
-				return true;
-			}
-		}
+		return $group->getMembers()->contains($user);
 
-		return false;
 	}
 
 	/**
@@ -119,14 +108,8 @@ class Tx_Community_Helper_GroupHelper {
 		Tx_Community_Domain_Model_Group $group,
 		Tx_Community_Domain_Model_User $user
 	) {
-		$userId = $user->getUid();
-		foreach ($group->getPendingMembers() as $member) {
-			if ($userId == $member->getUid()) {
-				return true;
-			}
-		}
+		return $group->getPendingMembers()->contains($user);
 
-		return false;
 	}
 }
 ?>

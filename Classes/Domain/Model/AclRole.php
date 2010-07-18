@@ -31,7 +31,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Community_Domain_Model_AclRole extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Community_Domain_Model_AclRole extends Tx_Community_Domain_Model_Observer_AbstractObservableEntity {
 
 	/**
 	 * defaultRole property if this role is NOT a default

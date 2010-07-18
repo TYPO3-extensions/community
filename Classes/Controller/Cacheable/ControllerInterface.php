@@ -24,37 +24,23 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_Community_Domain_Model_AclRole
+ * A basic interface to allow cachable controllers
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Repository_AclRoleRepository extends Tx_Community_Persistence_Cacheable_AbstractCacheableRepository {
-	public function findDefault(Tx_Community_Domain_Model_User $user, $code = NULL) {
-		$query = $this->createQuery();
-		if($code === NULL) {
-			return $query->matching(
-				$query->logicalAnd(
-					$query->logicalNot(
-						$query->equals('defaultRole', Tx_Community_Domain_Model_AclRole::NOT_DEFAULT_ROLE)
-					),
-					$query->equals('owner', $user)
-				)
-			)->execute();
-		} else {
-			return $query->matching(
-				$query->logicalAnd(
-					$query->equals('owner', $user),
-					$query->equals('defaultRole', $code)
-				)
-			)->execute();
-		}
-	}
+interface Tx_Community_Controller_Cacheable_ControllerInterface {
 
-	public function update($object) {
-		parent::update($object);
-	}
+	/**
+	 * Get the tags that should be flushed
+	 */
+	public function getTags();
+
+	/**
+	 * Get the identifier for that request.
+	 */
+	public function getIdentifier($request);
 }
 ?>

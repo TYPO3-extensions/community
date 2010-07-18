@@ -99,9 +99,6 @@ class Tx_Community_Controller_AclRoleController extends Tx_Community_Controller_
 				$this->getRequestingUser(),
 				$this->getRequestedUser()
 			);
-		$relation->setInitiatingRole(Tx_Community_Helper_RepositoryHelper::getRepository('AclRole')->findByUid(7));
-		Tx_Community_Helper_RepositoryHelper::getRepository('Relation')->update($relation);
-		return 'test';
 
 		if (!$this->request->hasArgument('role')) {
 			$this->view->assign('requestedUser', $this->getRequestedUser());
@@ -112,6 +109,7 @@ class Tx_Community_Controller_AclRoleController extends Tx_Community_Controller_
 				$this->getRequestingUser(),
 				$this->getRequestedUser()
 			);
+
 			$relation = Tx_Community_Helper_RelationHelper::setAclRole($relation, $this->getRequestedUser(), $role);
 			Tx_Community_Helper_RepositoryHelper::getRepository('Relation')->update($relation);
 

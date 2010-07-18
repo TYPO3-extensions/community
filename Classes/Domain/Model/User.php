@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Domain_Model_User extends Tx_Extbase_Domain_Model_FrontendUser {
+class Tx_Community_Domain_Model_User extends Tx_Extbase_Domain_Model_FrontendUser implements Tx_Community_Domain_Model_Observer_ObservableInterface  {
 
 
 	/**
@@ -308,6 +308,60 @@ class Tx_Community_Domain_Model_User extends Tx_Extbase_Domain_Model_FrontendUse
 	public function setDateOfBirth(DateTime $dateOfBirth)
 	{
 	    $this->dateOfBirth = $dateOfBirth;
+	}
+
+	public function initializeObject() {
+		parent::initializeObject();
+		$this->attach(new Tx_Community_Domain_Model_Observer_CacheObserver());
+	}
+
+	/**
+	 * Overrides the normal _isDirty function and notifies the observers if something has changed
+	 */
+	public function _isDirty($property = NULL, $notify = TRUE) {
+		$dirty = parent::_isDirty($property);
+		if ($dirty && $notify) {
+			$this->notify();
+		}
+		return $dirty;
+	}
+
+	/**
+     * Overrides the normal _isNew function and notifies the observers if this object is new (and will be persisted)
+	 */
+	public function _isNew($notify = TRUE) {
+		$new = parent::_isNew();
+		if ($new && $notify) {
+			$this->notify();
+		}
+		return $new;
+	}
+
+	/**
+	 * Attach an observer to this object
+	 *
+	 * @param Tx_Community_Domain_Model_Observer_ObserverInterface $observer
+	 */
+	public function attach(Tx_Community_Domain_Model_Observer_ObserverInterface $observer) {
+		$this->observers[] = $observer;
+	}
+
+	/**
+	 * Detach an observer from this object
+	 *
+	 * @param Tx_Community_Domain_Model_Observer_ObserverInterface $observer
+	 */
+	public function detach(Tx_Community_Domain_Model_Observer_ObserverInterface $observer) {
+		$this->observers = array_diff($this->observers, array($observer));
+	}
+
+	/**
+	 * Notify all observers that something has changed
+	 */
+	public function notify() {
+		foreach($this->observers as $observer) {
+			$observer->update($this);
+		}
 	}
 }
 ?>

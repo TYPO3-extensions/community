@@ -114,6 +114,10 @@
 			<label index="group.show.name">Name</label>
 			<label index="group.show.description">Description</label>
 			<label index="group.show.members">Members</label>
+
+			<label index="group.show.creator">Founder</label>
+			<label index="group.show.request">Join</label>
+
 			
 			<label index="group.type.1">Public group</label>
 			<label index="group.type.2">Private group</label>

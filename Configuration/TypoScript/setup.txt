@@ -1,3 +1,5 @@
+tt_content.list.20.community_pi1.userFunc = tx_community_dispatcher->dispatch
+
 plugin.tx_community.settings {
 	profile {
 		image {
@@ -6,6 +8,7 @@ plugin.tx_community.settings {
 			prefix = uploads/pics/
 		}
 	}
+	
 	roles {
 		default {
 			1 {
@@ -44,6 +47,7 @@ plugin.tx_community.settings {
 			}
 		}
 	}
+	
 	rules {
 		default {
 			1 {
@@ -59,6 +63,13 @@ plugin.tx_community.settings {
 				access = deny
 			}	
 		}
+	}
+	
+	caching {
+		Group = list,show
+		User = image,details
+		Relation = listSome,unconfirmed
+		AclRole = list,assign
 	}
 }
 

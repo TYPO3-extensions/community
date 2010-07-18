@@ -14,7 +14,8 @@
 			<dd><f:form.upload property="image"/></dd>
 			
 			<dt><f:translate key="group.new.type"/></dt>
-			<dd><f:form.select options="{1 : '{f:translate(key:\'group.type.1\')}', 2 : '{f:translate(key:\'group.type.2\')}'}"/></dd>
+
+			<dd><f:form.select property="grouptype" options="{1 : '{f:translate(key:\'group.type.1\')}', 2 : '{f:translate(key:\'group.type.2\')}'}"/></dd>
 		</dl>
 		<f:form.submit value="{f:translate(key:'group.new.submit')}"/>
 	</f:form>

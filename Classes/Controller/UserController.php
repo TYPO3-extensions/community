@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @author Pascal Jungblut <mail@pascalj.com>
  */
-class Tx_Community_Controller_UserController extends Tx_Community_Controller_BaseController {
+class Tx_Community_Controller_UserController extends Tx_Community_Controller_BaseController implements Tx_Community_Controller_Cacheable_ControllerInterface {
 
 	/**
 	 * @var Tx_Community_Domain_Repository_UserRepository
@@ -66,7 +66,6 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 				$this->getRequestingUser()
 			);
 		}
-		var_dump($this->hasAccess('profile.foo', $relation));
 
 		$this->view->assign('user', $this->getRequestedUser());
 	}
@@ -140,6 +139,27 @@ class Tx_Community_Controller_UserController extends Tx_Community_Controller_Bas
 	public function chooseRoleAction(Tx_Community_Domain_Model_User $user) {
 		$this->view->assign('user', $user);
 		$this->view->assign('roles', Tx_Community_Helper_RelationHelper::getRolesForUser($user));
+	}
+
+	/**
+	 * Get the identifier for this request (used for caching)
+	 *
+	 * @param object $request
+	 */
+	public function getIdentifier($request) {
+		$requestSettings = array(
+			'controller' => $request->getControllerName(),
+			'action' => $request->getControllerActionName(),
+			'arguments' => $request->getArguments()
+		);
+		return array($this->settings, $requestSettings);
+	}
+
+	/**
+	 * Get the tags for this request (caching)
+	 */
+	public function getTags() {
+		return Tx_Community_Helper_RepositoryHelper::getRepository('User')->getTags();
 	}
 }
 ?>
